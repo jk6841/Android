@@ -1,4 +1,4 @@
-package com.jk.app.converter;
+package com.jk.soccer.converter;
 
 import androidx.room.TypeConverter;
 

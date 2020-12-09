@@ -1,4 +1,4 @@
-package com.jk.app.data;
+package com.jk.soccer.data;
 
 import android.app.Application;
 import android.content.Context;
@@ -6,13 +6,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.jk.app.R;
-import com.jk.app.data.local.Database;
-import com.jk.app.data.local.Match;
-import com.jk.app.data.local.Player;
-import com.jk.app.data.local.DBDao;
-import com.jk.app.data.local.Team;
-import com.jk.app.data.remote.RetrofitClient;
+import com.jk.soccer.R;
+import com.jk.soccer.data.local.Database;
+import com.jk.soccer.data.local.Match;
+import com.jk.soccer.data.local.Player;
+import com.jk.soccer.data.local.DBDao;
+import com.jk.soccer.data.local.Team;
+import com.jk.soccer.data.remote.RetrofitClient;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,7 +22,6 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.ResponseBody;
-import okhttp3.internal.annotations.EverythingIsNonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -151,7 +150,7 @@ public class Repository {
                         Team team = new Team(player.getTeamID(), jsonString);
                         new TeamTask(mDao, ACTION.Create, MODE.String, team.getId()).execute(team);
                         remoteTeamImage(team.getId());
-                    } catch (IOException e){
+                    } catch (IOException | NullPointerException e){
                         e.printStackTrace();
                     }
                 }
@@ -175,7 +174,7 @@ public class Repository {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         Player player = new Player(playerId, bitmap);
                         new PlayerTask(mDao, ACTION.Update, MODE.Image, playerId).execute(player);
-                    } catch (IOException e){
+                    } catch (IOException | NullPointerException e){
                         e.printStackTrace();
                     }
                 }
@@ -198,7 +197,7 @@ public class Repository {
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         Team team = new Team(teamId, bitmap);
                         new TeamTask(mDao, ACTION.Create, MODE.Image, teamId).execute(team);
-                    } catch (IOException e){
+                    } catch (IOException | NullPointerException e){
                         e.printStackTrace();
                     }
                 }

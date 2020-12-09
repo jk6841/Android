@@ -1,4 +1,4 @@
-package com.jk.app.data.local;
+package com.jk.soccer.data.local;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,8 +7,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.jk.app.converter.BitmapStringConverter;
-import com.jk.app.converter.DateStringConverter;
+import com.jk.soccer.converter.BitmapStringConverter;
+import com.jk.soccer.converter.DateStringConverter;
 
 @androidx.room.Database(entities = {Player.class, Team.class, Match.class}, version = 1)
 @TypeConverters({BitmapStringConverter.class, DateStringConverter.class})

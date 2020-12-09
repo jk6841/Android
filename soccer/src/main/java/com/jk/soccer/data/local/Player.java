@@ -1,4 +1,4 @@
-package com.jk.app.data.local;
+package com.jk.soccer.data.local;
 
 import android.graphics.Bitmap;
 

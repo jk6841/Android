@@ -1,11 +1,8 @@
-package com.jk.app.data.local;
+package com.jk.soccer.data.local;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-
-import java.util.Date;
 
 /*@Entity (tableName = "tableMatch",
         foreignKeys = @ForeignKey(
