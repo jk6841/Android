@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="com.jk.soccer.viewmodel.HomeViewModel" />
+        <variable
+            name="main"
+            type="com.jk.soccer.ui.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,13 +24,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/player_image"
-            app:glideUrl="@{viewModel.livePlayerUrl}"
+            app:glideUrl="@{viewModel.getLivePlayerUrl(viewModel.index)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/home_tv_name"
-            android:text="@{viewModel.livePlayerName}"
+            android:text="@{viewModel.getLivePlayerName(viewModel.index)}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:layout_marginStart="44dp"
@@ -39,7 +42,7 @@
 
         <TextView
             android:id="@+id/home_tv_position"
-            android:text="@{viewModel.livePosition}"
+            android:text="@{viewModel.getLivePosition(viewModel.index)}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -50,7 +53,7 @@
 
         <TextView
             android:id="@+id/home_tv_height"
-            android:text="@{viewModel.liveHeight}"
+            android:text="@{viewModel.getLiveHeight(viewModel.index)}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -61,7 +64,7 @@
 
         <TextView
             android:id="@+id/home_tv_foot"
-            android:text="@{viewModel.liveFoot}"
+            android:text="@{viewModel.getLiveFoot(viewModel.index)}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -72,7 +75,7 @@
 
         <TextView
             android:id="@+id/home_tv_age"
-            android:text="@{viewModel.liveAge}"
+            android:text="@{viewModel.getLiveAge(viewModel.index)}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -83,7 +86,7 @@
 
         <TextView
             android:id="@+id/home_tv_shirt"
-            android:text="@{viewModel.liveShirt}"
+            android:text="@{viewModel.getLiveShirt(viewModel.index)}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -98,8 +101,21 @@
             android:layout_height="@dimen/recyclerview_height"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:recyclerAdapter="@{viewModel.adapter}"/>
+            app:recyclerAdapter="@{viewModel.adapter}">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/home_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            android:text="Button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
