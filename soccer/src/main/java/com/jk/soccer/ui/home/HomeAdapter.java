@@ -3,16 +3,12 @@ package com.jk.soccer.ui.home;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jk.soccer.R;
 import com.jk.soccer.data.local.Player;
-import com.jk.soccer.databinding.TextviewBinding;
+import com.jk.soccer.databinding.ViewholderBinding;
 import com.jk.soccer.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
@@ -51,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     @Override
     public HomeAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                        int viewType) {
-        TextviewBinding binding = TextviewBinding.inflate(
+        ViewholderBinding binding = ViewholderBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new MyViewHolder(binding);
     }
@@ -68,8 +64,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextviewBinding binding;
-        public MyViewHolder(TextviewBinding binding) {
+        private ViewholderBinding binding;
+        public MyViewHolder(ViewholderBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
