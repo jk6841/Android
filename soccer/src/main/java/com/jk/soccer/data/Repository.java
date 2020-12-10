@@ -184,12 +184,13 @@ public class Repository {
                 result = dao.repoPlayerAll();
             }
             else if (action.equals(ACTION.Update)){
-                dao.updatePlayerTeamIDById(player.getTeamID(), id);
-                dao.updatePlayerPositionById(player.getPosition(), id);
-                dao.updatePlayerHeightById(player.getHeight(), id);
-                dao.updatePlayerFootById(player.getFoot(), id);
-                dao.updatePlayerAgeById(player.getAge(), id);
-                dao.updatePlayerShirtById(player.getShirt(), id);
+                dao.updatePlayerInfoById(
+                        player.getTeamID(),
+                        player.getPosition(),
+                        player.getHeight(),
+                        player.getFoot(),
+                        player.getAge(),
+                        player.getShirt(), player.getId());
             }
             else{
                 boolean bookmark = (action.equals(ACTION.BookmarkOn));

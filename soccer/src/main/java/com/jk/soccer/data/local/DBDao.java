@@ -35,29 +35,27 @@ public interface DBDao {
 
     //// Update ////
 
+    @Query("UPDATE tablePlayer SET " +
+            "TeamID = :teamID, " +
+            "Position = :position, " +
+            "Height = :height, " +
+            "Foot = :foot, " +
+            "Age = :age, " +
+            "Shirt = :shirt " +
+            "WHERE ID = :id")
+    void updatePlayerInfoById(Integer teamID,
+                              String position,
+                              String height,
+                              String foot,
+                              Integer age,
+                              Integer shirt,
+                              Integer id);
+
     @Query("UPDATE tablePlayer SET Bookmark = :bookmark WHERE ID = :id")
     void updatePlayerBookmarkById(boolean bookmark, Integer id);
 
     @Query("UPDATE tablePlayer SET Bookmark = :bookmark")
     void updatePlayerBookmarkAll(boolean bookmark);
-
-    @Query("UPDATE tablePlayer SET TeamID = :teamID WHERE ID = :id")
-    void updatePlayerTeamIDById(Integer teamID, Integer id);
-
-    @Query("UPDATE tablePlayer SET Position = :position WHERE ID = :id")
-    void updatePlayerPositionById(String position, Integer id);
-
-    @Query("UPDATE tablePlayer SET Height = :height WHERE ID = :id")
-    void updatePlayerHeightById(String height, Integer id);
-
-    @Query("UPDATE tableplayer SET Foot = :foot WHERE ID = :id")
-    void updatePlayerFootById(String foot, Integer id);
-
-    @Query("UPDATE tableplayer SET Age = :age WHERE ID = :id")
-    void updatePlayerAgeById(Integer age, Integer id);
-
-    @Query("UPDATE tableplayer SET Shirt = :shirt WHERE ID = :id")
-    void updatePlayerShirtById(Integer shirt, Integer id);
 
     //// Delete ////
 
@@ -89,6 +87,7 @@ public interface DBDao {
     //// Update ////
 
     //// Delete ////
+
     @Query("DELETE FROM tableTeam WHERE ID = :id")
     void deleteTeamById(Integer id);
 
