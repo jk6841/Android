@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import com.jk.soccer.R;
 import com.jk.soccer.data.local.Database;
 import com.jk.soccer.data.local.Match;
@@ -47,28 +49,28 @@ public class Repository {
         initialize();
     }
 
-    public Player getPlayer(Integer playerId){
-        return getPlayerInternal(playerId).get(0);
+    public LiveData<Player> getPlayer(Integer playerId){
+        return mDao.findPlayerById(playerId);
     }
 
-    public List<Player> getPlayer(){
-        return getPlayerInternal(ID.ALL);
+    public LiveData<List<Player>> getPlayer(){
+        return mDao.findPlayerAll();
     }
 
-    public Team getTeam(Integer teamId){
-        return getTeamInternal(teamId).get(0);
+    public LiveData<Team> getTeam(Integer teamId){
+        return mDao.findTeamById(teamId);
     }
 
-    public List<Team> getTeam(){
-        return getTeamInternal(ID.ALL);
+    public LiveData<List<Team>> getTeam(){
+        return mDao.findTeamAll();
     }
 
-    public Match getMatch(Integer matchId){
-        return getMatchInternal(matchId).get(0);
+    public LiveData<Match> getMatch(Integer matchId){
+        return mDao.findMatchById(matchId);
     }
 
-    public List<Match> getMatch(){
-        return getMatchInternal(ID.ALL);
+    public LiveData<List<Match>> getMatch(){
+        return mDao.findMatchAll();
     }
 
     public void bookmark(Integer object, boolean bookmark, Integer id){
@@ -120,39 +122,16 @@ public class Repository {
     private List<Player> players;
 
     private void initialize(){
-        players = getPlayer();
-        int length = players.size();
-        for (int i = 0; i < length; i++){
-            Integer id = players.get(i).getId();
-            remotePlayerString(id);
-            remotePlayerImage(id);
-        }
-    }
-
-    private List<Player> getPlayerInternal(Integer playerId){
         try {
-            return new PlayerTask(mDao, ACTION.Read, 0, playerId).execute().get();
+            players = new PlayerTask(mDao, ACTION.Read, 0, 0).execute().get();
+            int length = players.size();
+            for (int i = 0; i < length; i++){
+                Integer id = players.get(i).getId();
+                remotePlayerString(id);
+                remotePlayerImage(id);
+            }
         } catch (ExecutionException | InterruptedException e){
             e.printStackTrace();
-            return null;
-        }
-    }
-
-    private List<Team> getTeamInternal(Integer teamId){
-        try{
-            return new TeamTask(mDao, ACTION.Read, 0, teamId).execute().get();
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public List<Match> getMatchInternal(Integer matchId){
-        try{
-            return new MatchTask(mDao, ACTION.Read, 0, matchId).execute().get();
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
-            return null;
         }
     }
 
@@ -243,7 +222,6 @@ public class Repository {
         Call<ResponseBody> call = retrofitClient.apiService[0].getMatchString(date);
     }
 
-
     private static abstract class MyAsyncTask<T> extends AsyncTask<T, Void, List<T>>{
 
         protected DBDao dao;
@@ -268,12 +246,7 @@ public class Repository {
         protected List<Player> doInBackground(Player... players) {
             List<Player> result = null;
             if (action.equals(ACTION.Read)){
-                if (id.equals(ID.ALL)){
-                    result = dao.findPlayerAll();
-                }
-                else{
-                    result = dao.findPlayerById(id);
-                }
+                result = dao.repoPlayerAll();
             }
             else if (action.equals(ACTION.Update)){
                 Player player = players[0];
@@ -317,14 +290,6 @@ public class Repository {
                 }
                 else if (mode.equals(MODE.Image)){
                     dao.updateTeamImageById(teams[0].getImage(), id);
-                }
-            }
-            else if (action.equals(ACTION.Read)){
-                if (id.equals(ID.ALL)){
-                    result = dao.findTeamAll();
-                }
-                else{
-                    result = dao.findTeamById(id);
                 }
             }
             else if (action.equals(ACTION.Update)){

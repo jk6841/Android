@@ -2,6 +2,8 @@ package com.jk.soccer.data.local;
 
 import android.graphics.Bitmap;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -12,28 +14,29 @@ import java.util.List;
 @Dao
 public interface DBDao {
 
-    //// tablePlayer ////
+    //////// tablePlayer ////////
 
-    /* C */
+    //// Create ////
 
     @Insert
     void insertPlayer(Player player);
 
-    /* R */
+    //// Read ////
 
     @Query("SELECT * FROM tablePlayer WHERE ID = :id")
-    List<Player> findPlayerById(Integer id);
+    LiveData<Player> findPlayerById(Integer id);
 
     @Query("SELECT * FROM tablePlayer WHERE Name = :name")
-    List<Player> findPlayerByName(String name);
+    LiveData<List<Player>> findPlayerByName(String name);
 
     @Query("SELECT * FROM tablePlayer")
-    List<Player> findPlayerAll();
+    LiveData<List<Player>> findPlayerAll();
 
-    @Query("SELECT COUNT(*) FROM tablePlayer")
-    Integer countPlayer();
+    // For Repository //
+    @Query("SELECT * FROM tablePlayer")
+    List<Player> repoPlayerAll();
 
-    /* U */
+    //// Update ////
 
     @Query("UPDATE tablePlayer SET Bookmark = :bookmark WHERE ID = :id")
     void updatePlayerBookmarkById(boolean bookmark, Integer id);
@@ -62,7 +65,7 @@ public interface DBDao {
     @Query("UPDATE tableplayer SET Shirt = :shirt WHERE ID = :id")
     void updatePlayerShirtById(Integer shirt, Integer id);
 
-    /* D */
+    //// Delete ////
 
     @Query("DELETE FROM tablePlayer WHERE ID = :id")
     void deletePlayerById(Integer id);
@@ -70,59 +73,64 @@ public interface DBDao {
     @Query("DELETE FROM tablePlayer")
     void deletePlayerAll();
 
-    //// tableTeam ////
+    //////// tableTeam ////////
 
-    /* C */
+    //// Create ////
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertTeam(Team team);
 
-    /* R */
+    //// Read ////
 
     @Query("SELECT * FROM tableTeam WHERE ID = :id")
-    List<Team> findTeamById(Integer id);
+    LiveData<Team> findTeamById(Integer id);
 
     @Query("SELECT * FROM tableTeam WHERE Name = :name")
-    List<Team> findTeamByName(String name);
+    LiveData<List<Team>> findTeamByName(String name);
 
     @Query("SELECT * FROM tableTeam")
-    List<Team> findTeamAll();
+    LiveData<List<Team>> findTeamAll();
 
 
-    /* U */
+    //// Update ////
+
     @Query("UPDATE tableTeam SET Image = :image WHERE ID = :id")
     void updateTeamImageById(Bitmap image, Integer id);
 
-    /* D */
+    //// Delete ////
     @Query("DELETE FROM tableTeam WHERE ID = :id")
     void deleteTeamById(Integer id);
 
     @Query("DELETE FROM tableTeam")
     void deleteTeamAll();
 
-    //// tableMatch ////
+    //////// tableMatch ////////
 
-    /* C */
+    //// Create ////
 
     @Insert
     void insertMatch(Match match);
 
-    /* R */
+    //// Read ////
+
     @Query("SELECT * FROM tableMatch WHERE ID = :id")
-    Match findMatchById(Integer id);
+    LiveData<Match> findMatchById(Integer id);
 
     @Query("SELECT * FROM tableMatch WHERE Date = :date")
-    Match findMatchByDate(String date);
+    LiveData<List<Match>> findMatchByDate(String date);
 
     @Query("SELECT * FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
-    Match findMatchByDate(String startDate, String endDate);
+    LiveData<List<Match>> findMatchByDate(String startDate, String endDate);
 
-    /* U */
+    @Query("SELECT * FROM tableMatch")
+    LiveData<List<Match>> findMatchAll();
+
+    //// Update ////
 
     @Query("UPDATE tableMatch SET Score = :score WHERE ID = :id")
     void updateMatchScoreById(String score, Integer id);
 
-    /* D */
+    //// Delete ////
 
     @Query("DELETE FROM tableMatch WHERE ID = :id")
     void deleteMatchById(Integer id);

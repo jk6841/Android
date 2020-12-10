@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 import com.jk.soccer.converter.BitmapStringConverter;
 import com.jk.soccer.converter.DateStringConverter;
 
-@androidx.room.Database(entities = {Player.class, Team.class, Match.class}, version = 1)
+@androidx.room.Database(entities = {Player.class, Team.class, Match.class}, version = 1, exportSchema =  false)
 @TypeConverters({BitmapStringConverter.class, DateStringConverter.class})
 public abstract class Database extends RoomDatabase {
 
