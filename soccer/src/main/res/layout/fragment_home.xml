@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.jk.soccer.viewmodel.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="155dp"
+            android:layout_height="252dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/player_image"
+            app:glideUrl="@{viewModel.mlPlayerUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/home_tv_name"
+            android:text="@{viewModel.mlPlayerName}"
+            android:layout_width="@dimen/info_width"
+            android:layout_height="@dimen/info_height"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:textSize="@dimen/font_size"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/home_tv_position"
+            android:text="@{viewModel.mlPosition}"
+            android:layout_width="@dimen/info_width"
+            android:layout_height="@dimen/info_height"
+            android:gravity="center"
+            android:textSize="@dimen/font_size"
+            app:layout_constraintEnd_toEndOf="@+id/home_tv_name"
+            app:layout_constraintStart_toStartOf="@+id/home_tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_name" />
+
+        <TextView
+            android:id="@+id/home_tv_height"
+            android:text="@{viewModel.mlHeight}"
+            android:layout_width="@dimen/info_width"
+            android:layout_height="@dimen/info_height"
+            android:gravity="center"
+            android:textSize="@dimen/font_size"
+            app:layout_constraintEnd_toEndOf="@+id/home_tv_position"
+            app:layout_constraintStart_toStartOf="@+id/home_tv_position"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_position" />
+
+        <TextView
+            android:id="@+id/home_tv_foot"
+            android:text="@{viewModel.mlFoot}"
+            android:layout_width="@dimen/info_width"
+            android:layout_height="@dimen/info_height"
+            android:gravity="center"
+            android:textSize="@dimen/font_size"
+            app:layout_constraintEnd_toEndOf="@+id/home_tv_height"
+            app:layout_constraintStart_toStartOf="@+id/home_tv_height"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_height" />
+
+        <TextView
+            android:id="@+id/home_tv_age"
+            android:text="@{viewModel.mlAge}"
+            android:layout_width="@dimen/info_width"
+            android:layout_height="@dimen/info_height"
+            android:gravity="center"
+            android:textSize="@dimen/font_size"
+            app:layout_constraintEnd_toEndOf="@+id/home_tv_foot"
+            app:layout_constraintStart_toStartOf="@+id/home_tv_foot"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_foot" />
+
+        <TextView
+            android:id="@+id/home_tv_shirt"
+            android:text="@{viewModel.mlShirt}"
+            android:layout_width="@dimen/info_width"
+            android:layout_height="@dimen/info_height"
+            android:gravity="center"
+            android:textSize="@dimen/font_size"
+            app:layout_constraintEnd_toEndOf="@+id/home_tv_age"
+            app:layout_constraintStart_toStartOf="@+id/home_tv_age"
+            app:layout_constraintTop_toBottomOf="@+id/home_tv_age" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
