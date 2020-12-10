@@ -2,8 +2,6 @@ package com.jk.soccer.data;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -17,10 +15,7 @@ import com.jk.soccer.data.local.Team;
 import com.jk.soccer.data.remote.RetrofitClient;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.ResponseBody;
@@ -40,12 +35,9 @@ public class Repository {
 
     public Repository(Application application){
         appContext = application.getApplicationContext();
-        baseUrl1 = appContext.getString(R.string.baseUrl1);
-        baseUrl2 = appContext.getString(R.string.baseUrl2);
-        retrofitClient = new RetrofitClient(baseUrl1, baseUrl2);
+        retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
-        dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
         initialize();
     }
 
@@ -99,11 +91,6 @@ public class Repository {
         Integer BookmarkOff = 5;
     }
 
-    private interface MODE {
-        Integer String = 0;
-        Integer Image = 1;
-    }
-
     private interface ID{
         Integer ALL = -1;
     }
@@ -114,21 +101,15 @@ public class Repository {
     private Database database;
     private DBDao mDao;
 
-    private String baseUrl1;
-    private String baseUrl2;
-
-    private SimpleDateFormat dateFormat;
-
     private List<Player> players;
 
     private void initialize(){
         try {
-            players = new PlayerTask(mDao, ACTION.Read, 0, 0).execute().get();
+            players = new PlayerTask(mDao, ACTION.Read, ID.ALL).execute().get();
             int length = players.size();
             for (int i = 0; i < length; i++){
                 Integer id = players.get(i).getId();
-                remotePlayerString(id);
-                remotePlayerImage(id);
+                getRemotePlayerInfo(id);
             }
         } catch (ExecutionException | InterruptedException e){
             e.printStackTrace();
@@ -136,17 +117,17 @@ public class Repository {
     }
 
     public void bookmarkInternal(Integer object, boolean bookmark, Integer id){
-        Integer mode = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
+        Integer action = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
         if (object.equals(Object.Player))
-            new PlayerTask(mDao, mode, 0, id);
+            new PlayerTask(mDao, action, id);
         else if (object.equals(Object.Team))
-            new TeamTask(mDao, mode, 0, id);
+            new TeamTask(mDao, action, id);
         else if (object.equals(Object.Match))
-            new MatchTask(mDao, mode, 0, id);
+            new MatchTask(mDao, action, id);
     }
 
-    private void remotePlayerString(int playerId){
-        Call<ResponseBody> call = retrofitClient.apiService[0].getPlayerString(playerId);
+    private void getRemotePlayerInfo(int playerId){
+        Call<ResponseBody> call = retrofitClient.apiService[0].getPlayer(playerId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -154,10 +135,9 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         Player player = new Player(playerId, jsonString);
-                        new PlayerTask(mDao, ACTION.Update, MODE.String, playerId).execute(player);
+                        new PlayerTask(mDao, ACTION.Update, playerId).execute(player);
                         Team team = new Team(player.getTeamID(), jsonString);
-                        new TeamTask(mDao, ACTION.Create, MODE.String, team.getId()).execute(team);
-                        remoteTeamImage(team.getId());
+                        new TeamTask(mDao, ACTION.Create, team.getId()).execute(team);
                     } catch (IOException | NullPointerException e){
                         e.printStackTrace();
                     }
@@ -171,75 +151,26 @@ public class Repository {
         });
     }
 
-    private void remotePlayerImage(int playerId){
-        Call<ResponseBody> call = retrofitClient.apiService[1].getPlayerImage(playerId + ".png");
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    try{
-                        byte[] bytes = response.body().bytes();
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        Player player = new Player(playerId, bitmap);
-                        new PlayerTask(mDao, ACTION.Update, MODE.Image, playerId).execute(player);
-                    } catch (IOException | NullPointerException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void remoteTeamImage(int teamId) {
-        Call<ResponseBody> call = retrofitClient.apiService[0].getTeamImage(teamId);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    try {
-                        byte[] bytes = response.body().bytes();
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        Team team = new Team(teamId, bitmap);
-                        new TeamTask(mDao, ACTION.Create, MODE.Image, teamId).execute(team);
-                    } catch (IOException | NullPointerException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void remoteMatchString(Date date){
-        Call<ResponseBody> call = retrofitClient.apiService[0].getMatchString(date);
+    private void getRemoteMatchInfo(int matchId){
+        Call<ResponseBody> call = retrofitClient.apiService[0].getMatch(matchId);
     }
 
     private static abstract class MyAsyncTask<T> extends AsyncTask<T, Void, List<T>>{
 
         protected DBDao dao;
         protected Integer action;
-        protected Integer mode;
         protected Integer id;
 
-        public MyAsyncTask(DBDao dao, Integer action, Integer mode, Integer id){
+        public MyAsyncTask(DBDao dao, Integer action, Integer id){
             this.dao = dao;
             this.action = action;
-            this.mode = mode;
             this.id = id;
         }
     }
 
     private static class PlayerTask extends MyAsyncTask<Player>{
-        public PlayerTask(DBDao dao, Integer action, Integer mode, Integer id){
-            super(dao, action, mode, id);
+        public PlayerTask(DBDao dao, Integer action, Integer id){
+            super(dao, action, id);
         }
 
         @Override
@@ -250,18 +181,12 @@ public class Repository {
             }
             else if (action.equals(ACTION.Update)){
                 Player player = players[0];
-                if (mode.equals(MODE.String)){
-                    dao.updatePlayerTeamIDById(player.getTeamID(), id);
-                    dao.updatePlayerPositionById(player.getPosition(), id);
-                    dao.updatePlayerHeightById(player.getHeight(), id);
-                    dao.updatePlayerFootById(player.getFoot(), id);
-                    dao.updatePlayerAgeById(player.getAge(), id);
-                    dao.updatePlayerShirtById(player.getShirt(), id);
-                }
-                else if (mode.equals(MODE.Image)){
-                    dao.updatePlayerImageById(player.getImage(), id);
-                }
-
+                dao.updatePlayerTeamIDById(player.getTeamID(), id);
+                dao.updatePlayerPositionById(player.getPosition(), id);
+                dao.updatePlayerHeightById(player.getHeight(), id);
+                dao.updatePlayerFootById(player.getFoot(), id);
+                dao.updatePlayerAgeById(player.getAge(), id);
+                dao.updatePlayerShirtById(player.getShirt(), id);
             }
             else{
                 boolean bookmark = (action.equals(ACTION.BookmarkOn));
@@ -277,25 +202,15 @@ public class Repository {
     }
 
     private static class TeamTask extends MyAsyncTask<Team>{
-        public TeamTask(DBDao dao, Integer action, Integer mode, Integer id){
-            super(dao, action, mode, id);
+        public TeamTask(DBDao dao, Integer action, Integer id){
+            super(dao, action, id);
         }
 
         @Override
         protected List<Team> doInBackground(Team... teams) {
             List<Team> result = null;
             if (action.equals(ACTION.Create)){
-                if (mode.equals(MODE.String)){
-                    dao.insertTeam(teams[0]);
-                }
-                else if (mode.equals(MODE.Image)){
-                    dao.updateTeamImageById(teams[0].getImage(), id);
-                }
-            }
-            else if (action.equals(ACTION.Update)){
-                if (mode.equals(MODE.String)){
-                    dao.updateTeamImageById(teams[0].getImage(), id);
-                }
+                dao.insertTeam(teams[0]);
             }
             else if (action.equals(ACTION.Delete)){
                 dao.deleteTeamById(id);
@@ -314,8 +229,8 @@ public class Repository {
     }
 
     private static class MatchTask extends MyAsyncTask<Match>{
-        public MatchTask(DBDao dao, Integer action, Integer mode, Integer id){
-            super(dao, action, mode, id);
+        public MatchTask(DBDao dao, Integer action, Integer id){
+            super(dao, action, id);
         }
 
         @Override

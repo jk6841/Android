@@ -2,15 +2,13 @@ package com.jk.soccer.viewmodel;
 
 import android.app.Application;
 
-import android.graphics.Bitmap;
-
 import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.jk.soccer.R;
 import com.jk.soccer.data.Repository;
 import com.jk.soccer.data.local.Player;
 import com.jk.soccer.data.local.Team;
@@ -24,18 +22,18 @@ public class HomeViewModel extends AndroidViewModel {
     private LiveData<List<Player>> mlPlayer;
     private LiveData<List<Team>> mlTeam;
 
-
     private LiveData<String> mlPlayerName;
     private LiveData<Boolean> mlBookmark;
-    private LiveData<Bitmap> mlPlayerImage;
     private LiveData<String> mlTeamName;
+    private LiveData<String> mlPosition;
+    private LiveData<String> mlHeight;
+    private LiveData<String> mlFoot;
+    private LiveData<String> mlAge;
+    private LiveData<String> mlShirt;
+    private LiveData<String> mlPlayerUrl;
 
     public LiveData<String> getMlPlayerName() {
         return mlPlayerName;
-    }
-
-    public LiveData<Bitmap> getMlPlayerImage() {
-        return mlPlayerImage;
     }
 
     public LiveData<String> getMlPosition() {
@@ -58,11 +56,9 @@ public class HomeViewModel extends AndroidViewModel {
         return mlShirt;
     }
 
-    private LiveData<String> mlPosition;
-    private LiveData<String> mlHeight;
-    private LiveData<String> mlFoot;
-    private LiveData<String> mlAge;
-    private LiveData<String> mlShirt;
+    public LiveData<String> getMlPlayerUrl() {
+        return mlPlayerUrl;
+    }
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -79,12 +75,6 @@ public class HomeViewModel extends AndroidViewModel {
             @Override
             public Boolean apply(List<Player> input) {
                 return input.get(0).isBookmark();
-            }
-        });
-        mlPlayerImage = Transformations.map(mlPlayer, new Function<List<Player>, Bitmap>() {
-            @Override
-            public Bitmap apply(List<Player> input) {
-                return input.get(0).getImage();
             }
         });
         mlPosition = Transformations.map(mlPlayer, new Function<List<Player>, String>() {
@@ -115,6 +105,14 @@ public class HomeViewModel extends AndroidViewModel {
             @Override
             public String apply(List<Player> input) {
                 return "등번호: " + input.get(0).getShirt();
+            }
+        });
+        mlPlayerUrl = Transformations.map(mlPlayer, new Function<List<Player>, String>() {
+            @Override
+            public String apply(List<Player> input) {
+                return application.getString(R.string.baseUrl2)
+                        + input.get(0).getId()
+                        + application.getString(R.string.png);
             }
         });
     }

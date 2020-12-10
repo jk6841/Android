@@ -1,9 +1,6 @@
 package com.jk.soccer.data.local;
 
-import android.graphics.Bitmap;
-
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -43,9 +40,6 @@ public interface DBDao {
 
     @Query("UPDATE tablePlayer SET Bookmark = :bookmark")
     void updatePlayerBookmarkAll(boolean bookmark);
-
-    @Query("UPDATE tablePlayer SET Image = :image WHERE ID = :id")
-    void updatePlayerImageById(Bitmap image, Integer id);
 
     @Query("UPDATE tablePlayer SET TeamID = :teamID WHERE ID = :id")
     void updatePlayerTeamIDById(Integer teamID, Integer id);
@@ -93,9 +87,6 @@ public interface DBDao {
 
 
     //// Update ////
-
-    @Query("UPDATE tableTeam SET Image = :image WHERE ID = :id")
-    void updateTeamImageById(Bitmap image, Integer id);
 
     //// Delete ////
     @Query("DELETE FROM tableTeam WHERE ID = :id")

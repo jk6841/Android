@@ -4,14 +4,6 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-/*@Entity (tableName = "tableMatch",
-        foreignKeys = @ForeignKey(
-                entity = Team.class,
-                parentColumns = {"ID", "ID"},
-                childColumns = {"Home", "Away"},
-                onDelete = ForeignKey.CASCADE
-        )
-)*/
 @Entity (tableName = "tableMatch")
 public class Match {
 

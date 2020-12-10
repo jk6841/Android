@@ -1,7 +1,5 @@
 package com.jk.soccer.data.local;
 
-import android.graphics.Bitmap;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -24,9 +22,6 @@ public class Team {
     @ColumnInfo(name = "Color")
     private String color;
 
-    @ColumnInfo(name = "Image")
-    private Bitmap image;
-
     public Team(Integer id){
         this.id = id;
     }
@@ -42,12 +37,6 @@ public class Team {
         } catch (JSONException e){
             e.printStackTrace();
         }
-    }
-
-    @Ignore
-    public Team(Integer id, Bitmap image){
-        this.id = id;
-        this.image = image;
     }
 
     public Integer getId(){
@@ -72,14 +61,6 @@ public class Team {
 
     public void setColor(String color){
         this.color = color;
-    }
-
-    public Bitmap getImage(){
-        return this.image;
-    }
-
-    public void setImage(Bitmap image){
-        this.image = image;
     }
 
 }

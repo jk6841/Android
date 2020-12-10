@@ -1,7 +1,5 @@
 package com.jk.soccer.data.local;
 
-import android.graphics.Bitmap;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -10,15 +8,6 @@ import androidx.room.PrimaryKey;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-/*@Entity(tableName = "tablePlayer",
-        foreignKeys = @ForeignKey(
-                entity = Team.class,
-                parentColumns = "Id",
-                childColumns = "TeamId",
-                onDelete = ForeignKey.CASCADE
-        )
-)*/
 
 @Entity (tableName = "tablePlayer")
 
@@ -33,9 +22,6 @@ public class Player implements Comparable<Player>{
 
     @ColumnInfo(name = "Bookmark")
     private boolean bookmark;
-
-    @ColumnInfo(name = "Image")
-    private Bitmap image;
 
     @ColumnInfo(name = "TeamID")
     private Integer teamID;
@@ -92,13 +78,6 @@ public class Player implements Comparable<Player>{
         }
     }
 
-    @Ignore
-    public Player(Integer id, Bitmap image){
-        this.id = id;
-        this.image = image;
-    }
-
-
     public int compareTo(Player player){
         boolean l1 = this.bookmark;
         boolean l2 = player.bookmark;
@@ -136,14 +115,6 @@ public class Player implements Comparable<Player>{
 
     public void setBookmark(boolean bookmark){
         this.bookmark = bookmark;
-    }
-
-    public Bitmap getImage(){
-        return this.image;
-    }
-
-    public void setImage(Bitmap image){
-        this.image = image;
     }
 
     public Integer getTeamID(){
@@ -193,6 +164,5 @@ public class Player implements Comparable<Player>{
     public void setShirt(Integer shirt) {
         this.shirt = shirt;
     }
-
 
 }
