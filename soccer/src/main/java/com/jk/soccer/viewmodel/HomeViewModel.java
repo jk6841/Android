@@ -3,7 +3,6 @@ package com.jk.soccer.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -94,5 +93,5 @@ public class HomeViewModel extends AndroidViewModel {
                         + input.get(0).getId()
                         + application.getString(R.string.png) );
     }
-    
+
 }
