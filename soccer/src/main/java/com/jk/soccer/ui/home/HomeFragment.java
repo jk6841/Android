@@ -5,16 +5,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.jk.soccer.data.local.Player;
 import com.jk.soccer.databinding.FragmentHomeBinding;
 import com.jk.soccer.R;
 import com.jk.soccer.viewmodel.HomeViewModel;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -36,10 +41,18 @@ public class HomeFragment extends Fragment {
 
         FragmentHomeBinding binding =  DataBindingUtil.inflate(
                 inflater, R.layout.fragment_home, container, false);
-        View root = binding.getRoot();
+
         binding.setLifecycleOwner(this);
         binding.setViewModel(homeViewModel);
+        HomeAdapter homeAdapter = new HomeAdapter(homeViewModel,
+                R.color.lightgreen, R.color.white, R.color.black, R.color.white);
+        homeViewModel.setAdapter(homeAdapter);
+        binding.homeRec.setAdapter(homeAdapter);
+        homeViewModel.getLivePlayer().observe(getViewLifecycleOwner(), players -> {
+            homeAdapter.setPlayerList(players);
+            homeAdapter.notifyDataSetChanged();
+        });
 
-        return root;
+        return binding.getRoot();
     }
 }

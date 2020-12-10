@@ -21,13 +21,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/player_image"
-            app:glideUrl="@{viewModel.mlPlayerUrl}"
+            app:glideUrl="@{viewModel.livePlayerUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/home_tv_name"
-            android:text="@{viewModel.mlPlayerName}"
+            android:text="@{viewModel.livePlayerName}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:layout_marginStart="44dp"
@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/home_tv_position"
-            android:text="@{viewModel.mlPosition}"
+            android:text="@{viewModel.livePosition}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/home_tv_height"
-            android:text="@{viewModel.mlHeight}"
+            android:text="@{viewModel.liveHeight}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -61,7 +61,7 @@
 
         <TextView
             android:id="@+id/home_tv_foot"
-            android:text="@{viewModel.mlFoot}"
+            android:text="@{viewModel.liveFoot}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -72,7 +72,7 @@
 
         <TextView
             android:id="@+id/home_tv_age"
-            android:text="@{viewModel.mlAge}"
+            android:text="@{viewModel.liveAge}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -83,7 +83,7 @@
 
         <TextView
             android:id="@+id/home_tv_shirt"
-            android:text="@{viewModel.mlShirt}"
+            android:text="@{viewModel.liveShirt}"
             android:layout_width="@dimen/info_width"
             android:layout_height="@dimen/info_height"
             android:gravity="center"
@@ -91,6 +91,15 @@
             app:layout_constraintEnd_toEndOf="@+id/home_tv_age"
             app:layout_constraintStart_toStartOf="@+id/home_tv_age"
             app:layout_constraintTop_toBottomOf="@+id/home_tv_age" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/home_rec"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/recyclerview_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:recyclerAdapter="@{viewModel.adapter}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

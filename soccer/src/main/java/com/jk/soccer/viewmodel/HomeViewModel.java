@@ -3,6 +3,7 @@ package com.jk.soccer.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -11,6 +12,7 @@ import com.jk.soccer.R;
 import com.jk.soccer.data.Repository;
 import com.jk.soccer.data.local.Player;
 import com.jk.soccer.data.local.Team;
+import com.jk.soccer.ui.home.HomeAdapter;
 
 import java.util.List;
 
@@ -18,77 +20,92 @@ public class HomeViewModel extends AndroidViewModel {
 
     private Repository repository;
 
-    private LiveData<List<Player>> mlPlayer;
-    private LiveData<List<Team>> mlTeam;
+    private HomeAdapter adapter;
 
-    private LiveData<String> mlPlayerName;
-    private LiveData<Boolean> mlBookmark;
-    private LiveData<String> mlTeamName;
-    private LiveData<String> mlPosition;
-    private LiveData<String> mlHeight;
-    private LiveData<String> mlFoot;
-    private LiveData<String> mlAge;
-    private LiveData<String> mlShirt;
-    private LiveData<String> mlPlayerUrl;
+    private LiveData<List<Player>> livedataPlayer;
+    private LiveData<List<Team>> livedataTeam;
 
-    public LiveData<String> getMlPlayerName() {
-        return mlPlayerName;
+    final private LiveData<String> livedataPlayerName;
+    final private LiveData<Boolean> livedataBookmark;
+    //final private LiveData<String> livedataTeamName;
+    final private LiveData<String> livedataPosition;
+    final private LiveData<String> livedataHeight;
+    final private LiveData<String> livedataFoot;
+    final private LiveData<String> livedataAge;
+    final private LiveData<String> livedataShirt;
+    final private LiveData<String> livedataPlayerUrl;
+
+
+    public HomeAdapter getAdapter() {
+        return adapter;
     }
 
-    public LiveData<String> getMlPosition() {
-        return mlPosition;
+    public void setAdapter(HomeAdapter adapter) {
+        this.adapter = adapter;
     }
 
-    public LiveData<String> getMlHeight() {
-        return mlHeight;
+    public LiveData<String> getLivePlayerName() {
+        return livedataPlayerName;
     }
 
-    public LiveData<String> getMlFoot() {
-        return mlFoot;
+    public LiveData<String> getLivePosition() {
+        return livedataPosition;
     }
 
-    public LiveData<String> getMlAge() {
-        return mlAge;
+    public LiveData<String> getLiveHeight() {
+        return livedataHeight;
     }
 
-    public LiveData<String> getMlShirt() {
-        return mlShirt;
+    public LiveData<String> getLiveFoot() {
+        return livedataFoot;
     }
 
-    public LiveData<String> getMlPlayerUrl() {
-        return mlPlayerUrl;
+    public LiveData<String> getLiveAge() {
+        return livedataAge;
+    }
+
+    public LiveData<String> getLiveShirt() {
+        return livedataShirt;
+    }
+
+    public LiveData<String> getLivePlayerUrl() {
+        return livedataPlayerUrl;
+    }
+
+    public LiveData<List<Player>> getLivePlayer(){
+        return livedataPlayer;
     }
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
 
         repository = Repository.getInstance(application);
-        mlPlayer = repository.getPlayer();
-        mlTeam = repository.getTeam();
+        livedataPlayer = repository.getPlayer();
+        livedataTeam = repository.getTeam();
 
-        mlPlayerName = Transformations.map(
-                mlPlayer, input -> "이름: " + input.get(0).getName() );
+        livedataPlayerName = Transformations.map(
+                livedataPlayer, input -> "이름: " + input.get(0).getName() );
 
-        mlBookmark = Transformations.map(
-                mlPlayer, input -> input.get(0).isBookmark() );
+        livedataBookmark = Transformations.map(
+                livedataPlayer, input -> input.get(0).isBookmark() );
 
-        mlPosition = Transformations.map(
-                mlPlayer, input -> "포지션: " + input.get(0).getPosition() );
+        livedataPosition = Transformations.map(
+                livedataPlayer, input -> "포지션: " + input.get(0).getPosition() );
 
-        mlHeight = Transformations.map(
-                mlPlayer, input -> "신장: " + input.get(0).getHeight() );
+        livedataHeight = Transformations.map(
+                livedataPlayer, input -> "신장: " + input.get(0).getHeight() );
 
-        mlFoot = Transformations.map(
-                mlPlayer, input -> "주발: " + input.get(0).getFoot() );
+        livedataFoot = Transformations.map(
+                livedataPlayer, input -> "주발: " + input.get(0).getFoot() );
 
-        mlAge = Transformations.map(
-                mlPlayer, input -> "나이: " + input.get(0).getAge() + "세" );
+        livedataAge = Transformations.map(
+                livedataPlayer, input -> "나이: " + input.get(0).getAge() + "세" );
 
-        mlShirt = Transformations.map(
-                mlPlayer, input -> "등번호: " + input.get(0).getShirt() );
+        livedataShirt = Transformations.map(
+                livedataPlayer, input -> "등번호: " + input.get(0).getShirt() );
 
-        mlPlayerUrl = Transformations.map(
-                mlPlayer,
+        livedataPlayerUrl = Transformations.map(
+                livedataPlayer,
                 input -> application.getString(R.string.baseUrl2)
                         + input.get(0).getId()
                         + application.getString(R.string.png) );
