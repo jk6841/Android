@@ -1,6 +1,7 @@
 package com.jk.soccer.data;
 
 import android.app.Application;
+import android.app.AsyncNotedAppOp;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -39,6 +40,15 @@ public class Repository {
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
         initialize();
+    }
+
+    public Integer countPlayer(){
+        try{
+            return new CountTask(mDao).execute().get();
+        } catch (ExecutionException | InterruptedException e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public LiveData<Player> getPlayer(Integer playerId){
@@ -248,4 +258,18 @@ public class Repository {
             return null;
         }
     }
+
+    private static class CountTask extends AsyncTask<Void, Void, Integer>{
+        private DBDao dao;
+
+        public CountTask(DBDao dao){
+            this.dao = dao;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            return dao.countPlayer();
+        }
+    }
+
 }

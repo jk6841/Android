@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
                 R.color.lightgreen, R.color.white, R.color.black, R.color.white);
         homeViewModel.setAdapter(homeAdapter);
         binding.homeRec.setAdapter(homeAdapter);
-        homeViewModel.getLivePlayer().observe(getViewLifecycleOwner(), players -> {
+        homeViewModel.getLivePlayers().observe(getViewLifecycleOwner(), players -> {
             homeAdapter.setPlayerList(players);
             homeAdapter.notifyDataSetChanged();
         });

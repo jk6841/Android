@@ -13,6 +13,9 @@ import org.json.JSONObject;
 
 public class Player implements Comparable<Player>{
 
+    @Ignore
+    private final String unknownMsg = "알 수 없음";
+
     @PrimaryKey
     @ColumnInfo(name = "ID")
     private Integer id;
@@ -59,7 +62,6 @@ public class Player implements Comparable<Player>{
             JSONObject jsonOrigin = jsonObject.getJSONObject("origin");
             teamID = jsonOrigin.getInt("teamId");
             JSONObject jsonPositionDesc = jsonOrigin.getJSONObject("positionDesc");
-            //JSONObject jsonPositions = jsonPositionDesc.getJSONObject("positions");
             position = jsonPositionDesc.getString("primaryPosition");
             JSONArray jsonPlayerProps = jsonObject.getJSONArray("playerProps");
             for (int i = 0; i < jsonPlayerProps.length(); i++){
@@ -94,7 +96,7 @@ public class Player implements Comparable<Player>{
     }
 
     public Integer getId(){
-        return this.id;
+        return id;
     }
 
     public void setId(Integer id){
@@ -102,15 +104,19 @@ public class Player implements Comparable<Player>{
     }
 
     public String getName(){
-        return this.name;
+        return name;
     }
 
     public void setName(String name){
         this.name = name;
     }
 
+    public String printName(){
+        return "이름: " + name;
+    }
+
     public boolean isBookmark(){
-        return this.bookmark;
+        return bookmark;
     }
 
     public void setBookmark(boolean bookmark){
@@ -118,7 +124,7 @@ public class Player implements Comparable<Player>{
     }
 
     public Integer getTeamID(){
-        return this.teamID;
+        return teamID;
     }
 
     public void setTeamID(Integer teamID){
@@ -133,36 +139,66 @@ public class Player implements Comparable<Player>{
         this.position = position;
     }
 
+    public String printPosition(){
+        if (position.equals(""))
+            return unknownMsg;
+        return "포지션: " + position;
+    }
+
     public String getHeight() {
-        return this.height;
+        return height;
     }
 
     public void setHeight(String height){
         this.height = height;
     }
 
+    public String printHeight(){
+        if (height.equals(""))
+            return unknownMsg;
+        return "신장: " + height;
+    }
+
     public String getFoot() {
-        return this.foot;
+        return foot;
     }
 
     public void setFoot(String foot){
         this.foot = foot;
     }
 
+    public String printFoot(){
+        if (foot.equals(""))
+            return unknownMsg;
+        return "주발: " + foot;
+    }
+
     public Integer getAge() {
-        return this.age;
+        return age;
     }
 
     public void setAge(Integer age){
         this.age = age;
     }
 
+    public String printAge(){
+        if (shirt == -1)
+            return unknownMsg;
+        return "나이: " + age + "세";
+    }
+
     public Integer getShirt() {
-        return this.shirt;
+        return shirt;
     }
 
     public void setShirt(Integer shirt) {
         this.shirt = shirt;
+    }
+
+    public String printShirt(){
+        if (shirt == -1)
+            return unknownMsg;
+        return "등번호: " + shirt;
     }
 
 }

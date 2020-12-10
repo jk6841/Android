@@ -16,9 +16,10 @@
         android:layout_height="50dp"
         android:textSize="@dimen/font_size"
         android:gravity="center"
-        android:text="@{viewModel.livePlayer.get(pos).name}"
+        android:text="@{viewModel.livePlayers.get(pos).name}"
         android:textColor="@color/black"
         android:background="@color/lightgreen"
+        android:onClick="@{() -> viewModel.setIndex(pos)}"
         app:layout_constraintTop_toTopOf="parent" />
 
 </layout>
