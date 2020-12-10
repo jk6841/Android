@@ -4,6 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity (tableName = "tableMatch")
 public class Match {
 
@@ -12,7 +14,7 @@ public class Match {
     private Integer id;
 
     @ColumnInfo (name = "Date")
-    private String date;
+    private Date date;
 
     @ColumnInfo (name = "Score")
     private String score;
@@ -26,6 +28,10 @@ public class Match {
     @ColumnInfo(name = "Bookmark")
     private boolean bookmark;
 
+    public Match(Integer id){
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -34,11 +40,11 @@ public class Match {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

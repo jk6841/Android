@@ -105,7 +105,7 @@ public class Repository {
 
     private void initialize(){
         try {
-            players = new PlayerTask(mDao, ACTION.Read, ID.ALL).execute().get();
+            players = new PlayerTask(mDao, ACTION.Read).execute().get();
             int length = players.size();
             for (int i = 0; i < length; i++){
                 Integer id = players.get(i).getId();
@@ -119,11 +119,11 @@ public class Repository {
     public void bookmarkInternal(Integer object, boolean bookmark, Integer id){
         Integer action = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
         if (object.equals(Object.Player))
-            new PlayerTask(mDao, action, id);
+            new PlayerTask(mDao, action).execute(new Player(id));
         else if (object.equals(Object.Team))
-            new TeamTask(mDao, action, id);
+            new TeamTask(mDao, action).execute(new Team(id));
         else if (object.equals(Object.Match))
-            new MatchTask(mDao, action, id);
+            new MatchTask(mDao, action).execute(new Match(id));
     }
 
     private void getRemotePlayerInfo(int playerId){
@@ -135,9 +135,9 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         Player player = new Player(playerId, jsonString);
-                        new PlayerTask(mDao, ACTION.Update, playerId).execute(player);
+                        new PlayerTask(mDao, ACTION.Update).execute(player);
                         Team team = new Team(player.getTeamID(), jsonString);
-                        new TeamTask(mDao, ACTION.Create, team.getId()).execute(team);
+                        new TeamTask(mDao, ACTION.Create).execute(team);
                     } catch (IOException | NullPointerException e){
                         e.printStackTrace();
                     }
@@ -159,28 +159,31 @@ public class Repository {
 
         protected DBDao dao;
         protected Integer action;
-        protected Integer id;
 
-        public MyAsyncTask(DBDao dao, Integer action, Integer id){
+        public MyAsyncTask(DBDao dao, Integer action){
             this.dao = dao;
             this.action = action;
-            this.id = id;
         }
     }
 
     private static class PlayerTask extends MyAsyncTask<Player>{
-        public PlayerTask(DBDao dao, Integer action, Integer id){
-            super(dao, action, id);
+        public PlayerTask(DBDao dao, Integer action){
+            super(dao, action);
         }
 
         @Override
         protected List<Player> doInBackground(Player... players) {
             List<Player> result = null;
+            Player player = null;
+            Integer id = ID.ALL;
+            if (players.length > 0){
+                player = players[0];
+                id = player.getId();
+            }
             if (action.equals(ACTION.Read)){
                 result = dao.repoPlayerAll();
             }
             else if (action.equals(ACTION.Update)){
-                Player player = players[0];
                 dao.updatePlayerTeamIDById(player.getTeamID(), id);
                 dao.updatePlayerPositionById(player.getPosition(), id);
                 dao.updatePlayerHeightById(player.getHeight(), id);
@@ -202,13 +205,19 @@ public class Repository {
     }
 
     private static class TeamTask extends MyAsyncTask<Team>{
-        public TeamTask(DBDao dao, Integer action, Integer id){
-            super(dao, action, id);
+        public TeamTask(DBDao dao, Integer action){
+            super(dao, action);
         }
 
         @Override
         protected List<Team> doInBackground(Team... teams) {
             List<Team> result = null;
+            Team team;
+            Integer id = ID.ALL;
+            if (teams.length > 0){
+                team = teams[0];
+                id = team.getId();
+            }
             if (action.equals(ACTION.Create)){
                 dao.insertTeam(teams[0]);
             }
@@ -229,8 +238,8 @@ public class Repository {
     }
 
     private static class MatchTask extends MyAsyncTask<Match>{
-        public MatchTask(DBDao dao, Integer action, Integer id){
-            super(dao, action, id);
+        public MatchTask(DBDao dao, Integer action){
+            super(dao, action);
         }
 
         @Override
