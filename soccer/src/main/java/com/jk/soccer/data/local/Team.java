@@ -22,6 +22,9 @@ public class Team {
     @ColumnInfo(name = "Color")
     private String color;
 
+    @ColumnInfo(name = "Bookmark")
+    private boolean bookmark;
+
     public Team(Integer id){
         this.id = id;
     }
@@ -40,7 +43,7 @@ public class Team {
     }
 
     public Integer getId(){
-        return this.id;
+        return id;
     }
 
     public void setId(Integer id){
@@ -48,7 +51,7 @@ public class Team {
     }
 
     public String getName(){
-        return this.name;
+        return name;
     }
 
     public void setName(String name){
@@ -56,11 +59,19 @@ public class Team {
     }
 
     public String getColor(){
-        return this.color;
+        return color;
     }
 
     public void setColor(String color){
         this.color = color;
+    }
+
+    public boolean isBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(boolean bookmark) {
+        this.bookmark = bookmark;
     }
 
 }

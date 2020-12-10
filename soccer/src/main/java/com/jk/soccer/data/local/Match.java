@@ -9,17 +9,69 @@ public class Match {
 
     @PrimaryKey
     @ColumnInfo (name = "ID")
-    public Integer id;
+    private Integer id;
 
     @ColumnInfo (name = "Date")
-    public String date;
-
-    @ColumnInfo (name = "Home")
-    public Integer homeId;
-
-    @ColumnInfo (name = "Away")
-    public Integer awayId;
+    private String date;
 
     @ColumnInfo (name = "Score")
-    public String score;
+    private String score;
+
+    @ColumnInfo (name = "Home")
+    private Integer homeId;
+
+    @ColumnInfo (name = "Away")
+    private Integer awayId;
+
+    @ColumnInfo(name = "Bookmark")
+    private boolean bookmark;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public Integer getHomeId() {
+        return homeId;
+    }
+
+    public void setHomeId(Integer homeId) {
+        this.homeId = homeId;
+    }
+
+    public Integer getAwayId() {
+        return awayId;
+    }
+
+    public void setAwayId(Integer awayId) {
+        this.awayId = awayId;
+    }
+
+    public boolean isBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(boolean bookmark) {
+        this.bookmark = bookmark;
+    }
+
 }

@@ -20,12 +20,6 @@ public class Player implements Comparable<Player>{
     @ColumnInfo(name = "Name")
     private String name;
 
-    @ColumnInfo(name = "Bookmark")
-    private boolean bookmark;
-
-    @ColumnInfo(name = "TeamID")
-    private Integer teamID;
-
     @ColumnInfo(name = "Position")
     private String position;
 
@@ -40,6 +34,12 @@ public class Player implements Comparable<Player>{
 
     @ColumnInfo(name = "Shirt")
     private Integer shirt;
+
+    @ColumnInfo(name = "TeamID")
+    private Integer teamID;
+
+    @ColumnInfo(name = "Bookmark")
+    private boolean bookmark;
 
     public Player(int id){
         this.id = id;
