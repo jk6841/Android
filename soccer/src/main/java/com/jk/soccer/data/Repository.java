@@ -36,10 +36,6 @@ public class Repository {
         Integer Match = 2;
     }
 
-    public interface ID{
-        Integer ALL = -1;
-    }
-
     public Repository(Application application){
         appContext = application.getApplicationContext();
         baseUrl1 = appContext.getString(R.string.baseUrl1);
@@ -47,48 +43,40 @@ public class Repository {
         retrofitClient = new RetrofitClient(baseUrl1, baseUrl2);
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
-
         dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
-
         initialize();
     }
 
-    public List<Player> getPlayer(Integer playerId){
-        try {
-            return new PlayerTask(mDao, ACTION.Read, 0, playerId).execute().get();
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
-            return null;
-        }
+    public Player getPlayer(Integer playerId){
+        return getPlayerInternal(playerId).get(0);
     }
 
-    public List<Team> getTeam(Integer teamId){
-        try{
-            return new TeamTask(mDao, ACTION.Read, 0, teamId).execute().get();
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
-            return null;
-        }
+    public List<Player> getPlayer(){
+        return getPlayerInternal(ID.ALL);
     }
 
-    public List<Match> getMatch(Integer matchId){
-        try{
-            return new MatchTask(mDao, ACTION.Read, 0, matchId).execute().get();
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
-            return null;
-        }
+    public Team getTeam(Integer teamId){
+        return getTeamInternal(teamId).get(0);
+    }
+
+    public List<Team> getTeam(){
+        return getTeamInternal(ID.ALL);
+    }
+
+    public Match getMatch(Integer matchId){
+        return getMatchInternal(matchId).get(0);
+    }
+
+    public List<Match> getMatch(){
+        return getMatchInternal(ID.ALL);
     }
 
     public void bookmark(Integer object, boolean bookmark, Integer id){
-        Integer mode = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
+        bookmarkInternal(object, bookmark, id);
+    }
 
-        if (object.equals(Object.Player))
-            new PlayerTask(mDao, mode, 0, id);
-        else if (object.equals(Object.Team))
-            new TeamTask(mDao, mode, 0, id);
-        else if (object.equals(Object.Match))
-            new MatchTask(mDao, mode, 0, id);
+    public void bookmark(Integer object, boolean bookmark){
+        bookmarkInternal(object, bookmark, ID.ALL);
     }
 
     public static Repository getInstance(Application application){
@@ -114,6 +102,10 @@ public class Repository {
         Integer Image = 1;
     }
 
+    private interface ID{
+        Integer ALL = -1;
+    }
+
     private static Repository repository = null;
     private Context appContext;
     private RetrofitClient retrofitClient;
@@ -128,13 +120,50 @@ public class Repository {
     private List<Player> players;
 
     private void initialize(){
-        players = getPlayer(ID.ALL);
+        players = getPlayer();
         int length = players.size();
         for (int i = 0; i < length; i++){
             Integer id = players.get(i).getId();
             remotePlayerString(id);
             remotePlayerImage(id);
         }
+    }
+
+    private List<Player> getPlayerInternal(Integer playerId){
+        try {
+            return new PlayerTask(mDao, ACTION.Read, 0, playerId).execute().get();
+        } catch (ExecutionException | InterruptedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private List<Team> getTeamInternal(Integer teamId){
+        try{
+            return new TeamTask(mDao, ACTION.Read, 0, teamId).execute().get();
+        } catch (ExecutionException | InterruptedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Match> getMatchInternal(Integer matchId){
+        try{
+            return new MatchTask(mDao, ACTION.Read, 0, matchId).execute().get();
+        } catch (ExecutionException | InterruptedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void bookmarkInternal(Integer object, boolean bookmark, Integer id){
+        Integer mode = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
+        if (object.equals(Object.Player))
+            new PlayerTask(mDao, mode, 0, id);
+        else if (object.equals(Object.Team))
+            new TeamTask(mDao, mode, 0, id);
+        else if (object.equals(Object.Match))
+            new MatchTask(mDao, mode, 0, id);
     }
 
     private void remotePlayerString(int playerId){
