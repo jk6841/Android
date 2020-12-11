@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.jk.soccer.ui.playerinfo.PlayerInfoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.playerinfo.PlayerInfoFragment">
+
+        <TableLayout
+            android:id="@+id/table"
+            android:layout_width="match_parent"
+            android:layout_height="376dp"
+            android:weightSum="7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="27dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_00"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:background="#FFFFFF"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@string/name_header" />
+
+                <TextView
+                    android:id="@+id/tbl_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.nameLiveData}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:background="#FFFFFF"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@string/team_header" />
+
+                <TextView
+                    android:id="@+id/tbl_11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textColor="@{viewModel.teamColorLiveData}"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.teamNameLiveData}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:background="#FFFFFF"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@string/shirt_header" />
+
+                <TextView
+                    android:id="@+id/tbl_21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.shirtLiveData}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:background="#FFFFFF"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@string/position_header" />
+
+                <TextView
+                    android:id="@+id/tbl_31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.positionLiveData}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_40"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:textSize="@dimen/midFont"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="@string/foot_header" />
+
+                <TextView
+                    android:id="@+id/tbl_41"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.footLiveData}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_50"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:textSize="@dimen/midFont"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="@string/height_header" />
+
+                <TextView
+                    android:id="@+id/tbl_51"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.heightLiveData}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_60"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:textSize="@dimen/midFont"
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:text="@string/age_header" />
+
+                <TextView
+                    android:id="@+id/tbl_61"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midFont"
+                    android:gravity="center"
+                    android:text="@{viewModel.ageLiveData}" />
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="242dp"
+            android:layout_height="217dp"
+            android:contentDescription="@string/player_image"
+            app:glideUrl="@{@string/baseUrl2 + viewModel.idLiveData + @string/png}"
+            app:layout_constraintBottom_toTopOf="@+id/table"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.289"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bookmark"
+            android:checked="@{viewModel.bookmarkLiveData}"
+            android:onClick="@{()->viewModel.setBookmark(!viewModel.bookmarkLiveData, viewModel.idLiveData)}"
+            app:layout_constraintBottom_toTopOf="@+id/table"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.914"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.62" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

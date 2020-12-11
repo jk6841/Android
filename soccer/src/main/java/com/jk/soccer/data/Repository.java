@@ -13,8 +13,14 @@ import com.jk.soccer.data.local.Player;
 import com.jk.soccer.data.local.DBDao;
 import com.jk.soccer.data.local.Team;
 import com.jk.soccer.data.remote.RetrofitClient;
+import com.jk.soccer.etc.DateStringConverter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,7 +68,7 @@ public class Repository {
         return mDao.findTeamById(teamId);
     }
 
-    public LiveData<Team> getTeamByPlayerIndex(Integer index) {return mDao.findTeamByPlayerId(getPlayerId(index)); }
+    public LiveData<Team> getTeamByPlayerIndex(Integer index) { return mDao.findTeamByPlayerId(getPlayerId(index)); }
 
     public LiveData<List<Team>> getTeam(){
         return mDao.findTeamAll();
@@ -128,6 +134,7 @@ public class Repository {
             Integer id = players.get(i).getId();
             getRemotePlayerInfo(id);
         }
+        getRemoteMatchList(new Date());
     }
 
     private Integer getPlayerId(Integer index){
@@ -169,8 +176,27 @@ public class Repository {
         });
     }
 
-    private void getRemoteMatchInfo(int matchId){
-        Call<ResponseBody> call = retrofitClient.apiService[0].getMatch(matchId);
+    private void getRemoteMatchList(Date date){
+        Call<ResponseBody> call = retrofitClient.apiService[0].getMatchList(DateStringConverter.DateToString(date));
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    try{
+                        String jsonString = response.body().string();
+                        new MatchTask(mDao, ACTION.Create, jsonString).execute();
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
     }
 
     private static abstract class MyAsyncTask<T> extends AsyncTask<T, Void, List<T>>{
@@ -199,7 +225,7 @@ public class Repository {
                 id = player.getId();
             }
             if (action.equals(ACTION.Read)){
-                result = dao.init();
+                result = dao.base();
             }
             else if (action.equals(ACTION.Update)){
                 dao.updatePlayerInfoById(
@@ -257,12 +283,37 @@ public class Repository {
     }
 
     private static class MatchTask extends MyAsyncTask<Match>{
-        public MatchTask(DBDao dao, Integer action){
+        private String[] jsonStrings;
+
+        public MatchTask(DBDao dao, Integer action, String ... jsonStrings){
             super(dao, action);
+            this.jsonStrings = jsonStrings;
         }
 
         @Override
         protected List<Match> doInBackground(Match... matches) {
+            if (action.equals(ACTION.Create)){
+                int length = jsonStrings.length;
+                for (int i = 0; i < length; i++){
+                    try{
+                        JSONObject jsonObject = new JSONObject(jsonStrings[i]);
+                        JSONArray jsonLeagueList = jsonObject.getJSONArray("leagues");
+                        int arrayLength = jsonLeagueList.length();
+                        for (int j = 0; j < arrayLength; j++){
+                            JSONObject jsonLeague = jsonLeagueList.getJSONObject(j);
+                            JSONArray jsonMatchList = jsonLeague.getJSONArray("matches");
+                            int l = jsonMatchList.length();
+                            for (int k = 0; k < l; k++) {
+                                JSONObject jsonMatch = jsonMatchList.getJSONObject(k);
+                                Match match = new Match(jsonMatch);
+                                dao.insertMatch(match);
+                            }
+                        }
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
             return null;
         }
     }

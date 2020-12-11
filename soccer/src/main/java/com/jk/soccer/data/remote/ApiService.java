@@ -31,7 +31,7 @@ public interface ApiService {
     );
 
     @GET(formatMatches)
-    Call<ResponseBody>getMatches(
-            @Query("date") Date date
+    Call<ResponseBody>getMatchList(
+            @Query("date") String date
     );
 }

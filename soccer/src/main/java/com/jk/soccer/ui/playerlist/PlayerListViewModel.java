@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.home;
+package com.jk.soccer.ui.playerlist;
 
 import android.app.Application;
 

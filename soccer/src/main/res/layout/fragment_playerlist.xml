@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.jk.soccer.ui.home.PlayerListViewModel" />
+            type="com.jk.soccer.ui.playerlist.PlayerListViewModel" />
         <variable
             name="main"
             type="com.jk.soccer.ui.MainActivity" />
@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.PlayerListFragment">
+        tools:context=".ui.playerlist.PlayerListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_rec"

@@ -13,7 +13,7 @@ public interface DBDao {
 
     // For Initialization //
     @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
-    List<Player> init();
+    List<Player> base();
 
 
     //////// tablePlayer ////////
@@ -105,7 +105,7 @@ public interface DBDao {
 
     //// Create ////
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMatch(Match match);
 
     //// Read ////
@@ -113,30 +113,30 @@ public interface DBDao {
     @Query("SELECT * FROM tableMatch WHERE ID = :id")
     LiveData<Match> findMatchById(Integer id);
 
-    @Query("SELECT * FROM tableMatch WHERE Date = :date")
-    LiveData<List<Match>> findMatchByDate(String date);
-
-    @Query("SELECT * FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
-    LiveData<List<Match>> findMatchByDate(String startDate, String endDate);
+//    @Query("SELECT * FROM tableMatch WHERE Date = :date")
+//    LiveData<List<Match>> findMatchByDate(String date);
+//
+//    @Query("SELECT * FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
+//    LiveData<List<Match>> findMatchByDate(String startDate, String endDate);
 
     @Query("SELECT * FROM tableMatch")
     LiveData<List<Match>> findMatchAll();
 
     //// Update ////
 
-    @Query("UPDATE tableMatch SET Score = :score WHERE ID = :id")
-    void updateMatchScoreById(String score, Integer id);
+//    @Query("UPDATE tableMatch SET Score = :score WHERE ID = :id")
+//    void updateMatchScoreById(String score, Integer id);
 
     //// Delete ////
 
     @Query("DELETE FROM tableMatch WHERE ID = :id")
     void deleteMatchById(Integer id);
 
-    @Query("DELETE FROM tableMatch WHERE Date = :date")
-    void deleteMatchByDate(String date);
-
-    @Query("DELETE FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
-    void deleteMatchByDate(String startDate, String endDate);
+//    @Query("DELETE FROM tableMatch WHERE Date = :date")
+//    void deleteMatchByDate(String date);
+//
+//    @Query("DELETE FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
+//    void deleteMatchByDate(String startDate, String endDate);
 
     @Query("DELETE FROM tableMatch")
     void deleteMatchAll();

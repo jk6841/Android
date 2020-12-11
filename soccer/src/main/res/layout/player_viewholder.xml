@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.jk.soccer.ui.home.PlayerListViewModel" />
+            type="com.jk.soccer.ui.playerlist.PlayerListViewModel" />
         <variable
             name="pos"
             type="Integer" />
@@ -16,8 +16,8 @@
     <TextView
         android:id="@+id/text_holder"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="@dimen/font_size"
+        android:layout_height="100dp"
+        android:textSize="@dimen/bigFont"
         android:gravity="center"
         android:text="@{viewModel.livePlayers.get(pos).name}"
         android:textColor="@{viewModel.livePlayers.get(pos).bookmark ? viewModel.colors[0] : viewModel.colors[2]}"

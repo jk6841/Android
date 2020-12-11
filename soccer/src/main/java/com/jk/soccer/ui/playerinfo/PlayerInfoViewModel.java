@@ -1,6 +1,7 @@
 package com.jk.soccer.ui.playerinfo;
 
 import android.app.Application;
+import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -24,6 +25,8 @@ public class PlayerInfoViewModel extends AndroidViewModel {
     public LiveData<String> getTeamNameLiveData() {
         return teamNameLiveData;
     }
+
+    public LiveData<Integer> getTeamColorLiveData() { return teamColorLiveData; }
 
     public LiveData<String> getPositionLiveData() {
         return positionLiveData;
@@ -71,6 +74,9 @@ public class PlayerInfoViewModel extends AndroidViewModel {
 
         teamNameLiveData = (Transformations.map(teamLiveData, Team::getName));
 
+        teamColorLiveData = (Transformations.map(
+                teamLiveData, input -> Color.parseColor(input.getColor())));
+
         positionLiveData = (Transformations.map(playerLiveData, Player::printPosition));
 
         heightLiveData = (Transformations.map(playerLiveData, Player::printHeight));
@@ -91,6 +97,7 @@ public class PlayerInfoViewModel extends AndroidViewModel {
     private LiveData<Integer> idLiveData;
     private LiveData<String> nameLiveData;
     private LiveData<String> teamNameLiveData;
+    private LiveData<Integer> teamColorLiveData;
     private LiveData<String> positionLiveData;
     private LiveData<String> heightLiveData;
     private LiveData<String> footLiveData;
