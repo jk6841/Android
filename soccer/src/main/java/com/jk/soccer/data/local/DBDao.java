@@ -26,7 +26,7 @@ public interface DBDao {
     @Query("SELECT * FROM tablePlayer WHERE Name = :name")
     LiveData<List<Player>> findPlayerByName(String name);
 
-    @Query("SELECT * FROM tablePlayer ORDER BY Name")
+    @Query("SELECT * FROM tablePlayer ORDER BY Bookmark DESC, Name")
     LiveData<List<Player>> findPlayerAll();
 
     @Query("SELECT COUNT(*) FROM tablePlayer")

@@ -18,8 +18,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     private HomeViewModel homeViewModel;
 
-    private Integer[] colors;
-
     private static OnItemClickListener mListener = null;
 
     public void setPlayerList(List<Player> playerList) {
@@ -28,10 +26,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     private List<Player> playerList;
 
-    public HomeAdapter(HomeViewModel homeViewModel, Integer... colors) {
+    public HomeAdapter(HomeViewModel homeViewModel) {
         this.homeViewModel = homeViewModel;
-        colors = new Integer[colors.length];
-        this.colors = colors;
         playerList = new ArrayList<>();
     }
 
@@ -54,8 +50,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int pos) {
-        if (holder instanceof MyViewHolder)
+        if (holder instanceof MyViewHolder) {
             holder.bind(homeViewModel, pos);
+        }
     }
 
     @Override

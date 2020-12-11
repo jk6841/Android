@@ -1,7 +1,6 @@
 package com.jk.soccer.data;
 
 import android.app.Application;
-import android.app.AsyncNotedAppOp;
 import android.content.Context;
 import android.os.AsyncTask;
 

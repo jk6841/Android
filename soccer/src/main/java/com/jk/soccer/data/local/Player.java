@@ -44,19 +44,25 @@ public class Player implements Comparable<Player>{
     @ColumnInfo(name = "Bookmark")
     private boolean bookmark;
 
-    public Player(int id){
+    private void init(Integer id){
         this.id = id;
-    }
-
-    @Ignore
-    public Player(Integer id, String jsonString){
-        this.id = id;
+        name = "";
         position = "";
         height = "";
         foot = "";
         age = -1;
         shirt = -1;
         teamID = -1;
+        bookmark = false;
+    }
+
+    public Player(int id){
+        init(id);
+    }
+
+    @Ignore
+    public Player(Integer id, String jsonString){
+        init(id);
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonOrigin = jsonObject.getJSONObject("origin");
@@ -112,7 +118,7 @@ public class Player implements Comparable<Player>{
     }
 
     public String printName(){
-        return "이름: " + name;
+        return name;
     }
 
     public boolean isBookmark(){
@@ -140,9 +146,15 @@ public class Player implements Comparable<Player>{
     }
 
     public String printPosition(){
-        if (position.equals(""))
+        if (position == null)
             return unknownMsg;
-        return "포지션: " + position;
+        String[] splited = position.split(" ");
+        String ret = "";
+        for (int i = 0; i < splited.length; i++)
+            ret += splited[i].substring(0, 1).toUpperCase();
+        if (position == null)
+            return unknownMsg;
+        return ret;
     }
 
     public String getHeight() {
@@ -154,9 +166,9 @@ public class Player implements Comparable<Player>{
     }
 
     public String printHeight(){
-        if (height.equals(""))
+        if (height == null)
             return unknownMsg;
-        return "신장: " + height;
+        return height;
     }
 
     public String getFoot() {
@@ -168,9 +180,15 @@ public class Player implements Comparable<Player>{
     }
 
     public String printFoot(){
-        if (foot.equals(""))
+        if (foot == null)
             return unknownMsg;
-        return "주발: " + foot;
+        if (foot.equals("right"))
+            return "오른발";
+        else if (foot.equals("left"))
+            return "왼발";
+        else if (foot.equals("both"))
+            return "양발";
+        return unknownMsg;
     }
 
     public Integer getAge() {
@@ -182,9 +200,9 @@ public class Player implements Comparable<Player>{
     }
 
     public String printAge(){
-        if (shirt == -1)
+        if (shirt == null)
             return unknownMsg;
-        return "나이: " + age + "세";
+        return age + "세";
     }
 
     public Integer getShirt() {
@@ -196,9 +214,11 @@ public class Player implements Comparable<Player>{
     }
 
     public String printShirt(){
+        if (shirt == null)
+            return unknownMsg;
         if (shirt == -1)
             return unknownMsg;
-        return "등번호: " + shirt;
+        return shirt.toString();
     }
 
 }
