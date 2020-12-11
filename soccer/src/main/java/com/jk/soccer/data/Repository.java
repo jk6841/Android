@@ -50,8 +50,8 @@ public class Repository {
         }
     }
 
-    public LiveData<Player> getPlayer(Integer playerId){
-        return mDao.findPlayerById(playerId);
+    public LiveData<Player> getPlayer(Integer index){
+        return mDao.findPlayerById(getPlayerId(index));
     }
 
     public LiveData<List<Player>> getPlayer(){
@@ -62,7 +62,7 @@ public class Repository {
         return mDao.findTeamById(teamId);
     }
 
-    public LiveData<Team> getTeamByPlayerId(Integer playerId) {return mDao.findTeamByPlayerId(playerId); }
+    public LiveData<Team> getTeamByPlayerIndex(Integer index) {return mDao.findTeamByPlayerId(getPlayerId(index)); }
 
     public LiveData<List<Team>> getTeam(){
         return mDao.findTeamAll();
@@ -121,22 +121,20 @@ public class Repository {
     private Database database;
     private DBDao mDao;
 
-    private List<Player> players;
-
     private void initialize(){
-        try {
-            players = new PlayerTask(mDao, ACTION.Read).execute().get();
-            int length = players.size();
-            for (int i = 0; i < length; i++){
-                Integer id = players.get(i).getId();
-                getRemotePlayerInfo(id);
-            }
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
+        List<Player> players = getBaseTable();
+        int length = players.size();
+        for (int i = 0; i < length; i++){
+            Integer id = players.get(i).getId();
+            getRemotePlayerInfo(id);
         }
     }
 
-    public void bookmarkInternal(Integer object, boolean bookmark, Integer id){
+    private Integer getPlayerId(Integer index){
+        return getBaseTable().get(index).getId();
+    }
+
+    private void bookmarkInternal(Integer object, boolean bookmark, Integer id){
         Integer action = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
         if (object.equals(Object.Player))
             new PlayerTask(mDao, action).execute(new Player(id));

@@ -1,4 +1,4 @@
-package com.jk.soccer.viewmodel;
+package com.jk.soccer.ui.home;
 
 import android.app.Application;
 
@@ -11,16 +11,15 @@ import androidx.lifecycle.Transformations;
 import com.jk.soccer.data.Repository;
 import com.jk.soccer.data.local.Player;
 import com.jk.soccer.data.local.Team;
-import com.jk.soccer.ui.home.HomeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeViewModel extends AndroidViewModel {
+public class PlayerListViewModel extends AndroidViewModel {
 
     private final Application application;
     private Repository repository;
-    private HomeAdapter adapter;
+    private PlayerListAdapter adapter;
     private List<Player> baseTable;
 
     private ArrayList<Integer> colors;
@@ -49,11 +48,11 @@ public class HomeViewModel extends AndroidViewModel {
         this.index.setValue(index);
     }
 
-    public HomeAdapter getAdapter() {
+    public PlayerListAdapter getAdapter() {
         return adapter;
     }
 
-    public void setAdapter(HomeAdapter adapter) {
+    public void setAdapter(PlayerListAdapter adapter) {
         this.adapter = adapter;
     }
 
@@ -109,7 +108,7 @@ public class HomeViewModel extends AndroidViewModel {
             this.colors.add(application.getResources().getColor(colors[i]));
     }
 
-    public HomeViewModel(@NonNull Application application) {
+    public PlayerListViewModel(@NonNull Application application) {
         super(application);
         this.application = application;
         repository = Repository.getInstance(application);
@@ -139,7 +138,7 @@ public class HomeViewModel extends AndroidViewModel {
                     livedataPlayers, input -> input.get(k).printName()));
 
             livedataTeamName.add(Transformations.map(
-                    repository.getTeamByPlayerId(baseTable.get(k).getId()),
+                    repository.getTeamByPlayerIndex(k),
                     input -> (input != null)? input.getName() : null));
 
             livedataPosition.add(Transformations.map(

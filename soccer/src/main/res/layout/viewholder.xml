@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    
     <data>
         <variable
             name="viewModel"
-            type="com.jk.soccer.viewmodel.HomeViewModel" />
+            type="com.jk.soccer.ui.home.PlayerListViewModel" />
         <variable
             name="pos"
             type="Integer" />
+        <variable
+            name="handlers"
+            type="com.jk.soccer.etc.MyHandler" />
     </data>
-    
+
     <TextView
+        android:id="@+id/text_holder"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="@dimen/font_size"
@@ -19,7 +22,7 @@
         android:text="@{viewModel.livePlayers.get(pos).name}"
         android:textColor="@{viewModel.livePlayers.get(pos).bookmark ? viewModel.colors[0] : viewModel.colors[2]}"
         android:background="@{viewModel.livePlayers.get(pos).bookmark ? viewModel.colors[1] : viewModel.colors[3]}"
-        android:onClick="@{() -> viewModel.setIndex(pos)}"
+        android:onClick="@{(v)->handlers.onPlayerListClick(v, pos)}"
         app:layout_constraintTop_toTopOf="parent" />
 
 </layout>

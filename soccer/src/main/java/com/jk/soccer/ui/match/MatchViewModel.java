@@ -1,4 +1,4 @@
-package com.jk.soccer.viewmodel;
+package com.jk.soccer.ui.match;
 
 import android.app.Application;
 

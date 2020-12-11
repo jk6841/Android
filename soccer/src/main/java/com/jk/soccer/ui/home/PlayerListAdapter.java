@@ -1,7 +1,6 @@
 package com.jk.soccer.ui.home;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,16 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jk.soccer.data.local.Player;
 import com.jk.soccer.databinding.ViewholderBinding;
-import com.jk.soccer.viewmodel.HomeViewModel;
+import com.jk.soccer.etc.MyHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
+public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.MyViewHolder> {
 
-    private HomeViewModel homeViewModel;
-
-    private static OnItemClickListener mListener = null;
+    private PlayerListViewModel playerListViewModel;
+    ViewholderBinding binding;
 
     public void setPlayerList(List<Player> playerList) {
         this.playerList = playerList;
@@ -26,33 +24,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     private List<Player> playerList;
 
-    public HomeAdapter(HomeViewModel homeViewModel) {
-        this.homeViewModel = homeViewModel;
+    public PlayerListAdapter(PlayerListViewModel playerListViewModel) {
+        this.playerListViewModel = playerListViewModel;
         playerList = new ArrayList<>();
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(View v, int pos);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        this.mListener = listener;
-    }
 
     @NonNull
     @Override
-    public HomeAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                       int viewType) {
-        ViewholderBinding binding = ViewholderBinding.inflate(
+    public PlayerListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                             int viewType) {
+        binding = ViewholderBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new MyViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int pos) {
-        if (holder instanceof MyViewHolder) {
-            holder.bind(homeViewModel, pos);
-        }
+        holder.bind(playerListViewModel, pos);
     }
 
     @Override
@@ -66,9 +55,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             super(binding.getRoot());
             this.binding = binding;
         }
-        public void bind(HomeViewModel homeViewModel, int pos){
-            binding.setViewModel(homeViewModel);
+        public void bind(PlayerListViewModel playerListViewModel, int pos){
+            binding.setViewModel(playerListViewModel);
             binding.setPos(pos);
+            binding.setHandlers(new MyHandler());
             binding.executePendingBindings();
         }
     }
