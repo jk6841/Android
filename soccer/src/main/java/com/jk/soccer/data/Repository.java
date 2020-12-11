@@ -62,6 +62,8 @@ public class Repository {
         return mDao.findTeamById(teamId);
     }
 
+    public LiveData<Team> getTeamByPlayerId(Integer playerId) {return mDao.findTeamByPlayerId(playerId); }
+
     public LiveData<List<Team>> getTeam(){
         return mDao.findTeamAll();
     }
@@ -87,6 +89,15 @@ public class Repository {
             repository = new Repository(application);
         }
         return repository;
+    }
+
+    public List<Player> getBaseTable(){
+        try{
+            return new PlayerTask(mDao, ACTION.Read).execute().get();
+        } catch(ExecutionException | InterruptedException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     //// Private ////
@@ -190,7 +201,7 @@ public class Repository {
                 id = player.getId();
             }
             if (action.equals(ACTION.Read)){
-                result = dao.repoPlayerAll();
+                result = dao.init();
             }
             else if (action.equals(ACTION.Update)){
                 dao.updatePlayerInfoById(

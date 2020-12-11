@@ -41,10 +41,10 @@ public class HomeFragment extends Fragment {
         binding.setViewModel(homeViewModel);
         HomeAdapter homeAdapter = new HomeAdapter(homeViewModel);
         homeViewModel.setColors(
-                R.color.lightgreen,
                 R.color.white,
-                R.color.black,
-                R.color.teal_200);
+                R.color.lightGreen,
+                R.color.white,
+                R.color.skyBlue);
         homeViewModel.setAdapter(homeAdapter);
         binding.homeRec.setAdapter(homeAdapter);
         homeViewModel.getLivePlayers().observe(getViewLifecycleOwner(), players -> {

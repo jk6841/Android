@@ -149,6 +149,8 @@ public class Player implements Comparable<Player>{
         if (position == null)
             return unknownMsg;
         String[] splited = position.split(" ");
+        if (splited.length == 1)
+            return position;
         String ret = "";
         for (int i = 0; i < splited.length; i++)
             ret += splited[i].substring(0, 1).toUpperCase();
@@ -182,13 +184,16 @@ public class Player implements Comparable<Player>{
     public String printFoot(){
         if (foot == null)
             return unknownMsg;
-        if (foot.equals("right"))
-            return "오른발";
-        else if (foot.equals("left"))
-            return "왼발";
-        else if (foot.equals("both"))
-            return "양발";
-        return unknownMsg;
+        switch (foot){
+            case "right":
+                return "오른발";
+            case "left":
+                return "왼발";
+            case "both":
+                return "양발";
+            default:
+                return unknownMsg;
+        }
     }
 
     public Integer getAge() {

@@ -21,17 +21,19 @@ public class HomeViewModel extends AndroidViewModel {
     private final Application application;
     private Repository repository;
     private HomeAdapter adapter;
+    private List<Player> baseTable;
 
     private ArrayList<Integer> colors;
 
     private MutableLiveData<Integer> index;
 
     final private LiveData<List<Player>> livedataPlayers;
+    final private LiveData<List<Team>> livedataTeams;
     private LiveData<List<Team>> livedataTeam;
 
     final private ArrayList<LiveData<Integer>> livedataId;
     final private ArrayList<LiveData<String>> livedataName;
-    //final private LiveData<String> livedataTeamName;
+    final private ArrayList<LiveData<String>> livedataTeamName;
     final private ArrayList<LiveData<String>> livedataPosition;
     final private ArrayList<LiveData<String>> livedataHeight;
     final private ArrayList<LiveData<String>> livedataFoot;
@@ -60,6 +62,8 @@ public class HomeViewModel extends AndroidViewModel {
     public LiveData<String> getLiveName(int index) {
         return livedataName.get(index);
     }
+
+    public LiveData<String> getLiveTeamName(int index) {return livedataTeamName.get(index); }
 
     public LiveData<String> getLivePosition(int index) {
         return livedataPosition.get(index);
@@ -109,11 +113,14 @@ public class HomeViewModel extends AndroidViewModel {
         super(application);
         this.application = application;
         repository = Repository.getInstance(application);
+        baseTable = repository.getBaseTable();
         livedataPlayers = repository.getPlayer();
+        livedataTeams = repository.getTeam();
         index = new MutableLiveData<>();
         colors = new ArrayList<>();
         livedataId = new ArrayList<>();
         livedataName = new ArrayList<>();
+        livedataTeamName = new ArrayList<>();
         livedataPosition = new ArrayList<>();
         livedataHeight = new ArrayList<>();
         livedataFoot = new ArrayList<>();
@@ -130,6 +137,10 @@ public class HomeViewModel extends AndroidViewModel {
 
             livedataName.add(Transformations.map(
                     livedataPlayers, input -> input.get(k).printName()));
+
+            livedataTeamName.add(Transformations.map(
+                    repository.getTeamByPlayerId(baseTable.get(k).getId()),
+                    input -> (input != null)? input.getName() : null));
 
             livedataPosition.add(Transformations.map(
                     livedataPlayers, input -> input.get(k).printPosition()));

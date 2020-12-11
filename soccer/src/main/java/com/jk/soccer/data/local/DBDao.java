@@ -11,6 +11,11 @@ import java.util.List;
 @Dao
 public interface DBDao {
 
+    // For Initialization //
+    @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
+    List<Player> init();
+
+
     //////// tablePlayer ////////
 
     //// Create ////
@@ -31,10 +36,6 @@ public interface DBDao {
 
     @Query("SELECT COUNT(*) FROM tablePlayer")
     Integer countPlayer();
-
-    // For Repository //
-    @Query("SELECT * FROM tablePlayer")
-    List<Player> repoPlayerAll();
 
     //// Update ////
 
@@ -76,6 +77,9 @@ public interface DBDao {
     void insertTeam(Team team);
 
     //// Read ////
+
+    @Query("SELECT tableTeam.* FROM tableTeam, tablePlayer WHERE tablePlayer.TeamID = tableTeam.ID AND tablePlayer.Id = :playerId")
+    LiveData<Team> findTeamByPlayerId(Integer playerId);
 
     @Query("SELECT * FROM tableTeam WHERE ID = :id")
     LiveData<Team> findTeamById(Integer id);
