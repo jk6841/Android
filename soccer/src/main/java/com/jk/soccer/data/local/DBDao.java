@@ -13,7 +13,10 @@ public interface DBDao {
 
     // For Initialization //
     @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
-    List<Player> base();
+    List<Player> playerInit();
+
+    @Query("SELECT * FROM tableMatch ORDER By startDateStr, startTimeStr")
+    List<Match> matchInit();
 
     //////// tablePlayer ////////
 
@@ -72,7 +75,7 @@ public interface DBDao {
 
     //// Create ////
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTeam(Team team);
 
     //// Read ////
@@ -125,6 +128,11 @@ public interface DBDao {
 
 //    @Query("UPDATE tableMatch SET Score = :score WHERE ID = :id")
 //    void updateMatchScoreById(String score, Integer id);
+    @Query("UPDATE tableMatch SET StartDateStr = :dateStr, StartTimeStr = :timeStr WHERE ID = :id ")
+    void updateMatchTimeById(String dateStr, String timeStr, Integer id);
+
+    @Query("UPDATE tableMatch SET Stadium = :stadium WHERE ID = :id ")
+    void updateMatchStadiumById(String stadium, Integer id);
 
     //// Delete ////
 

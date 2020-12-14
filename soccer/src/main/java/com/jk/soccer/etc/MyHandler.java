@@ -2,6 +2,8 @@ package com.jk.soccer.etc;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -15,4 +17,9 @@ public class MyHandler {
         args.putInt("index", index);
         navController.navigate(R.id.action_nav_home_to_nav_info, args);
     }
+
+    public void onMatchListClick(View view, Integer index){
+        Toast.makeText(view.getContext(), "click" , Toast.LENGTH_SHORT).show();
+    }
+
 }

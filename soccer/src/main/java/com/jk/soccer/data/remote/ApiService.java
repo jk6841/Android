@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     String formatPlayer = "playerData";
-    String formatTeam = "teams";
+    String formatTeam = "teams?type=team";
     String formatMatch = "matchDetails";
     String formatMatches = "matches";
 
@@ -21,8 +21,7 @@ public interface ApiService {
     @GET(formatTeam)
     Call<ResponseBody> getTeam(
             @Query("id") int teamId,
-            @Query("tab") String tab,
-            @Query("type") String type
+            @Query("tab") String tab
     );
 
     @GET(formatMatch)

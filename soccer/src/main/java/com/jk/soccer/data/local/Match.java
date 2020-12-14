@@ -5,10 +5,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Date;
 
 @Entity (tableName = "tableMatch")
 public class Match {
@@ -20,11 +19,8 @@ public class Match {
     @ColumnInfo (name = "LeagueID")
     private Integer leagueId;
 
-    @ColumnInfo (name = "Time")
-    private String time;
-
-    @ColumnInfo (name = "HomeID")
-    private Integer homeId;
+    @ColumnInfo (name = "Text")
+    private String text;
 
     @ColumnInfo (name = "HomeName")
     private String homeName;
@@ -32,14 +28,17 @@ public class Match {
     @ColumnInfo (name = "HomeScore")
     private Integer homeScore;
 
-    @ColumnInfo (name = "AwayID")
-    private Integer awayId;
+    @ColumnInfo (name = "HomeImage")
+    private String homeImage;
 
     @ColumnInfo (name = "AwayName")
     private String awayName;
 
     @ColumnInfo (name = "AwayScore")
     private Integer awayScore;
+
+    @ColumnInfo (name = "AwayImage")
+    private String awayImage;
 
     @ColumnInfo (name = "Started")
     private Boolean started;
@@ -56,56 +55,48 @@ public class Match {
     @ColumnInfo(name = "StartDateStr")
     private String startDateStr;
 
-    @ColumnInfo(name = "TimeTS")
-    private Integer timeTS;
+    @ColumnInfo(name = "Stadium")
+    private String stadium;
 
     @ColumnInfo(name = "Bookmark")
     private boolean bookmark;
 
     public Match (Integer id){
-        setId(id);
-        setLeagueId(-1);
-        setTime("");
-        setHomeId(-1);
-        setHomeName("");
-        setHomeScore(0);
-        setAwayId(-1);
-        setAwayName("");
-        setAwayScore(0);
-        setStarted(false);
-        setCancelled(false);
-        setFinished(false);
-        setStartTimeStr("");
-        setStartDateStr("");
-        setTimeTS(-1);
+        this.id = id;
     }
 
     @Ignore
-    public Match(JSONObject jsonMatch){
-
+    public Match(Integer id, String jsonString){
+        this.id = id;
         try{
-            id = jsonMatch.getInt("id");
-            leagueId = jsonMatch.getInt("leagueId");
-            time = jsonMatch.getString("time");
-            JSONObject jsonHome = jsonMatch.getJSONObject("home");
-            JSONObject jsonAway = jsonMatch.getJSONObject("away");
-            JSONObject jsonStatus = jsonMatch.getJSONObject("status");
-            homeId = jsonHome.getInt("id");
-            homeName = jsonHome.getString("name");
-            homeScore = jsonHome.getInt("score");
-            awayId = jsonAway.getInt("id");
-            awayName = jsonAway.getString("name");
-            awayScore = jsonAway.getInt("score");
-            started = jsonStatus.getBoolean("started");
-            cancelled = jsonStatus.getBoolean("cancelled");
-            finished = jsonStatus.getBoolean("finished");
-            startTimeStr = jsonStatus.getString("startTimeStr");
-            startDateStr = jsonStatus.getString("startDateStr");
-            timeTS = jsonMatch.getInt("timeTS");
+            JSONObject jsonObject = new JSONObject(jsonString);
+            JSONObject jsonHeader = jsonObject.getJSONObject("header");
+            JSONArray jsonTeams = jsonHeader.getJSONArray("teams");
+            JSONObject jsonHome = jsonTeams.getJSONObject(0);
+            JSONObject jsonAway = jsonTeams.getJSONObject(1);
+            this.homeName = jsonHome.getString("name");
+            this.homeScore = jsonHome.getInt("score");
+            this.homeImage = jsonHome.getString("imageUrl");
+            this.awayName = jsonAway.getString("name");
+            this.awayScore = jsonAway.getInt("score");
+            this.awayImage = jsonAway.getString("imageUrl");
+            JSONObject jsonStatus = jsonHeader.getJSONObject("status");
+            this.started = jsonStatus.getBoolean("started");
+            this.cancelled = jsonStatus.getBoolean("cancelled");
+            this.finished = jsonStatus.getBoolean("finished");
+            this.startDateStr = jsonStatus.getString("startDateStr");
+            this.startTimeStr = jsonStatus.getString("startTimeStr");
+            JSONObject jsonContent = jsonObject.getJSONObject("content");
+            JSONObject jsonMatchFacts = jsonContent.getJSONObject("matchFacts");
+            JSONObject jsonInfoBox = jsonMatchFacts.getJSONObject("infoBox");
+            JSONObject jsonTournament = jsonInfoBox.getJSONObject("Tournament");
+            this.leagueId = jsonTournament.getInt("id");
+            this.text = jsonTournament.getString("text");
+            JSONObject jsonStadium = jsonInfoBox.getJSONObject("Stadium");
+            this.stadium = jsonStadium.getString("name");
         } catch (JSONException e){
             e.printStackTrace();
         }
-
     }
 
     public Integer getId() {
@@ -124,20 +115,12 @@ public class Match {
         this.leagueId = leagueId;
     }
 
-    public String getTime() {
-        return time;
+    public String getText() {
+        return text;
     }
 
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public Integer getHomeId() {
-        return homeId;
-    }
-
-    public void setHomeId(Integer homeId) {
-        this.homeId = homeId;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getHomeName() {
@@ -156,12 +139,12 @@ public class Match {
         this.homeScore = homeScore;
     }
 
-    public Integer getAwayId() {
-        return awayId;
+    public String getHomeImage() {
+        return homeImage;
     }
 
-    public void setAwayId(Integer awayId) {
-        this.awayId = awayId;
+    public void setHomeImage(String homeImage) {
+        this.homeImage = homeImage;
     }
 
     public String getAwayName() {
@@ -178,6 +161,14 @@ public class Match {
 
     public void setAwayScore(Integer awayScore) {
         this.awayScore = awayScore;
+    }
+
+    public String getAwayImage() {
+        return awayImage;
+    }
+
+    public void setAwayImage(String awayImage) {
+        this.awayImage = awayImage;
     }
 
     public Boolean getStarted() {
@@ -220,12 +211,12 @@ public class Match {
         this.startDateStr = startDateStr;
     }
 
-    public Integer getTimeTS() {
-        return timeTS;
+    public String getStadium() {
+        return stadium;
     }
 
-    public void setTimeTS(Integer timeTS) {
-        this.timeTS = timeTS;
+    public void setStadium(String stadium) {
+        this.stadium = stadium;
     }
 
     public boolean isBookmark() {

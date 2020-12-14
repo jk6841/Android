@@ -69,7 +69,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textColor="@{viewModel.teamColorLiveData}"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
                     android:text="@{viewModel.teamNameLiveData}" />

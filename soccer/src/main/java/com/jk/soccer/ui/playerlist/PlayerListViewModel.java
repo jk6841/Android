@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PlayerListViewModel extends AndroidViewModel {
 
-    public List<Player> getPlayers() { return repository.getBaseTable(); }
+    public List<Player> getPlayers() { return repository.getPlayerInit(); }
 
     public void setBookmark(int index){
         Player player = ldPlayers.getValue().get(index);

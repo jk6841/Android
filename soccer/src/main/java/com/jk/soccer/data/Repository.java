@@ -13,15 +13,9 @@ import com.jk.soccer.data.local.Player;
 import com.jk.soccer.data.local.DBDao;
 import com.jk.soccer.data.local.Team;
 import com.jk.soccer.data.remote.RetrofitClient;
-import com.jk.soccer.etc.DateStringConverter;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -48,10 +42,6 @@ public class Repository {
         initialize();
     }
 
-    public Integer countPlayer(){
-        return getBaseTable().size();
-    }
-
     public LiveData<Player> getPlayer(Integer index){
         return mDao.findPlayerById(getPlayerId(index));
     }
@@ -64,7 +54,9 @@ public class Repository {
         return mDao.findTeamById(teamId);
     }
 
-    public LiveData<Team> getTeamByPlayerIndex(Integer index) { return mDao.findTeamByPlayerId(getPlayerId(index)); }
+    public LiveData<Team> getTeamByPlayerIndex(Integer index) {
+        return mDao.findTeamByPlayerId(getPlayerId(index));
+    }
 
     public LiveData<List<Team>> getTeam(){
         return mDao.findTeamAll();
@@ -93,9 +85,18 @@ public class Repository {
         return repository;
     }
 
-    public List<Player> getBaseTable(){
+    public List<Player> getPlayerInit(){
         try{
             return new PlayerTask(mDao, ACTION.Read).execute().get();
+        } catch(ExecutionException | InterruptedException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Match> getMatchInit(){
+        try{
+            return new MatchTask(mDao, ACTION.Read).execute().get();
         } catch(ExecutionException | InterruptedException e){
             e.printStackTrace();
             return null;
@@ -124,18 +125,16 @@ public class Repository {
     private DBDao mDao;
 
     private void initialize(){
-        List<Player> players = getBaseTable();
-        int length = players.size();
-        for (int i = 0; i < length; i++){
+        List<Player> players = getPlayerInit();
+        int playerLength = players.size();
+        for (int i = 0; i < playerLength; i++){
             Integer id = players.get(i).getId();
             getRemotePlayerInfo(id);
         }
-        Date date = new Date();
-        //getRemoteMatchList(DateStringConverter.StringToDate("20201211"));
     }
 
     private Integer getPlayerId(Integer index){
-        return getBaseTable().get(index).getId();
+        return getPlayerInit().get(index).getId();
     }
 
     private void bookmarkInternal(Integer object, boolean bookmark, Integer id){
@@ -158,9 +157,33 @@ public class Repository {
                         String jsonString = response.body().string();
                         Player player = new Player(playerId, jsonString);
                         new PlayerTask(mDao, ACTION.Update).execute(player);
-                        Team team = new Team(player.getTeamID(), jsonString);
-                        new TeamTask(mDao, ACTION.Create).execute(team);
+                        getRemoteTeamInfo(player.getTeamID());
                     } catch (IOException | NullPointerException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getRemoteTeamInfo(Integer teamId){
+        Call<ResponseBody> call0 = retrofitClient.apiService[0].getTeam(teamId, "overview");
+        call0.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    try{
+                        String jsonString = response.body().string();
+                        Team team = new Team(teamId, jsonString);
+                        new TeamTask(mDao, ACTION.Create).execute(team);
+                        List<Integer> fixtures = team.getFixtures();
+                        for (int i = 0; i < fixtures.size(); i++)
+                            getRemoteMatchInfo(fixtures.get(i));
+                    } catch (IOException e){
                         e.printStackTrace();
                     }
                 }
@@ -173,19 +196,19 @@ public class Repository {
         });
     }
 
-    private void getRemoteMatchList(Date date){
-        Call<ResponseBody> call = retrofitClient.apiService[0].getMatchList(DateStringConverter.DateToString(date));
+    private void getRemoteMatchInfo(Integer matchId){
+        Call<ResponseBody> call = retrofitClient.apiService[0].getMatch(matchId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
                     try{
                         String jsonString = response.body().string();
-                        new MatchTask(mDao, ACTION.Create, jsonString).execute();
+                        Match match = new Match(matchId, jsonString);
+                        new MatchTask(mDao, ACTION.Create).execute(match);
                     } catch (IOException e){
                         e.printStackTrace();
                     }
-
                 }
             }
 
@@ -222,7 +245,7 @@ public class Repository {
                 id = player.getId();
             }
             if (action.equals(ACTION.Read)){
-                result = dao.base();
+                result = dao.playerInit();
             }
             else if (action.equals(ACTION.Update)){
                 dao.updatePlayerInfoById(
@@ -231,7 +254,8 @@ public class Repository {
                         player.getHeight(),
                         player.getFoot(),
                         player.getAge(),
-                        player.getShirt(), player.getId());
+                        player.getShirt(),
+                        player.getId());
             }
             else{
                 boolean bookmark = (action.equals(ACTION.BookmarkOn));
@@ -280,13 +304,11 @@ public class Repository {
     }
 
     private static class MatchTask extends MyAsyncTask<Match>{
-        private String[] jsonStrings;
 
         private ArrayList<String> bigLeague = new ArrayList<>();
 
-        public MatchTask(DBDao dao, Integer action, String ... jsonStrings){
+        public MatchTask(DBDao dao, Integer action){
             super(dao, action);
-            this.jsonStrings = jsonStrings;
             bigLeague.add("ENG");
             bigLeague.add("GER");
             bigLeague.add("ESP");
@@ -297,45 +319,13 @@ public class Repository {
         @Override
         protected List<Match> doInBackground(Match... matches) {
             if (action.equals(ACTION.Create)){
-                int length = jsonStrings.length;
-                for (int i = 0; i < length; i++){
-                    try{
-                        JSONObject jsonObject = new JSONObject(jsonStrings[i]);
-                        JSONArray jsonLeagueList = jsonObject.getJSONArray("leagues");
-                        int arrayLength = jsonLeagueList.length();
-                        for (int j = 0; j < arrayLength; j++){
-                            JSONObject jsonLeague = jsonLeagueList.getJSONObject(j);
-                            if (!bigLeague.contains(jsonLeague.getString("ccode")))
-                                continue;
-                            JSONArray jsonMatchList = jsonLeague.getJSONArray("matches");
-                            int l = jsonMatchList.length();
-                            for (int k = 0; k < l; k++) {
-                                JSONObject jsonMatch = jsonMatchList.getJSONObject(k);
-                                Match match = new Match(jsonMatch);
-                                if (!match.getFinished())
-                                    dao.insertMatch(match);
-                            }
-                        }
-                    } catch (JSONException e){
-                        e.printStackTrace();
-                    }
-                }
+                dao.insertMatch(matches[0]);
+            } else if (action.equals(ACTION.Read)){
+                return dao.matchInit();
+            } else if (action.equals(ACTION.Update)){
+
             }
             return null;
         }
     }
-
-    private static class CountTask extends AsyncTask<Void, Void, Integer>{
-        private DBDao dao;
-
-        public CountTask(DBDao dao){
-            this.dao = dao;
-        }
-
-        @Override
-        protected Integer doInBackground(Void... voids) {
-            return dao.countPlayer();
-        }
-    }
-
 }
