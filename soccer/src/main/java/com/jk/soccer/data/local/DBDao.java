@@ -15,7 +15,6 @@ public interface DBDao {
     @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
     List<Player> base();
 
-
     //////// tablePlayer ////////
 
     //// Create ////

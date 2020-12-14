@@ -10,38 +10,37 @@ import com.jk.soccer.data.local.Player;
 import com.jk.soccer.databinding.PlayerViewholderBinding;
 import com.jk.soccer.etc.MyHandler;
 
-import java.util.ArrayList;
 import java.util.List;
+
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.MyViewHolder> {
 
-    private PlayerListViewModel playerListViewModel;
-    PlayerViewholderBinding binding;
+    private List<Player> playerList;
 
-    public void setPlayerList(List<Player> playerList) {
+    public PlayerListAdapter(List<Player> playerList) {
         this.playerList = playerList;
     }
 
-    private List<Player> playerList;
-
-    public PlayerListAdapter(PlayerListViewModel playerListViewModel) {
-        this.playerListViewModel = playerListViewModel;
-        playerList = new ArrayList<>();
+    public void setPlayerList(List<Player> playerList){
+        this.playerList = playerList;
+        notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
     public PlayerListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                                              int viewType) {
-        binding = PlayerViewholderBinding.inflate(
+        PlayerViewholderBinding binding = PlayerViewholderBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false);
         return new MyViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int pos) {
-        holder.bind(playerListViewModel, pos);
+        holder.binding.setPlayer(playerList.get(pos));
+        holder.binding.setPos(pos);
+        holder.binding.setHandlers(new MyHandler());
+        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -54,12 +53,6 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.My
         public MyViewHolder(PlayerViewholderBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-        }
-        public void bind(PlayerListViewModel playerListViewModel, int pos){
-            binding.setViewModel(playerListViewModel);
-            binding.setPos(pos);
-            binding.setHandlers(new MyHandler());
-            binding.executePendingBindings();
         }
     }
 }

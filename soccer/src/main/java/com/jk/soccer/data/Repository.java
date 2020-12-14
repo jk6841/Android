@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -48,12 +49,7 @@ public class Repository {
     }
 
     public Integer countPlayer(){
-        try{
-            return new CountTask(mDao).execute().get();
-        } catch (ExecutionException | InterruptedException e){
-            e.printStackTrace();
-            return 0;
-        }
+        return getBaseTable().size();
     }
 
     public LiveData<Player> getPlayer(Integer index){
@@ -134,7 +130,8 @@ public class Repository {
             Integer id = players.get(i).getId();
             getRemotePlayerInfo(id);
         }
-        getRemoteMatchList(new Date());
+        Date date = new Date();
+        //getRemoteMatchList(DateStringConverter.StringToDate("20201211"));
     }
 
     private Integer getPlayerId(Integer index){
@@ -285,9 +282,16 @@ public class Repository {
     private static class MatchTask extends MyAsyncTask<Match>{
         private String[] jsonStrings;
 
+        private ArrayList<String> bigLeague = new ArrayList<>();
+
         public MatchTask(DBDao dao, Integer action, String ... jsonStrings){
             super(dao, action);
             this.jsonStrings = jsonStrings;
+            bigLeague.add("ENG");
+            bigLeague.add("GER");
+            bigLeague.add("ESP");
+            bigLeague.add("FRA");
+            bigLeague.add("ITA");
         }
 
         @Override
@@ -301,12 +305,15 @@ public class Repository {
                         int arrayLength = jsonLeagueList.length();
                         for (int j = 0; j < arrayLength; j++){
                             JSONObject jsonLeague = jsonLeagueList.getJSONObject(j);
+                            if (!bigLeague.contains(jsonLeague.getString("ccode")))
+                                continue;
                             JSONArray jsonMatchList = jsonLeague.getJSONArray("matches");
                             int l = jsonMatchList.length();
                             for (int k = 0; k < l; k++) {
                                 JSONObject jsonMatch = jsonMatchList.getJSONObject(k);
                                 Match match = new Match(jsonMatch);
-                                dao.insertMatch(match);
+                                if (!match.getFinished())
+                                    dao.insertMatch(match);
                             }
                         }
                     } catch (JSONException e){

@@ -1,11 +1,8 @@
 package com.jk.soccer.etc;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -20,13 +17,4 @@ public class MyBindingAdapter {
                 .into(imageView);
     }
 
-    @BindingAdapter("recyclerAdapter")
-    public static void recyclerAdapter(RecyclerView recyclerView,
-                                       RecyclerView.Adapter<?> adapter){
-        Context context = recyclerView.getContext();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
-    }
 }

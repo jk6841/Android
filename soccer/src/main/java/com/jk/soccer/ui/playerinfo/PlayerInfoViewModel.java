@@ -61,6 +61,7 @@ public class PlayerInfoViewModel extends AndroidViewModel {
 
         repository = Repository.getInstance(application);
     }
+
     public void init(int index){
         this.index = index;
 
