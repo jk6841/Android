@@ -15,7 +15,7 @@ public interface DBDao {
     @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
     List<Player> playerInit();
 
-    @Query("SELECT * FROM tableMatch ORDER By startDateStr, startTimeStr")
+    @Query("SELECT * FROM tableMatch ORDER By YearStr, MonthStr, DateStr, StartTimeStr")
     List<Match> matchInit();
 
     //////// tablePlayer ////////
@@ -121,15 +121,15 @@ public interface DBDao {
 //    @Query("SELECT * FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
 //    LiveData<List<Match>> findMatchByDate(String startDate, String endDate);
 
-    @Query("SELECT * FROM tableMatch")
+    @Query("SELECT * FROM tableMatch ORDER By YearStr, MonthStr, DateStr, StartTimeStr")
     LiveData<List<Match>> findMatchAll();
 
     //// Update ////
 
 //    @Query("UPDATE tableMatch SET Score = :score WHERE ID = :id")
 //    void updateMatchScoreById(String score, Integer id);
-    @Query("UPDATE tableMatch SET StartDateStr = :dateStr, StartTimeStr = :timeStr WHERE ID = :id ")
-    void updateMatchTimeById(String dateStr, String timeStr, Integer id);
+//    @Query("UPDATE tableMatch SET StartDateStr = :dateStr, StartTimeStr = :timeStr WHERE ID = :id ")
+//    void updateMatchTimeById(String dateStr, String timeStr, Integer id);
 
     @Query("UPDATE tableMatch SET Stadium = :stadium WHERE ID = :id ")
     void updateMatchStadiumById(String stadium, Integer id);

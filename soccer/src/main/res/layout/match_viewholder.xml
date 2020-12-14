@@ -111,7 +111,7 @@
             android:layout_height="@dimen/small_info_height"
             android:layout_marginTop="32dp"
             android:gravity="center"
-            android:text="@{match.startDateStr + '\n' + match.startTimeStr}"
+            android:text="@{match.yearStr + match.monthStr +  match.dateStr + '\n' + match.startTimeStr}"
             app:layout_constraintEnd_toStartOf="@+id/img_away"
             app:layout_constraintStart_toEndOf="@+id/img_home"
             app:layout_constraintTop_toTopOf="parent" />
