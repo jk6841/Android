@@ -14,59 +14,51 @@ import org.json.JSONObject;
 public class Player implements Comparable<Player>{
 
     @Ignore
-    private final String unknownMsg = "알 수 없음";
+    private final String unknownMsg = "";
 
     @PrimaryKey
     @ColumnInfo(name = "ID")
     private Integer id;
 
     @ColumnInfo(name = "Name")
-    private String name;
+    private String name = unknownMsg;
 
     @ColumnInfo(name = "Position")
-    private String position;
+    private String position = unknownMsg;
 
     @ColumnInfo(name = "Height")
-    private String height;
+    private String height = unknownMsg;
 
     @ColumnInfo(name = "Foot")
-    private String foot;
+    private String foot = unknownMsg;
 
     @ColumnInfo(name = "Age")
-    private Integer age;
+    private Integer age = 0;
 
     @ColumnInfo(name = "Shirt")
-    private Integer shirt;
+    private Integer shirt = 0;
 
     @ColumnInfo(name = "TeamID")
-    private Integer teamID;
+    private Integer teamID = 0;
+
+    @ColumnInfo(name = "TeamName")
+    private String teamName = unknownMsg;
 
     @ColumnInfo(name = "Bookmark")
-    private boolean bookmark;
-
-    private void init(Integer id){
-        this.id = id;
-        name = "";
-        position = "";
-        height = "";
-        foot = "";
-        age = -1;
-        shirt = -1;
-        teamID = -1;
-        bookmark = false;
-    }
+    private boolean bookmark = false;
 
     public Player(int id){
-        init(id);
+        this.id = id;
     }
 
     @Ignore
     public Player(Integer id, String jsonString){
-        init(id);
+        this.id = id;
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonOrigin = jsonObject.getJSONObject("origin");
             teamID = jsonOrigin.getInt("teamId");
+            teamName = jsonOrigin.getString("teamName");
             JSONObject jsonPositionDesc = jsonOrigin.getJSONObject("positionDesc");
             position = jsonPositionDesc.getString("primaryPosition");
             JSONArray jsonPlayerProps = jsonObject.getJSONArray("playerProps");
@@ -109,32 +101,12 @@ public class Player implements Comparable<Player>{
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
-    }
-
-    public String printName(){
-        return name;
-    }
-
-    public boolean isBookmark(){
-        return bookmark;
-    }
-
-    public void setBookmark(boolean bookmark){
-        this.bookmark = bookmark;
-    }
-
-    public Integer getTeamID(){
-        return teamID;
-    }
-
-    public void setTeamID(Integer teamID){
-        this.teamID = teamID;
     }
 
     public String getPosition() {
@@ -224,6 +196,30 @@ public class Player implements Comparable<Player>{
         if (shirt == -1)
             return unknownMsg;
         return shirt.toString();
+    }
+
+    public Integer getTeamID(){
+        return teamID;
+    }
+
+    public void setTeamID(Integer teamID){
+        this.teamID = teamID;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public boolean isBookmark(){
+        return bookmark;
+    }
+
+    public void setBookmark(boolean bookmark){
+        this.bookmark = bookmark;
     }
 
 }

@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class DateStringConverter {
+public class MyConverter {
 
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd",Locale.KOREA);
 

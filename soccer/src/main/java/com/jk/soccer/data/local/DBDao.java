@@ -5,51 +5,56 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import java.util.List;
 
 @Dao
-public interface DBDao {
+public abstract class DBDao {
 
     // For Initialization //
     @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
-    List<Player> playerInit();
+    public abstract List<Player> playerInit();
 
-    @Query("SELECT * FROM tableMatch ORDER By YearStr, MonthStr, DateStr, StartTimeStr")
-    List<Match> matchInit();
+    @Query("SELECT * FROM tableMatch WHERE Bookmark = 1 ORDER By Year, Month, Date, StartTimeStr")
+    public abstract List<Match> matchInit();
+
+    ////////             ////////
+    @Transaction
+    public void updateBookmark(Boolean bookmark, Integer playerId){
+        updatePlayerBookmarkById(bookmark, playerId);
+        updateTeamBookmark();
+        updateMatchBookmark();
+    }
 
     //////// tablePlayer ////////
 
     //// Create ////
 
-    @Insert
-    void insertPlayer(Player player);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertPlayer(Player player);
 
     //// Read ////
 
     @Query("SELECT * FROM tablePlayer WHERE ID = :id")
-    LiveData<Player> findPlayerById(Integer id);
-
-    @Query("SELECT * FROM tablePlayer WHERE Name = :name")
-    LiveData<List<Player>> findPlayerByName(String name);
+    public abstract LiveData<Player> findPlayerById(Integer id);
 
     @Query("SELECT * FROM tablePlayer ORDER BY Bookmark DESC, Name")
-    LiveData<List<Player>> findPlayerAll();
-
-    @Query("SELECT COUNT(*) FROM tablePlayer")
-    Integer countPlayer();
+    public abstract LiveData<List<Player>> findPlayerAll();
 
     //// Update ////
 
     @Query("UPDATE tablePlayer SET " +
             "TeamID = :teamID, " +
+            "TeamName = :teamName, " +
             "Position = :position, " +
             "Height = :height, " +
             "Foot = :foot, " +
             "Age = :age, " +
             "Shirt = :shirt " +
             "WHERE ID = :id")
-    void updatePlayerInfoById(Integer teamID,
+    public abstract void updatePlayerInfoById(Integer teamID,
+                              String teamName,
                               String position,
                               String height,
                               String foot,
@@ -58,94 +63,89 @@ public interface DBDao {
                               Integer id);
 
     @Query("UPDATE tablePlayer SET Bookmark = :bookmark WHERE ID = :id")
-    void updatePlayerBookmarkById(boolean bookmark, Integer id);
+    public abstract void updatePlayerBookmarkById(boolean bookmark, Integer id);
 
     @Query("UPDATE tablePlayer SET Bookmark = :bookmark")
-    void updatePlayerBookmarkAll(boolean bookmark);
+    public abstract void updatePlayerBookmarkAll(boolean bookmark);
 
     //// Delete ////
 
     @Query("DELETE FROM tablePlayer WHERE ID = :id")
-    void deletePlayerById(Integer id);
+    public abstract void deletePlayerById(Integer id);
 
     @Query("DELETE FROM tablePlayer")
-    void deletePlayerAll();
+    public abstract void deletePlayerAll();
 
     //////// tableTeam ////////
 
     //// Create ////
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTeam(Team team);
+    public abstract void insertTeam(Team team);
 
     //// Read ////
 
-    @Query("SELECT tableTeam.* FROM tableTeam, tablePlayer WHERE tablePlayer.TeamID = tableTeam.ID AND tablePlayer.Id = :playerId")
-    LiveData<Team> findTeamByPlayerId(Integer playerId);
+    @Query("SELECT tableTeam.* FROM tableTeam, tablePlayer " +
+            "WHERE tablePlayer.TeamID = tableTeam.ID AND tablePlayer.Id = :playerId")
+    public abstract LiveData<Team> findTeamByPlayerId(Integer playerId);
 
     @Query("SELECT * FROM tableTeam WHERE ID = :id")
-    LiveData<Team> findTeamById(Integer id);
-
-    @Query("SELECT * FROM tableTeam WHERE Name = :name")
-    LiveData<List<Team>> findTeamByName(String name);
+    public abstract LiveData<Team> findTeamById(Integer id);
 
     @Query("SELECT * FROM tableTeam")
-    LiveData<List<Team>> findTeamAll();
+    public abstract LiveData<List<Team>> findTeamAll();
 
 
     //// Update ////
 
+    @Query("UPDATE tableTeam SET Bookmark = CASE " +
+            "WHEN ID IN (SELECT TeamID FROM tablePlayer WHERE Bookmark = 1) THEN 1 " +
+            "ELSE 0 END ")
+    abstract void updateTeamBookmark();
+
     //// Delete ////
 
     @Query("DELETE FROM tableTeam WHERE ID = :id")
-    void deleteTeamById(Integer id);
+    public abstract void deleteTeamById(Integer id);
 
     @Query("DELETE FROM tableTeam")
-    void deleteTeamAll();
+    public abstract void deleteTeamAll();
 
     //////// tableMatch ////////
 
     //// Create ////
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMatch(Match match);
+    public abstract void insertMatch(Match match);
+
+    @Transaction
+    public void insertMatchWrapper(Match match){
+        insertMatch(match);
+        updateMatchBookmark();
+    }
 
     //// Read ////
 
     @Query("SELECT * FROM tableMatch WHERE ID = :id")
-    LiveData<Match> findMatchById(Integer id);
+    public abstract LiveData<Match> findMatchById(Integer id);
 
-//    @Query("SELECT * FROM tableMatch WHERE Date = :date")
-//    LiveData<List<Match>> findMatchByDate(String date);
-//
-//    @Query("SELECT * FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
-//    LiveData<List<Match>> findMatchByDate(String startDate, String endDate);
-
-    @Query("SELECT * FROM tableMatch ORDER By YearStr, MonthStr, DateStr, StartTimeStr")
-    LiveData<List<Match>> findMatchAll();
+    @Query("SELECT * FROM tableMatch WHERE Bookmark = 1 ORDER By Year, Month, Date, StartTimeStr")
+    public abstract LiveData<List<Match>> findMatchAll();
 
     //// Update ////
 
-//    @Query("UPDATE tableMatch SET Score = :score WHERE ID = :id")
-//    void updateMatchScoreById(String score, Integer id);
-//    @Query("UPDATE tableMatch SET StartDateStr = :dateStr, StartTimeStr = :timeStr WHERE ID = :id ")
-//    void updateMatchTimeById(String dateStr, String timeStr, Integer id);
-
-    @Query("UPDATE tableMatch SET Stadium = :stadium WHERE ID = :id ")
-    void updateMatchStadiumById(String stadium, Integer id);
+    @Query("UPDATE tableMatch SET Bookmark = CASE " +
+            "WHEN HomeID IN (SELECT tableTeam.ID FROM tableTeam WHERE Bookmark = 1) THEN 1 " +
+            "WHEN AwayID IN (SELECT tableTeam.ID FROM tableTeam WHERE Bookmark = 1) THEN 1 " +
+            "ELSE 0 END")
+    abstract void updateMatchBookmark();
 
     //// Delete ////
 
     @Query("DELETE FROM tableMatch WHERE ID = :id")
-    void deleteMatchById(Integer id);
-
-//    @Query("DELETE FROM tableMatch WHERE Date = :date")
-//    void deleteMatchByDate(String date);
-//
-//    @Query("DELETE FROM tableMatch WHERE Date >= :startDate and Date <= :endDate")
-//    void deleteMatchByDate(String startDate, String endDate);
+    public abstract void deleteMatchById(Integer id);
 
     @Query("DELETE FROM tableMatch")
-    void deleteMatchAll();
+    public abstract void deleteMatchAll();
 
 }

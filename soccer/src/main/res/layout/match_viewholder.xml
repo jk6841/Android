@@ -16,34 +16,9 @@
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@{(pos % 2 == 0)? @color/lightGreen : @color/skyBlue}"
+        android:background="@{(pos % 2 == 0)? @color/skyBlue : @color/lightGreen}"
         android:layout_width="match_parent"
         android:layout_height="@dimen/rec_item_height">
-
-        <TextView
-            android:id="@+id/tv_home"
-            android:layout_width="@dimen/small_info_width"
-            android:layout_height="@dimen/small_info_height"
-            android:layout_marginTop="4dp"
-            android:layout_marginStart="@dimen/txt_horizontal_margin"
-            android:gravity="center"
-            android:text="@string/home"
-            android:textSize="@dimen/bigFont"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_away"
-            android:layout_width="@dimen/small_info_width"
-            android:layout_height="@dimen/small_info_height"
-            android:layout_marginEnd="@dimen/txt_horizontal_margin"
-            android:gravity="center"
-            android:text="@string/away"
-            android:textSize="@dimen/bigFont"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_home"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_home"
-            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/img_away"
@@ -60,74 +35,91 @@
 
         <ImageView
             android:id="@+id/img_home"
+            glideUrl="@{@string/baseUrl1 + match.homeImage}"
             android:layout_width="@dimen/small_image_width"
             android:layout_height="@dimen/small_image_height"
             android:layout_marginStart="@dimen/img_horizontal_margin"
             android:contentDescription="@string/contentDescription"
-            glideUrl="@{@string/baseUrl1 + match.homeImage}"
-            android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_home"
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/tv_name_home"
-            android:layout_width="@dimen/small_info_width"
+            android:id="@+id/tv_home"
+            android:layout_width="0dp"
             android:layout_height="@dimen/small_info_height"
+            android:layout_marginStart="@dimen/txt_horizontal_margin"
             android:layout_marginTop="12dp"
-            android:gravity="center"
+            android:gravity="start"
             android:text="@{match.homeName}"
-            app:layout_constraintEnd_toEndOf="@+id/tv_home"
-            app:layout_constraintStart_toStartOf="@+id/tv_home"
-            app:layout_constraintTop_toBottomOf="@+id/img_home" />
+            android:textSize="@dimen/midFont"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name"
+            app:layout_constraintWidth_percent="0.45" />
 
         <TextView
-            android:id="@+id/tv_name_away"
-            android:layout_width="@dimen/small_info_width"
+            android:id="@+id/tv_away"
+            android:layout_width="0dp"
             android:layout_height="@dimen/small_info_height"
-            android:gravity="center"
+            android:gravity="end"
             android:text="@{match.awayName}"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_name_home"
-            app:layout_constraintEnd_toEndOf="@+id/tv_away"
-            app:layout_constraintStart_toStartOf="@+id/tv_away"
-            app:layout_constraintTop_toTopOf="@+id/tv_name_home"
+            android:textSize="@dimen/midFont"
+            android:layout_marginEnd="@dimen/txt_horizontal_margin"
+            app:layout_constraintWidth_percent="0.45"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_home"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_home"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_vs"
-            android:layout_width="@dimen/small_info_width"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/small_info_height"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            scoreText="@{match}"
+            android:textSize="@dimen/bigFont"
+            app:layout_constraintEnd_toStartOf="@+id/img_away"
+            app:layout_constraintStart_toEndOf="@+id/img_home"
+            app:layout_constraintTop_toBottomOf="@+id/tv_home" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            timeText="@{match}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="@string/vs"
-            android:textSize="@dimen/bigFont"
+            android:textSize="@dimen/midFont"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_home"
+            app:layout_constraintWidth_percent="0.2" />
+
+        <TextView
+            android:id="@+id/tv_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@{match.stadium}"
+            android:textSize="@dimen/midFont"
             app:layout_constraintEnd_toEndOf="@+id/tv_time"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_time"
             app:layout_constraintTop_toBottomOf="@+id/tv_time" />
 
         <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="@dimen/small_info_width"
-            android:layout_height="@dimen/small_info_height"
-            android:layout_marginTop="32dp"
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@{match.yearStr + match.monthStr +  match.dateStr + '\n' + match.startTimeStr}"
-            app:layout_constraintEnd_toStartOf="@+id/img_away"
-            app:layout_constraintStart_toEndOf="@+id/img_home"
+            android:text="@{match.name}"
+            android:textSize="@dimen/midFont"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_place"
-            android:layout_width="@dimen/small_info_width"
-            android:layout_height="@dimen/small_info_height"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:text="@{match.stadium}"
-            app:layout_constraintBottom_toBottomOf="@+id/img_home"
-            app:layout_constraintEnd_toEndOf="@+id/tv_vs"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_vs"
-            app:layout_constraintTop_toBottomOf="@+id/tv_vs"
-            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

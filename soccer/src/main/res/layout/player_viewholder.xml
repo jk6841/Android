@@ -19,7 +19,7 @@
         android:layout_height="100dp"
         android:textSize="@dimen/bigFont"
         android:gravity="center"
-        android:text="@{player.name}"
+        android:text="@{player.Name}"
         android:textColor="@{@color/white}"
         android:background="@{player.bookmark ? @color/lightGreen : @color/skyBlue}"
         android:onClick="@{(v)->handlers.onPlayerListClick(v, pos)}"

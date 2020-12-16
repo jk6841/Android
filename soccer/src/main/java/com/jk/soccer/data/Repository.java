@@ -244,26 +244,28 @@ public class Repository {
                 player = players[0];
                 id = player.getId();
             }
-            if (action.equals(ACTION.Read)){
+            if (action.equals(ACTION.Create)){
+                dao.insertPlayer(player);
+            } else if (action.equals(ACTION.Read)){
                 result = dao.playerInit();
-            }
-            else if (action.equals(ACTION.Update)){
+            } else if (action.equals(ACTION.Update)){
                 dao.updatePlayerInfoById(
                         player.getTeamID(),
+                        player.getTeamName(),
                         player.getPosition(),
                         player.getHeight(),
                         player.getFoot(),
                         player.getAge(),
                         player.getShirt(),
                         player.getId());
-            }
-            else{
+            } else{
                 boolean bookmark = (action.equals(ACTION.BookmarkOn));
                 if (id.equals(ID.ALL)){
                     dao.updatePlayerBookmarkAll(bookmark);
                 }
                 else{
-                    dao.updatePlayerBookmarkById(bookmark, id);
+                    //dao.updatePlayerBookmarkById(bookmark, id);
+                    dao.updateBookmark(bookmark, id);
                 }
             }
             return result;

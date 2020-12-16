@@ -7,10 +7,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.jk.soccer.etc.DateStringConverter;
+import com.jk.soccer.etc.MyConverter;
 
 @androidx.room.Database(entities = {Player.class, Team.class, Match.class}, version = 1, exportSchema =  false)
-@TypeConverters({DateStringConverter.class})
+@TypeConverters({MyConverter.class})
 public abstract class Database extends RoomDatabase {
 
     public abstract DBDao dbPlayerDao();
