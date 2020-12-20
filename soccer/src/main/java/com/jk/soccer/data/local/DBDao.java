@@ -12,41 +12,26 @@ import java.util.List;
 @Dao
 public abstract class DBDao {
 
-    // For Initialization //
-    @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
-    public abstract List<Player> playerInit();
-
-    @Query("SELECT * FROM tableMatch WHERE Bookmark = 1 ORDER By Year, Month, Date, StartTimeStr")
-    public abstract List<Match> matchInit();
-
-    ////////             ////////
-    @Transaction
-    public void updateBookmark(Boolean bookmark, Integer playerId){
-        updatePlayerBookmarkById(bookmark, playerId);
-        updateTeamBookmark();
-        updateMatchBookmark();
-    }
-
     //////// tablePlayer ////////
-
-    //// Create ////
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertPlayer(Player player);
 
     //// Read ////
 
     @Query("SELECT * FROM tablePlayer WHERE ID = :id")
-    public abstract LiveData<Player> findPlayerById(Integer id);
+    public abstract List<Player> findPlayer(Integer id);
+
+    @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
+    public abstract List<Player> findPlayer();
+
+    @Query("SELECT * FROM tablePlayer WHERE ID = :id")
+    public abstract LiveData<Player> findPlayerLiveData(Integer id);
 
     @Query("SELECT * FROM tablePlayer ORDER BY Bookmark DESC, Name")
-    public abstract LiveData<List<Player>> findPlayerAll();
+    public abstract LiveData<List<Player>> findPlayerLiveData();
 
     //// Update ////
 
     @Query("UPDATE tablePlayer SET " +
             "TeamID = :teamID, " +
-            "TeamName = :teamName, " +
             "Position = :position, " +
             "Height = :height, " +
             "Foot = :foot, " +
@@ -54,7 +39,6 @@ public abstract class DBDao {
             "Shirt = :shirt " +
             "WHERE ID = :id")
     public abstract void updatePlayerInfoById(Integer teamID,
-                              String teamName,
                               String position,
                               String height,
                               String foot,
@@ -62,19 +46,20 @@ public abstract class DBDao {
                               Integer shirt,
                               Integer id);
 
-    @Query("UPDATE tablePlayer SET Bookmark = :bookmark WHERE ID = :id")
-    public abstract void updatePlayerBookmarkById(boolean bookmark, Integer id);
+    @Query("UPDATE tablePlayer SET Bookmark = NOT Bookmark WHERE ID = :id")
+    abstract void togglePlayerBookmarkById(Integer id);
 
-    @Query("UPDATE tablePlayer SET Bookmark = :bookmark")
-    public abstract void updatePlayerBookmarkAll(boolean bookmark);
+    @Transaction
+    public void registerPlayerBookmark(Integer id){
+        togglePlayerBookmarkById(id);
+    }
 
-    //// Delete ////
-
-    @Query("DELETE FROM tablePlayer WHERE ID = :id")
-    public abstract void deletePlayerById(Integer id);
-
-    @Query("DELETE FROM tablePlayer")
-    public abstract void deletePlayerAll();
+    @Transaction
+    public void unregisterPlayerBookmark(Integer id){
+        togglePlayerBookmarkById(id);
+        deleteTeamByPlayerId(id);
+        deleteMatchByPlayerId(id);
+    }
 
     //////// tableTeam ////////
 
@@ -85,31 +70,29 @@ public abstract class DBDao {
 
     //// Read ////
 
-    @Query("SELECT tableTeam.* FROM tableTeam, tablePlayer " +
-            "WHERE tablePlayer.TeamID = tableTeam.ID AND tablePlayer.Id = :playerId")
+    @Query("SELECT * FROM tableTeam " +
+            "WHERE ID = (SELECT TeamID FROM tablePlayer WHERE ID = :playerId)")
     public abstract LiveData<Team> findTeamByPlayerId(Integer playerId);
 
     @Query("SELECT * FROM tableTeam WHERE ID = :id")
-    public abstract LiveData<Team> findTeamById(Integer id);
+    public abstract List<Team> findTeam(Integer id);
 
     @Query("SELECT * FROM tableTeam")
-    public abstract LiveData<List<Team>> findTeamAll();
+    public abstract List<Team> findTeam();
 
+    @Query("SELECT * FROM tableTeam WHERE ID = :id")
+    public abstract LiveData<Team> findTeamLiveData(Integer id);
 
-    //// Update ////
-
-    @Query("UPDATE tableTeam SET Bookmark = CASE " +
-            "WHEN ID IN (SELECT TeamID FROM tablePlayer WHERE Bookmark = 1) THEN 1 " +
-            "ELSE 0 END ")
-    abstract void updateTeamBookmark();
+    @Query("SELECT * FROM tableTeam")
+    public abstract LiveData<List<Team>> findTeamLiveData();
 
     //// Delete ////
 
-    @Query("DELETE FROM tableTeam WHERE ID = :id")
-    public abstract void deleteTeamById(Integer id);
-
-    @Query("DELETE FROM tableTeam")
-    public abstract void deleteTeamAll();
+    @Query("DELETE FROM tableTeam WHERE " +
+            "ID = (SELECT TeamID FROM tablePlayer WHERE ID = :id) " +
+            "AND " +
+            "ID NOT IN (SELECT TeamID FROM tablePlayer WHERE Bookmark = 1)")
+    abstract void deleteTeamByPlayerId(Integer id);
 
     //////// tableMatch ////////
 
@@ -118,34 +101,27 @@ public abstract class DBDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertMatch(Match match);
 
-    @Transaction
-    public void insertMatchWrapper(Match match){
-        insertMatch(match);
-        updateMatchBookmark();
-    }
-
     //// Read ////
 
     @Query("SELECT * FROM tableMatch WHERE ID = :id")
-    public abstract LiveData<Match> findMatchById(Integer id);
+    public abstract List<Match> findMatch(Integer id);
 
-    @Query("SELECT * FROM tableMatch WHERE Bookmark = 1 ORDER By Year, Month, Date, StartTimeStr")
-    public abstract LiveData<List<Match>> findMatchAll();
+    @Query("SELECT * FROM tableMatch ORDER By Year, Month, Date, StartTimeStr")
+    public abstract List<Match> findMatch();
 
-    //// Update ////
+    @Query("SELECT * FROM tableMatch WHERE ID = :id")
+    public abstract LiveData<Match> findMatchLiveData(Integer id);
 
-    @Query("UPDATE tableMatch SET Bookmark = CASE " +
-            "WHEN HomeID IN (SELECT tableTeam.ID FROM tableTeam WHERE Bookmark = 1) THEN 1 " +
-            "WHEN AwayID IN (SELECT tableTeam.ID FROM tableTeam WHERE Bookmark = 1) THEN 1 " +
-            "ELSE 0 END")
-    abstract void updateMatchBookmark();
+    @Query("SELECT * FROM tableMatch ORDER By Year, Month, Date, StartTimeStr")
+    public abstract LiveData<List<Match>> findMatchLiveData();
 
     //// Delete ////
 
-    @Query("DELETE FROM tableMatch WHERE ID = :id")
-    public abstract void deleteMatchById(Integer id);
-
-    @Query("DELETE FROM tableMatch")
-    public abstract void deleteMatchAll();
+    @Query("WITH Team AS (SELECT TeamID FROM tablePlayer WHERE ID = :id), " +
+            "TeamList AS (SELECT ID FROM tableTeam) " +
+            "DELETE FROM tableMatch " +
+            "WHERE (HomeID = (SELECT * FROM Team) AND HOMEID NOT IN (SELECT ID FROM tableTeam)) " +
+            "OR (AwayID = (SELECT * FROM Team) AND AwayID NOT IN (SELECT ID FROM tableTeam))")
+    abstract void deleteMatchByPlayerId(Integer id);
 
 }

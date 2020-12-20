@@ -85,9 +85,6 @@ public class Match {
     @ColumnInfo(name = "Stadium")
     private String stadium = unknownMsg;
 
-    @ColumnInfo(name = "Bookmark")
-    private boolean bookmark;
-
     public Match (Integer id){
         this.id = id;
     }
@@ -296,14 +293,6 @@ public class Match {
 
     public void setStadium(String stadium) {
         this.stadium = stadium;
-    }
-
-    public boolean isBookmark() {
-        return bookmark;
-    }
-
-    public void setBookmark(boolean bookmark) {
-        this.bookmark = bookmark;
     }
 
 }

@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Entity(tableName = "tableTeam")
@@ -96,14 +95,6 @@ public class Team {
         this.city = city;
     }
 
-    public boolean isBookmark() {
-        return bookmark;
-    }
-
-    public void setBookmark(boolean bookmark) {
-        this.bookmark = bookmark;
-    }
-
     public ArrayList<Integer> getFixtures() {
         return fixtures;
     }
@@ -142,9 +133,6 @@ public class Team {
 
     @ColumnInfo(name = "City")
     private String city;
-
-    @ColumnInfo(name = "Bookmark")
-    private boolean bookmark;
 
     @Ignore
     private ArrayList<Integer> fixtures;

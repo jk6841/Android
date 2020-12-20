@@ -15,7 +15,6 @@ import com.jk.soccer.data.local.Team;
 import com.jk.soccer.data.remote.RetrofitClient;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -28,12 +27,6 @@ public class Repository {
 
     //// Public ////
 
-    public interface Object{
-        Integer Player = 0;
-        Integer Team = 1;
-        Integer Match = 2;
-    }
-
     public Repository(Application application){
         appContext = application.getApplicationContext();
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
@@ -42,40 +35,28 @@ public class Repository {
         initialize();
     }
 
-    public LiveData<Player> getPlayer(Integer index){
-        return mDao.findPlayerById(getPlayerId(index));
+    public LiveData<Player> getPlayerLiveData(Integer index){
+        return mDao.findPlayerLiveData(getPlayerId(index));
     }
 
-    public LiveData<List<Player>> getPlayer(){
-        return mDao.findPlayerAll();
+    public LiveData<List<Player>> getPlayerLiveData(){
+        return mDao.findPlayerLiveData();
     }
 
-    public LiveData<Team> getTeam(Integer teamId){
-        return mDao.findTeamById(teamId);
+    public LiveData<Team> getTeamLiveData(Integer teamId){
+        return mDao.findTeamLiveData(teamId);
     }
 
-    public LiveData<Team> getTeamByPlayerIndex(Integer index) {
-        return mDao.findTeamByPlayerId(getPlayerId(index));
+    public LiveData<List<Team>> getTeamLiveData(){
+        return mDao.findTeamLiveData();
     }
 
-    public LiveData<List<Team>> getTeam(){
-        return mDao.findTeamAll();
+    public LiveData<Match> getMatchLiveData(Integer matchId){
+        return mDao.findMatchLiveData(matchId);
     }
 
-    public LiveData<Match> getMatch(Integer matchId){
-        return mDao.findMatchById(matchId);
-    }
-
-    public LiveData<List<Match>> getMatch(){
-        return mDao.findMatchAll();
-    }
-
-    public void bookmark(Integer object, boolean bookmark, Integer id){
-        bookmarkInternal(object, bookmark, id);
-    }
-
-    public void bookmark(Integer object, boolean bookmark){
-        bookmarkInternal(object, bookmark, ID.ALL);
+    public LiveData<List<Match>> getMatchLiveData(){
+        return mDao.findMatchLiveData();
     }
 
     public static Repository getInstance(Application application){
@@ -85,38 +66,61 @@ public class Repository {
         return repository;
     }
 
-    public List<Player> getPlayerInit(){
-        try{
-            return new PlayerTask(mDao, ACTION.Read).execute().get();
-        } catch(ExecutionException | InterruptedException e){
+    public Player getPlayer(Integer id){
+        try {
+            return new PlayerTask(mDao, Query.Read).execute(new Player(id)).get().get(0);
+        } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public List<Match> getMatchInit(){
-        try{
-            return new MatchTask(mDao, ACTION.Read).execute().get();
-        } catch(ExecutionException | InterruptedException e){
+    public List<Player> getPlayer(){
+        try {
+            return new PlayerTask(mDao, Query.ReadAll).execute().get();
+        } catch(ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Team getTeam(Integer id){
+        try {
+            return new TeamTask(mDao, Query.Read).execute().get().get(0);
+        } catch(ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Team> getTeam() {
+        try {
+            return new TeamTask(mDao, Query.ReadAll).execute().get();
+        } catch(ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Match getMatch(Integer id){
+        try {
+            return new MatchTask(mDao, Query.Read).execute().get().get(0);
+        } catch(ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Match> getMatch() {
+        try {
+            return new MatchTask(mDao, Query.ReadAll).execute().get();
+        } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
         }
     }
 
     //// Private ////
-
-    private interface ACTION {
-        Integer Create = 0;
-        Integer Read = 1;
-        Integer Update = 2;
-        Integer Delete = 3;
-        Integer BookmarkOn = 4;
-        Integer BookmarkOff = 5;
-    }
-
-    private interface ID{
-        Integer ALL = -1;
-    }
 
     private static Repository repository = null;
     private Context appContext;
@@ -125,7 +129,7 @@ public class Repository {
     private DBDao mDao;
 
     private void initialize(){
-        List<Player> players = getPlayerInit();
+        List<Player> players = getPlayer();
         int playerLength = players.size();
         for (int i = 0; i < playerLength; i++){
             Integer id = players.get(i).getId();
@@ -134,17 +138,17 @@ public class Repository {
     }
 
     private Integer getPlayerId(Integer index){
-        return getPlayerInit().get(index).getId();
+        return getPlayer().get(index).getId();
     }
 
-    private void bookmarkInternal(Integer object, boolean bookmark, Integer id){
-        Integer action = (bookmark)? ACTION.BookmarkOn : ACTION.BookmarkOff;
-        if (object.equals(Object.Player))
-            new PlayerTask(mDao, action).execute(new Player(id));
-        else if (object.equals(Object.Team))
-            new TeamTask(mDao, action).execute(new Team(id));
-        else if (object.equals(Object.Match))
-            new MatchTask(mDao, action).execute(new Match(id));
+    public void bookmark(boolean bookmark, Integer id){
+        Player player = getPlayer(id);
+        player.setBookmark(bookmark);
+        new PlayerTask(mDao, Query.Bookmark).execute(player);
+        Integer teamID = player.getTeamID();
+        if (bookmark){
+            getRemoteTeamInfo(teamID);
+        }
     }
 
     private void getRemotePlayerInfo(int playerId){
@@ -156,8 +160,7 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         Player player = new Player(playerId, jsonString);
-                        new PlayerTask(mDao, ACTION.Update).execute(player);
-                        getRemoteTeamInfo(player.getTeamID());
+                        new PlayerTask(mDao, Query.Update).execute(player);
                     } catch (IOException | NullPointerException e){
                         e.printStackTrace();
                     }
@@ -179,7 +182,7 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         Team team = new Team(teamId, jsonString);
-                        new TeamTask(mDao, ACTION.Create).execute(team);
+                        new TeamTask(mDao, Query.Create).execute(team);
                         List<Integer> fixtures = team.getFixtures();
                         for (int i = 0; i < fixtures.size(); i++)
                             getRemoteMatchInfo(fixtures.get(i));
@@ -205,7 +208,7 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         Match match = new Match(matchId, jsonString);
-                        new MatchTask(mDao, ACTION.Create).execute(match);
+                        new MatchTask(mDao, Query.Create).execute(match);
                     } catch (IOException e){
                         e.printStackTrace();
                     }
@@ -219,18 +222,29 @@ public class Repository {
         });
     }
 
-    private static abstract class MyAsyncTask<T> extends AsyncTask<T, Void, List<T>>{
-
-        protected DBDao dao;
-        protected Integer action;
-
-        public MyAsyncTask(DBDao dao, Integer action){
-            this.dao = dao;
-            this.action = action;
-        }
+    private interface Query{
+        Integer Create = 0;
+        Integer Delete = 1;
+        Integer ReadAll = 2;
+        Integer Read = 3;
+        Integer Update = 4;
+        Integer Bookmark = 5;
     }
 
-    private static class PlayerTask extends MyAsyncTask<Player>{
+    private static abstract class DBTask<T> extends AsyncTask<T, Void, List<T>>{
+
+        protected DBDao dao;
+        protected Integer query;
+
+        public DBTask(DBDao dao, Integer query){
+            this.dao = dao;
+            this.query = query;
+        }
+
+    }
+
+    private static class PlayerTask extends DBTask<Player>{
+
         public PlayerTask(DBDao dao, Integer action){
             super(dao, action);
         }
@@ -238,96 +252,71 @@ public class Repository {
         @Override
         protected List<Player> doInBackground(Player... players) {
             List<Player> result = null;
-            Player player = null;
-            Integer id = ID.ALL;
-            if (players.length > 0){
-                player = players[0];
-                id = player.getId();
-            }
-            if (action.equals(ACTION.Create)){
-                dao.insertPlayer(player);
-            } else if (action.equals(ACTION.Read)){
-                result = dao.playerInit();
-            } else if (action.equals(ACTION.Update)){
+            Player player = (players.length > 0)? players[0] : null;
+            if (query.equals(Query.Create)) {
+
+            } else if (query.equals(Query.Delete)) {
+
+            } else if (query.equals(Query.ReadAll)) {
+                result = dao.findPlayer();
+            } else if (query.equals(Query.Read)) {
+                result = dao.findPlayer(player.getId());
+            } else if (query.equals(Query.Update)) {
                 dao.updatePlayerInfoById(
                         player.getTeamID(),
-                        player.getTeamName(),
                         player.getPosition(),
                         player.getHeight(),
                         player.getFoot(),
                         player.getAge(),
                         player.getShirt(),
                         player.getId());
-            } else{
-                boolean bookmark = (action.equals(ACTION.BookmarkOn));
-                if (id.equals(ID.ALL)){
-                    dao.updatePlayerBookmarkAll(bookmark);
-                }
-                else{
-                    //dao.updatePlayerBookmarkById(bookmark, id);
-                    dao.updateBookmark(bookmark, id);
-                }
+            } else if (query.equals(Query.Bookmark)) {
+                if (player.isBookmark())
+                    dao.registerPlayerBookmark(player.getId());
+                else
+                    dao.unregisterPlayerBookmark(player.getId());
             }
             return result;
         }
     }
 
-    private static class TeamTask extends MyAsyncTask<Team>{
-        public TeamTask(DBDao dao, Integer action){
-            super(dao, action);
+    private static class TeamTask extends DBTask<Team>{
+        public TeamTask(DBDao dao, Integer query){
+            super(dao, query);
         }
 
         @Override
         protected List<Team> doInBackground(Team... teams) {
             List<Team> result = null;
-            Team team;
-            Integer id = ID.ALL;
-            if (teams.length > 0){
-                team = teams[0];
-                id = team.getId();
-            }
-            if (action.equals(ACTION.Create)){
-                dao.insertTeam(teams[0]);
-            }
-            else if (action.equals(ACTION.Delete)){
-                dao.deleteTeamById(id);
-            }
-            else{
-                boolean bookmark = (action.equals(ACTION.BookmarkOn));
-                if (id.equals(ID.ALL)){
-                    dao.updatePlayerBookmarkAll(bookmark);
-                }
-                else{
-                    dao.updatePlayerBookmarkById(bookmark, id);
-                }
+            Team team = (teams.length > 0)? teams[0] : null;
+            if (query.equals(Query.Create)) {
+                dao.insertTeam(team);
+            } else if (query.equals(Query.Delete)) {
+
+            } else if (query.equals(Query.ReadAll)) {
+                result = dao.findTeam();
             }
             return result;
         }
     }
 
-    private static class MatchTask extends MyAsyncTask<Match>{
-
-        private ArrayList<String> bigLeague = new ArrayList<>();
-
+    private static class MatchTask extends DBTask<Match>{
         public MatchTask(DBDao dao, Integer action){
             super(dao, action);
-            bigLeague.add("ENG");
-            bigLeague.add("GER");
-            bigLeague.add("ESP");
-            bigLeague.add("FRA");
-            bigLeague.add("ITA");
         }
 
         @Override
         protected List<Match> doInBackground(Match... matches) {
-            if (action.equals(ACTION.Create)){
-                dao.insertMatch(matches[0]);
-            } else if (action.equals(ACTION.Read)){
-                return dao.matchInit();
-            } else if (action.equals(ACTION.Update)){
+            List <Match> result = null;
+            Match match = (matches.length > 0)? matches[0] : null;
+            if (query.equals(Query.Create)) {
+                dao.insertMatch(match);
+            } else if (query.equals(Query.Delete)) {
 
+            } else if (query.equals(Query.ReadAll)) {
+                result = dao.findMatch();
             }
-            return null;
+            return result;
         }
     }
 }

@@ -9,6 +9,7 @@ import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.data.Repository;
 import com.jk.soccer.data.local.Player;
+import com.jk.soccer.data.local.Team;
 
 public class PlayerInfoViewModel extends AndroidViewModel {
 
@@ -20,9 +21,7 @@ public class PlayerInfoViewModel extends AndroidViewModel {
         return nameLiveData;
     }
 
-    public LiveData<String> getTeamNameLiveData() {
-        return teamNameLiveData;
-    }
+    public LiveData<String> getTeamNameLiveData() { return teamNameLiveData; }
 
     public LiveData<String> getPositionLiveData() {
         return positionLiveData;
@@ -49,7 +48,7 @@ public class PlayerInfoViewModel extends AndroidViewModel {
     }
 
     public void setBookmark(boolean bookmark, int playerId){
-        repository.bookmark(Repository.Object.Player, bookmark, playerId);
+        repository.bookmark(bookmark, playerId);
     }
 
     public PlayerInfoViewModel(@NonNull Application application) {
@@ -61,13 +60,11 @@ public class PlayerInfoViewModel extends AndroidViewModel {
     public void init(int index){
         this.index = index;
 
-        playerLiveData = repository.getPlayer(index);
+        playerLiveData = repository.getPlayerLiveData(index);
 
         idLiveData = Transformations.map(playerLiveData, Player::getId);
 
         nameLiveData = (Transformations.map(playerLiveData, Player::getName));
-
-        teamNameLiveData = (Transformations.map(playerLiveData, Player::getTeamName));
 
         positionLiveData = (Transformations.map(playerLiveData, Player::printPosition));
 

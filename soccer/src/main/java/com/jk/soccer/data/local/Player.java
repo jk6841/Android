@@ -41,9 +41,6 @@ public class Player implements Comparable<Player>{
     @ColumnInfo(name = "TeamID")
     private Integer teamID = 0;
 
-    @ColumnInfo(name = "TeamName")
-    private String teamName = unknownMsg;
-
     @ColumnInfo(name = "Bookmark")
     private boolean bookmark = false;
 
@@ -58,7 +55,6 @@ public class Player implements Comparable<Player>{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonOrigin = jsonObject.getJSONObject("origin");
             teamID = jsonOrigin.getInt("teamId");
-            teamName = jsonOrigin.getString("teamName");
             JSONObject jsonPositionDesc = jsonOrigin.getJSONObject("positionDesc");
             position = jsonPositionDesc.getString("primaryPosition");
             JSONArray jsonPlayerProps = jsonObject.getJSONArray("playerProps");
@@ -204,14 +200,6 @@ public class Player implements Comparable<Player>{
 
     public void setTeamID(Integer teamID){
         this.teamID = teamID;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
     }
 
     public boolean isBookmark(){

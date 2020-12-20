@@ -11,12 +11,11 @@ import java.util.List;
 
 public class PlayerListViewModel extends AndroidViewModel {
 
-    public List<Player> getPlayers() { return repository.getPlayerInit(); }
+    public List<Player> getPlayers() { return repository.getPlayer(); }
 
     public void setBookmark(int index){
         Player player = ldPlayers.getValue().get(index);
         repository.bookmark(
-                Repository.Object.Player,
                 !player.isBookmark(),
                 player.getId());
     }
@@ -28,7 +27,7 @@ public class PlayerListViewModel extends AndroidViewModel {
     public PlayerListViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance(application);
-        ldPlayers = repository.getPlayer();
+        ldPlayers = repository.getPlayerLiveData();
     }
 
     private Repository repository;

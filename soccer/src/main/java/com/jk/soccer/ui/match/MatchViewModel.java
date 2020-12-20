@@ -8,14 +8,13 @@ import androidx.lifecycle.LiveData;
 
 import com.jk.soccer.data.Repository;
 import com.jk.soccer.data.local.Match;
-import com.jk.soccer.data.local.Team;
 
 import java.util.List;
 
 public class MatchViewModel extends AndroidViewModel {
 
     public List<Match> getMatches(){
-        return repository.getMatchInit();
+        return repository.getMatch();
     }
 
     public LiveData<List<Match>> getLiveMatches(){
@@ -25,7 +24,7 @@ public class MatchViewModel extends AndroidViewModel {
     public MatchViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance(application);
-        ldMatches = repository.getMatch();
+        ldMatches = repository.getMatchLiveData();
     }
 
     private Repository repository;
