@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import com.jk.soccer.data.response.Player;
+
 import java.util.List;
 
 @Dao
@@ -22,8 +24,21 @@ public abstract class DBDao {
     @Query("SELECT * FROM TablePlayer ORDER By Bookmark DESC, Name")
     public abstract List<TablePlayer> findPlayer();
 
-    @Query("SELECT * FROM TablePlayer WHERE ID = :id")
-    public abstract LiveData<TablePlayer> findPlayerLiveData(Integer id);
+    @Query("SELECT tablePlayer.ID AS id," +
+            "tablePlayer.Name AS name," +
+            "tablePlayer.Position AS position," +
+            "tablePlayer.Height AS height," +
+            "tablePlayer.Foot AS foot," +
+            "tablePlayer.Age AS age," +
+            "tablePlayer.Shirt AS shirt," +
+            "tableTeam.Name AS team," +
+            "tablePlayer.Bookmark AS bookmark," +
+            "tableTeam.ID AS teamID " +
+            "FROM tablePlayer, tableTeam " +
+            "WHERE tablePlayer.ID = :id " +
+            "AND " +
+            "tablePlayer.teamID = tableTeam.ID")
+    public abstract LiveData<Player> findPlayerLiveData(Integer id);
 
     @Query("SELECT * FROM TablePlayer ORDER BY Bookmark DESC, Name")
     public abstract LiveData<List<TablePlayer>> findPlayerLiveData();
@@ -57,7 +72,6 @@ public abstract class DBDao {
     @Transaction
     public void unregisterPlayerBookmark(Integer id){
         togglePlayerBookmarkById(id);
-        deleteTeamByPlayerId(id);
         deleteMatchByPlayerId(id);
     }
 
@@ -117,11 +131,10 @@ public abstract class DBDao {
 
     //// Delete ////
 
-    @Query("WITH Team AS (SELECT TeamID FROM TablePlayer WHERE ID = :id), " +
-            "TeamList AS (SELECT ID FROM TableTeam) " +
+    @Query("WITH Team AS (SELECT TeamID FROM TablePlayer WHERE ID = :id AND Bookmark = 0)" +
             "DELETE FROM TableMatch " +
-            "WHERE (HomeID = (SELECT * FROM Team) AND HOMEID NOT IN (SELECT ID FROM TableTeam)) " +
-            "OR (AwayID = (SELECT * FROM Team) AND AwayID NOT IN (SELECT ID FROM TableTeam))")
+            "WHERE (HomeID = (SELECT * FROM Team)) " +
+            "OR (AwayID = (SELECT * FROM Team))")
     abstract void deleteMatchByPlayerId(Integer id);
 
 }

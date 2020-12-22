@@ -13,6 +13,7 @@ import com.jk.soccer.data.local.TablePlayer;
 import com.jk.soccer.data.local.DBDao;
 import com.jk.soccer.data.local.TableTeam;
 import com.jk.soccer.data.remote.RetrofitClient;
+import com.jk.soccer.data.response.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,8 +37,8 @@ public class Repository {
         initialize();
     }
 
-    public LiveData<TablePlayer> getPlayerLiveData(Integer index){
-        return mDao.findPlayerLiveData(getPlayerId(index));
+    public LiveData<Player> getPlayerLiveData(Integer id){
+        return mDao.findPlayerLiveData(id);
     }
 
     public LiveData<List<TablePlayer>> getPlayerLiveData(){
@@ -131,16 +132,24 @@ public class Repository {
 
     private void initialize(){
         List<TablePlayer> players = getPlayer();
-        int playerLength = players.size();
-        for (int i = 0; i < playerLength; i++){
+        for (int i = 0; i < players.size(); i++){
             TablePlayer player = players.get(i);
             Integer id = player.getId();
             getRemotePlayerInfo(id);
             if (player.getBookmark()){
-                getRemoteTeamInfo(player.getTeamID());
+                getRemoteMatchList(player.getTeamID());
             }
         }
     }
+
+    private void getRemoteMatchList(Integer teamID) {
+        TableTeam team = getTeam(teamID);
+        ArrayList<Integer> fixtures = team.getFixtures();
+        for (int i = 0; i < fixtures.size(); i++){
+            getRemoteMatchInfo(fixtures.get(i));
+        }
+    }
+
 
     private Integer getPlayerId(Integer index){
         return getPlayer().get(index).getId();
@@ -153,12 +162,12 @@ public class Repository {
         new PlayerTask(mDao, query, "").execute(id);
         Integer teamID = player.getTeamID();
         if (bookmark){
-            getRemoteTeamInfo(teamID);
+            getRemoteMatchList(teamID);
         }
     }
 
-    private void getRemotePlayerInfo(int playerId){
-        Call<ResponseBody> call = retrofitClient.apiService[0].getPlayer(playerId);
+    private void getRemotePlayerInfo(int playerID){
+        Call<ResponseBody> call = retrofitClient.apiService[0].getPlayer(playerID);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -166,6 +175,8 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         new PlayerTask(mDao, Query.Update, jsonString).execute();
+                        TablePlayer player = getPlayer(playerID);
+                        getRemoteTeamInfo(player.getTeamID());
                     } catch (IOException e){
                         e.printStackTrace();
                     }
@@ -187,11 +198,11 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         new TeamTask(mDao, Query.Create, jsonString).execute();
-                        TableTeam team = getTeam(teamId);
-                        ArrayList<Integer> fixtures = team.getFixtures();
-                        for (int i = 0; i < fixtures.size(); i++){
-                            getRemoteMatchInfo(fixtures.get(i));
-                        }
+//                        TableTeam team = getTeam(teamId);
+//                        ArrayList<Integer> fixtures = team.getFixtures();
+//                        for (int i = 0; i < fixtures.size(); i++){
+//                            getRemoteMatchInfo(fixtures.get(i));
+//                        }
                     } catch (IOException e){
                         e.printStackTrace();
                     }

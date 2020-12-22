@@ -1,6 +1,7 @@
 package com.jk.soccer.ui;
 
 import android.app.Application;
+import android.content.ClipData;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,6 +11,7 @@ import androidx.lifecycle.Transformations;
 import com.jk.soccer.data.Repository;
 import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.data.local.TablePlayer;
+import com.jk.soccer.data.response.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,22 +30,23 @@ public class MyViewModel extends AndroidViewModel {
         ageLiveDataList = new ArrayList<>();
         shirtLiveDataList = new ArrayList<>();
         bookmarkLiveDataList = new ArrayList<>();
-
+        teamLiveDataList = new ArrayList<>();
         matchLiveDataList = new ArrayList<>();
     }
 
     public void initPlayer(){
-        Integer num = repository.getPlayer().size();
-        for (int i = 0; i < num; i++){
-            LiveData<TablePlayer> playerLiveData = repository.getPlayerLiveData(i);
-            LiveData<Integer> idLiveData = Transformations.map(playerLiveData, TablePlayer::getId);
-            LiveData<String> nameLiveData = (Transformations.map(playerLiveData, TablePlayer::getName));
-            LiveData<String> positionLiveData = (Transformations.map(playerLiveData, TablePlayer::printPosition));
-            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, TablePlayer::printHeight));
-            LiveData<String> footLiveData = (Transformations.map(playerLiveData, TablePlayer::printFoot));
-            LiveData<String> ageLiveData = (Transformations.map(playerLiveData, TablePlayer::printAge));
-            LiveData<String> shirtLiveData = (Transformations.map(playerLiveData, TablePlayer::printShirt));
-            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, TablePlayer::getBookmark));
+        List<TablePlayer> players = repository.getPlayer();
+        for (int i = 0; i < players.size(); i++){
+            LiveData<Player> playerLiveData = repository.getPlayerLiveData(players.get(i).getId());
+            LiveData<Integer> idLiveData = Transformations.map(playerLiveData, Player::getId);
+            LiveData<String> nameLiveData = (Transformations.map(playerLiveData, Player::getName));
+            LiveData<String> positionLiveData = (Transformations.map(playerLiveData, Player::getPosition));
+            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, Player::getHeight));
+            LiveData<String> footLiveData = (Transformations.map(playerLiveData, Player::getFoot));
+            LiveData<Integer> ageLiveData = (Transformations.map(playerLiveData, Player::getAge));
+            LiveData<Integer> shirtLiveData = (Transformations.map(playerLiveData, Player::getShirt));
+            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, Player::getBookmark));
+            LiveData<String> teamLiveData = Transformations.map(playerLiveData, Player::getTeam);
             if (sortPlayer){
                 playerLiveDataList.set(i, playerLiveData);
                 idLiveDataList.set(i, idLiveData);
@@ -54,6 +57,7 @@ public class MyViewModel extends AndroidViewModel {
                 ageLiveDataList.set(i, ageLiveData);
                 shirtLiveDataList.set(i, shirtLiveData);
                 bookmarkLiveDataList.set(i, bookmarkLiveData);
+                teamLiveDataList.set(i, teamLiveData);
             } else {
                 playerLiveDataList.add(playerLiveData);
                 idLiveDataList.add(idLiveData);
@@ -64,6 +68,7 @@ public class MyViewModel extends AndroidViewModel {
                 ageLiveDataList.add(ageLiveData);
                 shirtLiveDataList.add(shirtLiveData);
                 bookmarkLiveDataList.add(bookmarkLiveData);
+                teamLiveDataList.add(teamLiveData);
             }
         }
         sortPlayer = true;
@@ -71,8 +76,7 @@ public class MyViewModel extends AndroidViewModel {
 
     public void initMatch(){
         List<TableMatch> matches = repository.getMatch();
-        Integer num = matches.size();
-        for (int i = 0; i < num; i++){
+        for (int i = 0; i < matches.size(); i++){
             LiveData<TableMatch> matchLiveData = repository.getMatchLiveData(matches.get(i).getId());
             if (sortMatch)
                 matchLiveDataList.set(i, matchLiveData);
@@ -105,11 +109,11 @@ public class MyViewModel extends AndroidViewModel {
         return footLiveDataList.get(index);
     }
 
-    public LiveData<String> getAgeLiveData(Integer index) {
+    public LiveData<Integer> getAgeLiveData(Integer index) {
         return ageLiveDataList.get(index);
     }
 
-    public LiveData<String> getShirtLiveData(Integer index) {
+    public LiveData<Integer> getShirtLiveData(Integer index) {
         return shirtLiveDataList.get(index);
     }
 
@@ -121,18 +125,23 @@ public class MyViewModel extends AndroidViewModel {
         repository.bookmark(bookmark, idLiveDataList.get(index).getValue());
     }
 
+    public LiveData<String> getTeamLiveData(Integer index){
+        return teamLiveDataList.get(index);
+    }
+
     final private Repository repository;
 
     // For Player //
-    final private ArrayList<LiveData<TablePlayer>> playerLiveDataList;
+    final private ArrayList<LiveData<Player>> playerLiveDataList;
     final private ArrayList<LiveData<Integer>> idLiveDataList;
     final private ArrayList<LiveData<String>> nameLiveDataList;
     final private ArrayList<LiveData<String>> positionLiveDataList;
     final private ArrayList<LiveData<String>> heightLiveDataList;
     final private ArrayList<LiveData<String>> footLiveDataList;
-    final private ArrayList<LiveData<String>> ageLiveDataList;
-    final private ArrayList<LiveData<String>> shirtLiveDataList;
+    final private ArrayList<LiveData<Integer>> ageLiveDataList;
+    final private ArrayList<LiveData<Integer>> shirtLiveDataList;
     final private ArrayList<LiveData<Boolean>> bookmarkLiveDataList;
+    final private ArrayList<LiveData<String>> teamLiveDataList;
     private Boolean sortPlayer = false;
 
     // For Match //

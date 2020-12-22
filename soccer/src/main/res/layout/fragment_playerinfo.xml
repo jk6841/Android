@@ -74,7 +74,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="소속팀" />
+                    android:text="@{viewModel.getTeamLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -100,7 +100,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.getShirtLiveData(index)}" />
+                    android:text="@{viewModel.getShirtLiveData(index).toString()}" />
             </TableRow>
 
             <TableRow
@@ -204,7 +204,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.getAgeLiveData(index)}" />
+                    android:text="@{viewModel.getAgeLiveData(index).toString()}" />
             </TableRow>
 
         </TableLayout>
