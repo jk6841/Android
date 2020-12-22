@@ -69,7 +69,7 @@ public class Repository {
 
     public TablePlayer getPlayer(Integer id){
         try {
-            return new PlayerTask(mDao, Query.Read, "").execute(new TablePlayer(id)).get().get(0);
+            return new PlayerTask(mDao, Query.Read, "").execute(id).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -87,7 +87,7 @@ public class Repository {
 
     public TableTeam getTeam(Integer id){
         try {
-            return new TeamTask(mDao, Query.Read, "").execute(new TableTeam(id)).get().get(0);
+            return new TeamTask(mDao, Query.Read, "").execute(id).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -105,7 +105,7 @@ public class Repository {
 
     public TableMatch getMatch(Integer id){
         try {
-            return new MatchTask(mDao, Query.Read, "").execute(new TableMatch(id)).get().get(0);
+            return new MatchTask(mDao, Query.Read, "").execute(id).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -149,7 +149,8 @@ public class Repository {
     public void bookmark(boolean bookmark, Integer id){
         TablePlayer player = getPlayer(id);
         player.setBookmark(bookmark);
-        new PlayerTask(mDao, Query.Bookmark, "").execute(player);
+        Integer query = bookmark? Query.BookmarkOn : Query.BookmarkOff;
+        new PlayerTask(mDao, query, "").execute(id);
         Integer teamID = player.getTeamID();
         if (bookmark){
             getRemoteTeamInfo(teamID);
@@ -232,10 +233,11 @@ public class Repository {
         Integer ReadAll = 2;
         Integer Read = 3;
         Integer Update = 4;
-        Integer Bookmark = 5;
+        Integer BookmarkOn = 5;
+        Integer BookmarkOff = 6;
     }
 
-    private static abstract class DBTask<T> extends AsyncTask<T, Void, List<T>>{
+    private static abstract class DBTask<T> extends AsyncTask<Integer, Void, List<T>>{
 
         protected DBDao dao;
         protected Integer query;
@@ -256,9 +258,8 @@ public class Repository {
         }
 
         @Override
-        protected List<TablePlayer> doInBackground(TablePlayer... players) {
+        protected List<TablePlayer> doInBackground(Integer... ids) {
             List<TablePlayer> result = null;
-            TablePlayer player = (players.length > 0)? players[0] : null;
             if (query.equals(Query.Create)) {
 
             } else if (query.equals(Query.Delete)) {
@@ -266,9 +267,9 @@ public class Repository {
             } else if (query.equals(Query.ReadAll)) {
                 result = dao.findPlayer();
             } else if (query.equals(Query.Read)) {
-                result = dao.findPlayer(player.getId());
+                result = dao.findPlayer(ids[0]);
             } else if (query.equals(Query.Update)) {
-                player = new TablePlayer(jsonString);
+                TablePlayer player = new TablePlayer(jsonString);
                 dao.updatePlayerInfoById(
                         player.getTeamID(),
                         player.getPosition(),
@@ -277,11 +278,10 @@ public class Repository {
                         player.getAge(),
                         player.getShirt(),
                         player.getId());
-            } else if (query.equals(Query.Bookmark)) {
-                if (player.getBookmark())
-                    dao.registerPlayerBookmark(player.getId());
-                else
-                    dao.unregisterPlayerBookmark(player.getId());
+            } else if (query.equals(Query.BookmarkOn)) {
+                dao.registerPlayerBookmark(ids[0]);
+            } else if (query.equals(Query.BookmarkOff)) {
+                dao.unregisterPlayerBookmark(ids[0]);
             }
             return result;
         }
@@ -293,18 +293,17 @@ public class Repository {
         }
 
         @Override
-        protected List<TableTeam> doInBackground(TableTeam... teams) {
+        protected List<TableTeam> doInBackground(Integer... ids) {
             List<TableTeam> result = null;
-            TableTeam team = (teams.length > 0)? teams[0] : null;
             if (query.equals(Query.Create)) {
-                team = new TableTeam(jsonString);
+                TableTeam team = new TableTeam(jsonString);
                 dao.insertTeam(team);
             } else if (query.equals(Query.Delete)) {
 
             } else if (query.equals(Query.ReadAll)) {
                 result = dao.findTeam();
             } else if (query.equals(Query.Read)) {
-                result = dao.findTeam(team.getId());
+                result = dao.findTeam(ids[0]);
             }
             return result;
         }
@@ -316,11 +315,10 @@ public class Repository {
         }
 
         @Override
-        protected List<TableMatch> doInBackground(TableMatch... matches) {
+        protected List<TableMatch> doInBackground(Integer... ids) {
             List <TableMatch> result = null;
-            TableMatch match = (matches.length > 0)? matches[0] : null;
             if (query.equals(Query.Create)) {
-                match = new TableMatch(jsonString);
+                TableMatch match = new TableMatch(jsonString);
                 dao.insertMatch(match);
             } else if (query.equals(Query.Delete)) {
 
