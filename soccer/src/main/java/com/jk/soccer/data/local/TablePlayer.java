@@ -42,7 +42,7 @@ public class TablePlayer implements Comparable<TablePlayer>{
     private Integer teamID = 0;
 
     @ColumnInfo(name = "Bookmark")
-    private boolean bookmark = false;
+    private Boolean bookmark = false;
 
     public TablePlayer(int id){
         this.id = id;
@@ -75,8 +75,8 @@ public class TablePlayer implements Comparable<TablePlayer>{
     }
 
     public int compareTo(TablePlayer player){
-        boolean l1 = this.bookmark;
-        boolean l2 = player.bookmark;
+        Boolean l1 = this.bookmark;
+        Boolean l2 = player.bookmark;
 
         if (l1 && !l2){
             return -1;
@@ -202,11 +202,11 @@ public class TablePlayer implements Comparable<TablePlayer>{
         this.teamID = teamID;
     }
 
-    public boolean isBookmark(){
+    public Boolean isBookmark(){
         return bookmark;
     }
 
-    public void setBookmark(boolean bookmark){
+    public void setBookmark(Boolean bookmark){
         this.bookmark = bookmark;
     }
 
