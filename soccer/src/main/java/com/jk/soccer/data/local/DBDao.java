@@ -21,7 +21,7 @@ public abstract class DBDao {
     @Query("SELECT * FROM TablePlayer WHERE ID = :id")
     public abstract List<TablePlayer> findPlayer(Integer id);
 
-    @Query("SELECT * FROM TablePlayer ORDER By Bookmark DESC, Name")
+    @Query("SELECT * FROM tablePlayer ORDER By Bookmark DESC, Name")
     public abstract List<TablePlayer> findPlayer();
 
     @Query("SELECT tablePlayer.ID AS id," +
@@ -29,7 +29,7 @@ public abstract class DBDao {
             "tablePlayer.Position AS position," +
             "tablePlayer.Height AS height," +
             "tablePlayer.Foot AS foot," +
-            "tablePlayer.Age AS age," +
+            "tablePlayer.Birth AS birth," +
             "tablePlayer.Shirt AS shirt," +
             "tableTeam.Name AS team," +
             "tablePlayer.Bookmark AS bookmark," +
@@ -45,21 +45,21 @@ public abstract class DBDao {
 
     //// Update ////
 
-    @Query("UPDATE TablePlayer SET " +
-            "TeamID = :teamID, " +
-            "Position = :position, " +
-            "Height = :height, " +
-            "Foot = :foot, " +
-            "Age = :age, " +
-            "Shirt = :shirt " +
-            "WHERE ID = :id")
-    public abstract void updatePlayerInfoById(Integer teamID,
-                              String position,
-                              String height,
-                              String foot,
-                              Integer age,
-                              Integer shirt,
-                              Integer id);
+//    @Query("UPDATE TablePlayer SET " +
+//            "TeamID = :teamID, " +
+//            "Position = :position, " +
+//            "Height = :height, " +
+//            "Foot = :foot, " +
+//            "Age = :age, " +
+//            "Shirt = :shirt " +
+//            "WHERE ID = :id")
+//    public abstract void updatePlayerInfoById(Integer teamID,
+//                              String position,
+//                              String height,
+//                              String foot,
+//                              Integer age,
+//                              Integer shirt,
+//                              Integer id);
 
     @Query("UPDATE TablePlayer SET Bookmark = NOT Bookmark WHERE ID = :id")
     abstract void togglePlayerBookmarkById(Integer id);

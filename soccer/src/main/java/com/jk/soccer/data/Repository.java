@@ -34,7 +34,7 @@ public class Repository {
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
-        initialize();
+        //initialize();
     }
 
     public LiveData<Player> getPlayerLiveData(Integer id){
@@ -66,6 +66,10 @@ public class Repository {
             repository = new Repository(application);
         }
         return repository;
+    }
+
+    public void close(){
+        database.close();
     }
 
     public TablePlayer getPlayer(Integer id){
@@ -281,14 +285,14 @@ public class Repository {
                 result = dao.findPlayer(ids[0]);
             } else if (query.equals(Query.Update)) {
                 TablePlayer player = new TablePlayer(jsonString);
-                dao.updatePlayerInfoById(
-                        player.getTeamID(),
-                        player.getPosition(),
-                        player.getHeight(),
-                        player.getFoot(),
-                        player.getAge(),
-                        player.getShirt(),
-                        player.getId());
+//                dao.updatePlayerInfoById(
+//                        player.getTeamID(),
+//                        player.getPosition(),
+//                        player.getHeight(),
+//                        player.getFoot(),
+//                        player.getAge(),
+//                        player.getShirt(),
+//                        player.getId());
             } else if (query.equals(Query.BookmarkOn)) {
                 dao.registerPlayerBookmark(ids[0]);
             } else if (query.equals(Query.BookmarkOff)) {

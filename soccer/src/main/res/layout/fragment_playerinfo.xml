@@ -178,7 +178,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.getHeightLiveData(index)}" />
+                    android:text="@{viewModel.getHeightLiveData(index).toString()}" />
             </TableRow>
 
             <TableRow
@@ -204,7 +204,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.getAgeLiveData(index).toString()}" />
+                    android:text="@{viewModel.getBirthLiveData(index)}" />
             </TableRow>
 
         </TableLayout>

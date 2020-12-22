@@ -27,13 +27,13 @@ public class TablePlayer implements Comparable<TablePlayer>{
     private String position = unknownMsg;
 
     @ColumnInfo(name = "Height")
-    private String height = unknownMsg;
+    private Integer height = 0;
 
     @ColumnInfo(name = "Foot")
     private String foot = unknownMsg;
 
-    @ColumnInfo(name = "Age")
-    private Integer age = 0;
+    @ColumnInfo(name = "Birth")
+    private String birth = "";
 
     @ColumnInfo(name = "Shirt")
     private Integer shirt = 0;
@@ -61,11 +61,11 @@ public class TablePlayer implements Comparable<TablePlayer>{
             for (int i = 0; i < jsonPlayerProps.length(); i++){
                 JSONObject jsonElem = jsonPlayerProps.getJSONObject(i);
                 height = jsonElem.getString("title") .equals("Height") ?
-                        jsonElem.getString("value") : height;
+                        jsonElem.getInt("value") : height;
                 foot = jsonElem.getString("title").equals("Preferred foot") ?
                         jsonElem.getString("value") : foot;
-                age = jsonElem.getString("title") .equals("Age") ?
-                        jsonElem.getInt("value") : age;
+//                age = jsonElem.getString("title") .equals("Age") ?
+//                        jsonElem.getInt("value") : age;
                 shirt = jsonElem.getString("title") .equals("Shirt") ?
                         jsonElem.getInt("value") : shirt;
             }
@@ -127,18 +127,12 @@ public class TablePlayer implements Comparable<TablePlayer>{
         return ret;
     }
 
-    public String getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(String height){
+    public void setHeight(Integer height) {
         this.height = height;
-    }
-
-    public String printHeight(){
-        if (height == null)
-            return unknownMsg;
-        return height;
     }
 
     public String getFoot() {
@@ -164,18 +158,12 @@ public class TablePlayer implements Comparable<TablePlayer>{
         }
     }
 
-    public Integer getAge() {
-        return age;
+    public String getBirth() {
+        return birth;
     }
 
-    public void setAge(Integer age){
-        this.age = age;
-    }
-
-    public String printAge(){
-        if (shirt == null)
-            return unknownMsg;
-        return age + "세";
+    public void setBirth(String birth) {
+        this.birth = birth;
     }
 
     public Integer getShirt() {

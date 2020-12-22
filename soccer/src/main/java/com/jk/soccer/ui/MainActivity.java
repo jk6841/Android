@@ -29,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        viewModel.onCleared();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         return super.onSupportNavigateUp();
     }

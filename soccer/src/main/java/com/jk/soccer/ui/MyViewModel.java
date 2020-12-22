@@ -27,7 +27,7 @@ public class MyViewModel extends AndroidViewModel {
         positionLiveDataList = new ArrayList<>();
         heightLiveDataList = new ArrayList<>();
         footLiveDataList = new ArrayList<>();
-        ageLiveDataList = new ArrayList<>();
+        birthLiveDataList = new ArrayList<>();
         shirtLiveDataList = new ArrayList<>();
         bookmarkLiveDataList = new ArrayList<>();
         teamLiveDataList = new ArrayList<>();
@@ -41,9 +41,9 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<Integer> idLiveData = Transformations.map(playerLiveData, Player::getId);
             LiveData<String> nameLiveData = (Transformations.map(playerLiveData, Player::getName));
             LiveData<String> positionLiveData = (Transformations.map(playerLiveData, Player::getPosition));
-            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, Player::getHeight));
+            LiveData<Integer> heightLiveData = (Transformations.map(playerLiveData, Player::getHeight));
             LiveData<String> footLiveData = (Transformations.map(playerLiveData, Player::getFoot));
-            LiveData<Integer> ageLiveData = (Transformations.map(playerLiveData, Player::getAge));
+            LiveData<String> birthLiveData = (Transformations.map(playerLiveData, Player::getBirth));
             LiveData<Integer> shirtLiveData = (Transformations.map(playerLiveData, Player::getShirt));
             LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, Player::getBookmark));
             LiveData<String> teamLiveData = Transformations.map(playerLiveData, Player::getTeam);
@@ -54,7 +54,7 @@ public class MyViewModel extends AndroidViewModel {
                 positionLiveDataList.set(i, positionLiveData);
                 heightLiveDataList.set(i, heightLiveData);
                 footLiveDataList.set(i, footLiveData);
-                ageLiveDataList.set(i, ageLiveData);
+                birthLiveDataList.set(i, birthLiveData);
                 shirtLiveDataList.set(i, shirtLiveData);
                 bookmarkLiveDataList.set(i, bookmarkLiveData);
                 teamLiveDataList.set(i, teamLiveData);
@@ -65,7 +65,7 @@ public class MyViewModel extends AndroidViewModel {
                 positionLiveDataList.add(positionLiveData);
                 heightLiveDataList.add(heightLiveData);
                 footLiveDataList.add(footLiveData);
-                ageLiveDataList.add(ageLiveData);
+                birthLiveDataList.add(birthLiveData);
                 shirtLiveDataList.add(shirtLiveData);
                 bookmarkLiveDataList.add(bookmarkLiveData);
                 teamLiveDataList.add(teamLiveData);
@@ -85,6 +85,12 @@ public class MyViewModel extends AndroidViewModel {
         }
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        repository.close();
+    }
+
     public List<TablePlayer> getPlayers() { return repository.getPlayer(); }
 
     public List<TableMatch> getMatches() { return repository.getMatch(); }
@@ -101,7 +107,7 @@ public class MyViewModel extends AndroidViewModel {
         return positionLiveDataList.get(index);
     }
 
-    public LiveData<String> getHeightLiveData(Integer index) {
+    public LiveData<Integer> getHeightLiveData(Integer index) {
         return heightLiveDataList.get(index);
     }
 
@@ -109,8 +115,8 @@ public class MyViewModel extends AndroidViewModel {
         return footLiveDataList.get(index);
     }
 
-    public LiveData<Integer> getAgeLiveData(Integer index) {
-        return ageLiveDataList.get(index);
+    public LiveData<String> getBirthLiveData(Integer index) {
+        return birthLiveDataList.get(index);
     }
 
     public LiveData<Integer> getShirtLiveData(Integer index) {
@@ -136,9 +142,9 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<Integer>> idLiveDataList;
     final private ArrayList<LiveData<String>> nameLiveDataList;
     final private ArrayList<LiveData<String>> positionLiveDataList;
-    final private ArrayList<LiveData<String>> heightLiveDataList;
+    final private ArrayList<LiveData<Integer>> heightLiveDataList;
     final private ArrayList<LiveData<String>> footLiveDataList;
-    final private ArrayList<LiveData<Integer>> ageLiveDataList;
+    final private ArrayList<LiveData<String>> birthLiveDataList;
     final private ArrayList<LiveData<Integer>> shirtLiveDataList;
     final private ArrayList<LiveData<Boolean>> bookmarkLiveDataList;
     final private ArrayList<LiveData<String>> teamLiveDataList;
