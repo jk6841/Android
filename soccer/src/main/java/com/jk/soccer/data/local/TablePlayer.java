@@ -202,7 +202,7 @@ public class TablePlayer implements Comparable<TablePlayer>{
         this.teamID = teamID;
     }
 
-    public Boolean isBookmark(){
+    public Boolean getBookmark() {
         return bookmark;
     }
 
