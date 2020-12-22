@@ -132,8 +132,12 @@ public class Repository {
         List<Player> players = getPlayer();
         int playerLength = players.size();
         for (int i = 0; i < playerLength; i++){
-            Integer id = players.get(i).getId();
+            Player player = players.get(i);
+            Integer id = player.getId();
             getRemotePlayerInfo(id);
+            if (player.isBookmark()){
+                getRemoteTeamInfo(player.getTeamID());
+            }
         }
     }
 
