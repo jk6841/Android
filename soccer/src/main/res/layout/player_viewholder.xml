@@ -10,7 +10,7 @@
             type="com.jk.soccer.etc.MyHandler" />
         <variable
             name="player"
-            type="com.jk.soccer.data.local.Player" />
+            type="com.jk.soccer.data.local.TablePlayer" />
     </data>
 
     <TextView

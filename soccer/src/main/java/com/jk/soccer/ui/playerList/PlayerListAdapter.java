@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jk.soccer.data.local.Player;
+import com.jk.soccer.data.local.TablePlayer;
 import com.jk.soccer.databinding.PlayerViewholderBinding;
 import com.jk.soccer.etc.MyHandler;
 
@@ -15,13 +15,13 @@ import java.util.List;
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.MyViewHolder> {
 
-    private List<Player> playerList;
+    private List<TablePlayer> playerList;
 
-    public PlayerListAdapter(List<Player> playerList) {
+    public PlayerListAdapter(List<TablePlayer> playerList) {
         this.playerList = playerList;
     }
 
-    public void setPlayerList(List<Player> playerList){
+    public void setPlayerList(List<TablePlayer> playerList){
         this.playerList = playerList;
         notifyDataSetChanged();
     }

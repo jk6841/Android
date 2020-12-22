@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @Entity (tableName = "tableMatch")
-public class Match {
+public class TableMatch {
 
     @Ignore
     final private String unknownMsg = "";
@@ -85,12 +85,12 @@ public class Match {
     @ColumnInfo(name = "Stadium")
     private String stadium = unknownMsg;
 
-    public Match (Integer id){
+    public TableMatch(Integer id){
         this.id = id;
     }
 
     @Ignore
-    public Match(String jsonString){
+    public TableMatch(String jsonString){
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonHeader = MyJSON.myJSONObject(jsonObject, "header");

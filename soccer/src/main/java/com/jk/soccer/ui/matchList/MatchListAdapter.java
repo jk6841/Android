@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jk.soccer.data.local.Match;
+import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.databinding.MatchViewholderBinding;
 import com.jk.soccer.etc.MyHandler;
 
@@ -14,13 +14,13 @@ import java.util.List;
 
 public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.MyViewHolder> {
 
-    private List<Match> matchList;
+    private List<TableMatch> matchList;
 
-    public MatchListAdapter(List<Match> matchList) {
+    public MatchListAdapter(List<TableMatch> matchList) {
         this.matchList = matchList;
     }
 
-    public void setMatchList(List<Match> matchList){
+    public void setMatchList(List<TableMatch> matchList){
         this.matchList = matchList;
         notifyDataSetChanged();
     }

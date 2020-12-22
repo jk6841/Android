@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.jk.soccer.data.local.Match;
+import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.ui.MyViewModel;
 import com.jk.soccer.ui.matchList.MatchListAdapter;
 import com.jk.soccer.ui.playerList.PlayerListAdapter;
@@ -25,7 +25,7 @@ public class MyBindingAdapter {
     }
 
     @BindingAdapter({"timeText"})
-    public static void showDate(TextView view, Match match){
+    public static void showDate(TextView view, TableMatch match){
         String yearStr = match.getYear().toString() + "년";
         String monthStr = match.getMonth().toString() + "월";
         String dateStr = match.getDate().toString() + "일";
@@ -36,7 +36,7 @@ public class MyBindingAdapter {
     }
 
     @BindingAdapter({"scoreText"})
-    public static void showScore(TextView view, Match match){
+    public static void showScore(TextView view, TableMatch match){
         String[] text;
         String vs = "vs";
         if (match.getStarted()){

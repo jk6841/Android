@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @Entity(tableName = "tableTeam")
 
-public class Team {
+public class TableTeam {
 
     public Integer getId() {
         return id;
@@ -152,12 +152,12 @@ public class Team {
     @ColumnInfo(name = "Fixture")
     private String fixture;
 
-    public Team(Integer id){
+    public TableTeam(Integer id){
         this.id = id;
     }
 
     @Ignore
-    public Team(String jsonString){
+    public TableTeam(String jsonString){
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonDetails = jsonObject.getJSONObject("details");

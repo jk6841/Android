@@ -8,8 +8,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.data.Repository;
-import com.jk.soccer.data.local.Match;
-import com.jk.soccer.data.local.Player;
+import com.jk.soccer.data.local.TableMatch;
+import com.jk.soccer.data.local.TablePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +35,15 @@ public class MyViewModel extends AndroidViewModel {
     public void initPlayer(){
         Integer num = repository.getPlayer().size();
         for (int i = 0; i < num; i++){
-            LiveData<Player> playerLiveData = repository.getPlayerLiveData(i);
-            LiveData<Integer> idLiveData = Transformations.map(playerLiveData, Player::getId);
-            LiveData<String> nameLiveData = (Transformations.map(playerLiveData, Player::getName));
-            LiveData<String> positionLiveData = (Transformations.map(playerLiveData, Player::printPosition));
-            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, Player::printHeight));
-            LiveData<String> footLiveData = (Transformations.map(playerLiveData, Player::printFoot));
-            LiveData<String> ageLiveData = (Transformations.map(playerLiveData, Player::printAge));
-            LiveData<String> shirtLiveData = (Transformations.map(playerLiveData, Player::printShirt));
-            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, Player::isBookmark));
+            LiveData<TablePlayer> playerLiveData = repository.getPlayerLiveData(i);
+            LiveData<Integer> idLiveData = Transformations.map(playerLiveData, TablePlayer::getId);
+            LiveData<String> nameLiveData = (Transformations.map(playerLiveData, TablePlayer::getName));
+            LiveData<String> positionLiveData = (Transformations.map(playerLiveData, TablePlayer::printPosition));
+            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, TablePlayer::printHeight));
+            LiveData<String> footLiveData = (Transformations.map(playerLiveData, TablePlayer::printFoot));
+            LiveData<String> ageLiveData = (Transformations.map(playerLiveData, TablePlayer::printAge));
+            LiveData<String> shirtLiveData = (Transformations.map(playerLiveData, TablePlayer::printShirt));
+            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, TablePlayer::isBookmark));
             if (sortPlayer){
                 playerLiveDataList.set(i, playerLiveData);
                 idLiveDataList.set(i, idLiveData);
@@ -70,10 +70,10 @@ public class MyViewModel extends AndroidViewModel {
     }
 
     public void initMatch(){
-        List<Match> matches = repository.getMatch();
+        List<TableMatch> matches = repository.getMatch();
         Integer num = matches.size();
         for (int i = 0; i < num; i++){
-            LiveData<Match> matchLiveData = repository.getMatchLiveData(matches.get(i).getId());
+            LiveData<TableMatch> matchLiveData = repository.getMatchLiveData(matches.get(i).getId());
             if (sortMatch)
                 matchLiveDataList.set(i, matchLiveData);
             else
@@ -81,9 +81,9 @@ public class MyViewModel extends AndroidViewModel {
         }
     }
 
-    public List<Player> getPlayers() { return repository.getPlayer(); }
+    public List<TablePlayer> getPlayers() { return repository.getPlayer(); }
 
-    public List<Match> getMatches() { return repository.getMatch(); }
+    public List<TableMatch> getMatches() { return repository.getMatch(); }
 
     public LiveData<Integer> getIdLiveData(Integer index){
         return idLiveDataList.get(index);
@@ -124,7 +124,7 @@ public class MyViewModel extends AndroidViewModel {
     final private Repository repository;
 
     // For Player //
-    final private ArrayList<LiveData<Player>> playerLiveDataList;
+    final private ArrayList<LiveData<TablePlayer>> playerLiveDataList;
     final private ArrayList<LiveData<Integer>> idLiveDataList;
     final private ArrayList<LiveData<String>> nameLiveDataList;
     final private ArrayList<LiveData<String>> positionLiveDataList;
@@ -136,7 +136,7 @@ public class MyViewModel extends AndroidViewModel {
     private Boolean sortPlayer = false;
 
     // For Match //
-    final private ArrayList<LiveData<Match>> matchLiveDataList;
+    final private ArrayList<LiveData<TableMatch>> matchLiveDataList;
     private Boolean sortMatch = false;
 
 }

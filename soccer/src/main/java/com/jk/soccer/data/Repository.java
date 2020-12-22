@@ -8,15 +8,11 @@ import androidx.lifecycle.LiveData;
 
 import com.jk.soccer.R;
 import com.jk.soccer.data.local.Database;
-import com.jk.soccer.data.local.Match;
-import com.jk.soccer.data.local.Player;
+import com.jk.soccer.data.local.TableMatch;
+import com.jk.soccer.data.local.TablePlayer;
 import com.jk.soccer.data.local.DBDao;
-import com.jk.soccer.data.local.Team;
+import com.jk.soccer.data.local.TableTeam;
 import com.jk.soccer.data.remote.RetrofitClient;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,27 +36,27 @@ public class Repository {
         initialize();
     }
 
-    public LiveData<Player> getPlayerLiveData(Integer index){
+    public LiveData<TablePlayer> getPlayerLiveData(Integer index){
         return mDao.findPlayerLiveData(getPlayerId(index));
     }
 
-    public LiveData<List<Player>> getPlayerLiveData(){
+    public LiveData<List<TablePlayer>> getPlayerLiveData(){
         return mDao.findPlayerLiveData();
     }
 
-    public LiveData<Team> getTeamLiveData(Integer teamId){
+    public LiveData<TableTeam> getTeamLiveData(Integer teamId){
         return mDao.findTeamLiveData(teamId);
     }
 
-    public LiveData<List<Team>> getTeamLiveData(){
+    public LiveData<List<TableTeam>> getTeamLiveData(){
         return mDao.findTeamLiveData();
     }
 
-    public LiveData<Match> getMatchLiveData(Integer matchId){
+    public LiveData<TableMatch> getMatchLiveData(Integer matchId){
         return mDao.findMatchLiveData(matchId);
     }
 
-    public LiveData<List<Match>> getMatchLiveData(){
+    public LiveData<List<TableMatch>> getMatchLiveData(){
         return mDao.findMatchLiveData();
     }
 
@@ -71,16 +67,16 @@ public class Repository {
         return repository;
     }
 
-    public Player getPlayer(Integer id){
+    public TablePlayer getPlayer(Integer id){
         try {
-            return new PlayerTask(mDao, Query.Read, "").execute(new Player(id)).get().get(0);
+            return new PlayerTask(mDao, Query.Read, "").execute(new TablePlayer(id)).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public List<Player> getPlayer(){
+    public List<TablePlayer> getPlayer(){
         try {
             return new PlayerTask(mDao, Query.ReadAll, "").execute().get();
         } catch(ExecutionException | InterruptedException e) {
@@ -89,16 +85,16 @@ public class Repository {
         }
     }
 
-    public Team getTeam(Integer id){
+    public TableTeam getTeam(Integer id){
         try {
-            return new TeamTask(mDao, Query.Read, "").execute(new Team(id)).get().get(0);
+            return new TeamTask(mDao, Query.Read, "").execute(new TableTeam(id)).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public List<Team> getTeam() {
+    public List<TableTeam> getTeam() {
         try {
             return new TeamTask(mDao, Query.ReadAll, "").execute().get();
         } catch(ExecutionException | InterruptedException e) {
@@ -107,16 +103,16 @@ public class Repository {
         }
     }
 
-    public Match getMatch(Integer id){
+    public TableMatch getMatch(Integer id){
         try {
-            return new MatchTask(mDao, Query.Read, "").execute(new Match(id)).get().get(0);
+            return new MatchTask(mDao, Query.Read, "").execute(new TableMatch(id)).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public List<Match> getMatch() {
+    public List<TableMatch> getMatch() {
         try {
             return new MatchTask(mDao, Query.ReadAll, "").execute().get();
         } catch(ExecutionException | InterruptedException e) {
@@ -134,10 +130,10 @@ public class Repository {
     private DBDao mDao;
 
     private void initialize(){
-        List<Player> players = getPlayer();
+        List<TablePlayer> players = getPlayer();
         int playerLength = players.size();
         for (int i = 0; i < playerLength; i++){
-            Player player = players.get(i);
+            TablePlayer player = players.get(i);
             Integer id = player.getId();
             getRemotePlayerInfo(id);
             if (player.isBookmark()){
@@ -151,7 +147,7 @@ public class Repository {
     }
 
     public void bookmark(boolean bookmark, Integer id){
-        Player player = getPlayer(id);
+        TablePlayer player = getPlayer(id);
         player.setBookmark(bookmark);
         new PlayerTask(mDao, Query.Bookmark, "").execute(player);
         Integer teamID = player.getTeamID();
@@ -190,7 +186,7 @@ public class Repository {
                     try{
                         String jsonString = response.body().string();
                         new TeamTask(mDao, Query.Create, jsonString).execute();
-                        Team team = getTeam(teamId);
+                        TableTeam team = getTeam(teamId);
                         ArrayList<Integer> fixtures = team.getFixtures();
                         for (int i = 0; i < fixtures.size(); i++){
                             getRemoteMatchInfo(fixtures.get(i));
@@ -253,16 +249,16 @@ public class Repository {
 
     }
 
-    private static class PlayerTask extends DBTask<Player>{
+    private static class PlayerTask extends DBTask<TablePlayer>{
 
         public PlayerTask(DBDao dao, Integer action, String jsonString){
             super(dao, action, jsonString);
         }
 
         @Override
-        protected List<Player> doInBackground(Player... players) {
-            List<Player> result = null;
-            Player player = (players.length > 0)? players[0] : null;
+        protected List<TablePlayer> doInBackground(TablePlayer... players) {
+            List<TablePlayer> result = null;
+            TablePlayer player = (players.length > 0)? players[0] : null;
             if (query.equals(Query.Create)) {
 
             } else if (query.equals(Query.Delete)) {
@@ -272,7 +268,7 @@ public class Repository {
             } else if (query.equals(Query.Read)) {
                 result = dao.findPlayer(player.getId());
             } else if (query.equals(Query.Update)) {
-                player = new Player(jsonString);
+                player = new TablePlayer(jsonString);
                 dao.updatePlayerInfoById(
                         player.getTeamID(),
                         player.getPosition(),
@@ -291,17 +287,17 @@ public class Repository {
         }
     }
 
-    private static class TeamTask extends DBTask<Team>{
+    private static class TeamTask extends DBTask<TableTeam>{
         public TeamTask(DBDao dao, Integer query, String jsonString){
             super(dao, query, jsonString);
         }
 
         @Override
-        protected List<Team> doInBackground(Team... teams) {
-            List<Team> result = null;
-            Team team = (teams.length > 0)? teams[0] : null;
+        protected List<TableTeam> doInBackground(TableTeam... teams) {
+            List<TableTeam> result = null;
+            TableTeam team = (teams.length > 0)? teams[0] : null;
             if (query.equals(Query.Create)) {
-                team = new Team(jsonString);
+                team = new TableTeam(jsonString);
                 dao.insertTeam(team);
             } else if (query.equals(Query.Delete)) {
 
@@ -314,17 +310,17 @@ public class Repository {
         }
     }
 
-    private static class MatchTask extends DBTask<Match>{
+    private static class MatchTask extends DBTask<TableMatch>{
         public MatchTask(DBDao dao, Integer action, String jsonString){
             super(dao, action, jsonString);
         }
 
         @Override
-        protected List<Match> doInBackground(Match... matches) {
-            List <Match> result = null;
-            Match match = (matches.length > 0)? matches[0] : null;
+        protected List<TableMatch> doInBackground(TableMatch... matches) {
+            List <TableMatch> result = null;
+            TableMatch match = (matches.length > 0)? matches[0] : null;
             if (query.equals(Query.Create)) {
-                match = new Match(jsonString);
+                match = new TableMatch(jsonString);
                 dao.insertMatch(match);
             } else if (query.equals(Query.Delete)) {
 

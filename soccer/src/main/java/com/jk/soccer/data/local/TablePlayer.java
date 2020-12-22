@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 @Entity (tableName = "tablePlayer")
 
-public class Player implements Comparable<Player>{
+public class TablePlayer implements Comparable<TablePlayer>{
 
     @Ignore
     private final String unknownMsg = "";
@@ -44,12 +44,12 @@ public class Player implements Comparable<Player>{
     @ColumnInfo(name = "Bookmark")
     private boolean bookmark = false;
 
-    public Player(int id){
+    public TablePlayer(int id){
         this.id = id;
     }
 
     @Ignore
-    public Player(String jsonString){
+    public TablePlayer(String jsonString){
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             id = jsonObject.getInt("id");
@@ -74,7 +74,7 @@ public class Player implements Comparable<Player>{
         }
     }
 
-    public int compareTo(Player player){
+    public int compareTo(TablePlayer player){
         boolean l1 = this.bookmark;
         boolean l2 = player.bookmark;
 
