@@ -136,7 +136,7 @@ public class Repository {
             TablePlayer player = players.get(i);
             Integer id = player.getId();
             getRemotePlayerInfo(id);
-            if (player.isBookmark()){
+            if (player.getBookmark()){
                 getRemoteTeamInfo(player.getTeamID());
             }
         }
@@ -278,7 +278,7 @@ public class Repository {
                         player.getShirt(),
                         player.getId());
             } else if (query.equals(Query.Bookmark)) {
-                if (player.isBookmark())
+                if (player.getBookmark())
                     dao.registerPlayerBookmark(player.getId());
                 else
                     dao.unregisterPlayerBookmark(player.getId());

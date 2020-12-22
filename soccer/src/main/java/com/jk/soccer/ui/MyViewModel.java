@@ -43,7 +43,7 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<String> footLiveData = (Transformations.map(playerLiveData, TablePlayer::printFoot));
             LiveData<String> ageLiveData = (Transformations.map(playerLiveData, TablePlayer::printAge));
             LiveData<String> shirtLiveData = (Transformations.map(playerLiveData, TablePlayer::printShirt));
-            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, TablePlayer::isBookmark));
+            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, TablePlayer::getBookmark));
             if (sortPlayer){
                 playerLiveDataList.set(i, playerLiveData);
                 idLiveDataList.set(i, idLiveData);
