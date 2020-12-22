@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.match;
+package com.jk.soccer.ui.matchInfo;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -10,23 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentMatchBinding;
 
-public class MatchFragment extends Fragment {
+public class MatchInfoFragment extends Fragment {
 
-    private MatchViewModel matchViewModel;
     private Application application;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application = getActivity().getApplication();
-        matchViewModel = new ViewModelProvider(this,
-                new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(MatchViewModel.class);
     }
 
     @Nullable
@@ -37,7 +32,6 @@ public class MatchFragment extends Fragment {
                 inflater, R.layout.fragment_match, container, false);
         View root = binding.getRoot();
         binding.setLifecycleOwner(this);
-        binding.setViewModel(matchViewModel);
 
         return root;
     }

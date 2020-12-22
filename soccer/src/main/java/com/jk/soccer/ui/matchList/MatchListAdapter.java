@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.matchlist;
+package com.jk.soccer.ui.matchList;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

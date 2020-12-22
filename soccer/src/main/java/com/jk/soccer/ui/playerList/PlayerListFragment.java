@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.playerinfo;
+package com.jk.soccer.ui.playerList;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,32 +11,29 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.jk.soccer.R;
-import com.jk.soccer.databinding.FragmentPlayerinfoBinding;
+import com.jk.soccer.databinding.FragmentPlayerlistBinding;
 import com.jk.soccer.ui.MainActivity;
 import com.jk.soccer.ui.MyViewModel;
 
-public class PlayerInfoFragment extends Fragment {
+public class PlayerListFragment extends Fragment {
 
-    private Integer index;
     private MyViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        this.index = args.getInt("index", 0);
         viewModel = ((MainActivity) getActivity()).getViewModel();
     }
 
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentPlayerinfoBinding binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_playerinfo, container, false);
+                             ViewGroup container, Bundle savedInstanceState) {
+        FragmentPlayerlistBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_playerlist, container, false);
         binding.setLifecycleOwner(this);
+        viewModel.initPlayer();
+        binding.homeRec.setAdapter(new PlayerListAdapter(viewModel.getPlayers()));
         binding.setViewModel(viewModel);
-        binding.setIndex(index);
         return binding.getRoot();
     }
 }

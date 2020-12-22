@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication()))
                 .get(MyViewModel.class);
-//        viewModel.init();
     }
 
     @Override

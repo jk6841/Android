@@ -11,9 +11,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.data.local.Match;
 import com.jk.soccer.ui.MyViewModel;
-import com.jk.soccer.ui.playerlist.PlayerListAdapter;
-
-import java.util.ArrayList;
+import com.jk.soccer.ui.matchList.MatchListAdapter;
+import com.jk.soccer.ui.playerList.PlayerListAdapter;
 
 public class MyBindingAdapter {
 
@@ -53,7 +52,10 @@ public class MyBindingAdapter {
 
     @BindingAdapter({"recyclerView"})
     public static void recycler(RecyclerView recyclerView, MyViewModel viewModel){
-        ((PlayerListAdapter)recyclerView.getAdapter()).setPlayerList(viewModel.getPlayers());
+        if (recyclerView.getAdapter() instanceof  PlayerListAdapter){
+            ((PlayerListAdapter) recyclerView.getAdapter()).setPlayerList(viewModel.getPlayers());
+        } else if (recyclerView.getAdapter() instanceof  MatchListAdapter){
+            ((MatchListAdapter) recyclerView.getAdapter()).setMatchList(viewModel.getMatches());
+        }
     }
-
 }
