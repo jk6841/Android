@@ -5,12 +5,15 @@ import android.os.Bundle;
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    private MyViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(
                 this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
+        viewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(getApplication()))
+                .get(MyViewModel.class);
+//        viewModel.init();
     }
 
     @Override
@@ -27,4 +34,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    public MyViewModel getViewModel() {
+        return viewModel;
+    }
 }

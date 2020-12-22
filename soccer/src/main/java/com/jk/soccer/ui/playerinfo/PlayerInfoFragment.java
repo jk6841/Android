@@ -1,6 +1,5 @@
 package com.jk.soccer.ui.playerinfo;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,27 +9,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentPlayerinfoBinding;
+import com.jk.soccer.ui.MainActivity;
+import com.jk.soccer.ui.MyViewModel;
 
 public class PlayerInfoFragment extends Fragment {
 
     private Integer index;
-    private PlayerInfoViewModel playerInfoViewModel;
-    private Application application;
+    private MyViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        application = getActivity().getApplication();
         Bundle args = getArguments();
         this.index = args.getInt("index", 0);
-        playerInfoViewModel = new ViewModelProvider(this,
-                new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(PlayerInfoViewModel.class);
-        playerInfoViewModel.init(index);
+        viewModel = ((MainActivity) getActivity()).getViewModel();
     }
 
     @Nullable
@@ -40,7 +35,8 @@ public class PlayerInfoFragment extends Fragment {
         FragmentPlayerinfoBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_playerinfo, container, false);
         binding.setLifecycleOwner(this);
-        binding.setViewModel(playerInfoViewModel);
+        binding.setViewModel(viewModel);
+        binding.setIndex(index);
         return binding.getRoot();
     }
 }

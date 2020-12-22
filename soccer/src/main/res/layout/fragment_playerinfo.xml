@@ -6,7 +6,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.jk.soccer.ui.playerinfo.PlayerInfoViewModel" />
+            type="com.jk.soccer.ui.MyViewModel" />
+        <variable
+            name="index"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +48,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.nameLiveData}" />
+                    android:text="@{viewModel.getNameLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -97,7 +100,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.shirtLiveData}" />
+                    android:text="@{viewModel.getShirtLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -123,7 +126,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.positionLiveData}" />
+                    android:text="@{viewModel.getPositionLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -149,7 +152,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.footLiveData}" />
+                    android:text="@{viewModel.getFootLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -175,7 +178,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.heightLiveData}" />
+                    android:text="@{viewModel.getHeightLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -201,7 +204,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.ageLiveData}" />
+                    android:text="@{viewModel.getAgeLiveData(index)}" />
             </TableRow>
 
         </TableLayout>
@@ -211,7 +214,7 @@
             android:layout_width="242dp"
             android:layout_height="217dp"
             android:contentDescription="@string/player_image"
-            app:glideUrl="@{@string/baseUrl2 + viewModel.idLiveData + @string/png}"
+            app:glideUrl="@{@string/baseUrl2 + viewModel.getIdLiveData(index) + @string/png}"
             app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -225,8 +228,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bookmark"
-            android:checked="@{viewModel.bookmarkLiveData}"
-            android:onClick="@{()->viewModel.setBookmark(!viewModel.bookmarkLiveData, viewModel.idLiveData)}"
+            android:checked="@{viewModel.getBookmarkLiveData(index)}"
+            android:onClick="@{()->viewModel.setBookmark(!viewModel.getBookmarkLiveData(index), index)}"
             app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.914"

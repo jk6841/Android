@@ -1,6 +1,5 @@
 package com.jk.soccer.ui.playerlist;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,22 +9,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentPlayerlistBinding;
+import com.jk.soccer.ui.MainActivity;
+import com.jk.soccer.ui.MyViewModel;
 
 public class PlayerListFragment extends Fragment {
 
-    private PlayerListViewModel playerListViewModel;
+    private MyViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Application application = getActivity().getApplication();
-        playerListViewModel = new ViewModelProvider(this,
-                new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(PlayerListViewModel.class);
+        viewModel = ((MainActivity) getActivity()).getViewModel();
     }
 
     @Override
@@ -34,10 +31,9 @@ public class PlayerListFragment extends Fragment {
         FragmentPlayerlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_playerlist, container, false);
         binding.setLifecycleOwner(this);
-        binding.homeRec.setAdapter(new PlayerListAdapter(playerListViewModel.getPlayers()));
-        playerListViewModel.getLivePlayers().observe(getViewLifecycleOwner(),
-                players -> ((PlayerListAdapter)binding.homeRec.getAdapter()).setPlayerList(players));
-
+        viewModel.init();
+        binding.homeRec.setAdapter(new PlayerListAdapter(viewModel.getPlayers()));
+        binding.setViewModel(viewModel);
         return binding.getRoot();
     }
 }

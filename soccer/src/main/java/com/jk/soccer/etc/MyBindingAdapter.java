@@ -5,10 +5,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.data.local.Match;
+import com.jk.soccer.ui.MyViewModel;
+import com.jk.soccer.ui.playerlist.PlayerListAdapter;
 
 import java.util.ArrayList;
 
@@ -47,4 +50,10 @@ public class MyBindingAdapter {
         else
             view.setText(vs);
     }
+
+    @BindingAdapter({"recyclerView"})
+    public static void recycler(RecyclerView recyclerView, MyViewModel viewModel){
+        ((PlayerListAdapter)recyclerView.getAdapter()).setPlayerList(viewModel.getPlayers());
+    }
+
 }
