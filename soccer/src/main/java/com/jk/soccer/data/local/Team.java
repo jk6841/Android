@@ -95,12 +95,27 @@ public class Team {
         this.city = city;
     }
 
-    public ArrayList<Integer> getFixtures() {
-        return fixtures;
+    public String getFixture() {
+        return fixture;
     }
 
-    public void setFixtures(ArrayList<Integer> fixtures) {
-        this.fixtures = fixtures;
+    public void setFixture(String fixture) {
+        this.fixture = fixture;
+    }
+
+    public ArrayList<Integer> getFixtures() {
+        ArrayList<Integer> fixtures = new ArrayList<>();
+        try {
+            JSONArray jsonFixtures = new JSONArray(fixture);
+            for (int i = 0; i < jsonFixtures.length(); i++){
+                JSONObject jsonFixture = jsonFixtures.getJSONObject(i);
+                fixtures.add(jsonFixture.getInt("id"));
+            }
+            return fixtures;
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @PrimaryKey
@@ -134,27 +149,22 @@ public class Team {
     @ColumnInfo(name = "City")
     private String city;
 
-    @Ignore
-    private ArrayList<Integer> fixtures;
+    @ColumnInfo(name = "Fixture")
+    private String fixture;
 
     public Team(Integer id){
         this.id = id;
     }
 
     @Ignore
-    public Team(Integer id, String jsonString){
-        this.id = id;
-        fixtures = new ArrayList<>();
+    public Team(String jsonString){
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonDetails = jsonObject.getJSONObject("details");
+            this.id = jsonDetails.getInt("id");
             this.name = jsonDetails.getString("name");
             this.country = jsonDetails.getString("country");
-            JSONArray jsonFixtures = jsonObject.getJSONArray("fixtures");
-            for (int i = 0; i < jsonFixtures.length(); i++){
-                JSONObject jsonFixture = jsonFixtures.getJSONObject(i);
-                fixtures.add(jsonFixture.getInt("id"));
-            }
+            fixture = jsonObject.getString("fixtures");
             JSONObject jsonTableData = jsonObject.getJSONObject("tableData");
             JSONArray jsonTables = jsonTableData.getJSONArray("tables");
             JSONObject jsonTablesElem = jsonTables.getJSONObject(0);

@@ -90,8 +90,7 @@ public class Match {
     }
 
     @Ignore
-    public Match(Integer id, String jsonString){
-        this.id = id;
+    public Match(String jsonString){
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONObject jsonHeader = MyJSON.myJSONObject(jsonObject, "header");
@@ -124,6 +123,7 @@ public class Match {
             }
             JSONObject jsonContent = MyJSON.myJSONObject(jsonObject, "content");
             JSONObject jsonMatchFacts = MyJSON.myJSONObject(jsonContent,"matchFacts");
+            id = MyJSON.myJSONInt(jsonMatchFacts, "matchId");
             JSONObject jsonInfoBox = MyJSON.myJSONObject(jsonMatchFacts, "infoBox");
             JSONObject jsonTournament = MyJSON.myJSONObject(jsonInfoBox, "Tournament");
             this.leagueId = MyJSON.myJSONInt(jsonTournament, "id");

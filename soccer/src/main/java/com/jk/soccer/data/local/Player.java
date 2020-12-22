@@ -49,10 +49,10 @@ public class Player implements Comparable<Player>{
     }
 
     @Ignore
-    public Player(Integer id, String jsonString){
-        this.id = id;
+    public Player(String jsonString){
         try{
             JSONObject jsonObject = new JSONObject(jsonString);
+            id = jsonObject.getInt("id");
             JSONObject jsonOrigin = jsonObject.getJSONObject("origin");
             teamID = jsonOrigin.getInt("teamId");
             JSONObject jsonPositionDesc = jsonOrigin.getJSONObject("positionDesc");
