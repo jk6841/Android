@@ -14,11 +14,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
 
     private List<Event> eventList;
 
-    public EventListAdapter(List<Event> matchList) {
+    public EventListAdapter(List<Event> eventList) {
         this.eventList = eventList;
     }
 
-    public void setEventList(List<Event> matchList){
+    public void setEventList(List<Event> eventList){
         this.eventList = eventList;
         notifyDataSetChanged();
     }

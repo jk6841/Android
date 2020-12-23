@@ -196,13 +196,29 @@ public class MyParser {
             Event event = new Event();
             JSONObject jsonEvent = myJSONObject(jsonEventArray, i);
             event.setTime(myJSONInt(jsonEvent, "time"));
-            event.setType(myJSONString(jsonEvent, "type"));
+            String type = myJSONString(jsonEvent, "type");
+            if (type.equals("AddedTime"))
+                continue;
+            event.setType(type);
             event.setHome(myJSONBoolean(jsonEvent, "isHome"));
-            String assist = myJSONString(jsonEvent, "assistStr");
-            String detail = myJSONString(jsonEvent, "nameStr");
-            if (!assist.equals("")){
-                detail += "(" + assist + ")";
+            String detail = "";
+            if (type.equals("Goal")) {
+                String assist = myJSONString(jsonEvent, "assistStr");
+                detail = myJSONString(jsonEvent, "nameStr");
+                if (!assist.equals("")) {
+                    detail += "(" + assist + ")";
+                }
+            } else if (type.equals("Substitution")) {
+                JSONArray jsonSwap = myJSONArray(jsonEvent, "swap");
+                JSONObject jsonIn = myJSONObject(jsonSwap, 0);
+                JSONObject jsonOut = myJSONObject(jsonSwap, 1);
+                detail = "Out: " + myJSONString(jsonOut, "name")
+                        + " In: " + myJSONString(jsonIn, "name");
+            } else if (type.equals("Card")) {
+                detail = myJSONString(jsonEvent, "nameStr");
+                detail += "(" + myJSONString(jsonEvent, "card") + ")";
             }
+            event.setDetail(detail);
             eventList.add(event);
         }
         return eventList;

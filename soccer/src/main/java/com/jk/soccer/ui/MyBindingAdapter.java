@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.data.local.TableMatch;
+import com.jk.soccer.data.local.TablePlayer;
 import com.jk.soccer.ui.MyViewModel;
+import com.jk.soccer.ui.matchInfo.Event;
 import com.jk.soccer.ui.matchInfo.EventListAdapter;
 import com.jk.soccer.ui.matchList.MatchListAdapter;
 import com.jk.soccer.ui.playerList.PlayerListAdapter;
+
+import java.util.List;
 
 public class MyBindingAdapter {
 
@@ -52,14 +56,14 @@ public class MyBindingAdapter {
     }
 
     @BindingAdapter({"recyclerView"})
-    public static void recycler(RecyclerView recyclerView, MyViewModel viewModel){
+    public static void recycler(RecyclerView recyclerView, List<?> list){
         if (recyclerView.getAdapter() instanceof  PlayerListAdapter){
-            ((PlayerListAdapter) recyclerView.getAdapter()).setPlayerList(viewModel.getPlayers());
+            ((PlayerListAdapter) recyclerView.getAdapter()).setPlayerList((List<TablePlayer>)list);
         } else if (recyclerView.getAdapter() instanceof  MatchListAdapter){
-            ((MatchListAdapter) recyclerView.getAdapter()).setMatchList(viewModel.getMatches());
+            ((MatchListAdapter) recyclerView.getAdapter()).setMatchList((List<TableMatch>)list);
         }
-//        else if (recyclerView.getAdapter() instanceof EventListAdapter){
-//            ((EventListAdapter) recyclerView.getAdapter()).setEventList(viewModel.getEventListLiveData(index).getValue());
-//        }
+        else if (recyclerView.getAdapter() instanceof EventListAdapter){
+            ((EventListAdapter) recyclerView.getAdapter()).setEventList((List<Event>)list);
+        }
     }
 }

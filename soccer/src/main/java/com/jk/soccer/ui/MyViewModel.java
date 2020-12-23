@@ -202,6 +202,12 @@ public class MyViewModel extends AndroidViewModel {
 
     public List<TableMatch> getMatches() { return repository.getMatch(); }
 
+    public List<Event> getEvents(Integer index) {
+        List<TableMatch> matches = getMatches();
+        String eventString = matches.get(index).getEvent();
+        return MyParser.myEventList(eventString);
+    }
+
     public LiveData<Integer> getIdLiveData(Integer index){
         return idLiveDataList.get(index);
     }

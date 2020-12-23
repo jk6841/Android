@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintWidth_percent="0.2"
-            android:text="@{event.time}"
+            android:text="@{event.time.toString()}"
             android:gravity="center"
             android:fontFamily="@font/paybooc"
             app:layout_constraintBottom_toBottomOf="parent"
