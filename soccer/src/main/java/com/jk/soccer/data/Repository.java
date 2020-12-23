@@ -297,6 +297,11 @@ public class Repository {
                 try{
                     JSONObject jsonObject = new JSONObject(jsonString);
                     fixture = jsonObject.getString("fixtures");
+                    JSONArray jsonFixtures = jsonObject.getJSONArray("fixtures");
+                    for (int i = 0; i < jsonFixtures.length(); i++){
+                        JSONObject jsonFixture = jsonFixtures.getJSONObject(i);
+                        repository.getRemoteMatchInfo(jsonFixture.getInt("id"));
+                    }
                     JSONObject jsonTableData = jsonObject.getJSONObject("tableData");
                     JSONArray jsonTables = jsonTableData.getJSONArray("tables");
                     JSONObject jsonTablesElem = jsonTables.getJSONObject(0);

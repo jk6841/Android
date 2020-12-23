@@ -129,13 +129,13 @@ public abstract class DBDao {
     @Query("SELECT * FROM TableMatch WHERE ID = :id")
     public abstract List<TableMatch> findMatch(Integer id);
 
-    @Query("SELECT * FROM TableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, StartTimeStr")
+    @Query("SELECT * FROM TableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, Time")
     public abstract List<TableMatch> findMatch();
 
     @Query("SELECT * FROM TableMatch WHERE ID = :id")
     public abstract LiveData<TableMatch> findMatchLiveData(Integer id);
 
-    @Query("SELECT * FROM TableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, StartTimeStr")
+    @Query("SELECT * FROM TableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, Time")
     public abstract LiveData<List<TableMatch>> findMatchLiveData();
 
     //// Delete ////

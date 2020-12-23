@@ -29,8 +29,8 @@ public class MyBindingAdapter {
         String yearStr = match.getYear().toString() + "년";
         String monthStr = match.getMonth().toString() + "월";
         String dateStr = match.getDate().toString() + "일";
-        String dayStr = match.getDayStr();
-        String timeStr = match.getStartTimeStr();
+        String dayStr = match.getDay();
+        String timeStr = match.getTime();
         String[] text = new String[] {yearStr, monthStr, dateStr, dayStr, timeStr};
         view.setText(TextUtils.join(" ", text));
     }

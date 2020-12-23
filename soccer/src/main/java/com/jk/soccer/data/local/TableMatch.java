@@ -31,9 +31,6 @@ public class TableMatch {
     @ColumnInfo (name = "Name")
     private String name = unknownMsg;
 
-    @ColumnInfo (name = "LeagueID")
-    private Integer leagueId;
-
     @ColumnInfo (name = "HomeID")
     private Integer homeId = 0;
 
@@ -67,8 +64,8 @@ public class TableMatch {
     @ColumnInfo (name = "Finished")
     private Boolean finished;
 
-    @ColumnInfo(name = "StartTimeStr")
-    private String startTimeStr = unknownMsg;
+    @ColumnInfo(name = "Time")
+    private String time = unknownMsg;
 
     @ColumnInfo(name = "Year")
     private Integer year = 0;
@@ -79,8 +76,8 @@ public class TableMatch {
     @ColumnInfo(name = "Date")
     private Integer date = 0;
 
-    @ColumnInfo(name = "DayStr")
-    private String dayStr = unknownMsg;
+    @ColumnInfo(name = "Day")
+    private String day = unknownMsg;
 
     @ColumnInfo(name = "Stadium")
     private String stadium = unknownMsg;
@@ -115,18 +112,17 @@ public class TableMatch {
             year = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.KOREA).format(dateValue));
             month = Integer.parseInt(new SimpleDateFormat("M", Locale.KOREA).format(dateValue));
             date = Integer.parseInt(new SimpleDateFormat("d", Locale.KOREA).format(dateValue));
-            dayStr = new SimpleDateFormat("E요일 ", Locale.KOREA).format(date);
-            startTimeStr = MyJSON.myJSONString(jsonStatus, "startTimeStr");
-            if (!startTimeStr.equals("")) {
-                Date date2 = new SimpleDateFormat("HH:mm").parse(startTimeStr);
-                startTimeStr = new SimpleDateFormat("H시 m분", Locale.KOREA).format(date2);
+            day = new SimpleDateFormat("E요일 ", Locale.KOREA).format(date);
+            time = MyJSON.myJSONString(jsonStatus, "startTimeStr");
+            if (!time.equals("")) {
+                Date date2 = new SimpleDateFormat("HH:mm").parse(time);
+                time = new SimpleDateFormat("H시 m분", Locale.KOREA).format(date2);
             }
             JSONObject jsonContent = MyJSON.myJSONObject(jsonObject, "content");
             JSONObject jsonMatchFacts = MyJSON.myJSONObject(jsonContent,"matchFacts");
             id = MyJSON.myJSONInt(jsonMatchFacts, "matchId");
             JSONObject jsonInfoBox = MyJSON.myJSONObject(jsonMatchFacts, "infoBox");
             JSONObject jsonTournament = MyJSON.myJSONObject(jsonInfoBox, "Tournament");
-            this.leagueId = MyJSON.myJSONInt(jsonTournament, "id");
             this.name = MyJSON.myJSONString(jsonTournament, "text");
             JSONObject jsonStadium = MyJSON.myJSONObject(jsonInfoBox, "Stadium");
             this.stadium = MyJSON.myJSONString(jsonStadium, "name");
@@ -141,14 +137,6 @@ public class TableMatch {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getLeagueId() {
-        return leagueId;
-    }
-
-    public void setLeagueId(Integer leagueId) {
-        this.leagueId = leagueId;
     }
 
     public String getName() {
@@ -247,12 +235,12 @@ public class TableMatch {
         this.finished = finished;
     }
 
-    public String getStartTimeStr() {
-        return startTimeStr;
+    public String getTime() {
+        return time;
     }
 
-    public void setStartTimeStr(String startTimeStr) {
-        this.startTimeStr = startTimeStr;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Integer getYear() {
@@ -279,12 +267,12 @@ public class TableMatch {
         this.date = date;
     }
 
-    public String getDayStr() {
-        return dayStr;
+    public String getDay() {
+        return day;
     }
 
-    public void setDayStr(String dayStr) {
-        this.dayStr = dayStr;
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public String getStadium() {
