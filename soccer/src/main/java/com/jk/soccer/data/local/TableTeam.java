@@ -116,8 +116,7 @@ public class TableTeam {
         try {
             JSONArray jsonFixtures = new JSONArray(fixture);
             for (int i = 0; i < jsonFixtures.length(); i++){
-                JSONObject jsonFixture = jsonFixtures.getJSONObject(i);
-                fixtures.add(jsonFixture.getInt("id"));
+                fixtures.add(jsonFixtures.getInt(i));
             }
             return fixtures;
         } catch (JSONException e){

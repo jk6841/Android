@@ -300,8 +300,16 @@ public class Repository {
                     JSONArray jsonFixtures = jsonObject.getJSONArray("fixtures");
                     for (int i = 0; i < jsonFixtures.length(); i++){
                         JSONObject jsonFixture = jsonFixtures.getJSONObject(i);
-                        repository.getRemoteMatchInfo(jsonFixture.getInt("id"));
+                        jsonFixture.remove("pageUrl");
+                        jsonFixture.remove("home");
+                        jsonFixture.remove("away");
+                        jsonFixture.remove("color");
+                        jsonFixture.remove("status");
+                        jsonFixture.remove("notStarted");
+                        jsonFixtures.remove(i);
+                        jsonFixtures.put(i, jsonFixture.getInt("id"));
                     }
+                    fixture = jsonFixtures.toString();
                     JSONObject jsonTableData = jsonObject.getJSONObject("tableData");
                     JSONArray jsonTables = jsonTableData.getJSONArray("tables");
                     JSONObject jsonTablesElem = jsonTables.getJSONObject(0);
