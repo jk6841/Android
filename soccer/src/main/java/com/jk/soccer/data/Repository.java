@@ -36,7 +36,6 @@ public class Repository {
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
-        myParser = MyParser.getInstance();
         initialize();
     }
 
@@ -77,7 +76,7 @@ public class Repository {
 
     public TablePlayer getPlayer(Integer id){
         try {
-            return new PlayerTask(mDao, Query.Read, "").execute(id).get().get(0);
+            return new PlayerTask(mDao, Query.Read).execute(id).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -86,7 +85,7 @@ public class Repository {
 
     public List<TablePlayer> getPlayer(){
         try {
-            return new PlayerTask(mDao, Query.Read, "").execute().get();
+            return new PlayerTask(mDao, Query.Read).execute().get();
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -95,7 +94,7 @@ public class Repository {
 
     public TableTeam getTeam(Integer id){
         try {
-            return new TeamTask(mDao, Query.Read, "").execute(id).get().get(0);
+            return new TeamTask(mDao, Query.Read).execute(id).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -104,7 +103,7 @@ public class Repository {
 
     public List<TableTeam> getTeam() {
         try {
-            return new TeamTask(mDao, Query.Read, "").execute().get();
+            return new TeamTask(mDao, Query.Read).execute().get();
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -113,7 +112,7 @@ public class Repository {
 
     public TableMatch getMatch(Integer id){
         try {
-            return new MatchTask(mDao, Query.Read, "").execute(id).get().get(0);
+            return new MatchTask(mDao, Query.Read).execute(id).get().get(0);
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -122,7 +121,7 @@ public class Repository {
 
     public List<TableMatch> getMatch() {
         try {
-            return new MatchTask(mDao, Query.Read, "").execute().get();
+            return new MatchTask(mDao, Query.Read).execute().get();
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -135,7 +134,6 @@ public class Repository {
     final private RetrofitClient retrofitClient;
     final private Database database;
     final private DBDao mDao;
-    private static MyParser myParser;
 
     private void getRemoteMatchList(Integer teamID) {
         TableTeam team = getTeam(teamID);
@@ -159,7 +157,7 @@ public class Repository {
     public void bookmark(boolean bookmark, Integer id){
         TablePlayer player = getPlayer(id);
         Integer query = bookmark? Query.BookmarkOn : Query.BookmarkOff;
-        new PlayerTask(mDao, query, "").execute(id);
+        new PlayerTask(mDao, query).execute(id);
         if (bookmark){
             getRemoteMatchList(player.getTeamID());
         }
@@ -239,6 +237,11 @@ public class Repository {
         protected Integer query;
         protected String jsonString;
 
+        public DBTask(DBDao dao, Integer query){
+            this.dao = dao;
+            this.query = query;
+        }
+
         public DBTask(DBDao dao, Integer query, String jsonString){
             this.dao = dao;
             this.query = query;
@@ -248,6 +251,9 @@ public class Repository {
     }
 
     private static class PlayerTask extends DBTask<TablePlayer>{
+        public PlayerTask(DBDao dao, Integer action){
+            super(dao, action);
+        }
 
         public PlayerTask(DBDao dao, Integer action, String jsonString){
             super(dao, action, jsonString);
@@ -257,11 +263,7 @@ public class Repository {
         protected List<TablePlayer> doInBackground(Integer... ids) {
             List<TablePlayer> result = null;
             if (query.equals(Query.Read)) {
-                if (ids.length > 0)
-                    result = dao.findPlayer(ids[0]);
-                else{
-                    result = dao.findPlayer();
-                }
+                result = (ids.length > 0)? dao.findPlayer(ids[0]) : dao.findPlayer();
             } else if (query.equals(Query.BookmarkOn)) {
                 dao.registerPlayerBookmark(ids[0]);
             } else if (query.equals(Query.BookmarkOff)) {
@@ -272,6 +274,10 @@ public class Repository {
     }
 
     private static class TeamTask extends DBTask<TableTeam>{
+        public TeamTask(DBDao dao, Integer query){
+            super(dao, query);
+        }
+
         public TeamTask(DBDao dao, Integer query, String jsonString){
             super(dao, query, jsonString);
         }
@@ -280,7 +286,7 @@ public class Repository {
         protected List<TableTeam> doInBackground(Integer... ids) {
             List<TableTeam> result = null;
             if (query.equals(Query.Update)) {
-                TableTeam team = myParser.myJSONTeam(jsonString, ids[0]);
+                TableTeam team = MyParser.myJSONTeam(jsonString, ids[0]);
                 dao.updateTeamByID(
                         team.getRank(),
                         team.getTopRating(),
@@ -289,17 +295,17 @@ public class Repository {
                         team.getFixture(),
                         ids[0]);
             } else if (query.equals(Query.Read)) {
-                if (ids.length > 0){
-                    result = dao.findTeam(ids[0]);
-                } else {
-                    result = dao.findTeam();
-                }
+                result = (ids.length > 0)? dao.findTeam(ids[0]) : dao.findTeam();
             }
             return result;
         }
     }
 
     private static class MatchTask extends DBTask<TableMatch>{
+        public MatchTask(DBDao dao, Integer action){
+            super(dao, action);
+        }
+
         public MatchTask(DBDao dao, Integer action, String jsonString){
             super(dao, action, jsonString);
         }
@@ -308,17 +314,10 @@ public class Repository {
         protected List<TableMatch> doInBackground(Integer... ids) {
             List <TableMatch> result = null;
             if (query.equals(Query.Create)) {
-//                TableMatch match = new TableMatch(jsonString);
-                TableMatch match = myParser.myJSONMatch(jsonString, ids[0]);
+                TableMatch match = MyParser.myJSONMatch(jsonString, ids[0]);
                 dao.insertMatch(match);
-            } else if (query.equals(Query.Delete)) {
-
             } else if (query.equals(Query.Read)) {
-                if (ids.length > 0) {
-                    result = dao.findMatch(ids[0]);
-                } else {
-                    result = dao.findMatch();
-                }
+                result = (ids.length > 0)? dao.findMatch(ids[0]) : dao.findMatch();
             }
             return result;
         }

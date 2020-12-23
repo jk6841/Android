@@ -4,42 +4,21 @@ import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.data.local.TableTeam;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 public class MyParser {
 
-    private static MyParser myParser = null;
-    private static SimpleDateFormat inputDateFormat;
-    private static SimpleDateFormat yearFormat;
-    private static SimpleDateFormat monthFormat;
-    private static SimpleDateFormat dateFormat;
-    private static SimpleDateFormat dayFormat;
-    private static SimpleDateFormat inputTimeFormat;
-    private static SimpleDateFormat timeFormat;
-
-
-    private MyParser(){
-        inputDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
-        yearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-        monthFormat = new SimpleDateFormat("M", Locale.KOREA);
-        dateFormat = new SimpleDateFormat("d", Locale.KOREA);
-        dayFormat = new SimpleDateFormat("E요일 ", Locale.KOREA);
-        inputTimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
-        timeFormat = new SimpleDateFormat("H시 m분", Locale.KOREA);
-    }
-
-    public static MyParser getInstance(){
-        if (myParser == null){
-            myParser = new MyParser();
-        }
-        return myParser;
-    }
+    final private static SimpleDateFormat inputDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+    final private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
+    final private static SimpleDateFormat monthFormat = new SimpleDateFormat("M", Locale.KOREA);
+    final private static SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.KOREA);
+    final private static SimpleDateFormat dayFormat = new SimpleDateFormat("E요일 ", Locale.KOREA);
+    final private static SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
+    final private static SimpleDateFormat timeFormat = new SimpleDateFormat("H시 m분", Locale.KOREA);
 
     public static JSONObject myJSONObject(JSONObject jsonObject, String string){
         try{
