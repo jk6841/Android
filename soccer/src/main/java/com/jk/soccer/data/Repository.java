@@ -306,7 +306,6 @@ public class Repository {
                         jsonFixture.remove("color");
                         jsonFixture.remove("status");
                         jsonFixture.remove("notStarted");
-                        jsonFixtures.remove(i);
                         jsonFixtures.put(i, jsonFixture.getInt("id"));
                     }
                     fixture = jsonFixtures.toString();
