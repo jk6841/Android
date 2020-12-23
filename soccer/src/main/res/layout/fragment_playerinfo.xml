@@ -235,7 +235,7 @@
             android:layout_width="242dp"
             android:layout_height="217dp"
             android:contentDescription="@string/player_image"
-            app:glideUrl="@{@string/baseUrl2 + viewModel.getIdLiveData(index) + @string/png}"
+            glideUrl="@{@string/baseUrl2 + viewModel.getIdLiveData(index) + @string/png}"
             app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"

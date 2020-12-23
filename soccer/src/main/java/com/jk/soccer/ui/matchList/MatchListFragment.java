@@ -23,6 +23,7 @@ public class MatchListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ((MainActivity) getActivity()).getViewModel();
+        viewModel.initMatch();
     }
 
     @Nullable
@@ -31,11 +32,8 @@ public class MatchListFragment extends Fragment {
         FragmentMatchlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matchlist, container, false);
         binding.setLifecycleOwner(this);
-        viewModel.initMatch();
         binding.recMatch.setAdapter(new MatchListAdapter(viewModel.getMatches()));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
-
-
 }

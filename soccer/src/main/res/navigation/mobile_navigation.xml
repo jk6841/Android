@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/nav_playerList">
+
+    <fragment
+        android:id="@+id/nav_playerList"
+        android:name="com.jk.soccer.ui.playerList.PlayerListFragment"
+        android:label="PlayerListFragment"
+        tools:layout="@layout/fragment_playerlist">
+        <action
+            android:id="@+id/action_nav_playerList_to_nav_playerInfo"
+            app:destination="@id/nav_playerInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_matchList"
+        android:name="com.jk.soccer.ui.matchList.MatchListFragment"
+        android:label="MatchListFragment"
+        tools:layout="@layout/fragment_matchlist" >
+        <action
+            android:id="@+id/action_nav_matchList_to_nav_matchInfo"
+            app:destination="@id/nav_matchInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_playerInfo"
+        android:name="com.jk.soccer.ui.playerInfo.PlayerInfoFragment"
+        android:label="PlayerInfoFragment"
+        tools:layout="@layout/fragment_playerinfo" />
+    <fragment
+        android:id="@+id/nav_matchInfo"
+        android:name="com.jk.soccer.ui.matchInfo.MatchInfoFragment"
+        android:label="MatchInfoFragment"
+        tools:layout="@layout/fragment_matchinfo" />
+
+</navigation>

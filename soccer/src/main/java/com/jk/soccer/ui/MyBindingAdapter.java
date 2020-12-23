@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.ui.MyViewModel;
+import com.jk.soccer.ui.matchInfo.EventListAdapter;
 import com.jk.soccer.ui.matchList.MatchListAdapter;
 import com.jk.soccer.ui.playerList.PlayerListAdapter;
 
@@ -57,5 +58,8 @@ public class MyBindingAdapter {
         } else if (recyclerView.getAdapter() instanceof  MatchListAdapter){
             ((MatchListAdapter) recyclerView.getAdapter()).setMatchList(viewModel.getMatches());
         }
+//        else if (recyclerView.getAdapter() instanceof EventListAdapter){
+//            ((EventListAdapter) recyclerView.getAdapter()).setEventList(viewModel.getEventListLiveData(index).getValue());
+//        }
     }
 }

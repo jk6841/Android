@@ -30,6 +30,9 @@ public class TableMatch {
     @ColumnInfo (name = "HomeImage")
     private String homeImage = unknownMsg;
 
+    @ColumnInfo (name = "HomeLineup")
+    private String homeLineup = unknownMsg;
+
     @ColumnInfo (name = "AwayID")
     private Integer awayId = 0;
 
@@ -41,6 +44,9 @@ public class TableMatch {
 
     @ColumnInfo (name = "AwayImage")
     private String awayImage = unknownMsg;
+
+    @ColumnInfo (name = "AwayLineup")
+    private String awayLineup = unknownMsg;
 
     @ColumnInfo (name = "Started")
     private Boolean started;
@@ -68,6 +74,18 @@ public class TableMatch {
 
     @ColumnInfo(name = "Stadium")
     private String stadium = unknownMsg;
+
+    @ColumnInfo(name = "Event")
+    private String event = unknownMsg;
+
+    @ColumnInfo(name = "BestPlayerID")
+    private Integer bestPlayerID = 0;
+
+    @ColumnInfo(name = "BestPlayerName")
+    private String bestPlayerName = unknownMsg;
+
+    @ColumnInfo(name = "BestTeam")
+    private String bestTeam = unknownMsg;
 
     public TableMatch(Integer id){
         this.id = id;
@@ -121,6 +139,14 @@ public class TableMatch {
         this.homeImage = homeImage;
     }
 
+    public String getHomeLineup() {
+        return homeLineup;
+    }
+
+    public void setHomeLineup(String homeLineup) {
+        this.homeLineup = homeLineup;
+    }
+
     public Integer getAwayId() {
         return awayId;
     }
@@ -151,6 +177,14 @@ public class TableMatch {
 
     public void setAwayImage(String awayImage) {
         this.awayImage = awayImage;
+    }
+
+    public String getAwayLineup() {
+        return awayLineup;
+    }
+
+    public void setAwayLineup(String awayLineup) {
+        this.awayLineup = awayLineup;
     }
 
     public Boolean getStarted() {
@@ -225,4 +259,35 @@ public class TableMatch {
         this.stadium = stadium;
     }
 
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public Integer getBestPlayerID() {
+        return bestPlayerID;
+    }
+
+    public void setBestPlayerID(Integer bestPlayerID) {
+        this.bestPlayerID = bestPlayerID;
+    }
+
+    public String getBestPlayerName() {
+        return bestPlayerName;
+    }
+
+    public void setBestPlayerName(String bestPlayer) {
+        this.bestPlayerName = bestPlayer;
+    }
+
+    public String getBestTeam() {
+        return bestTeam;
+    }
+
+    public void setBestTeam(String bestTeam) {
+        this.bestTeam = bestTeam;
+    }
 }

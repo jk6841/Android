@@ -1,12 +1,14 @@
-package com.jk.soccer.data;
+package com.jk.soccer.etc;
 
 import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.data.local.TableTeam;
+import com.jk.soccer.ui.matchInfo.Event;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -59,6 +61,15 @@ public class MyParser {
     public static String myJSONString(JSONObject jsonObject, String string){
         try {
             return jsonObject.getString(string);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String myJSONString(JSONArray jsonArray, Integer index){
+        try{
+            return jsonArray.getString(index);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -160,12 +171,41 @@ public class MyParser {
         JSONObject jsonContent = myJSONObject(jsonObject, "content");
         JSONObject jsonMatchFacts = myJSONObject(jsonContent,"matchFacts");
         match.setId(myJSONInt(jsonMatchFacts, "matchId"));
+        JSONObject jsonBestPlayer = myJSONObject(jsonMatchFacts, "playerOfTheMatch");
+        match.setBestPlayerID(myJSONInt(jsonBestPlayer, "id"));
+        match.setBestPlayerName(myJSONString(jsonBestPlayer, "name"));
+        match.setBestTeam(myJSONString(jsonBestPlayer, "teamName"));
+        match.setEvent(myJSONString(jsonMatchFacts, "events"));
         JSONObject jsonInfoBox = myJSONObject(jsonMatchFacts, "infoBox");
         JSONObject jsonTournament = myJSONObject(jsonInfoBox, "Tournament");
         match.setName(myJSONString(jsonTournament, "text"));
         JSONObject jsonStadium = myJSONObject(jsonInfoBox, "Stadium");
         match.setStadium(myJSONString(jsonStadium, "name"));
+        JSONObject jsonLineups = myJSONObject(jsonContent, "lineup");
+        JSONArray jsonLineupArray = myJSONArray(jsonLineups, "lineup");
+        match.setHomeLineup(myJSONString(jsonLineupArray, 0));
+        match.setAwayLineup(myJSONString(jsonLineupArray, 1));
         return match;
+    }
+
+    public static ArrayList<Event> myEventList(String jsonString){
+        ArrayList<Event> eventList = new ArrayList<>();
+        JSONObject jsonObject = myJSONObject(jsonString);
+        JSONArray jsonEventArray = myJSONArray(jsonObject, "events");
+        for (int i = 0; i < jsonEventArray.length(); i++){
+            Event event = new Event();
+            JSONObject jsonEvent = myJSONObject(jsonEventArray, i);
+            event.setTime(myJSONInt(jsonEvent, "time"));
+            event.setType(myJSONString(jsonEvent, "type"));
+            event.setHome(myJSONBoolean(jsonEvent, "isHome"));
+            String assist = myJSONString(jsonEvent, "assistStr");
+            String detail = myJSONString(jsonEvent, "nameStr");
+            if (!assist.equals("")){
+                detail += "(" + assist + ")";
+            }
+            eventList.add(event);
+        }
+        return eventList;
     }
 
     public static Date myDate(SimpleDateFormat format, String text){

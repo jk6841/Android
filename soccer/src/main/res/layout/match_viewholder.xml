@@ -18,7 +18,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:background="@{(pos % 2 == 0)? @color/skyBlue : @color/lightGreen}"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/rec_item_height">
+        android:layout_height="@dimen/rec_item_height"
+        android:onClick="@{(v)->handlers.onMatchListClick(v, pos)}">
 
         <ImageView
             android:id="@+id/img_away"
