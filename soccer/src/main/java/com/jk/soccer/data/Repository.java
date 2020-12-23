@@ -84,7 +84,7 @@ public class Repository {
 
     public List<TablePlayer> getPlayer(){
         try {
-            return new PlayerTask(mDao, Query.ReadAll, "").execute().get();
+            return new PlayerTask(mDao, Query.Read, "").execute().get();
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -102,7 +102,7 @@ public class Repository {
 
     public List<TableTeam> getTeam() {
         try {
-            return new TeamTask(mDao, Query.ReadAll, "").execute().get();
+            return new TeamTask(mDao, Query.Read, "").execute().get();
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -120,7 +120,7 @@ public class Repository {
 
     public List<TableMatch> getMatch() {
         try {
-            return new MatchTask(mDao, Query.ReadAll, "").execute().get();
+            return new MatchTask(mDao, Query.Read, "").execute().get();
         } catch(ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -214,11 +214,10 @@ public class Repository {
     private interface Query{
         Integer Create = 0;
         Integer Delete = 1;
-        Integer ReadAll = 2;
-        Integer Read = 3;
-        Integer Update = 4;
-        Integer BookmarkOn = 5;
-        Integer BookmarkOff = 6;
+        Integer Read = 2;
+        Integer Update = 3;
+        Integer BookmarkOn = 4;
+        Integer BookmarkOff = 5;
     }
 
     private static abstract class DBTask<T> extends AsyncTask<Integer, Void, List<T>>{
@@ -248,10 +247,12 @@ public class Repository {
 
             } else if (query.equals(Query.Delete)) {
 
-            } else if (query.equals(Query.ReadAll)) {
-                result = dao.findPlayer();
             } else if (query.equals(Query.Read)) {
-                result = dao.findPlayer(ids[0]);
+                if (ids.length > 0)
+                    result = dao.findPlayer(ids[0]);
+                else{
+                    result = dao.findPlayer();
+                }
             } else if (query.equals(Query.Update)) {
             } else if (query.equals(Query.BookmarkOn)) {
                 dao.registerPlayerBookmark(ids[0]);
@@ -275,10 +276,12 @@ public class Repository {
                 dao.insertTeam(team);
             } else if (query.equals(Query.Delete)) {
 
-            } else if (query.equals(Query.ReadAll)) {
-                result = dao.findTeam();
             } else if (query.equals(Query.Read)) {
-                result = dao.findTeam(ids[0]);
+                if (ids.length > 0){
+                    result = dao.findTeam(ids[0]);
+                } else {
+                    result = dao.findTeam();
+                }
             }
             return result;
         }
@@ -297,8 +300,12 @@ public class Repository {
                 dao.insertMatch(match);
             } else if (query.equals(Query.Delete)) {
 
-            } else if (query.equals(Query.ReadAll)) {
-                result = dao.findMatch();
+            } else if (query.equals(Query.Read)) {
+                if (ids.length > 0) {
+                    result = dao.findMatch(ids[0]);
+                } else {
+                    result = dao.findMatch();
+                }
             }
             return result;
         }
