@@ -36,17 +36,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:background="#FFFFFF"
-                    android:textSize="@dimen/midFont"
-                    android:gravity="center"
-                    android:text="@string/name_header" />
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
+                    android:text="@string/name_header"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/midBigFont" />
 
                 <TextView
                     android:id="@+id/tbl_01"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getNameLiveData(index)}" />
             </TableRow>
@@ -62,9 +65,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:background="#FFFFFF"
-                    android:textSize="@dimen/midFont"
-                    android:gravity="center"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
                     android:text="@string/team_header" />
 
                 <TextView
@@ -72,7 +76,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getTeamLiveData(index)}" />
             </TableRow>
@@ -88,9 +94,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:background="#FFFFFF"
-                    android:textSize="@dimen/midFont"
-                    android:gravity="center"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
                     android:text="@string/shirt_header" />
 
                 <TextView
@@ -98,7 +105,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getShirtLiveData(index)}" />
             </TableRow>
@@ -114,9 +123,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:background="#FFFFFF"
-                    android:textSize="@dimen/midFont"
-                    android:gravity="center"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
                     android:text="@string/position_header" />
 
                 <TextView
@@ -124,7 +134,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getPositionLiveData(index)}" />
             </TableRow>
@@ -140,9 +152,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:textSize="@dimen/midFont"
-                    android:background="#FFFFFF"
-                    android:gravity="center"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
                     android:text="@string/foot_header" />
 
                 <TextView
@@ -150,7 +163,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getFootLiveData(index)}" />
             </TableRow>
@@ -166,9 +181,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:textSize="@dimen/midFont"
-                    android:background="#FFFFFF"
-                    android:gravity="center"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
                     android:text="@string/height_header" />
 
                 <TextView
@@ -176,7 +192,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getHeightLiveData(index)}" />
             </TableRow>
@@ -192,9 +210,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column0"
-                    android:textSize="@dimen/midFont"
-                    android:background="#FFFFFF"
-                    android:gravity="center"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"
                     android:text="@string/age_header" />
 
                 <TextView
@@ -202,7 +221,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midFont"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
                     android:gravity="center"
                     android:text="@{viewModel.getBirthLiveData(index)}" />
             </TableRow>

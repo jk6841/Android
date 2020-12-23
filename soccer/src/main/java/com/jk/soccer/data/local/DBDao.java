@@ -32,8 +32,7 @@ public abstract class DBDao {
             "tablePlayer.Birth AS birth," +
             "tablePlayer.Shirt AS shirt," +
             "tableTeam.Name AS team," +
-            "tablePlayer.Bookmark AS bookmark," +
-            "tableTeam.ID AS teamID " +
+            "tablePlayer.Bookmark AS bookmark " +
             "FROM tablePlayer, tableTeam " +
             "WHERE tablePlayer.ID = :id " +
             "AND " +
@@ -44,22 +43,6 @@ public abstract class DBDao {
     public abstract LiveData<List<TablePlayer>> findPlayerLiveData();
 
     //// Update ////
-
-//    @Query("UPDATE TablePlayer SET " +
-//            "TeamID = :teamID, " +
-//            "Position = :position, " +
-//            "Height = :height, " +
-//            "Foot = :foot, " +
-//            "Age = :age, " +
-//            "Shirt = :shirt " +
-//            "WHERE ID = :id")
-//    public abstract void updatePlayerInfoById(Integer teamID,
-//                              String position,
-//                              String height,
-//                              String foot,
-//                              Integer age,
-//                              Integer shirt,
-//                              Integer id);
 
     @Query("UPDATE TablePlayer SET Bookmark = NOT Bookmark WHERE ID = :id")
     abstract void togglePlayerBookmarkById(Integer id);

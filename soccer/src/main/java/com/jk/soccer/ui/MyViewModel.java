@@ -36,16 +36,26 @@ public class MyViewModel extends AndroidViewModel {
     public void initPlayer(){
         List<TablePlayer> players = repository.getPlayer();
         for (int i = 0; i < players.size(); i++){
-            LiveData<Player> playerLiveData = repository.getPlayerLiveData(players.get(i).getId());
-            LiveData<Integer> idLiveData = Transformations.map(playerLiveData, Player::getId);
-            LiveData<String> nameLiveData = (Transformations.map(playerLiveData, Player::getName));
-            LiveData<String> positionLiveData = (Transformations.map(playerLiveData, Player::getPosition));
-            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, Player::printHeight));
-            LiveData<String> footLiveData = (Transformations.map(playerLiveData, Player::getFoot));
-            LiveData<String> birthLiveData = (Transformations.map(playerLiveData, Player::getBirth));
-            LiveData<String> shirtLiveData = (Transformations.map(playerLiveData, Player::printShirt));
-            LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, Player::getBookmark));
-            LiveData<String> teamLiveData = Transformations.map(playerLiveData, Player::getTeam);
+            LiveData<Player> playerLiveData
+                    = repository.getPlayerLiveData(players.get(i).getId());
+            LiveData<Integer> idLiveData
+                    = Transformations.map(playerLiveData, Player::getId);
+            LiveData<String> nameLiveData
+                    = Transformations.map(playerLiveData, Player::getName);
+            LiveData<String> positionLiveData
+                    = Transformations.map(playerLiveData, Player::getPosition);
+            LiveData<String> heightLiveData
+                    = Transformations.map(playerLiveData, input -> input.getHeight() + "cm");
+            LiveData<String> footLiveData
+                    = Transformations.map(playerLiveData, Player::getFoot);
+            LiveData<String> birthLiveData
+                    = Transformations.map(playerLiveData, Player::getBirth);
+            LiveData<String> shirtLiveData
+                    = Transformations.map(playerLiveData, input -> input.getShirt() + "번");
+            LiveData<Boolean> bookmarkLiveData
+                    = Transformations.map(playerLiveData, Player::getBookmark);
+            LiveData<String> teamLiveData
+                    = Transformations.map(playerLiveData, Player::getTeam);
             if (sortPlayer){
                 playerLiveDataList.set(i, playerLiveData);
                 idLiveDataList.set(i, idLiveData);
@@ -76,7 +86,8 @@ public class MyViewModel extends AndroidViewModel {
     public void initMatch(){
         List<TableMatch> matches = repository.getMatch();
         for (int i = 0; i < matches.size(); i++){
-            LiveData<TableMatch> matchLiveData = repository.getMatchLiveData(matches.get(i).getId());
+            LiveData<TableMatch> matchLiveData
+                    = repository.getMatchLiveData(matches.get(i).getId());
             if (sortMatch)
                 matchLiveDataList.set(i, matchLiveData);
             else

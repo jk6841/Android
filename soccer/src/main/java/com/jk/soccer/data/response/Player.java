@@ -10,7 +10,6 @@ public class Player {
     private Integer shirt;
     private String team;
     private Boolean bookmark;
-    private Integer teamID;
 
     public Integer getId() {
         return id;
@@ -44,10 +43,6 @@ public class Player {
         this.height = height;
     }
 
-    public String printHeight() {
-        return height + "cm";
-    }
-
     public String getFoot() {
         return foot;
     }
@@ -72,10 +67,6 @@ public class Player {
         this.shirt = shirt;
     }
 
-    public String printShirt() {
-        return shirt + "번";
-    }
-
     public String getTeam() {
         return team;
     }
@@ -92,11 +83,4 @@ public class Player {
         this.bookmark = bookmark;
     }
 
-    public Integer getTeamID() {
-        return teamID;
-    }
-
-    public void setTeamID(Integer teamID) {
-        this.teamID = teamID;
-    }
 }

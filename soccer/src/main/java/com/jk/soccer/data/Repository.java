@@ -3,6 +3,7 @@ package com.jk.soccer.data;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -34,7 +35,7 @@ public class Repository {
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
-        //initialize();
+        initialize();
     }
 
     public LiveData<Player> getPlayerLiveData(Integer id){
@@ -135,15 +136,6 @@ public class Repository {
     private DBDao mDao;
 
     private void initialize(){
-        List<TablePlayer> players = getPlayer();
-        for (int i = 0; i < players.size(); i++){
-            TablePlayer player = players.get(i);
-            Integer id = player.getId();
-            getRemotePlayerInfo(id);
-            if (player.getBookmark()){
-                getRemoteMatchList(player.getTeamID());
-            }
-        }
     }
 
     private void getRemoteMatchList(Integer teamID) {
@@ -152,11 +144,6 @@ public class Repository {
         for (int i = 0; i < fixtures.size(); i++){
             getRemoteMatchInfo(fixtures.get(i));
         }
-    }
-
-
-    private Integer getPlayerId(Integer index){
-        return getPlayer().get(index).getId();
     }
 
     public void bookmark(boolean bookmark, Integer id){
@@ -176,14 +163,7 @@ public class Repository {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
-                    try{
-                        String jsonString = response.body().string();
-                        new PlayerTask(mDao, Query.Update, jsonString).execute();
-                        TablePlayer player = getPlayer(playerID);
-                        getRemoteTeamInfo(player.getTeamID());
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
+
                 }
             }
 
@@ -199,17 +179,6 @@ public class Repository {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()){
-                    try{
-                        String jsonString = response.body().string();
-                        new TeamTask(mDao, Query.Create, jsonString).execute();
-//                        TableTeam team = getTeam(teamId);
-//                        ArrayList<Integer> fixtures = team.getFixtures();
-//                        for (int i = 0; i < fixtures.size(); i++){
-//                            getRemoteMatchInfo(fixtures.get(i));
-//                        }
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
                 }
             }
 
@@ -284,15 +253,6 @@ public class Repository {
             } else if (query.equals(Query.Read)) {
                 result = dao.findPlayer(ids[0]);
             } else if (query.equals(Query.Update)) {
-                TablePlayer player = new TablePlayer(jsonString);
-//                dao.updatePlayerInfoById(
-//                        player.getTeamID(),
-//                        player.getPosition(),
-//                        player.getHeight(),
-//                        player.getFoot(),
-//                        player.getAge(),
-//                        player.getShirt(),
-//                        player.getId());
             } else if (query.equals(Query.BookmarkOn)) {
                 dao.registerPlayerBookmark(ids[0]);
             } else if (query.equals(Query.BookmarkOff)) {
