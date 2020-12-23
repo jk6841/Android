@@ -100,7 +100,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.getShirtLiveData(index).toString()}" />
+                    android:text="@{viewModel.getShirtLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -178,7 +178,7 @@
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midFont"
                     android:gravity="center"
-                    android:text="@{viewModel.getHeightLiveData(index).toString()}" />
+                    android:text="@{viewModel.getHeightLiveData(index)}" />
             </TableRow>
 
             <TableRow
@@ -210,7 +210,7 @@
         </TableLayout>
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/playerImage"
             android:layout_width="242dp"
             android:layout_height="217dp"
             android:contentDescription="@string/player_image"
@@ -229,12 +229,13 @@
             android:layout_height="wrap_content"
             android:text="@string/bookmark"
             android:checked="@{viewModel.getBookmarkLiveData(index)}"
-            android:onClick="@{()->viewModel.setBookmark(!viewModel.getBookmarkLiveData(index), index)}"
+            android:onClick="@{()->viewModel.setBookmark(index)}"
+            android:buttonTint="@color/lightGreen"
             app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.914"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintTop_toBottomOf="@+id/playerImage"
             app:layout_constraintVertical_bias="0.62" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

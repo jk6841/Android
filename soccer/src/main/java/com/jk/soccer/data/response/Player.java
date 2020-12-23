@@ -44,6 +44,10 @@ public class Player {
         this.height = height;
     }
 
+    public String printHeight() {
+        return height + "cm";
+    }
+
     public String getFoot() {
         return foot;
     }
@@ -66,6 +70,10 @@ public class Player {
 
     public void setShirt(Integer shirt) {
         this.shirt = shirt;
+    }
+
+    public String printShirt() {
+        return shirt + "번";
     }
 
     public String getTeam() {

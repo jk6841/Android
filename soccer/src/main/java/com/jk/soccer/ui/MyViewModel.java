@@ -1,7 +1,6 @@
 package com.jk.soccer.ui;
 
 import android.app.Application;
-import android.content.ClipData;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -41,10 +40,10 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<Integer> idLiveData = Transformations.map(playerLiveData, Player::getId);
             LiveData<String> nameLiveData = (Transformations.map(playerLiveData, Player::getName));
             LiveData<String> positionLiveData = (Transformations.map(playerLiveData, Player::getPosition));
-            LiveData<Integer> heightLiveData = (Transformations.map(playerLiveData, Player::getHeight));
+            LiveData<String> heightLiveData = (Transformations.map(playerLiveData, Player::printHeight));
             LiveData<String> footLiveData = (Transformations.map(playerLiveData, Player::getFoot));
             LiveData<String> birthLiveData = (Transformations.map(playerLiveData, Player::getBirth));
-            LiveData<Integer> shirtLiveData = (Transformations.map(playerLiveData, Player::getShirt));
+            LiveData<String> shirtLiveData = (Transformations.map(playerLiveData, Player::printShirt));
             LiveData<Boolean> bookmarkLiveData = (Transformations.map(playerLiveData, Player::getBookmark));
             LiveData<String> teamLiveData = Transformations.map(playerLiveData, Player::getTeam);
             if (sortPlayer){
@@ -107,7 +106,7 @@ public class MyViewModel extends AndroidViewModel {
         return positionLiveDataList.get(index);
     }
 
-    public LiveData<Integer> getHeightLiveData(Integer index) {
+    public LiveData<String> getHeightLiveData(Integer index) {
         return heightLiveDataList.get(index);
     }
 
@@ -119,7 +118,7 @@ public class MyViewModel extends AndroidViewModel {
         return birthLiveDataList.get(index);
     }
 
-    public LiveData<Integer> getShirtLiveData(Integer index) {
+    public LiveData<String> getShirtLiveData(Integer index) {
         return shirtLiveDataList.get(index);
     }
 
@@ -127,8 +126,10 @@ public class MyViewModel extends AndroidViewModel {
         return bookmarkLiveDataList.get(index);
     }
 
-    public void setBookmark(boolean bookmark, Integer index){
-        repository.bookmark(bookmark, idLiveDataList.get(index).getValue());
+    public void setBookmark(Integer index){
+        repository.bookmark(
+                !bookmarkLiveDataList.get(index).getValue(),
+                idLiveDataList.get(index).getValue());
     }
 
     public LiveData<String> getTeamLiveData(Integer index){
@@ -142,10 +143,10 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<Integer>> idLiveDataList;
     final private ArrayList<LiveData<String>> nameLiveDataList;
     final private ArrayList<LiveData<String>> positionLiveDataList;
-    final private ArrayList<LiveData<Integer>> heightLiveDataList;
+    final private ArrayList<LiveData<String>> heightLiveDataList;
     final private ArrayList<LiveData<String>> footLiveDataList;
     final private ArrayList<LiveData<String>> birthLiveDataList;
-    final private ArrayList<LiveData<Integer>> shirtLiveDataList;
+    final private ArrayList<LiveData<String>> shirtLiveDataList;
     final private ArrayList<LiveData<Boolean>> bookmarkLiveDataList;
     final private ArrayList<LiveData<String>> teamLiveDataList;
     private Boolean sortPlayer = false;
