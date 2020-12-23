@@ -103,6 +103,14 @@ public class TableTeam {
         this.fixture = fixture;
     }
 
+    public Integer getBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(Integer bookmark) {
+        this.bookmark = bookmark;
+    }
+
     public ArrayList<Integer> getFixtures() {
         ArrayList<Integer> fixtures = new ArrayList<>();
         try {
@@ -151,6 +159,9 @@ public class TableTeam {
 
     @ColumnInfo(name = "Fixture")
     private String fixture;
+
+    @ColumnInfo(name = "Bookmark")
+    private Integer bookmark;
 
     public TableTeam(Integer id){
         this.id = id;

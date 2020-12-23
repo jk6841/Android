@@ -45,17 +45,19 @@ public abstract class DBDao {
     //// Update ////
 
     @Query("UPDATE TablePlayer SET Bookmark = NOT Bookmark WHERE ID = :id")
-    abstract void togglePlayerBookmarkById(Integer id);
+    abstract void togglePlayerBookmarkByID(Integer id);
 
     @Transaction
     public void registerPlayerBookmark(Integer id){
-        togglePlayerBookmarkById(id);
+        togglePlayerBookmarkByID(id);
+        increaseTeamBookmarkByPlayerID(id);
     }
 
     @Transaction
     public void unregisterPlayerBookmark(Integer id){
-        togglePlayerBookmarkById(id);
-        deleteMatchByPlayerId(id);
+        togglePlayerBookmarkByID(id);
+        decreaseTeamBookmarkByPlayerID(id);
+        deleteMatchByPlayerID(id);
     }
 
     //////// tableTeam ////////
@@ -68,8 +70,8 @@ public abstract class DBDao {
     //// Read ////
 
     @Query("SELECT * FROM TableTeam " +
-            "WHERE ID = (SELECT TeamID FROM TablePlayer WHERE ID = :playerId)")
-    public abstract LiveData<TableTeam> findTeamByPlayerId(Integer playerId);
+            "WHERE ID = (SELECT TeamID FROM TablePlayer WHERE ID = :playerID)")
+    public abstract LiveData<TableTeam> findTeamByPlayerID(Integer playerID);
 
     @Query("SELECT * FROM TableTeam WHERE ID = :id")
     public abstract List<TableTeam> findTeam(Integer id);
@@ -83,13 +85,37 @@ public abstract class DBDao {
     @Query("SELECT * FROM TableTeam")
     public abstract LiveData<List<TableTeam>> findTeamLiveData();
 
+    //// Update ////
+
+    @Query("UPDATE tableTeam " +
+            "SET Rank = :rank, " +
+            "TopRating = :topRating, " +
+            "TopGoal = :topGoal, " +
+            "TopAssist = :topAssist, " +
+            "Fixture = :fixture " +
+            "WHERE ID = :id")
+    public abstract void updateTeamByID(Integer rank,
+                                        String topRating,
+                                        String topGoal,
+                                        String topAssist,
+                                        String fixture, Integer id);
+
+    @Query("UPDATE tableTeam SET Bookmark = Bookmark + 1 " +
+            "WHERE ID = (SELECT TeamID From tablePlayer WHERE ID = :id)")
+    public abstract void increaseTeamBookmarkByPlayerID(Integer id);
+
+    @Query("UPDATE tableTeam SET Bookmark = Bookmark - 1 " +
+            "WHERE ID = (SELECT TeamID From tablePlayer WHERE ID = :id)")
+    public abstract void decreaseTeamBookmarkByPlayerID(Integer id);
+
+
     //// Delete ////
 
     @Query("DELETE FROM TableTeam WHERE " +
             "ID = (SELECT TeamID FROM TablePlayer WHERE ID = :id) " +
             "AND " +
             "ID NOT IN (SELECT TeamID FROM TablePlayer WHERE Bookmark = 1)")
-    abstract void deleteTeamByPlayerId(Integer id);
+    abstract void deleteTeamByPlayerID(Integer id);
 
     //////// tableMatch ////////
 
@@ -118,6 +144,6 @@ public abstract class DBDao {
             "DELETE FROM TableMatch " +
             "WHERE (HomeID = (SELECT * FROM Team)) " +
             "OR (AwayID = (SELECT * FROM Team))")
-    abstract void deleteMatchByPlayerId(Integer id);
+    abstract void deleteMatchByPlayerID(Integer id);
 
 }

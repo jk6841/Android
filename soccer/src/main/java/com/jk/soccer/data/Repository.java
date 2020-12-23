@@ -3,7 +3,6 @@ package com.jk.soccer.data;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -17,6 +16,9 @@ import com.jk.soccer.data.remote.RetrofitClient;
 import com.jk.soccer.data.response.Player;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class Repository {
     //// Public ////
 
     public Repository(Application application){
-        appContext = application.getApplicationContext();
+        Context appContext = application.getApplicationContext();
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
@@ -132,13 +134,9 @@ public class Repository {
     //// Private ////
 
     private static Repository repository = null;
-    private Context appContext;
-    private RetrofitClient retrofitClient;
-    private Database database;
-    private DBDao mDao;
-
-    private void initialize(){
-    }
+    final private RetrofitClient retrofitClient;
+    final private Database database;
+    final private DBDao mDao;
 
     private void getRemoteMatchList(Integer teamID) {
         TableTeam team = getTeam(teamID);
@@ -148,14 +146,23 @@ public class Repository {
         }
     }
 
+    private void initialize(){
+        List<TableTeam> teams = getTeam();
+        for (int i = 0; i < teams.size(); i++){
+            TableTeam team = teams.get(i);
+            getRemoteTeamInfo(team.getId());
+            if (team.getBookmark() > 0){
+                getRemoteMatchList(team.getId());
+            }
+        }
+    }
+
     public void bookmark(boolean bookmark, Integer id){
         TablePlayer player = getPlayer(id);
-        player.setBookmark(bookmark);
         Integer query = bookmark? Query.BookmarkOn : Query.BookmarkOff;
         new PlayerTask(mDao, query, "").execute(id);
-        Integer teamID = player.getTeamID();
         if (bookmark){
-            getRemoteMatchList(teamID);
+            getRemoteMatchList(player.getTeamID());
         }
     }
 
@@ -181,6 +188,12 @@ public class Repository {
             @Override
             public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (response.isSuccessful()){
+                    try{
+                        String jsonString = response.body().string();
+                        new TeamTask(mDao, Query.Update, jsonString).execute(teamId);
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -275,8 +288,37 @@ public class Repository {
             if (query.equals(Query.Create)) {
                 TableTeam team = new TableTeam(jsonString);
                 dao.insertTeam(team);
-            } else if (query.equals(Query.Delete)) {
-
+            } else if (query.equals(Query.Update)) {
+                Integer rank = 0;
+                String topRating = "";
+                String topGoal = "";
+                String topAssist = "";
+                String fixture = "";
+                try{
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    fixture = jsonObject.getString("fixtures");
+                    JSONObject jsonTableData = jsonObject.getJSONObject("tableData");
+                    JSONArray jsonTables = jsonTableData.getJSONArray("tables");
+                    JSONObject jsonTablesElem = jsonTables.getJSONObject(0);
+                    JSONArray jsonTable = jsonTablesElem.getJSONArray("table");
+                    for (int i = 0; i < jsonTable.length(); i++){
+                        JSONObject jsonTableElem = jsonTable.getJSONObject(i);
+                        if (ids[0].equals(jsonTableElem.getInt("id"))){
+                            rank = i + 1;
+                            break;
+                        }
+                    }
+                    JSONObject jsonTopPlayers = jsonObject.getJSONObject("topPlayers");
+                    JSONArray jsonTopRating = jsonTopPlayers.getJSONArray("byRating");
+                    JSONArray jsonTopGoal = jsonTopPlayers.getJSONArray("byGoals");
+                    JSONArray jsonTopAssist = jsonTopPlayers.getJSONArray("byAssists");
+                    topRating = jsonTopRating.getJSONObject(0).getString("name");
+                    topGoal = jsonTopGoal.getJSONObject(0).getString("name");
+                    topAssist = jsonTopAssist.getJSONObject(0).getString("name");
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+                dao.updateTeamByID(rank, topRating, topGoal, topAssist, fixture, ids[0]);
             } else if (query.equals(Query.Read)) {
                 if (ids.length > 0){
                     result = dao.findTeam(ids[0]);
