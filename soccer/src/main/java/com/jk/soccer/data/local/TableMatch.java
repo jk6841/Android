@@ -1,22 +1,9 @@
 package com.jk.soccer.data.local;
 
-import android.text.format.Time;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import com.jk.soccer.etc.MyJSON;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 @Entity (tableName = "tableMatch")
 public class TableMatch {
@@ -84,51 +71,6 @@ public class TableMatch {
 
     public TableMatch(Integer id){
         this.id = id;
-    }
-
-    @Ignore
-    public TableMatch(String jsonString){
-        try{
-            JSONObject jsonObject = new JSONObject(jsonString);
-            JSONObject jsonHeader = MyJSON.myJSONObject(jsonObject, "header");
-            JSONArray jsonTeams = MyJSON.myJSONArray(jsonHeader, "teams");
-            JSONObject jsonHome = jsonTeams.getJSONObject(0);
-            JSONObject jsonAway = jsonTeams.getJSONObject(1);
-            this.homeName = MyJSON.myJSONString(jsonHome,"name");
-            this.homeScore = MyJSON.myJSONInt(jsonHome,"score");
-            this.homeImage = MyJSON.myJSONString(jsonHome,"imageUrl");
-            this.homeId = Integer.parseInt(this.homeImage.replaceAll("[^\\d]", ""));
-            this.awayName = MyJSON.myJSONString(jsonAway,"name");
-            this.awayScore = MyJSON.myJSONInt(jsonAway,"score");
-            this.awayImage = MyJSON.myJSONString(jsonAway,"imageUrl");
-            this.awayId = Integer.parseInt(this.awayImage.replaceAll("[^\\d]", ""));
-            JSONObject jsonStatus = MyJSON.myJSONObject(jsonHeader,"status");
-            this.started = MyJSON.myJSONBoolean(jsonStatus,"started");
-            this.cancelled = MyJSON.myJSONBoolean(jsonStatus,"cancelled");
-            this.finished = MyJSON.myJSONBoolean(jsonStatus, "finished");
-            String startDateStr = MyJSON.myJSONString(jsonStatus, "startDateStr");
-            Date dateValue = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH)
-                    .parse(startDateStr);
-            year = Integer.parseInt(new SimpleDateFormat("yyyy", Locale.KOREA).format(dateValue));
-            month = Integer.parseInt(new SimpleDateFormat("M", Locale.KOREA).format(dateValue));
-            date = Integer.parseInt(new SimpleDateFormat("d", Locale.KOREA).format(dateValue));
-            day = new SimpleDateFormat("E요일 ", Locale.KOREA).format(date);
-            time = MyJSON.myJSONString(jsonStatus, "startTimeStr");
-            if (!time.equals("")) {
-                Date date2 = new SimpleDateFormat("HH:mm").parse(time);
-                time = new SimpleDateFormat("H시 m분", Locale.KOREA).format(date2);
-            }
-            JSONObject jsonContent = MyJSON.myJSONObject(jsonObject, "content");
-            JSONObject jsonMatchFacts = MyJSON.myJSONObject(jsonContent,"matchFacts");
-            id = MyJSON.myJSONInt(jsonMatchFacts, "matchId");
-            JSONObject jsonInfoBox = MyJSON.myJSONObject(jsonMatchFacts, "infoBox");
-            JSONObject jsonTournament = MyJSON.myJSONObject(jsonInfoBox, "Tournament");
-            this.name = MyJSON.myJSONString(jsonTournament, "text");
-            JSONObject jsonStadium = MyJSON.myJSONObject(jsonInfoBox, "Stadium");
-            this.stadium = MyJSON.myJSONString(jsonStadium, "name");
-        } catch (JSONException | ParseException e){
-            e.printStackTrace();
-        }
     }
 
     public Integer getId() {

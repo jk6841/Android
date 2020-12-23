@@ -14,11 +14,9 @@ import com.jk.soccer.data.local.DBDao;
 import com.jk.soccer.data.local.TableTeam;
 import com.jk.soccer.data.remote.RetrofitClient;
 import com.jk.soccer.data.response.Player;
+import com.jk.soccer.etc.MyParser;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +37,7 @@ public class Repository {
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
         mDao = database.dbPlayerDao();
+        myParser = MyParser.getInstance();
         initialize();
     }
 
@@ -137,6 +136,7 @@ public class Repository {
     final private RetrofitClient retrofitClient;
     final private Database database;
     final private DBDao mDao;
+    private static MyParser myParser;
 
     private void getRemoteMatchList(Integer teamID) {
         TableTeam team = getTeam(teamID);
@@ -212,7 +212,7 @@ public class Repository {
                 if (response.isSuccessful()){
                     try{
                         String jsonString = response.body().string();
-                        new MatchTask(mDao, Query.Create, jsonString).execute();
+                        new MatchTask(mDao, Query.Create, jsonString).execute(matchId);
                     } catch (IOException e){
                         e.printStackTrace();
                     }
@@ -257,17 +257,12 @@ public class Repository {
         @Override
         protected List<TablePlayer> doInBackground(Integer... ids) {
             List<TablePlayer> result = null;
-            if (query.equals(Query.Create)) {
-
-            } else if (query.equals(Query.Delete)) {
-
-            } else if (query.equals(Query.Read)) {
+            if (query.equals(Query.Read)) {
                 if (ids.length > 0)
                     result = dao.findPlayer(ids[0]);
                 else{
                     result = dao.findPlayer();
                 }
-            } else if (query.equals(Query.Update)) {
             } else if (query.equals(Query.BookmarkOn)) {
                 dao.registerPlayerBookmark(ids[0]);
             } else if (query.equals(Query.BookmarkOff)) {
@@ -285,52 +280,15 @@ public class Repository {
         @Override
         protected List<TableTeam> doInBackground(Integer... ids) {
             List<TableTeam> result = null;
-            if (query.equals(Query.Create)) {
-                TableTeam team = new TableTeam(jsonString);
-                dao.insertTeam(team);
-            } else if (query.equals(Query.Update)) {
-                Integer rank = 0;
-                String topRating = "";
-                String topGoal = "";
-                String topAssist = "";
-                String fixture = "";
-                try{
-                    JSONObject jsonObject = new JSONObject(jsonString);
-                    fixture = jsonObject.getString("fixtures");
-                    JSONArray jsonFixtures = jsonObject.getJSONArray("fixtures");
-                    for (int i = 0; i < jsonFixtures.length(); i++){
-                        JSONObject jsonFixture = jsonFixtures.getJSONObject(i);
-                        jsonFixture.remove("pageUrl");
-                        jsonFixture.remove("home");
-                        jsonFixture.remove("away");
-                        jsonFixture.remove("color");
-                        jsonFixture.remove("status");
-                        jsonFixture.remove("notStarted");
-                        jsonFixtures.put(i, jsonFixture.getInt("id"));
-                    }
-                    fixture = jsonFixtures.toString();
-                    JSONObject jsonTableData = jsonObject.getJSONObject("tableData");
-                    JSONArray jsonTables = jsonTableData.getJSONArray("tables");
-                    JSONObject jsonTablesElem = jsonTables.getJSONObject(0);
-                    JSONArray jsonTable = jsonTablesElem.getJSONArray("table");
-                    for (int i = 0; i < jsonTable.length(); i++){
-                        JSONObject jsonTableElem = jsonTable.getJSONObject(i);
-                        if (ids[0].equals(jsonTableElem.getInt("id"))){
-                            rank = i + 1;
-                            break;
-                        }
-                    }
-                    JSONObject jsonTopPlayers = jsonObject.getJSONObject("topPlayers");
-                    JSONArray jsonTopRating = jsonTopPlayers.getJSONArray("byRating");
-                    JSONArray jsonTopGoal = jsonTopPlayers.getJSONArray("byGoals");
-                    JSONArray jsonTopAssist = jsonTopPlayers.getJSONArray("byAssists");
-                    topRating = jsonTopRating.getJSONObject(0).getString("name");
-                    topGoal = jsonTopGoal.getJSONObject(0).getString("name");
-                    topAssist = jsonTopAssist.getJSONObject(0).getString("name");
-                } catch (JSONException e){
-                    e.printStackTrace();
-                }
-                dao.updateTeamByID(rank, topRating, topGoal, topAssist, fixture, ids[0]);
+            if (query.equals(Query.Update)) {
+                TableTeam team = myParser.myJSONTeam(jsonString, ids[0]);
+                dao.updateTeamByID(
+                        team.getRank(),
+                        team.getTopRating(),
+                        team.getTopGoal(),
+                        team.getTopAssist(),
+                        team.getFixture(),
+                        ids[0]);
             } else if (query.equals(Query.Read)) {
                 if (ids.length > 0){
                     result = dao.findTeam(ids[0]);
@@ -351,7 +309,8 @@ public class Repository {
         protected List<TableMatch> doInBackground(Integer... ids) {
             List <TableMatch> result = null;
             if (query.equals(Query.Create)) {
-                TableMatch match = new TableMatch(jsonString);
+//                TableMatch match = new TableMatch(jsonString);
+                TableMatch match = myParser.myJSONMatch(jsonString, ids[0]);
                 dao.insertMatch(match);
             } else if (query.equals(Query.Delete)) {
 
