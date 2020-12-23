@@ -16,6 +16,8 @@ import com.jk.soccer.data.local.TableTeam;
 import com.jk.soccer.data.remote.RetrofitClient;
 import com.jk.soccer.data.response.Player;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,14 +163,14 @@ public class Repository {
         Call<ResponseBody> call = retrofitClient.apiService[0].getPlayer(playerID);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (response.isSuccessful()){
 
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
             }
         });
     }
@@ -177,13 +179,13 @@ public class Repository {
         Call<ResponseBody> call = retrofitClient.apiService[0].getTeam(teamId, "overview");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (response.isSuccessful()){
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
 
             }
         });
@@ -193,7 +195,7 @@ public class Repository {
         Call<ResponseBody> call = retrofitClient.apiService[0].getMatch(matchId);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                 if (response.isSuccessful()){
                     try{
                         String jsonString = response.body().string();
@@ -205,8 +207,7 @@ public class Repository {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<ResponseBody> call, @NotNull Throwable t) {
             }
         });
     }
