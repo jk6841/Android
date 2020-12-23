@@ -12,7 +12,7 @@
             type="Integer" />
         <variable
             name="handlers"
-            type="com.jk.soccer.etc.MyHandler" />
+            type="com.jk.soccer.ui.MyHandler" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

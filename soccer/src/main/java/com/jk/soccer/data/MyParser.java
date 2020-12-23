@@ -1,4 +1,4 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.data;
 
 import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.data.local.TableTeam;
@@ -44,7 +44,7 @@ public class MyParser {
     public static JSONObject myJSONObject(JSONObject jsonObject, String string){
         try{
             return jsonObject.getJSONObject(string);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -53,7 +53,7 @@ public class MyParser {
     public static JSONObject myJSONObject(String string){
         try{
             return new JSONObject(string);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -62,7 +62,7 @@ public class MyParser {
     public static JSONObject myJSONObject(JSONArray jsonArray, Integer index){
         try{
             return jsonArray.getJSONObject(index);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -71,7 +71,7 @@ public class MyParser {
     public static JSONArray myJSONArray(JSONObject jsonObject, String string){
         try {
             return jsonObject.getJSONArray(string);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -80,7 +80,7 @@ public class MyParser {
     public static String myJSONString(JSONObject jsonObject, String string){
         try {
             return jsonObject.getString(string);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return "";
@@ -89,7 +89,7 @@ public class MyParser {
     public static Integer myJSONInt(JSONObject jsonObject, String string){
         try{
             return jsonObject.getInt(string);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return 0;
@@ -98,7 +98,7 @@ public class MyParser {
     public static Boolean myJSONBoolean(JSONObject jsonObject, String string){
         try{
             return jsonObject.getBoolean(string);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return false;
@@ -107,7 +107,7 @@ public class MyParser {
     public static void myJSONPut(JSONArray jsonArray, Integer index, Object value){
         try{
             jsonArray.put(index, value);
-        } catch (JSONException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -192,7 +192,7 @@ public class MyParser {
     public static Date myDate(SimpleDateFormat format, String text){
         try {
             return format.parse(text);
-        } catch (ParseException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;

@@ -1,4 +1,4 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.ui;
 
 import android.os.Bundle;
 import android.view.View;

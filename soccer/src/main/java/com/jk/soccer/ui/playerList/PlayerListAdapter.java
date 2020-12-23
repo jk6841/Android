@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jk.soccer.data.local.TablePlayer;
 import com.jk.soccer.databinding.PlayerViewholderBinding;
-import com.jk.soccer.etc.MyHandler;
+import com.jk.soccer.ui.MyHandler;
 
 import java.util.List;
 
