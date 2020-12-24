@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.data.local.TablePlayer;
-import com.jk.soccer.ui.MyViewModel;
 import com.jk.soccer.ui.matchInfo.Event;
 import com.jk.soccer.ui.matchInfo.EventListAdapter;
 import com.jk.soccer.ui.matchList.MatchListAdapter;

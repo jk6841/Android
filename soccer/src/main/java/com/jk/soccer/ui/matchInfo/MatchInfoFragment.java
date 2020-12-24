@@ -36,7 +36,7 @@ public class MatchInfoFragment extends Fragment {
         FragmentMatchinfoBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matchinfo, container, false);
         binding.setLifecycleOwner(this);
-        binding.matchInfoHomeEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue()));
+        binding.matchInfoEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue()));
         binding.setViewModel(viewModel);
         binding.setIndex(index);
         return binding.getRoot();

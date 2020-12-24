@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.jk.soccer.ui.MyViewModel" />
@@ -11,7 +12,6 @@
             name="index"
             type="Integer" />
     </data>
-    
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,27 +19,17 @@
         tools:context=".ui.matchInfo.MatchInfoFragment">
 
         <TextView
-            android:id="@+id/matchInfo_status"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="@{viewModel.getStatusLiveData(index)}"
-            android:gravity="center"
-            android:fontFamily="@font/paybooc"
-            app:layout_constraintEnd_toStartOf="@+id/matchInfo_awayImage"
-            app:layout_constraintStart_toEndOf="@+id/matchInfo_homeImage"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_stadium"
-            app:layout_constraintWidth_percent="0.25" />
-
-        <TextView
             android:id="@+id/matchInfo_title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.05"
+            android:fontFamily="@font/paybooc"
             android:gravity="center"
             android:text="@{viewModel.getMatchTitleLiveData(index)}"
-            android:fontFamily="@font/paybooc"
+            android:textSize="@dimen/midFont"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,6 +41,8 @@
             android:gravity="center"
             android:text="@{viewModel.getTimeLiveData(index)}"
             android:fontFamily="@font/paybooc"
+            android:textSize="@dimen/midFont"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/matchInfo_title" />
@@ -59,198 +51,157 @@
             android:id="@+id/matchInfo_stadium"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@drawable/bottom"
             android:fontFamily="@font/paybooc"
             android:gravity="center"
             android:text="@{viewModel.getStadiumLiveData(index)}"
+            android:textSize="@dimen/midFont"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/matchInfo_time" />
 
-        <TextView
-            android:id="@+id/matchInfo_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:text="@string/home"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_stadium"
-            app:layout_constraintWidth_percent="0.25" />
-
-        <TextView
-            android:id="@+id/matchInfo_away"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="28dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:text="@string/away"
-            app:layout_constraintBottom_toBottomOf="@+id/matchInfo_home"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/matchInfo_home"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.25" />
+            app:layout_constraintHeight_percent="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/matchInfo_stadium">
 
-        <TextView
-            android:id="@+id/matchInfo_homeTeam"
-            android:layout_width="0dp"
-            android:layout_height="49dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:lines="3"
-            android:text="@{viewModel.getHomeLiveData(index)}"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_homeImage"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_homeImage"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_homeImage"
-            app:layout_constraintWidth_percent="0.25" />
+            <TextView
+                android:id="@+id/matchInfo_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@string/home"
+                android:textSize="@dimen/midFont"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
 
-        <TextView
-            android:id="@+id/matchInfo_awayTeam"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:lines="3"
-            android:text="@{viewModel.getAwayLiveData(index)}"
-            app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeTeam"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_awayImage"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_awayImage"
-            app:layout_constraintTop_toTopOf="@+id/matchInfo_homeTeam"
-            app:layout_constraintWidth_percent="0.25" />
+            <ImageView
+                android:id="@+id/matchInfo_homeImage"
+                glideUrl="@{@string/baseUrl1 + viewModel.getHomeImageLiveData(index)}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/matchInfo_home"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/matchInfo_home"
+                app:layout_constraintTop_toBottomOf="@+id/matchInfo_home"
+                app:layout_constraintWidth_percent="0.25"
+                app:srcCompat="@drawable/ic_launcher_background" />
 
-        <ImageView
-            android:id="@+id/matchInfo_homeImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            glideUrl="@{@string/baseUrl1 + viewModel.getHomeImageLiveData(index)}"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_home"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_home"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_home"
-            app:layout_constraintWidth_percent="0.25"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            <TextView
+                android:id="@+id/matchInfo_homeTeam"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@{viewModel.getHomeLiveData(index)}"
+                android:textSize="@dimen/smallMidFont"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchInfo_homeImage"
+                app:layout_constraintWidth_percent="0.4" />
 
-        <ImageView
-            android:id="@+id/matchInfo_awayImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            glideUrl="@{@string/baseUrl1 + viewModel.getAwayImageLiveData(index)}"
-            app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeImage"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_away"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_away"
-            app:layout_constraintTop_toTopOf="@+id/matchInfo_homeImage"
-            app:layout_constraintWidth_percent="0.25"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            <ImageView
+                android:id="@+id/matchInfo_awayImage"
+                glideUrl="@{@string/baseUrl1 + viewModel.getAwayImageLiveData(index)}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeImage"
+                app:layout_constraintEnd_toEndOf="@+id/matchInfo_away"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/matchInfo_away"
+                app:layout_constraintTop_toTopOf="@+id/matchInfo_homeImage"
+                app:layout_constraintWidth_percent="0.25"
+                app:srcCompat="@drawable/ic_launcher_background" />
+
+            <TextView
+                android:id="@+id/matchInfo_away"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@string/away"
+                android:textSize="@dimen/midFont"
+                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/matchInfo_home"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintWidth_percent="0.25" />
+
+            <TextView
+                android:id="@+id/matchInfo_awayTeam"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@{viewModel.getAwayLiveData(index)}"
+                android:textSize="@dimen/smallMidFont"
+                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeTeam"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/matchInfo_homeTeam"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <TextView
+                android:id="@+id/matchInfo_score"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@{viewModel.getScoreLiveData(index)}"
+                android:textSize="@dimen/midFont"
+                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeImage"
+                app:layout_constraintEnd_toEndOf="@+id/matchInfo_status"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/matchInfo_status"
+                app:layout_constraintTop_toBottomOf="@+id/matchInfo_status"
+                app:layout_constraintWidth_percent="0.25" />
+
+            <TextView
+                android:id="@+id/matchInfo_status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@{viewModel.getStatusLiveData(index)}"
+                android:textSize="@dimen/midFont"
+                app:layout_constraintEnd_toStartOf="@+id/matchInfo_awayImage"
+                app:layout_constraintStart_toEndOf="@+id/matchInfo_homeImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchInfo_homeEvent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scrollbars="vertical"
+            android:id="@+id/matchInfo_Event"
             recyclerView="@{viewModel.getEvents(index)}"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_homeTeam"
-            app:layout_constraintHeight_percent="0.2"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_homeTeam"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_homeTeam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.55"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintWidth_percent="0.25">
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchInfo_awayEvent"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeEvent"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_awayTeam"
-            app:layout_constraintHeight_percent="0.2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_awayTeam"
-            app:layout_constraintTop_toTopOf="@+id/matchInfo_homeEvent"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.25" />
-
-        <ImageView
-            android:id="@+id/matchInfo_bestImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            glideUrl="@{@string/baseUrl2 + viewModel.getBestPlayerIDLiveData(index) + @string/png}"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_score"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_score"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_score"
-            app:layout_constraintWidth_percent="0.25"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-        <TextView
-            android:id="@+id/matchInfo_bestName"
-            android:layout_width="0dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:text="@{viewModel.getBestPlayerNameLiveData(index)}"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_bestImage"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_bestImage"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_bestImage"
-            app:layout_constraintWidth_percent="0.25" />
-
-        <TextView
-            android:id="@+id/matchInfo_bestTeam"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:text="@{viewModel.getBestTeamLiveData(index)}"
-            app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeEvent"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_bestName"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_bestName"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_bestName"
-            app:layout_constraintWidth_percent="0.25" />
-
-        <TextView
-            android:id="@+id/matchInfo_score"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:layout_marginTop="28dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:text="@{viewModel.getScoreLiveData(index)}"
-            app:layout_constraintEnd_toEndOf="@+id/matchInfo_status"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/matchInfo_status"
-            app:layout_constraintTop_toBottomOf="@+id/matchInfo_status"
-            app:layout_constraintWidth_percent="0.25" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchInfo_homeSub"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            app:layout_constraintHeight_percent="0.1"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchInfo_awaySub"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintWidth_percent="0.5"
-            app:layout_constraintHeight_percent="0.1"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

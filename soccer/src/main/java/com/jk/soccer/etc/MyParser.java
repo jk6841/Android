@@ -199,25 +199,21 @@ public class MyParser {
             String type = myJSONString(jsonEvent, "type");
             if (type.equals("AddedTime"))
                 continue;
-            event.setType(type);
             event.setHome(myJSONBoolean(jsonEvent, "isHome"));
             String detail = "";
             if (type.equals("Goal")) {
-                String assist = myJSONString(jsonEvent, "assistStr");
                 detail = myJSONString(jsonEvent, "nameStr");
-                if (!assist.equals("")) {
-                    detail += "(" + assist + ")";
-                }
             } else if (type.equals("Substitution")) {
                 JSONArray jsonSwap = myJSONArray(jsonEvent, "swap");
                 JSONObject jsonIn = myJSONObject(jsonSwap, 0);
                 JSONObject jsonOut = myJSONObject(jsonSwap, 1);
                 detail = "Out: " + myJSONString(jsonOut, "name")
-                        + " In: " + myJSONString(jsonIn, "name");
+                        + "\n" + "In: " + myJSONString(jsonIn, "name");
             } else if (type.equals("Card")) {
+                type = myJSONString(jsonEvent, "card").equals("Yellow")? "Yellow" : "Red";
                 detail = myJSONString(jsonEvent, "nameStr");
-                detail += "(" + myJSONString(jsonEvent, "card") + ")";
             }
+            event.setType(type);
             event.setDetail(detail);
             eventList.add(event);
         }

@@ -175,21 +175,39 @@ public class MyViewModel extends AndroidViewModel {
                     return MyParser.myEventList(eventString);
                 }
             });
-            matchLiveDataList.add(matchLiveData);
-            matchTitleLiveDataList.add(matchTitleLiveData);
-            timeLiveDataList.add(timeLiveData);
-            stadiumLiveDataList.add(stadiumLiveData);
-            statusLiveDataList.add(statusLiveData);
-            scoreLiveDataList.add(scoreLiveData);
-            homeLiveDataList.add(homeLiveData);
-            homeImageLiveDataList.add(homeImageLiveData);
-            awayLiveDataList.add(awayLiveData);
-            awayImageLiveDataList.add(awayImageLiveData);
-            bestPlayerIDLiveDataList.add(bestPlayerIDLiveData);
-            bestPlayerNameLiveDataList.add(bestPlayerNameLiveData);
-            bestTeamLiveDataList.add(bestTeamLiveData);
-            eventListLiveDataList.add(eventListLiveData);
+            if (i < length) {
+                matchLiveDataList.set(i,matchLiveData);
+                matchTitleLiveDataList.set(i,matchTitleLiveData);
+                timeLiveDataList.set(i,timeLiveData);
+                stadiumLiveDataList.set(i,stadiumLiveData);
+                statusLiveDataList.set(i,statusLiveData);
+                scoreLiveDataList.set(i,scoreLiveData);
+                homeLiveDataList.set(i,homeLiveData);
+                homeImageLiveDataList.set(i,homeImageLiveData);
+                awayLiveDataList.set(i,awayLiveData);
+                awayImageLiveDataList.set(i,awayImageLiveData);
+                bestPlayerIDLiveDataList.set(i,bestPlayerIDLiveData);
+                bestPlayerNameLiveDataList.set(i,bestPlayerNameLiveData);
+                bestTeamLiveDataList.set(i,bestTeamLiveData);
+                eventListLiveDataList.set(i,eventListLiveData);
+            } else{
+                matchLiveDataList.add(matchLiveData);
+                matchTitleLiveDataList.add(matchTitleLiveData);
+                timeLiveDataList.add(timeLiveData);
+                stadiumLiveDataList.add(stadiumLiveData);
+                statusLiveDataList.add(statusLiveData);
+                scoreLiveDataList.add(scoreLiveData);
+                homeLiveDataList.add(homeLiveData);
+                homeImageLiveDataList.add(homeImageLiveData);
+                awayLiveDataList.add(awayLiveData);
+                awayImageLiveDataList.add(awayImageLiveData);
+                bestPlayerIDLiveDataList.add(bestPlayerIDLiveData);
+                bestPlayerNameLiveDataList.add(bestPlayerNameLiveData);
+                bestTeamLiveDataList.add(bestTeamLiveData);
+                eventListLiveDataList.add(eventListLiveData);
+            }
         }
+        length = matches.size();
     }
 
     @Override
@@ -332,6 +350,5 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<String>> bestPlayerNameLiveDataList;
     final private ArrayList<LiveData<String>> bestTeamLiveDataList;
     final private ArrayList<LiveData<ArrayList<Event>>> eventListLiveDataList;
-    private Boolean sortMatch = false;
-
+    private Integer length = 0;
 }
