@@ -7,8 +7,8 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_playerList"
-            android:icon="@android:drawable/ic_lock_idle_alarm"
-            android:title="@string/menu_alarm" />
+            android:icon="@android:drawable/btn_star_big_on"
+            android:title="@string/menu_player" />
         <item
             android:id="@+id/nav_matchList"
             android:icon="@android:drawable/ic_menu_my_calendar"

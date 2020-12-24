@@ -27,6 +27,7 @@
             android:text="@{viewModel.getMatchTitleLiveData(index)}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
@@ -43,6 +44,7 @@
             android:fontFamily="@font/paybooc"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/matchInfo_title" />
@@ -57,6 +59,7 @@
             android:text="@{viewModel.getStadiumLiveData(index)}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
@@ -82,9 +85,59 @@
                 android:gravity="center"
                 android:text="@string/home"
                 android:textSize="@dimen/midFont"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.25" />
+
+            <TextView
+                android:id="@+id/matchInfo_away"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@string/away"
+                android:textSize="@dimen/midFont"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/matchInfo_home"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintWidth_percent="0.25" />
+
+            <TextView
+                android:id="@+id/matchInfo_homeTeam"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="@{viewModel.getHomeLiveData(index)}"
+                android:textSize="@dimen/smallMidFont"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/matchInfo_homeImage"
+                app:layout_constraintWidth_percent="0.4" />
+
+            <TextView
+                android:id="@+id/matchInfo_awayTeam"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:fontFamily="@font/paybooc"
+                android:gravity="center"
+                android:text="@{viewModel.getAwayLiveData(index)}"
+                android:textSize="@dimen/smallMidFont"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeTeam"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/matchInfo_homeTeam"
+                app:layout_constraintWidth_percent="0.4" />
 
             <ImageView
                 android:id="@+id/matchInfo_homeImage"
@@ -98,20 +151,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/matchInfo_home"
                 app:layout_constraintWidth_percent="0.25"
                 app:srcCompat="@drawable/ic_launcher_background" />
-
-            <TextView
-                android:id="@+id/matchInfo_homeTeam"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/paybooc"
-                android:gravity="center"
-                android:text="@{viewModel.getHomeLiveData(index)}"
-                android:textSize="@dimen/smallMidFont"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/matchInfo_homeImage"
-                app:layout_constraintWidth_percent="0.4" />
 
             <ImageView
                 android:id="@+id/matchInfo_awayImage"
@@ -127,34 +166,6 @@
                 app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
-                android:id="@+id/matchInfo_away"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:fontFamily="@font/paybooc"
-                android:gravity="center"
-                android:text="@string/away"
-                android:textSize="@dimen/midFont"
-                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_home"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/matchInfo_home"
-                app:layout_constraintVertical_bias="1.0"
-                app:layout_constraintWidth_percent="0.25" />
-
-            <TextView
-                android:id="@+id/matchInfo_awayTeam"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:fontFamily="@font/paybooc"
-                android:gravity="center"
-                android:text="@{viewModel.getAwayLiveData(index)}"
-                android:textSize="@dimen/smallMidFont"
-                app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeTeam"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/matchInfo_homeTeam"
-                app:layout_constraintWidth_percent="0.4" />
-
-            <TextView
                 android:id="@+id/matchInfo_score"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
@@ -163,6 +174,8 @@
                 android:gravity="center"
                 android:text="@{viewModel.getScoreLiveData(index)}"
                 android:textSize="@dimen/midFont"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeImage"
                 app:layout_constraintEnd_toEndOf="@+id/matchInfo_status"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -179,6 +192,8 @@
                 android:gravity="center"
                 android:text="@{viewModel.getStatusLiveData(index)}"
                 android:textSize="@dimen/midFont"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/matchInfo_awayImage"
                 app:layout_constraintStart_toEndOf="@+id/matchInfo_homeImage"
                 app:layout_constraintTop_toTopOf="parent"
