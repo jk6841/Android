@@ -1,4 +1,4 @@
-package com.jk.soccer.ui;
+package com.jk.soccer.etc;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.jk.soccer.R;
+import com.jk.soccer.viewmodel.MyViewModel;
 
 public class MyHandler {
 

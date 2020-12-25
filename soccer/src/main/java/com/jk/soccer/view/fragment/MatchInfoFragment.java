@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.matchInfo;
+package com.jk.soccer.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,12 +14,12 @@ import com.jk.soccer.R;
 import com.jk.soccer.databinding.EventViewholderBinding;
 import com.jk.soccer.databinding.FragmentMatchinfoBinding;
 import com.jk.soccer.databinding.LineupViewholderBinding;
-import com.jk.soccer.ui.MainActivity;
-import com.jk.soccer.ui.MyHandler;
-import com.jk.soccer.ui.MyRecyclerViewAdapter;
-import com.jk.soccer.ui.MyViewModel;
-import com.jk.soccer.ui.matchInfo.event.Event;
-import com.jk.soccer.ui.matchInfo.lineup.Lineup;
+import com.jk.soccer.view.activity.MainActivity;
+import com.jk.soccer.etc.MyHandler;
+import com.jk.soccer.etc.MyRecyclerViewAdapter;
+import com.jk.soccer.viewmodel.MyViewModel;
+import com.jk.soccer.etc.Event;
+import com.jk.soccer.etc.Lineup;
 
 import java.util.List;
 

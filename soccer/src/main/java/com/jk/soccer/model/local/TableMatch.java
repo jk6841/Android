@@ -1,4 +1,4 @@
-package com.jk.soccer.data.local;
+package com.jk.soccer.model.local;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

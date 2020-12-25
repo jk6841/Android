@@ -1,4 +1,4 @@
-package com.jk.soccer.ui;
+package com.jk.soccer.etc;
 
 import android.view.LayoutInflater;
 import android.view.View;

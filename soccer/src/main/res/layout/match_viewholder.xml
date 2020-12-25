@@ -6,13 +6,13 @@
     <data>
         <variable
             name="item"
-            type="com.jk.soccer.data.local.TableMatch" />
+            type="com.jk.soccer.model.local.TableMatch" />
         <variable
             name="index"
             type="Integer" />
         <variable
             name="handler"
-            type="com.jk.soccer.ui.MyHandler" />
+            type="com.jk.soccer.etc.MyHandler" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

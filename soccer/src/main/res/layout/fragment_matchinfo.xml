@@ -7,19 +7,19 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.jk.soccer.ui.MyViewModel" />
+            type="com.jk.soccer.viewmodel.MyViewModel" />
         <variable
             name="index"
             type="Integer" />
         <variable
             name="handler"
-            type="com.jk.soccer.ui.MyHandler" />
+            type="com.jk.soccer.etc.MyHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.matchInfo.MatchInfoFragment">
+        tools:context=".view.fragment.MatchInfoFragment">
 
         <TextView
             android:id="@+id/matchInfo_title"

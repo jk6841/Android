@@ -1,4 +1,4 @@
-package com.jk.soccer.data.local;
+package com.jk.soccer.model.local;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.jk.soccer.data.response.Player;
+import com.jk.soccer.etc.Player;
 
 import java.util.List;
 

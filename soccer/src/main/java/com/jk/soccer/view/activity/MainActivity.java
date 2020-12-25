@@ -1,9 +1,10 @@
-package com.jk.soccer.ui;
+package com.jk.soccer.view.activity;
 
 import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
+import com.jk.soccer.viewmodel.MyViewModel;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewModel.onCleared();
+        viewModel.close();
     }
 
     @Override

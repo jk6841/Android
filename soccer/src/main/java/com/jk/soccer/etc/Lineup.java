@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.matchInfo.lineup;
+package com.jk.soccer.etc;
 
 public class Lineup {
     public Lineup(Integer position, Integer shirt, String name){

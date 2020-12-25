@@ -1,4 +1,4 @@
-package com.jk.soccer.data.response;
+package com.jk.soccer.etc;
 
 public class Player {
     private Integer id;

@@ -1,9 +1,7 @@
 package com.jk.soccer.etc;
 
-import com.jk.soccer.data.local.TableMatch;
-import com.jk.soccer.data.local.TableTeam;
-import com.jk.soccer.ui.matchInfo.event.Event;
-import com.jk.soccer.ui.matchInfo.lineup.Lineup;
+import com.jk.soccer.model.local.TableMatch;
+import com.jk.soccer.model.local.TableTeam;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

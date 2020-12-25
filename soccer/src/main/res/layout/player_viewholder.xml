@@ -4,13 +4,13 @@
     <data>
         <variable
             name="item"
-            type="com.jk.soccer.data.local.TablePlayer" />
+            type="com.jk.soccer.model.local.TablePlayer" />
         <variable
             name="index"
             type="Integer" />
         <variable
             name="handler"
-            type="com.jk.soccer.ui.MyHandler" />
+            type="com.jk.soccer.etc.MyHandler" />
     </data>
 
     <TextView

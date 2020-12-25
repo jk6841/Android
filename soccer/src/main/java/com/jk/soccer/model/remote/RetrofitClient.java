@@ -1,4 +1,4 @@
-package com.jk.soccer.data.remote;
+package com.jk.soccer.model.remote;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

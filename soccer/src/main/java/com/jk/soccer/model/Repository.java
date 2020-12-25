@@ -1,4 +1,4 @@
-package com.jk.soccer.data;
+package com.jk.soccer.model;
 
 import android.app.Application;
 import android.content.Context;
@@ -7,13 +7,13 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.jk.soccer.R;
-import com.jk.soccer.data.local.Database;
-import com.jk.soccer.data.local.TableMatch;
-import com.jk.soccer.data.local.TablePlayer;
-import com.jk.soccer.data.local.DBDao;
-import com.jk.soccer.data.local.TableTeam;
-import com.jk.soccer.data.remote.RetrofitClient;
-import com.jk.soccer.data.response.Player;
+import com.jk.soccer.model.local.Database;
+import com.jk.soccer.model.local.TableMatch;
+import com.jk.soccer.model.local.TablePlayer;
+import com.jk.soccer.model.local.DBDao;
+import com.jk.soccer.model.local.TableTeam;
+import com.jk.soccer.model.remote.RetrofitClient;
+import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.MyParser;
 
 import org.jetbrains.annotations.NotNull;

@@ -1,4 +1,4 @@
-package com.jk.soccer.ui;
+package com.jk.soccer.viewmodel;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -10,13 +10,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.jk.soccer.etc.Event;
+import com.jk.soccer.etc.Lineup;
 import com.jk.soccer.etc.MyParser;
-import com.jk.soccer.data.Repository;
-import com.jk.soccer.data.local.TableMatch;
-import com.jk.soccer.data.local.TablePlayer;
-import com.jk.soccer.data.response.Player;
-import com.jk.soccer.ui.matchInfo.event.Event;
-import com.jk.soccer.ui.matchInfo.lineup.Lineup;
+import com.jk.soccer.model.Repository;
+import com.jk.soccer.model.local.TableMatch;
+import com.jk.soccer.model.local.TablePlayer;
+import com.jk.soccer.etc.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -225,6 +225,10 @@ public class MyViewModel extends AndroidViewModel {
     protected void onCleared() {
         super.onCleared();
         repository.close();
+    }
+
+    public void close(){
+        onCleared();
     }
 
     public List<TablePlayer> getPlayers() { return repository.getPlayer(); }

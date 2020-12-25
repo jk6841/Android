@@ -1,4 +1,4 @@
-package com.jk.soccer.ui;
+package com.jk.soccer.etc;
 
 import android.text.TextUtils;
 import android.widget.ImageView;
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.jk.soccer.data.local.TableMatch;
+import com.jk.soccer.model.local.TableMatch;
 
 import java.util.List;
 

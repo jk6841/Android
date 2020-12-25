@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.matchInfo.event;
+package com.jk.soccer.etc;
 
 public class Event {
 

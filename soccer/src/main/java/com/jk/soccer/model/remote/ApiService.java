@@ -1,6 +1,4 @@
-package com.jk.soccer.data.remote;
-
-import java.util.Date;
+package com.jk.soccer.model.remote;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

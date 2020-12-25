@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.playerList;
+package com.jk.soccer.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,12 +11,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.jk.soccer.R;
-import com.jk.soccer.data.local.TablePlayer;
+import com.jk.soccer.model.local.TablePlayer;
 import com.jk.soccer.databinding.FragmentPlayerlistBinding;
 import com.jk.soccer.databinding.PlayerViewholderBinding;
-import com.jk.soccer.ui.MainActivity;
-import com.jk.soccer.ui.MyRecyclerViewAdapter;
-import com.jk.soccer.ui.MyViewModel;
+import com.jk.soccer.view.activity.MainActivity;
+import com.jk.soccer.etc.MyRecyclerViewAdapter;
+import com.jk.soccer.viewmodel.MyViewModel;
 
 public class PlayerListFragment extends Fragment {
 

@@ -5,13 +5,13 @@
     <data>
         <variable
             name="viewModel"
-            type="com.jk.soccer.ui.MyViewModel" />
+            type="com.jk.soccer.viewmodel.MyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.playerList.PlayerListFragment">
+        tools:context=".view.fragment.PlayerListFragment">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_rec"
             android:layout_width="match_parent"

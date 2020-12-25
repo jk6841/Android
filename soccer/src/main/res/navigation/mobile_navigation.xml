@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/nav_playerList"
-        android:name="com.jk.soccer.ui.playerList.PlayerListFragment"
+        android:name="com.jk.soccer.view.fragment.PlayerListFragment"
         android:label="PlayerListFragment"
         tools:layout="@layout/fragment_playerlist">
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_matchList"
-        android:name="com.jk.soccer.ui.matchList.MatchListFragment"
+        android:name="com.jk.soccer.view.fragment.MatchListFragment"
         android:label="MatchListFragment"
         tools:layout="@layout/fragment_matchlist" >
         <action
@@ -24,12 +24,12 @@
     </fragment>
     <fragment
         android:id="@+id/nav_playerInfo"
-        android:name="com.jk.soccer.ui.playerInfo.PlayerInfoFragment"
+        android:name="com.jk.soccer.view.fragment.PlayerInfoFragment"
         android:label="PlayerInfoFragment"
         tools:layout="@layout/fragment_playerinfo" />
     <fragment
         android:id="@+id/nav_matchInfo"
-        android:name="com.jk.soccer.ui.matchInfo.MatchInfoFragment"
+        android:name="com.jk.soccer.view.fragment.MatchInfoFragment"
         android:label="MatchInfoFragment"
         tools:layout="@layout/fragment_matchinfo" />
 
