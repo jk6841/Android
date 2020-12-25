@@ -15,6 +15,8 @@ import com.jk.soccer.databinding.FragmentMatchinfoBinding;
 import com.jk.soccer.ui.MainActivity;
 import com.jk.soccer.ui.MyHandler;
 import com.jk.soccer.ui.MyViewModel;
+import com.jk.soccer.ui.matchInfo.event.EventListAdapter;
+import com.jk.soccer.ui.matchInfo.lineup.LineupAdapter;
 
 public class MatchInfoFragment extends Fragment {
 
@@ -39,9 +41,13 @@ public class MatchInfoFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setHandlers(new MyHandler());
+        binding.subLayoutLineup.lineupHome.setAdapter(new LineupAdapter(viewModel.getHomeLineupLiveData(index).getValue()));
+        binding.subLayoutLineup.lineupAway.setAdapter(new LineupAdapter(viewModel.getAwayLineupLiveData(index).getValue()));
+        binding.subLayoutLineup.setViewModel(viewModel);
         binding.subLayoutEvent.setViewModel(viewModel);
         binding.subLayoutMOM.setViewModel(viewModel);
         binding.subLayoutEvent.matchInfoEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue()));
+        binding.subLayoutLineup.setIndex(index);
         binding.subLayoutEvent.setIndex(index);
         binding.subLayoutMOM.setIndex(index);
         binding.setIndex(index);

@@ -7,10 +7,7 @@
     <data>
         <variable
             name="event"
-            type="com.jk.soccer.ui.matchInfo.Event" />
-        <variable
-            name="index"
-            type="Integer" />
+            type="com.jk.soccer.ui.matchInfo.event.Event" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

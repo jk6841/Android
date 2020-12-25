@@ -1,4 +1,4 @@
-package com.jk.soccer.ui.matchInfo;
+package com.jk.soccer.ui.matchInfo.event;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -39,6 +39,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.MyVi
 
     @Override
     public int getItemCount() {
+        if (eventList == null)
+            return 0;
         return eventList.size();
     }
 

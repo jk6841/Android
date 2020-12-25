@@ -2,7 +2,8 @@ package com.jk.soccer.etc;
 
 import com.jk.soccer.data.local.TableMatch;
 import com.jk.soccer.data.local.TableTeam;
-import com.jk.soccer.ui.matchInfo.Event;
+import com.jk.soccer.ui.matchInfo.event.Event;
+import com.jk.soccer.ui.matchInfo.lineup.Lineup;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -52,6 +53,15 @@ public class MyParser {
     public static JSONArray myJSONArray(JSONObject jsonObject, String string){
         try {
             return jsonObject.getJSONArray(string);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONArray myJSONArray(JSONArray jsonArray, Integer index){
+        try{
+            return jsonArray.getJSONArray(index);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -218,6 +228,49 @@ public class MyParser {
             eventList.add(event);
         }
         return eventList;
+    }
+
+    private static Integer myPosition(String position){
+        if (position.equals("Keeper")){
+            return 1;
+        }
+        if (position.equals("Defender")){
+            return 2;
+        }
+        if (position.equals("Midfielder")){
+            return 3;
+        }
+        return 4;
+    }
+
+    public static ArrayList<Lineup> myLineup(String jsonString, Boolean home){
+        ArrayList<Lineup> lineup = new ArrayList<>();
+        JSONObject jsonObject = myJSONObject(jsonString);
+        JSONArray coachArray = myJSONArray(jsonObject, "coach");
+        JSONObject jsonCoach = myJSONObject(coachArray, 0);
+        lineup.add(new Lineup(0, 0, myJSONString(jsonCoach, "name")));
+        JSONArray startingArray = myJSONArray(jsonObject, "players");
+        if (startingArray == null)
+            return null;
+        for (int i = home? 0 : startingArray.length() - 1;
+             i < startingArray.length() && i >= 0;
+             i = home? i + 1 : i - 1){
+            JSONArray tmpArray = myJSONArray(startingArray, i);
+            for (int j = 0; j < tmpArray.length(); j++){
+                JSONObject jsonPlayer = myJSONObject(tmpArray, j);
+                lineup.add(new Lineup(myPosition(myJSONString(jsonPlayer, "role")),
+                        myJSONInt(jsonPlayer, "shirt"),
+                        myJSONString(jsonPlayer, "name")));
+            }
+        }
+        JSONArray benchArray = myJSONArray(jsonObject, "bench");
+        for (int i = 0; i < benchArray.length(); i++){
+            JSONObject jsonSub = myJSONObject(benchArray, i);
+            lineup.add(new Lineup(myPosition(myJSONString(jsonSub, "role")),
+                    myJSONInt(jsonSub, "shirt"),
+                    myJSONString(jsonSub, "name")));
+        }
+        return lineup;
     }
 
     public static Date myDate(SimpleDateFormat format, String text){

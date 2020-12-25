@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.jk.soccer.ui.MyViewModel" />
+        <variable
+            name="index"
+            type="Integer" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/bestImage"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintHeight_percent="0.3"
+            glideUrl="@{@string/baseUrl2 + viewModel.getBestPlayerIDLiveData(index) + @string/png}"
+            android:layout_marginTop="36dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/edge" />
+
+        <TextView
+            android:id="@+id/betstName"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.1"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@{viewModel.getBestPlayerNameLiveData(index)}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/midFont"
+            android:fontFamily="@font/paybooc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bestImage" />
+
+        <TextView
+            android:id="@+id/bestTeam"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.1"
+            android:layout_marginTop="0dp"
+            android:text="@{viewModel.getBestTeamLiveData(index)}"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/midFont"
+            android:fontFamily="@font/paybooc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/betstName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

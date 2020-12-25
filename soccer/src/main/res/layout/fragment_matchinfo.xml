@@ -77,8 +77,10 @@
             android:gravity="center"
             android:text="@string/tab_lineup"
             android:textColor="@color/black"
+            android:fontFamily="@font/paybooc"
+            android:onClick="@{(v)->handlers.onLineupClick(v, viewModel)}"
             android:textSize="@dimen/midFont"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintWidth_percent="0.33" />
@@ -92,10 +94,11 @@
             android:text="@string/tab_event"
             android:textColor="@color/black"
             android:textSize="@dimen/midFont"
+            android:fontFamily="@font/paybooc"
             android:onClick="@{(v)->handlers.onEventClick(v, viewModel)}"
             app:layout_constraintBottom_toBottomOf="@+id/buttonLineup"
             app:layout_constraintEnd_toStartOf="@+id/buttonMOM"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toEndOf="@+id/buttonLineup"
             app:layout_constraintTop_toTopOf="@+id/buttonLineup"
             app:layout_constraintWidth_percent="0.33" />
@@ -109,10 +112,11 @@
             android:text="@string/tab_MOM"
             android:textColor="@color/black"
             android:textSize="@dimen/midFont"
+            android:fontFamily="@font/paybooc"
             android:onClick="@{(v)->handlers.onMOMClick(v, viewModel)}"
             app:layout_constraintBottom_toBottomOf="@+id/buttonEvent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintTop_toTopOf="@+id/buttonEvent"
             app:layout_constraintVertical_bias="0.0"
             app:layout_constraintWidth_percent="0.33" />
@@ -253,15 +257,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include
-            android:id="@+id/subLayoutEvent"
-            layout="@layout/event"
-            android:visibility="@{(viewModel.matchTab == 1)? View.VISIBLE : View.GONE}"
+            android:id="@+id/subLayoutLineup"
+            layout="@layout/lineup"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="@{(viewModel.matchTab == 0)? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/subLayoutEvent"
+            layout="@layout/event"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{(viewModel.matchTab == 1)? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <include
             android:id="@+id/subLayoutMOM"
@@ -271,7 +286,7 @@
             android:visibility="@{(viewModel.matchTab == 2)? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintHeight_percent="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
