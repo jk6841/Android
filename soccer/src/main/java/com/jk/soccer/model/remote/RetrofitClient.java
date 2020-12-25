@@ -4,21 +4,20 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private final int MAX_SERVICES = 8;
-    private String[] baseUrl;
-    private Retrofit[] retrofit;
     public ApiService[] apiService;
-
-    public RetrofitClient(String... _baseUrl){
-        int num = _baseUrl.length;
-        if (num <= MAX_SERVICES) {
-            baseUrl = new String[num];
+    public RetrofitClient(String... baseUrl){
+        int MAX_SERVICES = 8;
+        String[] baseUrlList;
+        Retrofit[] retrofit;
+        int num = baseUrl.length;
+        if (baseUrl.length <= MAX_SERVICES) {
+            baseUrlList = new String[num];
             retrofit = new Retrofit[num];
             apiService = new ApiService[num];
             for (int i = 0; i < num; i++){
-                baseUrl[i] = _baseUrl[i];
+                baseUrlList[i] = baseUrl[i];
                 retrofit[i] = new Retrofit.Builder()
-                        .baseUrl(baseUrl[i])
+                        .baseUrl(baseUrlList[i])
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 apiService[i] = retrofit[i].create(ApiService.class);

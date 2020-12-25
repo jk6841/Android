@@ -9,7 +9,6 @@ public interface ApiService {
     String formatPlayer = "playerData";
     String formatTeam = "teams?type=team";
     String formatMatch = "matchDetails";
-    String formatMatches = "matches";
 
     @GET(formatPlayer)
     Call<ResponseBody> getPlayer(
@@ -25,10 +24,5 @@ public interface ApiService {
     @GET(formatMatch)
     Call<ResponseBody>getMatch(
             @Query("matchId") int matchId
-    );
-
-    @GET(formatMatches)
-    Call<ResponseBody>getMatchList(
-            @Query("date") String date
     );
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -114,48 +113,42 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<String> matchTitleLiveData
                     = Transformations.map(matchLiveData, TableMatch::getName);
             LiveData<String> timeLiveData
-                    = Transformations.map(matchLiveData, new Function<TableMatch, String>() {
-                @Override
-                public String apply(TableMatch input) {
-                    String year = input.getYear().toString() + "년";
-                    String month = input.getMonth().toString() + "월";
-                    String date = input.getDate().toString() + "일";
-                    String day = input.getDay();
-                    String time = input.getTime();
-                    String[] text = new String[]{
-                            year, month, date, day, time
-                    };
-                    return TextUtils.join(" ", text);
-                }
-            });
+                    = Transformations.map(matchLiveData,
+                    input -> {
+                        String year = input.getYear().toString() + "년";
+                        String month = input.getMonth().toString() + "월";
+                        String date = input.getDate().toString() + "일";
+                        String day = input.getDay();
+                        String time = input.getTime();
+                        String[] text = new String[]{
+                                year, month, date, day, time
+                        };
+                        return TextUtils.join(" ", text);
+                    });
             LiveData<String> stadiumLiveData
                     = Transformations.map(matchLiveData, TableMatch::getStadium);
             LiveData<String> statusLiveData
-                    = Transformations.map(matchLiveData, new Function<TableMatch, String>() {
-                @Override
-                public String apply(TableMatch input) {
-                    if (input.getFinished()){
-                        return "경기 종료";
-                    }
-                    if (!input.getStarted()){
-                        return "경기 시작 전";
-                    }
-                    return "";
-                }
-            });
+                    = Transformations.map(matchLiveData,
+                    input -> {
+                        if (input.getFinished()){
+                            return "경기 종료";
+                        }
+                        if (!input.getStarted()){
+                            return "경기 시작 전";
+                        }
+                        return "";
+                    });
             LiveData<String> scoreLiveData
-                    = Transformations.map(matchLiveData, new Function<TableMatch, String>() {
-                @Override
-                public String apply(TableMatch input) {
-                    String vs = " vs ";
-                    if (!input.getStarted()){
-                        return vs;
-                    }
-                    Integer homeScore = input.getHomeScore();
-                    Integer awayScore = input.getAwayScore();
-                    return homeScore.toString() + vs + awayScore.toString();
-                }
-            });
+                    = Transformations.map(matchLiveData,
+                    input -> {
+                        String vs = " vs ";
+                        if (!input.getStarted()){
+                            return vs;
+                        }
+                        Integer homeScore = input.getHomeScore();
+                        Integer awayScore = input.getAwayScore();
+                        return homeScore.toString() + vs + awayScore.toString();
+                    });
             LiveData<String> homeLiveData
                     = Transformations.map(matchLiveData, TableMatch::getHomeName);
             LiveData<String> homeImageLiveData
@@ -397,5 +390,5 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<ArrayList<Lineup>>> homeLineupLiveDataList;
     final private ArrayList<LiveData<ArrayList<Lineup>>> awayLineupLiveDataList;
     private Integer length = 0;
-    private MutableLiveData<Integer> matchTab;
+    final private MutableLiveData<Integer> matchTab;
 }
