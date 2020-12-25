@@ -24,8 +24,11 @@ public class PlayerInfoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        this.index = args.getInt("index", 0);
-        viewModel = ((MainActivity) getActivity()).getViewModel();
+        if (args != null)
+            index = args.getInt("index", 0);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null)
+            viewModel = mainActivity.getViewModel();
     }
 
     @Nullable

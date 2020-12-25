@@ -24,7 +24,9 @@ public class PlayerListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ((MainActivity) getActivity()).getViewModel();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null)
+            viewModel = mainActivity.getViewModel();
     }
 
     @Nullable

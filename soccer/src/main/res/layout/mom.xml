@@ -5,11 +5,14 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.jk.soccer.viewModel.MyViewModel" />
-        <variable
-            name="index"
+            name="ID"
             type="Integer" />
+        <variable
+            name="name"
+            type="String" />
+        <variable
+            name="team"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +27,7 @@
             android:background="@drawable/edge"
             app:layout_constraintWidth_percent="0.3"
             app:layout_constraintHeight_percent="0.3"
-            glideUrl="@{@string/baseUrl2 + viewModel.getBestPlayerIDLiveData(index) + @string/png}"
+            glideUrl="@{@string/baseUrl2 + ID + @string/png}"
             android:layout_marginTop="36dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,13 +35,13 @@
             app:srcCompat="@drawable/edge" />
 
         <TextView
-            android:id="@+id/betstName"
+            android:id="@+id/bestName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.1"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@{viewModel.getBestPlayerNameLiveData(index)}"
+            android:text="@{name}"
             android:textColor="@color/black"
             android:textSize="@dimen/midFont"
             android:fontFamily="@font/paybooc"
@@ -53,7 +56,7 @@
             android:layout_height="0dp"
             app:layout_constraintHeight_percent="0.1"
             android:layout_marginTop="0dp"
-            android:text="@{viewModel.getBestTeamLiveData(index)}"
+            android:text="@{team}"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="@dimen/midFont"
@@ -61,7 +64,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/betstName" />
+            app:layout_constraintTop_toBottomOf="@+id/bestName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

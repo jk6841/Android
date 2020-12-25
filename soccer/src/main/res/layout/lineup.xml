@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="java.util.List" />
         <variable
-            name="viewModel"
-            type="com.jk.soccer.viewModel.MyViewModel" />
+            name="homeLineup"
+            type="List" />
         <variable
-            name="index"
-            type="Integer" />
+            name="awayLineup"
+            type="List" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +21,7 @@
             android:id="@+id/lineupHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            recyclerView="@{viewModel.getHomeLineup(index)}"
+            recyclerView="@{homeLineup}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +31,7 @@
             android:id="@+id/lineupAway"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            recyclerView="@{viewModel.getAwayLineup(index)}"
+            recyclerView="@{awayLineup}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="@+id/lineupHome"
             app:layout_constraintEnd_toEndOf="parent"

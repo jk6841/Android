@@ -4,12 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="java.util.List" />
         <variable
-            name="viewModel"
-            type="com.jk.soccer.viewModel.MyViewModel" />
-        <variable
-            name="index"
-            type="Integer" />
+            name="eventList"
+            type="List" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +16,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/matchInfo_Event"
-            recyclerView="@{viewModel.getEvents(index)}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/edge"
@@ -27,9 +24,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+            app:layout_constraintTop_toTopOf="parent"
+            recyclerView="@{eventList}">
         </androidx.recyclerview.widget.RecyclerView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

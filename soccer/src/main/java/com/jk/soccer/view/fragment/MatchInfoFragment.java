@@ -32,8 +32,11 @@ public class MatchInfoFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        index = args.getInt("index", 0);
-        viewModel = ((MainActivity) getActivity()).getViewModel();
+        if (args != null)
+            index = args.getInt("index", 0);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (mainActivity != null)
+            viewModel = mainActivity.getViewModel();
     }
 
     @Nullable
@@ -63,14 +66,12 @@ public class MatchInfoFragment extends Fragment {
                 = new MyRecyclerViewAdapter<>(eventList, R.layout.viewholder_event);
         binding.subLayoutEvent.matchInfoEvent.setAdapter(rvEventAdapter);
 
-
-        binding.subLayoutLineup.setViewModel(viewModel);
-        binding.subLayoutEvent.setViewModel(viewModel);
-        binding.subLayoutMOM.setViewModel(viewModel);
-
-        binding.subLayoutLineup.setIndex(index);
-        binding.subLayoutEvent.setIndex(index);
-        binding.subLayoutMOM.setIndex(index);
+        binding.subLayoutEvent.setEventList(viewModel.getEvents(index));
+        binding.subLayoutLineup.setHomeLineup(viewModel.getHomeLineup(index));
+        binding.subLayoutLineup.setAwayLineup(viewModel.getAwayLineup(index));
+        binding.subLayoutMOM.setID(viewModel.getBestPlayerIDLiveData(index).getValue());
+        binding.subLayoutMOM.setName(viewModel.getBestPlayerNameLiveData(index).getValue());
+        binding.subLayoutMOM.setTeam(viewModel.getBestTeamLiveData(index).getValue());
 
         binding.setIndex(index);
 
