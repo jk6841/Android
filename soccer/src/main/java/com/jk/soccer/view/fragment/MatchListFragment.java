@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentMatchlistBinding;
-import com.jk.soccer.databinding.MatchViewholderBinding;
+import com.jk.soccer.databinding.ViewholderMatchBinding;
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyRecyclerViewAdapter;
 import com.jk.soccer.viewmodel.MyViewModel;
@@ -36,8 +36,8 @@ public class MatchListFragment extends Fragment {
                 inflater, R.layout.fragment_matchlist, container, false);
         binding.setLifecycleOwner(this);
         viewModel.initMatch();
-        MyRecyclerViewAdapter<MatchViewholderBinding> rvAdapter
-                = new MyRecyclerViewAdapter<>(viewModel.getMatches(), R.layout.match_viewholder);
+        MyRecyclerViewAdapter<ViewholderMatchBinding> rvAdapter
+                = new MyRecyclerViewAdapter<>(viewModel.getMatches(), R.layout.viewholder_match);
         binding.recMatch.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
         return binding.getRoot();

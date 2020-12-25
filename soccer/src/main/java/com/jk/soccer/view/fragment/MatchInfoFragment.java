@@ -11,9 +11,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.jk.soccer.R;
-import com.jk.soccer.databinding.EventViewholderBinding;
+import com.jk.soccer.databinding.ViewholderEventBinding;
 import com.jk.soccer.databinding.FragmentMatchinfoBinding;
-import com.jk.soccer.databinding.LineupViewholderBinding;
+import com.jk.soccer.databinding.ViewholderLineupBinding;
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyHandler;
 import com.jk.soccer.etc.MyRecyclerViewAdapter;
@@ -49,18 +49,18 @@ public class MatchInfoFragment extends Fragment {
         binding.setHandler(new MyHandler());
 
         List<Lineup> homeLineup = viewModel.getHomeLineupLiveData(index).getValue();
-        MyRecyclerViewAdapter<LineupViewholderBinding> rvHomeAdapter
-                = new MyRecyclerViewAdapter<>(homeLineup, R.layout.lineup_viewholder);
+        MyRecyclerViewAdapter<ViewholderLineupBinding> rvHomeAdapter
+                = new MyRecyclerViewAdapter<>(homeLineup, R.layout.viewholder_lineup);
         binding.subLayoutLineup.lineupHome.setAdapter(rvHomeAdapter);
 
         List<Lineup> awayLineup = viewModel.getAwayLineupLiveData(index).getValue();
-        MyRecyclerViewAdapter<LineupViewholderBinding> rvAwayAdapter
-                = new MyRecyclerViewAdapter<>(awayLineup, R.layout.lineup_viewholder);
+        MyRecyclerViewAdapter<ViewholderLineupBinding> rvAwayAdapter
+                = new MyRecyclerViewAdapter<>(awayLineup, R.layout.viewholder_lineup);
         binding.subLayoutLineup.lineupAway.setAdapter(rvAwayAdapter);
 
         List<Event> eventList = viewModel.getEventListLiveData(index).getValue();
-        MyRecyclerViewAdapter<EventViewholderBinding> rvEventAdapter
-                = new MyRecyclerViewAdapter<>(eventList, R.layout.event_viewholder);
+        MyRecyclerViewAdapter<ViewholderEventBinding> rvEventAdapter
+                = new MyRecyclerViewAdapter<>(eventList, R.layout.viewholder_event);
         binding.subLayoutEvent.matchInfoEvent.setAdapter(rvEventAdapter);
 
 
