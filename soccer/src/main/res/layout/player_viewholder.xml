@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="pos"
+            name="item"
+            type="com.jk.soccer.data.local.TablePlayer" />
+        <variable
+            name="index"
             type="Integer" />
         <variable
-            name="handlers"
+            name="handler"
             type="com.jk.soccer.ui.MyHandler" />
-        <variable
-            name="player"
-            type="com.jk.soccer.data.local.TablePlayer" />
     </data>
 
     <TextView
@@ -19,9 +19,9 @@
         android:layout_height="100dp"
         android:textSize="@dimen/bigFont"
         android:gravity="center"
-        android:text="@{player.Name}"
+        android:text="@{item.Name}"
         android:textColor="@{@color/white}"
-        android:background="@{player.bookmark ? @color/lightGreen : @color/skyBlue}"
-        android:onClick="@{(v)->handlers.onPlayerListClick(v, pos)}"
+        android:background="@{item.bookmark ? @color/lightGreen : @color/skyBlue}"
+        android:onClick="@{(v)->handler.onPlayerListClick(v, index)}"
         app:layout_constraintTop_toTopOf="parent" />
 </layout>

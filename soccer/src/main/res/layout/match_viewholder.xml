@@ -5,21 +5,21 @@
 
     <data>
         <variable
-            name="match"
+            name="item"
             type="com.jk.soccer.data.local.TableMatch" />
         <variable
-            name="pos"
+            name="index"
             type="Integer" />
         <variable
-            name="handlers"
+            name="handler"
             type="com.jk.soccer.ui.MyHandler" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@{(pos % 2 == 0)? @color/skyBlue : @color/lightGreen}"
+        android:background="@{(index % 2 == 0)? @color/skyBlue : @color/lightGreen}"
         android:layout_width="match_parent"
         android:layout_height="@dimen/rec_item_height"
-        android:onClick="@{(v)->handlers.onMatchListClick(v, pos)}">
+        android:onClick="@{(v)->handler.onMatchListClick(v, index)}">
 
         <ImageView
             android:id="@+id/img_away"
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/small_image_height"
             android:layout_marginEnd="@dimen/img_horizontal_margin"
             android:contentDescription="@string/contentDescription"
-            glideUrl="@{@string/baseUrl1 + match.awayImage}"
+            glideUrl="@{@string/baseUrl1 + item.awayImage}"
             app:layout_constraintBottom_toBottomOf="@+id/img_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/img_home"
@@ -36,7 +36,7 @@
 
         <ImageView
             android:id="@+id/img_home"
-            glideUrl="@{@string/baseUrl1 + match.homeImage}"
+            glideUrl="@{@string/baseUrl1 + item.homeImage}"
             android:layout_width="@dimen/small_image_width"
             android:layout_height="@dimen/small_image_height"
             android:layout_marginStart="@dimen/img_horizontal_margin"
@@ -52,7 +52,7 @@
             android:layout_marginStart="@dimen/txt_horizontal_margin"
             android:layout_marginTop="12dp"
             android:gravity="start"
-            android:text="@{match.homeName}"
+            android:text="@{item.homeName}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/small_info_height"
             android:gravity="end"
-            android:text="@{match.awayName}"
+            android:text="@{item.awayName}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -82,7 +82,7 @@
             android:layout_height="@dimen/small_info_height"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            scoreText="@{match}"
+            scoreText="@{item}"
             android:textSize="@dimen/bigFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/tv_time"
-            timeText="@{match}"
+            timeText="@{item}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@{match.stadium}"
+            android:text="@{item.stadium}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -127,7 +127,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="@{match.name}"
+            android:text="@{item.name}"
             android:textSize="@dimen/midFont"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

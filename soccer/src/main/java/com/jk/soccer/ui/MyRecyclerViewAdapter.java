@@ -9,9 +9,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jk.soccer.BR;
+
 import java.util.List;
 
-public abstract class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     protected List<T> list;
     protected Integer layout;
 
@@ -37,7 +39,13 @@ public abstract class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> 
     }
 
     @Override
-    public abstract void onBindViewHolder(@NonNull MyViewHolder holder, int index);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int index){
+        BINDING binding = (BINDING) (holder.getBinding());
+        binding.setVariable(BR.item, list.get(index));
+        binding.setVariable(BR.index, index);
+        binding.setVariable(BR.handler, new MyHandler());
+        binding.executePendingBindings();
+    }
 
     @Override
     public int getItemCount() {
@@ -47,11 +55,8 @@ public abstract class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> 
     }
 
     public static class MyViewHolder<BINDING extends ViewDataBinding> extends RecyclerView.ViewHolder {
+
         final private BINDING binding;
-        public MyViewHolder(BINDING binding){
-            super(binding.getRoot());
-            this.binding = binding;
-        }
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -5,23 +5,20 @@
 
     <data>
         <variable
-            name="role"
-            type="Integer" />
-        <variable
-            name="shirt"
-            type="Integer" />
-        <variable
-            name="name"
-            type="String" />
+            name="item"
+            type="com.jk.soccer.ui.matchInfo.lineup.Lineup" />
         <variable
             name="index"
-            type="int" />
+            type="Integer" />
+        <variable
+            name="handler"
+            type="com.jk.soccer.ui.MyHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@{(role == 0)? @color/white : (role == 1)? @color/orange : (role == 2)? @color/skyBlue : (role == 3)? @color/lightGreen : @color/red}">
+        android:background="@{(item.position == 0)? @color/white : (item.position == 1)? @color/orange : (item.position == 2)? @color/skyBlue : (item.position == 3)? @color/lightGreen : @color/red}">
 
         <TextView
             android:id="@+id/lineup_shirt"
@@ -29,7 +26,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/edge"
             android:gravity="center"
-            android:text="@{(shirt == 0)? @string/coach : shirt.toString()}"
+            android:text="@{(item.shirt == 0)? @string/coach : item.shirt.toString()}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +40,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/edge"
             android:gravity="center"
-            android:text="@{name}"
+            android:text="@{item.name}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

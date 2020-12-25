@@ -6,8 +6,14 @@
 
     <data>
         <variable
-            name="event"
+            name="item"
             type="com.jk.soccer.ui.matchInfo.event.Event" />
+        <variable
+            name="index"
+            type="Integer" />
+        <variable
+            name="handler"
+            type="com.jk.soccer.ui.MyHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +29,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="@{event.time.toString()}"
+            android:text="@{item.time.toString()}"
             app:layout_constraintHeight_percent="0.5"
             app:layout_constraintStart_toEndOf="@+id/event_home"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/contentDescription"
-            android:src="@{event.type.equals(@string/event_goal)? @drawable/ball : event.type.equals(@string/event_yellow)? @drawable/yellow : event.type.equals(@string/event_red)? @drawable/red : @drawable/substitution}"
+            android:src="@{item.type.equals(@string/event_goal)? @drawable/ball : item.type.equals(@string/event_yellow)? @drawable/yellow : item.type.equals(@string/event_red)? @drawable/red : @drawable/substitution}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/event_time"
             app:layout_constraintHeight_percent="0.4"
@@ -51,7 +57,7 @@
             android:textSize="@dimen/smallMidFont"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="@{event.home? @string/empty : event.detail}"
+            android:text="@{item.home? @string/empty : item.detail}"
             android:background="@drawable/edge"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +75,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="@{event.home? event.detail : @string/empty}"
+            android:text="@{item.home? item.detail : @string/empty}"
             android:textSize="@dimen/smallMidFont"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

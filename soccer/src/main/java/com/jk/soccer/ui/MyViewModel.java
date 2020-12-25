@@ -254,6 +254,10 @@ public class MyViewModel extends AndroidViewModel {
         matchTab.setValue(tab);
     }
 
+    public ArrayList<LiveData<TableMatch>> getMatchLiveDataList() {
+        return matchLiveDataList;
+    }
+
     public LiveData<Integer> getIdLiveData(Integer index){
         return idLiveDataList.get(index);
     }
