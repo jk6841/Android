@@ -11,6 +11,9 @@
         <variable
             name="index"
             type="Integer" />
+        <variable
+            name="handlers"
+            type="com.jk.soccer.ui.MyHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,6 +69,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/matchInfo_time" />
 
+        <TextView
+            android:id="@+id/buttonLineup"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            android:gravity="center"
+            android:text="@string/tab_lineup"
+            android:textColor="@color/black"
+            android:textSize="@dimen/midFont"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <TextView
+            android:id="@+id/buttonEvent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            android:gravity="center"
+            android:text="@string/tab_event"
+            android:textColor="@color/black"
+            android:textSize="@dimen/midFont"
+            android:onClick="@{(v)->handlers.onEventClick(v, viewModel)}"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonLineup"
+            app:layout_constraintEnd_toStartOf="@+id/buttonMOM"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toEndOf="@+id/buttonLineup"
+            app:layout_constraintTop_toTopOf="@+id/buttonLineup"
+            app:layout_constraintWidth_percent="0.33" />
+
+        <TextView
+            android:id="@+id/buttonMOM"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            android:gravity="center"
+            android:text="@string/tab_MOM"
+            android:textColor="@color/black"
+            android:textSize="@dimen/midFont"
+            android:onClick="@{(v)->handlers.onMOMClick(v, viewModel)}"
+            app:layout_constraintBottom_toBottomOf="@+id/buttonEvent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintTop_toTopOf="@+id/buttonEvent"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_percent="0.33" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
@@ -84,9 +135,9 @@
                 android:fontFamily="@font/paybooc"
                 android:gravity="center"
                 android:text="@string/home"
+                android:textColor="@color/black"
                 android:textSize="@dimen/midFont"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.25" />
@@ -99,9 +150,9 @@
                 android:fontFamily="@font/paybooc"
                 android:gravity="center"
                 android:text="@string/away"
+                android:textColor="@color/black"
                 android:textSize="@dimen/midFont"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/matchInfo_home"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/matchInfo_home"
@@ -111,14 +162,14 @@
             <TextView
                 android:id="@+id/matchInfo_homeTeam"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/paybooc"
                 android:gravity="center"
-                android:textStyle="bold"
-                android:textColor="@color/black"
                 android:text="@{viewModel.getHomeLiveData(index)}"
+                android:textColor="@color/black"
                 android:textSize="@dimen/smallMidFont"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/matchInfo_homeImage"
@@ -127,13 +178,13 @@
             <TextView
                 android:id="@+id/matchInfo_awayTeam"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:fontFamily="@font/paybooc"
                 android:gravity="center"
                 android:text="@{viewModel.getAwayLiveData(index)}"
+                android:textColor="@color/black"
                 android:textSize="@dimen/smallMidFont"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeTeam"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/matchInfo_homeTeam"
@@ -173,9 +224,9 @@
                 android:fontFamily="@font/paybooc"
                 android:gravity="center"
                 android:text="@{viewModel.getScoreLiveData(index)}"
+                android:textColor="@color/black"
                 android:textSize="@dimen/midFont"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@+id/matchInfo_homeImage"
                 app:layout_constraintEnd_toEndOf="@+id/matchInfo_status"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -191,31 +242,37 @@
                 android:fontFamily="@font/paybooc"
                 android:gravity="center"
                 android:text="@{viewModel.getStatusLiveData(index)}"
+                android:textColor="@color/black"
                 android:textSize="@dimen/midFont"
                 android:textStyle="bold"
-                android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@+id/matchInfo_awayImage"
                 app:layout_constraintStart_toEndOf="@+id/matchInfo_homeImage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.25" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchInfo_Event"
-            recyclerView="@{viewModel.getEvents(index)}"
+        <include
+            android:id="@+id/subLayoutEvent"
+            layout="@layout/event"
+            android:visibility="@{(viewModel.matchTab == 1)? View.VISIBLE : View.GONE}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/edge"
-            android:scrollbars="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.55"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintWidth_percent="0.25">
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-        </androidx.recyclerview.widget.RecyclerView>
+        <include
+            android:id="@+id/subLayoutMOM"
+            layout="@layout/mom"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{(viewModel.matchTab == 2)? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

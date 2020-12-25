@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.etc.MyParser;
@@ -48,6 +49,8 @@ public class MyViewModel extends AndroidViewModel {
         bestPlayerIDLiveDataList = new ArrayList<>();
         bestPlayerNameLiveDataList = new ArrayList<>();
         bestTeamLiveDataList = new ArrayList<>();
+        matchTab = new MutableLiveData<>();
+        matchTab.setValue(1);
     }
 
     public void initPlayer(){
@@ -226,6 +229,14 @@ public class MyViewModel extends AndroidViewModel {
         return MyParser.myEventList(eventString);
     }
 
+    public MutableLiveData<Integer> getMatchTab() {
+        return matchTab;
+    }
+
+    public void setMatchTab(Integer tab){
+        matchTab.setValue(tab);
+    }
+
     public LiveData<Integer> getIdLiveData(Integer index){
         return idLiveDataList.get(index);
     }
@@ -351,4 +362,5 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<String>> bestTeamLiveDataList;
     final private ArrayList<LiveData<ArrayList<Event>>> eventListLiveDataList;
     private Integer length = 0;
+    private MutableLiveData<Integer> matchTab;
 }

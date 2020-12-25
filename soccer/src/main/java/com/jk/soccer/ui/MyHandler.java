@@ -24,4 +24,12 @@ public class MyHandler {
         navController.navigate(R.id.action_nav_matchList_to_nav_matchInfo, args);
     }
 
+    public void onEventClick(View view, MyViewModel viewModel){
+        viewModel.setMatchTab(1);
+    }
+
+    public void onMOMClick(View view, MyViewModel viewModel){
+        viewModel.setMatchTab(2);
+    }
+
 }

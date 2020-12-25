@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentMatchinfoBinding;
 import com.jk.soccer.ui.MainActivity;
+import com.jk.soccer.ui.MyHandler;
 import com.jk.soccer.ui.MyViewModel;
 
 public class MatchInfoFragment extends Fragment {
@@ -36,8 +37,13 @@ public class MatchInfoFragment extends Fragment {
         FragmentMatchinfoBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matchinfo, container, false);
         binding.setLifecycleOwner(this);
-        binding.matchInfoEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue()));
         binding.setViewModel(viewModel);
+        binding.setHandlers(new MyHandler());
+        binding.subLayoutEvent.setViewModel(viewModel);
+        binding.subLayoutMOM.setViewModel(viewModel);
+        binding.subLayoutEvent.matchInfoEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue()));
+        binding.subLayoutEvent.setIndex(index);
+        binding.subLayoutMOM.setIndex(index);
         binding.setIndex(index);
         return binding.getRoot();
     }
