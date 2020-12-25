@@ -32,18 +32,6 @@ android {
         dataBinding true
     }
 
-    sourceSets{
-        main{
-            res.srcDirs = [
-                    'src/main/res/layout/sub',
-                    'src/main/res/layout/viewholder',
-                    'src/main/res/layout/fragment',
-                    'src/main/res/layout',
-                    'src/main/res'
-            ]
-        }
-    }
-
 }
 
 dependencies {
