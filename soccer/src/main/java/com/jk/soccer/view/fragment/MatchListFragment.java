@@ -15,7 +15,7 @@ import com.jk.soccer.databinding.FragmentMatchlistBinding;
 import com.jk.soccer.databinding.ViewholderMatchBinding;
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyRecyclerViewAdapter;
-import com.jk.soccer.viewmodel.MyViewModel;
+import com.jk.soccer.viewModel.MyViewModel;
 
 public class MatchListFragment extends Fragment {
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
-import com.jk.soccer.viewmodel.MyViewModel;
+import com.jk.soccer.viewModel.MyViewModel;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;

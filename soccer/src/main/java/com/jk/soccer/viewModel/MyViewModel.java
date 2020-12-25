@@ -1,4 +1,4 @@
-package com.jk.soccer.viewmodel;
+package com.jk.soccer.viewModel;
 
 import android.app.Application;
 import android.text.TextUtils;

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentPlayerinfoBinding;
 import com.jk.soccer.view.activity.MainActivity;
-import com.jk.soccer.viewmodel.MyViewModel;
+import com.jk.soccer.viewModel.MyViewModel;
 
 public class PlayerInfoFragment extends Fragment {
 

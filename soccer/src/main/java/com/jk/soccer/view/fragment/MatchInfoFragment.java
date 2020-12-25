@@ -17,7 +17,7 @@ import com.jk.soccer.databinding.ViewholderLineupBinding;
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyHandler;
 import com.jk.soccer.etc.MyRecyclerViewAdapter;
-import com.jk.soccer.viewmodel.MyViewModel;
+import com.jk.soccer.viewModel.MyViewModel;
 import com.jk.soccer.etc.Event;
 import com.jk.soccer.etc.Lineup;
 

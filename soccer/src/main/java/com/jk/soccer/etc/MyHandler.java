@@ -7,7 +7,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.jk.soccer.R;
-import com.jk.soccer.viewmodel.MyViewModel;
+import com.jk.soccer.viewModel.MyViewModel;
 
 public class MyHandler {
 
