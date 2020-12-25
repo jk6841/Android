@@ -49,17 +49,17 @@ public class MatchInfoFragment extends Fragment {
         binding.setHandler(new MyHandler());
 
         List<Lineup> homeLineup = viewModel.getHomeLineupLiveData(index).getValue();
-        MyRecyclerViewAdapter<Lineup, LineupViewholderBinding> rvHomeAdapter
+        MyRecyclerViewAdapter<LineupViewholderBinding> rvHomeAdapter
                 = new MyRecyclerViewAdapter<>(homeLineup, R.layout.lineup_viewholder);
         binding.subLayoutLineup.lineupHome.setAdapter(rvHomeAdapter);
 
         List<Lineup> awayLineup = viewModel.getAwayLineupLiveData(index).getValue();
-        MyRecyclerViewAdapter<Lineup, LineupViewholderBinding> rvAwayAdapter
+        MyRecyclerViewAdapter<LineupViewholderBinding> rvAwayAdapter
                 = new MyRecyclerViewAdapter<>(awayLineup, R.layout.lineup_viewholder);
         binding.subLayoutLineup.lineupAway.setAdapter(rvAwayAdapter);
 
         List<Event> eventList = viewModel.getEventListLiveData(index).getValue();
-        MyRecyclerViewAdapter<Event, EventViewholderBinding> rvEventAdapter
+        MyRecyclerViewAdapter<EventViewholderBinding> rvEventAdapter
                 = new MyRecyclerViewAdapter<>(eventList, R.layout.event_viewholder);
         binding.subLayoutEvent.matchInfoEvent.setAdapter(rvEventAdapter);
 

@@ -13,17 +13,17 @@ import com.jk.soccer.BR;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
+public class MyRecyclerViewAdapter<BINDING extends ViewDataBinding>
         extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder<BINDING>>{
-    protected List<T> list;
+    protected List<?> list;
     protected Integer layout;
 
-    public MyRecyclerViewAdapter(List<T> list, Integer layout){
+    public MyRecyclerViewAdapter(List<?> list, Integer layout){
         setList(list);
         setLayoutId(layout);
     }
 
-    public void setList(List<T> list){
+    public void setList(List<?> list){
         this.list = list;
         notifyDataSetChanged();
     }

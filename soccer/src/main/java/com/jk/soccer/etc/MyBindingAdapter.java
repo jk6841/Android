@@ -50,8 +50,8 @@ public class MyBindingAdapter {
     }
 
     @BindingAdapter({"recyclerView"})
-    public static void recyclerView(RecyclerView recyclerView, List list){
-        MyRecyclerViewAdapter adapter = (MyRecyclerViewAdapter)recyclerView.getAdapter();
+    public static void recyclerView(RecyclerView recyclerView, List<?> list){
+        MyRecyclerViewAdapter<?> adapter = (MyRecyclerViewAdapter<?>)recyclerView.getAdapter();
         adapter.setList(list);
     }
 }

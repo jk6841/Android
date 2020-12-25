@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.jk.soccer.R;
-import com.jk.soccer.model.local.TableMatch;
 import com.jk.soccer.databinding.FragmentMatchlistBinding;
 import com.jk.soccer.databinding.MatchViewholderBinding;
 import com.jk.soccer.view.activity.MainActivity;
@@ -37,7 +36,7 @@ public class MatchListFragment extends Fragment {
                 inflater, R.layout.fragment_matchlist, container, false);
         binding.setLifecycleOwner(this);
         viewModel.initMatch();
-        MyRecyclerViewAdapter<TableMatch, MatchViewholderBinding> rvAdapter
+        MyRecyclerViewAdapter<MatchViewholderBinding> rvAdapter
                 = new MyRecyclerViewAdapter<>(viewModel.getMatches(), R.layout.match_viewholder);
         binding.recMatch.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
