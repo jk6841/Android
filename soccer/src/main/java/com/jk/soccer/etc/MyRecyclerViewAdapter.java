@@ -14,7 +14,7 @@ import com.jk.soccer.BR;
 import java.util.List;
 
 public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
-        extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+        extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder<BINDING>>{
     protected List<T> list;
     protected Integer layout;
 
@@ -34,14 +34,14 @@ public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
 
     @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder<BINDING> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new MyViewHolder<BINDING>(inflater.inflate(layout, parent, false));
+        return new MyViewHolder<>(inflater.inflate(layout, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int index){
-        BINDING binding = (BINDING) (holder.getBinding());
+        @SuppressWarnings("unchecked") BINDING binding = (BINDING) (holder.getBinding());
         binding.setVariable(BR.item, list.get(index));
         binding.setVariable(BR.index, index);
         binding.setVariable(BR.handler, new MyHandler());
