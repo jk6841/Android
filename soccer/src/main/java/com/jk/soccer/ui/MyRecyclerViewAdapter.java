@@ -1,0 +1,65 @@
+package com.jk.soccer.ui;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+public abstract class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+    protected List<T> list;
+    protected Integer layout;
+
+    public void setList(List<T> list){
+        this.list = list;
+        notifyDataSetChanged();
+    }
+
+    public void setLayoutId(Integer layout) {
+        this.layout = layout;
+    }
+
+    public MyRecyclerViewAdapter(List<T> list, Integer layout){
+        setList(list);
+        setLayoutId(layout);
+    }
+
+    @NonNull
+    @Override
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        return new MyViewHolder<BINDING>(inflater.inflate(layout, parent, false));
+    }
+
+    @Override
+    public abstract void onBindViewHolder(@NonNull MyViewHolder holder, int index);
+
+    @Override
+    public int getItemCount() {
+        if (list == null)
+            return 0;
+        return list.size();
+    }
+
+    public static class MyViewHolder<BINDING extends ViewDataBinding> extends RecyclerView.ViewHolder {
+        final private BINDING binding;
+        public MyViewHolder(BINDING binding){
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.binding = DataBindingUtil.bind(itemView);
+        }
+
+        public BINDING getBinding(){
+            return binding;
+        }
+    }
+}
