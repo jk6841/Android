@@ -41,12 +41,12 @@ public class MatchInfoFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setHandlers(new MyHandler());
-        binding.subLayoutLineup.lineupHome.setAdapter(new LineupAdapter(viewModel.getHomeLineupLiveData(index).getValue()));
-        binding.subLayoutLineup.lineupAway.setAdapter(new LineupAdapter(viewModel.getAwayLineupLiveData(index).getValue()));
+        binding.subLayoutLineup.lineupHome.setAdapter(new LineupAdapter(viewModel.getHomeLineupLiveData(index).getValue(), R.layout.lineup_viewholder));
+        binding.subLayoutLineup.lineupAway.setAdapter(new LineupAdapter(viewModel.getAwayLineupLiveData(index).getValue(), R.layout.lineup_viewholder));
         binding.subLayoutLineup.setViewModel(viewModel);
         binding.subLayoutEvent.setViewModel(viewModel);
         binding.subLayoutMOM.setViewModel(viewModel);
-        binding.subLayoutEvent.matchInfoEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue()));
+        binding.subLayoutEvent.matchInfoEvent.setAdapter(new EventListAdapter(viewModel.getEventListLiveData(index).getValue(), R.layout.event_viewholder));
         binding.subLayoutLineup.setIndex(index);
         binding.subLayoutEvent.setIndex(index);
         binding.subLayoutMOM.setIndex(index);

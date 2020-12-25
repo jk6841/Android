@@ -10,13 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.data.local.TableMatch;
-import com.jk.soccer.data.local.TablePlayer;
-import com.jk.soccer.ui.matchInfo.event.Event;
-import com.jk.soccer.ui.matchInfo.event.EventListAdapter;
-import com.jk.soccer.ui.matchInfo.lineup.Lineup;
-import com.jk.soccer.ui.matchInfo.lineup.LineupAdapter;
-import com.jk.soccer.ui.matchList.MatchListAdapter;
-import com.jk.soccer.ui.playerList.PlayerListAdapter;
 
 import java.util.List;
 
@@ -57,15 +50,8 @@ public class MyBindingAdapter {
     }
 
     @BindingAdapter({"recyclerView"})
-    public static void recycler(RecyclerView recyclerView, List<?> list){
-        if (recyclerView.getAdapter() instanceof  PlayerListAdapter){
-            ((PlayerListAdapter) recyclerView.getAdapter()).setPlayerList((List<TablePlayer>)list);
-        } else if (recyclerView.getAdapter() instanceof  MatchListAdapter){
-            ((MatchListAdapter) recyclerView.getAdapter()).setMatchList((List<TableMatch>)list);
-        } else if (recyclerView.getAdapter() instanceof EventListAdapter){
-            ((EventListAdapter) recyclerView.getAdapter()).setEventList((List<Event>)list);
-        } else if (recyclerView.getAdapter() instanceof LineupAdapter){
-            ((LineupAdapter) recyclerView.getAdapter()).setLineup((List<Lineup>)list);
-        }
+    public static void recyclerView(RecyclerView recyclerView, List list){
+        MyRecyclerViewAdapter adapter = (MyRecyclerViewAdapter)recyclerView.getAdapter();
+        adapter.setList(list);
     }
 }

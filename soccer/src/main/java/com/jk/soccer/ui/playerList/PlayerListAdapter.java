@@ -1,58 +1,25 @@
 package com.jk.soccer.ui.playerList;
 
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.jk.soccer.data.local.TablePlayer;
 import com.jk.soccer.databinding.PlayerViewholderBinding;
 import com.jk.soccer.ui.MyHandler;
+import com.jk.soccer.ui.MyRecyclerViewAdapter;
 
 import java.util.List;
 
-
-public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.MyViewHolder> {
-
-    private List<TablePlayer> playerList;
-
-    public PlayerListAdapter(List<TablePlayer> playerList) {
-        this.playerList = playerList;
-    }
-
-    public void setPlayerList(List<TablePlayer> playerList){
-        this.playerList = playerList;
-        notifyDataSetChanged();
-    }
-
-    @NonNull
-    @Override
-    public PlayerListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                             int viewType) {
-        PlayerViewholderBinding binding = PlayerViewholderBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false);
-        return new MyViewHolder(binding);
+public class PlayerListAdapter extends MyRecyclerViewAdapter<TablePlayer, PlayerViewholderBinding> {
+    public PlayerListAdapter(List<TablePlayer> list, Integer layout) {
+        super(list, layout);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int pos) {
-        holder.binding.setPlayer(playerList.get(pos));
-        holder.binding.setPos(pos);
-        holder.binding.setHandlers(new MyHandler());
-        holder.binding.executePendingBindings();
-    }
-
-    @Override
-    public int getItemCount() {
-        return playerList.size();
-    }
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private PlayerViewholderBinding binding;
-        public MyViewHolder(PlayerViewholderBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int index) {
+        PlayerViewholderBinding binding = (PlayerViewholderBinding) holder.getBinding();
+        binding.setPlayer(list.get(index));
+        binding.setPos(index);
+        binding.setHandlers(new MyHandler());
+        binding.executePendingBindings();
     }
 }

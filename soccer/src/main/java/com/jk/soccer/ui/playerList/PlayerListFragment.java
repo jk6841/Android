@@ -32,7 +32,7 @@ public class PlayerListFragment extends Fragment {
                 inflater, R.layout.fragment_playerlist, container, false);
         binding.setLifecycleOwner(this);
         viewModel.initPlayer();
-        binding.homeRec.setAdapter(new PlayerListAdapter(viewModel.getPlayers()));
+        binding.homeRec.setAdapter(new PlayerListAdapter(viewModel.getPlayers(), R.layout.player_viewholder));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

@@ -32,7 +32,7 @@ public class MatchListFragment extends Fragment {
                 inflater, R.layout.fragment_matchlist, container, false);
         binding.setLifecycleOwner(this);
         viewModel.initMatch();
-        binding.recMatch.setAdapter(new MatchListAdapter(viewModel.getMatches()));
+        binding.recMatch.setAdapter(new MatchListAdapter(viewModel.getMatches(), R.layout.match_viewholder));
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
