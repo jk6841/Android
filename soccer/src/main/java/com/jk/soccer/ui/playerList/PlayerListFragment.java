@@ -28,14 +28,18 @@ public class PlayerListFragment extends Fragment {
         viewModel = ((MainActivity) getActivity()).getViewModel();
     }
 
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         FragmentPlayerlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_playerlist, container, false);
         binding.setLifecycleOwner(this);
         viewModel.initPlayer();
-        binding.homeRec.setAdapter(new MyRecyclerViewAdapter<TablePlayer, PlayerViewholderBinding>(viewModel.getPlayers(), R.layout.player_viewholder));
+        MyRecyclerViewAdapter<TablePlayer, PlayerViewholderBinding> rvAdapter
+                = new MyRecyclerViewAdapter<>(viewModel.getPlayers(), R.layout.player_viewholder);
+        binding.homeRec.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

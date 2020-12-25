@@ -31,12 +31,14 @@ public class PlayerInfoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         FragmentPlayerinfoBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_playerinfo, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setIndex(index);
+
         return binding.getRoot();
     }
 }

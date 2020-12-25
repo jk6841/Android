@@ -13,7 +13,8 @@ import com.jk.soccer.BR;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
+public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
+        extends RecyclerView.Adapter<MyRecyclerViewAdapter.MyViewHolder> {
     protected List<T> list;
     protected Integer layout;
 
@@ -54,7 +55,8 @@ public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding> extends R
         return list.size();
     }
 
-    public static class MyViewHolder<BINDING extends ViewDataBinding> extends RecyclerView.ViewHolder {
+    public static class MyViewHolder<BINDING extends ViewDataBinding>
+            extends RecyclerView.ViewHolder {
 
         final private BINDING binding;
 

@@ -30,12 +30,16 @@ public class MatchListFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         FragmentMatchlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matchlist, container, false);
         binding.setLifecycleOwner(this);
         viewModel.initMatch();
-        binding.recMatch.setAdapter(new MyRecyclerViewAdapter<TableMatch, MatchViewholderBinding>(viewModel.getMatches(), R.layout.match_viewholder));
+        MyRecyclerViewAdapter<TableMatch, MatchViewholderBinding> rvAdapter
+                = new MyRecyclerViewAdapter<>(viewModel.getMatches(), R.layout.match_viewholder);
+        binding.recMatch.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

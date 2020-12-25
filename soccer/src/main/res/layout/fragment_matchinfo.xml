@@ -12,7 +12,7 @@
             name="index"
             type="Integer" />
         <variable
-            name="handlers"
+            name="handler"
             type="com.jk.soccer.ui.MyHandler" />
     </data>
 
