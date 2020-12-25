@@ -18,6 +18,11 @@ public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
     protected List<T> list;
     protected Integer layout;
 
+    public MyRecyclerViewAdapter(List<T> list, Integer layout){
+        setList(list);
+        setLayoutId(layout);
+    }
+
     public void setList(List<T> list){
         this.list = list;
         notifyDataSetChanged();
@@ -25,11 +30,6 @@ public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
 
     public void setLayoutId(Integer layout) {
         this.layout = layout;
-    }
-
-    public MyRecyclerViewAdapter(List<T> list, Integer layout){
-        setList(list);
-        setLayoutId(layout);
     }
 
     @NonNull
@@ -41,7 +41,8 @@ public class MyRecyclerViewAdapter<T, BINDING extends ViewDataBinding>
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int index){
-        @SuppressWarnings("unchecked") BINDING binding = (BINDING) (holder.getBinding());
+        @SuppressWarnings("unchecked")
+        BINDING binding = (BINDING) (holder.getBinding());
         binding.setVariable(BR.item, list.get(index));
         binding.setVariable(BR.index, index);
         binding.setVariable(BR.handler, new MyHandler());
