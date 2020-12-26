@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.jk.soccer.viewModel.MyViewModel" />
+
         <variable
             name="index"
             type="Integer" />
+
         <variable
             name="handler"
             type="com.jk.soccer.etc.MyHandler" />
@@ -29,9 +32,9 @@
             android:fontFamily="@font/paybooc"
             android:gravity="center"
             android:text="@{viewModel.getMatchTitleLiveData(index)}"
+            android:textColor="@color/black"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
@@ -42,14 +45,14 @@
             android:id="@+id/matchInfo_time"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.05"
+            android:fontFamily="@font/paybooc"
             android:gravity="center"
             android:text="@{viewModel.getTimeLiveData(index)}"
-            android:fontFamily="@font/paybooc"
+            android:textColor="@color/black"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/matchInfo_title" />
 
@@ -61,9 +64,9 @@
             android:fontFamily="@font/paybooc"
             android:gravity="center"
             android:text="@{viewModel.getStadiumLiveData(index)}"
+            android:textColor="@color/black"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
-            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintHorizontal_bias="0.0"
@@ -71,37 +74,20 @@
             app:layout_constraintTop_toBottomOf="@+id/matchInfo_time" />
 
         <TextView
-            android:id="@+id/buttonLineup"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/edge"
-            android:gravity="center"
-            android:text="@string/tab_lineup"
-            android:textColor="@color/black"
-            android:fontFamily="@font/paybooc"
-            android:onClick="@{(v)->handler.onLineupClick(v, viewModel)}"
-            android:textSize="@dimen/midFont"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-            app:layout_constraintWidth_percent="0.33" />
-
-        <TextView
             android:id="@+id/buttonEvent"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/edge"
+            android:fontFamily="@font/paybooc"
             android:gravity="center"
+            android:onClick="@{(v)->handler.onEventClick(v, viewModel)}"
             android:text="@string/tab_event"
             android:textColor="@color/black"
             android:textSize="@dimen/midFont"
-            android:fontFamily="@font/paybooc"
-            android:onClick="@{(v)->handler.onEventClick(v, viewModel)}"
-            app:layout_constraintBottom_toBottomOf="@+id/buttonLineup"
-            app:layout_constraintEnd_toStartOf="@+id/buttonMOM"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintStart_toEndOf="@+id/buttonLineup"
-            app:layout_constraintTop_toTopOf="@+id/buttonLineup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
             app:layout_constraintWidth_percent="0.33" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -236,19 +222,7 @@
                 app:layout_constraintStart_toEndOf="@+id/matchInfo_homeImage"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.25" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <include
-            android:id="@+id/subLayoutLineup"
-            layout="@layout/lineup"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:visibility="@{(viewModel.matchTab == 0)? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <include
             android:id="@+id/subLayoutEvent"

@@ -13,15 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.ViewholderEventBinding;
 import com.jk.soccer.databinding.FragmentMatchinfoBinding;
-import com.jk.soccer.databinding.ViewholderLineupBinding;
-import com.jk.soccer.etc.Event;
+
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyHandler;
 import com.jk.soccer.etc.MyRecyclerViewAdapter;
 import com.jk.soccer.viewModel.MyViewModel;
-import com.jk.soccer.etc.Lineup;
 
-import java.util.List;
 
 public class MatchInfoFragment extends Fragment {
 
@@ -50,14 +47,6 @@ public class MatchInfoFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setHandler(new MyHandler());
-
-        MyRecyclerViewAdapter<ViewholderLineupBinding> rvHomeAdapter
-                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_lineup, viewModel.countHomeLineup(index), index);
-        binding.subLayoutLineup.lineupHome.setAdapter(rvHomeAdapter);
-
-        MyRecyclerViewAdapter<ViewholderLineupBinding> rvAwayAdapter
-                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_lineup, viewModel.countAwayLineup(index), index);
-        binding.subLayoutLineup.lineupAway.setAdapter(rvAwayAdapter);
 
         MyRecyclerViewAdapter<ViewholderEventBinding> rvEventAdapter
                 = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_event, viewModel.countEvents(index), index);

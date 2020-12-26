@@ -25,8 +25,9 @@ public class MatchListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null)
+        if (mainActivity != null) {
             viewModel = mainActivity.getViewModel();
+        }
     }
 
     @Nullable
@@ -36,8 +37,8 @@ public class MatchListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         FragmentMatchlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matchlist, container, false);
-        binding.setLifecycleOwner(this);
         viewModel.initMatch();
+        binding.setLifecycleOwner(this);
         MyRecyclerViewAdapter<ViewholderMatchBinding> rvAdapter
                 = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_match, viewModel.countMatches());
         binding.recMatch.setAdapter(rvAdapter);

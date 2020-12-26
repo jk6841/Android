@@ -50,7 +50,7 @@ public class Repository {
     public List<LiveData<Player>> getPlayerLiveData(){
         LiveData<List<Player>> listFromDB = mDao.findPlayerLiveData();
         List<LiveData<Player>> result = new ArrayList<>();
-        int num = getPlayer().size();
+        int num = count(0).get(0);
         for (int i = 0; i < num; i++){
             int k = i;
             LiveData<Player> item = Transformations.map(listFromDB, input -> input.get(k));
@@ -342,4 +342,39 @@ public class Repository {
             return result;
         }
     }
+
+    private static class CountTask extends AsyncTask<Integer, Void, List<Integer>>{
+        private DBDao dao;
+        public CountTask(DBDao dao){
+            this.dao = dao;
+        }
+
+        @Override
+        protected List<Integer> doInBackground(Integer... integers) {
+            switch (integers[0]){
+                case 0:
+                    return dao.countPlayer();
+                case 1:
+                    return dao.countMatch();
+                case 2:
+                    return dao.countEvent();
+                case 3:
+                    return dao.countHomeLineup();
+                case 4:
+                    return dao.countAwayLineup();
+                default:
+                    return null;
+            }
+        }
+    }
+
+    public List<Integer> count(Integer target){
+        try {
+            return new CountTask(mDao).execute(target).get();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.model.local.TableMatch;
+import com.jk.soccer.viewModel.MyViewModel;
 
 import java.util.List;
 
@@ -48,4 +49,5 @@ public class MyBindingAdapter {
         else
             view.setText(vs);
     }
+
 }

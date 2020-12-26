@@ -201,7 +201,9 @@ public class MyParser {
         match.setBestPlayerID(myJSONInt(jsonBestPlayer, "id"));
         match.setBestPlayerName(myJSONString(jsonBestPlayer, "name"));
         match.setBestTeam(myJSONString(jsonBestPlayer, "teamName"));
-        match.setEvent(myEventList(myJSONString(jsonMatchFacts, "events")));
+        List<Event> events = myEventList(myJSONString(jsonMatchFacts, "events"));
+        match.setEvent(events);
+        match.setEventCount(events.size());
         JSONObject jsonInfoBox = myJSONObject(jsonMatchFacts, "infoBox");
         JSONObject jsonTournament = myJSONObject(jsonInfoBox, "Tournament");
         match.setName(myJSONString(jsonTournament, "text"));
@@ -209,8 +211,12 @@ public class MyParser {
         match.setStadium(myJSONString(jsonStadium, "name"));
         JSONObject jsonLineups = myJSONObject(jsonContent, "lineup");
         JSONArray jsonLineupArray = myJSONArray(jsonLineups, "lineup");
-        match.setHomeLineup(myLineup(myJSONString(jsonLineupArray, 0), true));
-        match.setAwayLineup(myLineup(myJSONString(jsonLineupArray, 1), false));
+        List<Lineup> homeLineup = myLineup(myJSONString(jsonLineupArray, 0), true);
+        match.setHomeLineup(homeLineup);
+        match.setHomeLineupCount((homeLineup == null)? 0 : homeLineup.size());
+        List<Lineup> awayLineup = myLineup(myJSONString(jsonLineupArray, 1), false);
+        match.setAwayLineup(awayLineup);
+        match.setAwayLineupCount((awayLineup == null)? 0 : awayLineup.size());
         return match;
     }
 

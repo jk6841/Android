@@ -157,4 +157,21 @@ public abstract class DBDao {
             "OR (AwayID = (SELECT * FROM Team))")
     abstract void deleteMatchByPlayerID(Integer id);
 
+    //////// Counting Queries ////////
+
+    @Query("SELECT Count(*) From tablePlayer")
+    public abstract List<Integer> countPlayer();
+
+    @Query("SELECT Count(*) From tableMatch")
+    public abstract List<Integer> countMatch();
+
+    @Query("SELECT EventCount FROM tableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, Time")
+    public abstract List<Integer> countEvent();
+
+    @Query("SELECT HomeLineupCount FROM tableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, Time")
+    public abstract List<Integer> countHomeLineup();
+
+    @Query("SELECT AwayLineupCount FROM tableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, Time")
+    public abstract List<Integer> countAwayLineup();
+
 }

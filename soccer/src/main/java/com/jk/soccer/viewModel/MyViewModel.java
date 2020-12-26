@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -50,6 +51,7 @@ public class MyViewModel extends AndroidViewModel {
         bestTeamLiveDataList = new ArrayList<>();
         homeLineupLiveDataList = new ArrayList<>();
         awayLineupLiveDataList = new ArrayList<>();
+        eventsList = new ArrayList<>();
         matchTab = new MutableLiveData<>();
         matchTab.setValue(1);
     }
@@ -104,6 +106,7 @@ public class MyViewModel extends AndroidViewModel {
     public void initMatch(){
         List<TableMatch> matches = repository.getMatch();
         matchLiveDataList = repository.getMatchLiveData();
+        List<Integer> count = repository.count(2);
         for (int i = 0; i < matchLiveDataList.size(); i++){
             LiveData<TableMatch> matchLiveData = matchLiveDataList.get(i);
             LiveData<String> matchTitleLiveData
@@ -164,6 +167,18 @@ public class MyViewModel extends AndroidViewModel {
 
             LiveData<List<Event>> eventListLiveData
                     = Transformations.map(matchLiveData, TableMatch::getEvent);
+
+            ArrayList<LiveData<Event>> eventLiveDataList = new ArrayList<>();
+            for (int j = 0; j < count.get(i); j++){
+                int k = j;
+                try {
+                    LiveData<Event> event = Transformations.map(matchLiveData, input -> input.getEvent().get(k));
+                    eventLiveDataList.add(event);
+                } catch (Exception e){
+                    break;
+                }
+            }
+
             LiveData<List<Lineup>> homeLineupLiveData
                     = Transformations.map(matchLiveData, TableMatch::getHomeLineup);
             LiveData<List<Lineup>> awayLineupLiveData
@@ -182,6 +197,7 @@ public class MyViewModel extends AndroidViewModel {
                 bestPlayerNameLiveDataList.set(i,bestPlayerNameLiveData);
                 bestTeamLiveDataList.set(i,bestTeamLiveData);
                 eventListLiveDataList.set(i,eventListLiveData);
+                eventsList.set(i, eventLiveDataList);
                 homeLineupLiveDataList.set(i, homeLineupLiveData);
                 awayLineupLiveDataList.set(i, awayLineupLiveData);
             } else{
@@ -198,6 +214,7 @@ public class MyViewModel extends AndroidViewModel {
                 bestPlayerNameLiveDataList.add(bestPlayerNameLiveData);
                 bestTeamLiveDataList.add(bestTeamLiveData);
                 eventListLiveDataList.add(eventListLiveData);
+                eventsList.add(eventLiveDataList);
                 homeLineupLiveDataList.add(homeLineupLiveData);
                 awayLineupLiveDataList.add(awayLineupLiveData);
             }
@@ -224,7 +241,7 @@ public class MyViewModel extends AndroidViewModel {
     }
 
     public Integer countEvents(Integer index){
-        return getMatches().get(index).getEvent().size();
+        return eventsList.get(index).size();
     }
     public Integer countHomeLineup(Integer index){
         return getMatches().get(index).getHomeLineup().size();
@@ -381,6 +398,7 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<String>> bestPlayerNameLiveDataList;
     final private ArrayList<LiveData<String>> bestTeamLiveDataList;
     final private ArrayList<LiveData<List<Event>>> eventListLiveDataList;
+    final private ArrayList<ArrayList<LiveData<Event>>> eventsList;
     final private ArrayList<LiveData<List<Lineup>>> homeLineupLiveDataList;
     final private ArrayList<LiveData<List<Lineup>>> awayLineupLiveDataList;
     private Integer length = 0;

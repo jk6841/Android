@@ -25,10 +25,6 @@ public class MyHandler {
         navController.navigate(R.id.action_nav_matchList_to_nav_matchInfo, args);
     }
 
-    public void onLineupClick(View view, MyViewModel viewModel){
-        viewModel.setMatchTab(0);
-    }
-
     public void onEventClick(View view, MyViewModel viewModel){
         viewModel.setMatchTab(1);
     }

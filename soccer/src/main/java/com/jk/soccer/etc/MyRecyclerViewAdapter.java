@@ -25,7 +25,7 @@ public class MyRecyclerViewAdapter<BINDING extends ViewDataBinding>
     protected Integer listIndex = -1;
     protected Integer count;
 
-    public MyRecyclerViewAdapter(MyViewModel viewModel, Integer layout, Integer count){
+    public MyRecyclerViewAdapter(MyViewModel viewModel, Integer layout, Integer count, Integer... index){
         this.viewModel = viewModel;
         this.layout = layout;
         this.count = count;
@@ -36,10 +36,6 @@ public class MyRecyclerViewAdapter<BINDING extends ViewDataBinding>
         this.layout = layout;
         this.count = count;
         this.listIndex = listIndex;
-    }
-
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
     @NonNull

@@ -26,32 +26,38 @@ public class TableMatch {
     @ColumnInfo (name = "HomeID")
     private Integer homeId = 0;
 
-    @ColumnInfo (name = "HomeName")
-    private String homeName = unknownMsg;
-
-    @ColumnInfo (name = "HomeScore")
-    private Integer homeScore;
-
-    @ColumnInfo (name = "HomeImage")
-    private String homeImage = unknownMsg;
-
-    @ColumnInfo (name = "HomeLineup")
-    private List<Lineup> homeLineup;
-
     @ColumnInfo (name = "AwayID")
     private Integer awayId = 0;
+
+    @ColumnInfo (name = "HomeName")
+    private String homeName = unknownMsg;
 
     @ColumnInfo (name = "AwayName")
     private String awayName = unknownMsg;
 
+    @ColumnInfo (name = "HomeScore")
+    private Integer homeScore;
+
     @ColumnInfo (name = "AwayScore")
     private Integer awayScore;
+
+    @ColumnInfo (name = "HomeImage")
+    private String homeImage = unknownMsg;
 
     @ColumnInfo (name = "AwayImage")
     private String awayImage = unknownMsg;
 
+    @ColumnInfo (name = "HomeLineup")
+    private List<Lineup> homeLineup;
+
     @ColumnInfo (name = "AwayLineup")
     private List<Lineup> awayLineup;
+
+    @ColumnInfo (name = "HomeLineupCount")
+    private Integer homeLineupCount;
+
+    @ColumnInfo (name = "AwayLineupCount")
+    private Integer awayLineupCount;
 
     @ColumnInfo (name = "Started")
     private Boolean started;
@@ -82,6 +88,9 @@ public class TableMatch {
 
     @ColumnInfo(name = "Event")
     private List<Event> event;
+
+    @ColumnInfo(name = "EventCount")
+    private Integer eventCount;
 
     @ColumnInfo(name = "BestPlayerID")
     private Integer bestPlayerID = 0;
@@ -152,6 +161,14 @@ public class TableMatch {
         this.homeLineup = homeLineup;
     }
 
+    public Integer getHomeLineupCount() {
+        return homeLineupCount;
+    }
+
+    public void setHomeLineupCount(Integer homeLineupCount) {
+        this.homeLineupCount = homeLineupCount;
+    }
+
     public Integer getAwayId() {
         return awayId;
     }
@@ -190,6 +207,14 @@ public class TableMatch {
 
     public void setAwayLineup(List<Lineup> awayLineup) {
         this.awayLineup = awayLineup;
+    }
+
+    public Integer getAwayLineupCount() {
+        return awayLineupCount;
+    }
+
+    public void setAwayLineupCount(Integer awayLineupCount) {
+        this.awayLineupCount = awayLineupCount;
     }
 
     public Boolean getStarted() {
@@ -270,6 +295,14 @@ public class TableMatch {
 
     public void setEvent(List<Event> event) {
         this.event = event;
+    }
+
+    public Integer getEventCount() {
+        return eventCount;
+    }
+
+    public void setEventCount(Integer eventCount) {
+        this.eventCount = eventCount;
     }
 
     public Integer getBestPlayerID() {
