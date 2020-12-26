@@ -39,8 +39,19 @@ public abstract class DBDao {
             "tablePlayer.teamID = tableTeam.ID")
     public abstract LiveData<Player> findPlayerLiveData(Integer id);
 
-    @Query("SELECT * FROM TablePlayer ORDER BY Bookmark DESC, Name")
-    public abstract LiveData<List<TablePlayer>> findPlayerLiveData();
+    @Query("SELECT tablePlayer.ID AS id," +
+            "tablePlayer.Name AS name," +
+            "tablePlayer.Position AS position," +
+            "tablePlayer.Height AS height," +
+            "tablePlayer.Foot AS foot," +
+            "tablePlayer.Birth AS birth," +
+            "tablePlayer.Shirt AS shirt," +
+            "tableTeam.Name AS team," +
+            "tablePlayer.Bookmark AS bookmark " +
+            "FROM tablePlayer, tableTeam " +
+            "WHERE tablePlayer.teamID = tableTeam.ID " +
+            "ORDER BY Bookmark DESC, Name")
+    public abstract LiveData<List<Player>> findPlayerLiveData();
 
     //// Update ////
 

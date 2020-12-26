@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.R;
 import com.jk.soccer.model.local.Database;
@@ -19,6 +21,7 @@ import com.jk.soccer.model.local.MyParser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -44,8 +47,16 @@ public class Repository {
         return mDao.findPlayerLiveData(id);
     }
 
-    public LiveData<List<TablePlayer>> getPlayerLiveData(){
-        return mDao.findPlayerLiveData();
+    public List<LiveData<Player>> getPlayerLiveData(){
+        LiveData<List<Player>> listFromDB = mDao.findPlayerLiveData();
+        List<LiveData<Player>> result = new ArrayList<>();
+        int num = getPlayer().size();
+        for (int i = 0; i < num; i++){
+            int k = i;
+            LiveData<Player> item = Transformations.map(listFromDB, input -> input.get(k));
+            result.add(item);
+        }
+        return result;
     }
 
     public LiveData<TableTeam> getTeamLiveData(Integer teamId){
@@ -60,8 +71,16 @@ public class Repository {
         return mDao.findMatchLiveData(matchId);
     }
 
-    public LiveData<List<TableMatch>> getMatchLiveData(){
-        return mDao.findMatchLiveData();
+    public List<LiveData<TableMatch>> getMatchLiveData(){
+        LiveData<List<TableMatch>> listFromDB = mDao.findMatchLiveData();
+        List<LiveData<TableMatch>> result = new ArrayList<>();
+        int num = getMatch().size();
+        for (int i = 0; i < num; i++){
+            int k = i;
+            LiveData<TableMatch> item = Transformations.map(listFromDB, input -> input.get(k));
+            result.add(item);
+        }
+        return result;
     }
 
     public static Repository getInstance(Application application){

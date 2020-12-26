@@ -55,10 +55,9 @@ public class MyViewModel extends AndroidViewModel {
     }
 
     public void initPlayer(){
-        List<TablePlayer> players = repository.getPlayer();
-        for (int i = 0; i < players.size(); i++){
-            LiveData<Player> playerLiveData
-                    = repository.getPlayerLiveData(players.get(i).getId());
+        playerLiveDataList = repository.getPlayerLiveData();
+        for (int i = 0; i < playerLiveDataList.size(); i++){
+            LiveData<Player> playerLiveData = playerLiveDataList.get(i);
             LiveData<Integer> idLiveData
                     = Transformations.map(playerLiveData, Player::getId);
             LiveData<String> nameLiveData
@@ -78,7 +77,6 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<String> teamLiveData
                     = Transformations.map(playerLiveData, Player::getTeam);
             if (sortPlayer){
-                playerLiveDataList.set(i, playerLiveData);
                 idLiveDataList.set(i, idLiveData);
                 nameLiveDataList.set(i, nameLiveData);
                 positionLiveDataList.set(i, positionLiveData);
@@ -89,7 +87,6 @@ public class MyViewModel extends AndroidViewModel {
                 bookmarkLiveDataList.set(i, bookmarkLiveData);
                 teamLiveDataList.set(i, teamLiveData);
             } else {
-                playerLiveDataList.add(playerLiveData);
                 idLiveDataList.add(idLiveData);
                 nameLiveDataList.add(nameLiveData);
                 positionLiveDataList.add(positionLiveData);
@@ -106,9 +103,9 @@ public class MyViewModel extends AndroidViewModel {
 
     public void initMatch(){
         List<TableMatch> matches = repository.getMatch();
-        for (int i = 0; i < matches.size(); i++){
-            LiveData<TableMatch> matchLiveData
-                    = repository.getMatchLiveData(matches.get(i).getId());
+        matchLiveDataList = repository.getMatchLiveData();
+        for (int i = 0; i < matchLiveDataList.size(); i++){
+            LiveData<TableMatch> matchLiveData = matchLiveDataList.get(i);
             LiveData<String> matchTitleLiveData
                     = Transformations.map(matchLiveData, TableMatch::getName);
             LiveData<String> timeLiveData
@@ -172,7 +169,6 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<List<Lineup>> awayLineupLiveData
                     = Transformations.map(matchLiveData, TableMatch::getAwayLineup);
             if (i < length) {
-                matchLiveDataList.set(i,matchLiveData);
                 matchTitleLiveDataList.set(i,matchTitleLiveData);
                 timeLiveDataList.set(i,timeLiveData);
                 stadiumLiveDataList.set(i,stadiumLiveData);
@@ -189,7 +185,6 @@ public class MyViewModel extends AndroidViewModel {
                 homeLineupLiveDataList.set(i, homeLineupLiveData);
                 awayLineupLiveDataList.set(i, awayLineupLiveData);
             } else{
-                matchLiveDataList.add(matchLiveData);
                 matchTitleLiveDataList.add(matchTitleLiveData);
                 timeLiveDataList.add(timeLiveData);
                 stadiumLiveDataList.add(stadiumLiveData);
@@ -244,7 +239,7 @@ public class MyViewModel extends AndroidViewModel {
         matchTab.setValue(tab);
     }
 
-    public ArrayList<LiveData<TableMatch>> getMatchLiveDataList() {
+    public List<LiveData<TableMatch>> getMatchLiveDataList() {
         return matchLiveDataList;
     }
 
@@ -353,7 +348,7 @@ public class MyViewModel extends AndroidViewModel {
     final private Repository repository;
 
     // For Player //
-    final private ArrayList<LiveData<Player>> playerLiveDataList;
+    private List<LiveData<Player>> playerLiveDataList;
     final private ArrayList<LiveData<Integer>> idLiveDataList;
     final private ArrayList<LiveData<String>> nameLiveDataList;
     final private ArrayList<LiveData<String>> positionLiveDataList;
@@ -366,7 +361,7 @@ public class MyViewModel extends AndroidViewModel {
     private Boolean sortPlayer = false;
 
     // For Match //
-    final private ArrayList<LiveData<TableMatch>> matchLiveDataList;
+    private List<LiveData<TableMatch>> matchLiveDataList;
     final private ArrayList<LiveData<String>> matchTitleLiveDataList;
     final private ArrayList<LiveData<String>> timeLiveDataList;
     final private ArrayList<LiveData<String>> stadiumLiveDataList;
