@@ -33,8 +33,4 @@ public class MyHandler {
         viewModel.setMatchTab(1);
     }
 
-    public void onMOMClick(View view, MyViewModel viewModel){
-        viewModel.setMatchTab(2);
-    }
-
 }

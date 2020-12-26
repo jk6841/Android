@@ -233,21 +233,7 @@ public class MyViewModel extends AndroidViewModel {
         return getMatches().get(index).getAwayLineup().size();
     }
 
-    public List<TablePlayer> getPlayers() { return repository.getPlayer(); }
-
     public List<TableMatch> getMatches() { return repository.getMatch(); }
-
-    public List<Event> getEvents(Integer index) {
-        return getMatches().get(index).getEvent();
-    }
-
-    public List<Lineup> getHomeLineup(Integer index){
-        return getMatches().get(index).getHomeLineup();
-    }
-
-    public List<Lineup> getAwayLineup(Integer index){
-        return getMatches().get(index).getAwayLineup();
-    }
 
     public MutableLiveData<Integer> getMatchTab() {
         return matchTab;

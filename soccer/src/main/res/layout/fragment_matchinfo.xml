@@ -104,24 +104,6 @@
             app:layout_constraintTop_toTopOf="@+id/buttonLineup"
             app:layout_constraintWidth_percent="0.33" />
 
-        <TextView
-            android:id="@+id/buttonMOM"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/edge"
-            android:gravity="center"
-            android:text="@string/tab_MOM"
-            android:textColor="@color/black"
-            android:textSize="@dimen/midFont"
-            android:fontFamily="@font/paybooc"
-            android:onClick="@{(v)->handler.onMOMClick(v, viewModel)}"
-            app:layout_constraintBottom_toBottomOf="@+id/buttonEvent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/buttonEvent"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.33" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
@@ -274,17 +256,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:visibility="@{(viewModel.matchTab == 1)? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <include
-            android:id="@+id/subLayoutMOM"
-            layout="@layout/mom"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:visibility="@{(viewModel.matchTab == 2)? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.5"

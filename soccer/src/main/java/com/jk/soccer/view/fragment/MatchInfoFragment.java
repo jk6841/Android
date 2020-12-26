@@ -63,13 +63,6 @@ public class MatchInfoFragment extends Fragment {
                 = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_event, viewModel.countEvents(index), index);
         binding.subLayoutEvent.matchInfoEvent.setAdapter(rvEventAdapter);
 
-        binding.subLayoutEvent.setEventList(viewModel.getEvents(index));
-        binding.subLayoutLineup.setHomeLineup(viewModel.getHomeLineup(index));
-        binding.subLayoutLineup.setAwayLineup(viewModel.getAwayLineup(index));
-        binding.subLayoutMOM.setID(viewModel.getBestPlayerIDLiveData(index).getValue());
-        binding.subLayoutMOM.setName(viewModel.getBestPlayerNameLiveData(index).getValue());
-        binding.subLayoutMOM.setTeam(viewModel.getBestTeamLiveData(index).getValue());
-
         binding.setIndex(index);
 
         return binding.getRoot();
