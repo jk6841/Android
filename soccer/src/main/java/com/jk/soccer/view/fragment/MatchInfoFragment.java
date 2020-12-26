@@ -14,11 +14,11 @@ import com.jk.soccer.R;
 import com.jk.soccer.databinding.ViewholderEventBinding;
 import com.jk.soccer.databinding.FragmentMatchinfoBinding;
 import com.jk.soccer.databinding.ViewholderLineupBinding;
+import com.jk.soccer.etc.Event;
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyHandler;
 import com.jk.soccer.etc.MyRecyclerViewAdapter;
 import com.jk.soccer.viewModel.MyViewModel;
-import com.jk.soccer.etc.Event;
 import com.jk.soccer.etc.Lineup;
 
 import java.util.List;

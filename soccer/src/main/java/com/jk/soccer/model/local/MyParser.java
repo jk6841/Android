@@ -1,7 +1,7 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.model.local;
 
-import com.jk.soccer.model.local.TableMatch;
-import com.jk.soccer.model.local.TableTeam;
+import com.jk.soccer.etc.Event;
+import com.jk.soccer.etc.Lineup;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MyParser {
@@ -42,6 +43,15 @@ public class MyParser {
     public static JSONObject myJSONObject(JSONArray jsonArray, Integer index){
         try{
             return jsonArray.getJSONObject(index);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONArray myJSONArray(String string){
+        try {
+            return new JSONArray(string);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -100,6 +110,14 @@ public class MyParser {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void myJSONPut(JSONObject jsonObject, String name, Object value){
+        try{
+            jsonObject.put(name, value);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public static void myJSONPut(JSONArray jsonArray, Integer index, Object value){
@@ -183,7 +201,7 @@ public class MyParser {
         match.setBestPlayerID(myJSONInt(jsonBestPlayer, "id"));
         match.setBestPlayerName(myJSONString(jsonBestPlayer, "name"));
         match.setBestTeam(myJSONString(jsonBestPlayer, "teamName"));
-        match.setEvent(myJSONString(jsonMatchFacts, "events"));
+        match.setEvent(myEventList(myJSONString(jsonMatchFacts, "events")));
         JSONObject jsonInfoBox = myJSONObject(jsonMatchFacts, "infoBox");
         JSONObject jsonTournament = myJSONObject(jsonInfoBox, "Tournament");
         match.setName(myJSONString(jsonTournament, "text"));
@@ -191,12 +209,12 @@ public class MyParser {
         match.setStadium(myJSONString(jsonStadium, "name"));
         JSONObject jsonLineups = myJSONObject(jsonContent, "lineup");
         JSONArray jsonLineupArray = myJSONArray(jsonLineups, "lineup");
-        match.setHomeLineup(myJSONString(jsonLineupArray, 0));
-        match.setAwayLineup(myJSONString(jsonLineupArray, 1));
+        match.setHomeLineup(myLineup(myJSONString(jsonLineupArray, 0), true));
+        match.setAwayLineup(myLineup(myJSONString(jsonLineupArray, 1), false));
         return match;
     }
 
-    public static ArrayList<Event> myEventList(String jsonString){
+    public static List<Event> myEventList(String jsonString){
         ArrayList<Event> eventList = new ArrayList<>();
         JSONObject jsonObject = myJSONObject(jsonString);
         JSONArray jsonEventArray = myJSONArray(jsonObject, "events");
@@ -241,7 +259,7 @@ public class MyParser {
         return 4;
     }
 
-    public static ArrayList<Lineup> myLineup(String jsonString, Boolean home){
+    public static List<Lineup> myLineup(String jsonString, Boolean home){
         ArrayList<Lineup> lineup = new ArrayList<>();
         JSONObject jsonObject = myJSONObject(jsonString);
         JSONArray coachArray = myJSONArray(jsonObject, "coach");

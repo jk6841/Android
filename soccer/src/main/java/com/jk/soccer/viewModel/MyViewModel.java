@@ -11,7 +11,6 @@ import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.etc.Event;
 import com.jk.soccer.etc.Lineup;
-import com.jk.soccer.etc.MyParser;
 import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.local.TableMatch;
 import com.jk.soccer.model.local.TablePlayer;
@@ -166,15 +165,12 @@ public class MyViewModel extends AndroidViewModel {
             LiveData<String> bestTeamLiveData
                     = Transformations.map(matchLiveData, TableMatch::getBestTeam);
 
-            LiveData<ArrayList<Event>> eventListLiveData
-                    = Transformations.map(matchLiveData,
-                    input -> MyParser.myEventList(input.getEvent()));
-            LiveData<ArrayList<Lineup>> homeLineupLiveData
-                    = Transformations.map(matchLiveData,
-                    input -> MyParser.myLineup(input.getHomeLineup(), true));
-            LiveData<ArrayList<Lineup>> awayLineupLiveData
-                    = Transformations.map(matchLiveData,
-                    input -> MyParser.myLineup(input.getAwayLineup(), false));
+            LiveData<List<Event>> eventListLiveData
+                    = Transformations.map(matchLiveData, TableMatch::getEvent);
+            LiveData<List<Lineup>> homeLineupLiveData
+                    = Transformations.map(matchLiveData, TableMatch::getHomeLineup);
+            LiveData<List<Lineup>> awayLineupLiveData
+                    = Transformations.map(matchLiveData, TableMatch::getAwayLineup);
             if (i < length) {
                 matchLiveDataList.set(i,matchLiveData);
                 matchTitleLiveDataList.set(i,matchTitleLiveData);
@@ -229,18 +225,15 @@ public class MyViewModel extends AndroidViewModel {
     public List<TableMatch> getMatches() { return repository.getMatch(); }
 
     public List<Event> getEvents(Integer index) {
-        String eventString = getMatches().get(index).getEvent();
-        return MyParser.myEventList(eventString);
+        return getMatches().get(index).getEvent();
     }
 
     public List<Lineup> getHomeLineup(Integer index){
-        String lineupString = getMatches().get(index).getHomeLineup();
-        return MyParser.myLineup(lineupString, true);
+        return getMatches().get(index).getHomeLineup();
     }
 
     public List<Lineup> getAwayLineup(Integer index){
-        String lineupString = getMatches().get(index).getAwayLineup();
-        return MyParser.myLineup(lineupString, false);
+        return getMatches().get(index).getAwayLineup();
     }
 
     public MutableLiveData<Integer> getMatchTab() {
@@ -345,15 +338,15 @@ public class MyViewModel extends AndroidViewModel {
         return bestTeamLiveDataList.get(index);
     }
 
-    public LiveData<ArrayList<Event>> getEventListLiveData(Integer index) {
+    public LiveData<List<Event>> getEventListLiveData(Integer index) {
         return eventListLiveDataList.get(index);
     }
 
-    public LiveData<ArrayList<Lineup>> getHomeLineupLiveData(Integer index) {
+    public LiveData<List<Lineup>> getHomeLineupLiveData(Integer index) {
         return homeLineupLiveDataList.get(index);
     }
 
-    public LiveData<ArrayList<Lineup>> getAwayLineupLiveData(Integer index) {
+    public LiveData<List<Lineup>> getAwayLineupLiveData(Integer index) {
         return awayLineupLiveDataList.get(index);
     }
 
@@ -386,9 +379,9 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<Integer>> bestPlayerIDLiveDataList;
     final private ArrayList<LiveData<String>> bestPlayerNameLiveDataList;
     final private ArrayList<LiveData<String>> bestTeamLiveDataList;
-    final private ArrayList<LiveData<ArrayList<Event>>> eventListLiveDataList;
-    final private ArrayList<LiveData<ArrayList<Lineup>>> homeLineupLiveDataList;
-    final private ArrayList<LiveData<ArrayList<Lineup>>> awayLineupLiveDataList;
+    final private ArrayList<LiveData<List<Event>>> eventListLiveDataList;
+    final private ArrayList<LiveData<List<Lineup>>> homeLineupLiveDataList;
+    final private ArrayList<LiveData<List<Lineup>>> awayLineupLiveDataList;
     private Integer length = 0;
     final private MutableLiveData<Integer> matchTab;
 }

@@ -14,7 +14,7 @@ import com.jk.soccer.model.local.DBDao;
 import com.jk.soccer.model.local.TableTeam;
 import com.jk.soccer.model.remote.RetrofitClient;
 import com.jk.soccer.etc.Player;
-import com.jk.soccer.etc.MyParser;
+import com.jk.soccer.model.local.MyParser;
 
 import org.jetbrains.annotations.NotNull;
 

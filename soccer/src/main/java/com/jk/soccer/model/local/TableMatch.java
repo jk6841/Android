@@ -5,6 +5,11 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.jk.soccer.etc.Event;
+import com.jk.soccer.etc.Lineup;
+
+import java.util.List;
+
 @Entity (tableName = "tableMatch")
 public class TableMatch {
 
@@ -31,7 +36,7 @@ public class TableMatch {
     private String homeImage = unknownMsg;
 
     @ColumnInfo (name = "HomeLineup")
-    private String homeLineup = unknownMsg;
+    private List<Lineup> homeLineup;
 
     @ColumnInfo (name = "AwayID")
     private Integer awayId = 0;
@@ -46,7 +51,7 @@ public class TableMatch {
     private String awayImage = unknownMsg;
 
     @ColumnInfo (name = "AwayLineup")
-    private String awayLineup = unknownMsg;
+    private List<Lineup> awayLineup;
 
     @ColumnInfo (name = "Started")
     private Boolean started;
@@ -76,7 +81,7 @@ public class TableMatch {
     private String stadium = unknownMsg;
 
     @ColumnInfo(name = "Event")
-    private String event = unknownMsg;
+    private List<Event> event;
 
     @ColumnInfo(name = "BestPlayerID")
     private Integer bestPlayerID = 0;
@@ -139,11 +144,11 @@ public class TableMatch {
         this.homeImage = homeImage;
     }
 
-    public String getHomeLineup() {
+    public List<Lineup> getHomeLineup() {
         return homeLineup;
     }
 
-    public void setHomeLineup(String homeLineup) {
+    public void setHomeLineup(List<Lineup> homeLineup) {
         this.homeLineup = homeLineup;
     }
 
@@ -179,11 +184,11 @@ public class TableMatch {
         this.awayImage = awayImage;
     }
 
-    public String getAwayLineup() {
+    public List<Lineup> getAwayLineup() {
         return awayLineup;
     }
 
-    public void setAwayLineup(String awayLineup) {
+    public void setAwayLineup(List<Lineup> awayLineup) {
         this.awayLineup = awayLineup;
     }
 
@@ -259,11 +264,11 @@ public class TableMatch {
         this.stadium = stadium;
     }
 
-    public String getEvent() {
+    public List<Event> getEvent() {
         return event;
     }
 
-    public void setEvent(String event) {
+    public void setEvent(List<Event> event) {
         this.event = event;
     }
 
