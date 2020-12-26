@@ -39,7 +39,7 @@ public class MatchListFragment extends Fragment {
         binding.setLifecycleOwner(this);
         viewModel.initMatch();
         MyRecyclerViewAdapter<ViewholderMatchBinding> rvAdapter
-                = new MyRecyclerViewAdapter<>(viewModel.getMatches(), R.layout.viewholder_match);
+                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_match, viewModel.countMatches());
         binding.recMatch.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
         return binding.getRoot();

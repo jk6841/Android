@@ -5,21 +5,21 @@
 
     <data>
         <variable
-            name="item"
-            type="com.jk.soccer.model.local.TableMatch" />
+            name="viewModel"
+            type="com.jk.soccer.viewModel.MyViewModel"/>
         <variable
             name="index"
-            type="Integer" />
+            type="Integer[]" />
         <variable
             name="handler"
             type="com.jk.soccer.etc.MyHandler" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@{(index % 2 == 0)? @color/skyBlue : @color/lightGreen}"
+        android:background="@{(index[0] % 2 == 0)? @color/skyBlue : @color/lightGreen}"
         android:layout_width="match_parent"
         android:layout_height="@dimen/rec_item_height"
-        android:onClick="@{(v)->handler.onMatchListClick(v, index)}">
+        android:onClick="@{(v)->handler.onMatchListClick(v, index[0])}">
 
         <ImageView
             android:id="@+id/img_away"
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/small_image_height"
             android:layout_marginEnd="@dimen/img_horizontal_margin"
             android:contentDescription="@string/contentDescription"
-            glideUrl="@{@string/baseUrl1 + item.awayImage}"
+            glideUrl="@{@string/baseUrl1 + viewModel.getAwayImageLiveData(index[0])}"
             app:layout_constraintBottom_toBottomOf="@+id/img_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/img_home"
@@ -36,7 +36,7 @@
 
         <ImageView
             android:id="@+id/img_home"
-            glideUrl="@{@string/baseUrl1 + item.homeImage}"
+            glideUrl="@{@string/baseUrl1 + viewModel.getHomeImageLiveData(index[0])}"
             android:layout_width="@dimen/small_image_width"
             android:layout_height="@dimen/small_image_height"
             android:layout_marginStart="@dimen/img_horizontal_margin"
@@ -52,7 +52,7 @@
             android:layout_marginStart="@dimen/txt_horizontal_margin"
             android:layout_marginTop="12dp"
             android:gravity="start"
-            android:text="@{item.homeName}"
+            android:text="@{viewModel.getHomeLiveData(index[0])}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/small_info_height"
             android:gravity="end"
-            android:text="@{item.awayName}"
+            android:text="@{viewModel.getAwayLiveData(index[0])}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -82,7 +82,6 @@
             android:layout_height="@dimen/small_info_height"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            scoreText="@{item}"
             android:textSize="@dimen/bigFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -92,7 +91,6 @@
 
         <TextView
             android:id="@+id/tv_time"
-            timeText="@{item}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -110,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="@{item.stadium}"
+            android:text="@{viewModel.getStadiumLiveData(index[0])}"
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -127,7 +125,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:text="@{item.name}"
+            android:text="@{viewModel.getMatchTitleLiveData(index[0])}"
             android:textSize="@dimen/midFont"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

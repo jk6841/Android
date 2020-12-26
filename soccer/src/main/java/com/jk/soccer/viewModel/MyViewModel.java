@@ -215,6 +215,24 @@ public class MyViewModel extends AndroidViewModel {
         onCleared();
     }
 
+    public Integer countPlayers(){
+        return playerLiveDataList.size();
+    }
+
+    public Integer countMatches(){
+        return matchLiveDataList.size();
+    }
+
+    public Integer countEvents(Integer index){
+        return getMatches().get(index).getEvent().size();
+    }
+    public Integer countHomeLineup(Integer index){
+        return getMatches().get(index).getHomeLineup().size();
+    }
+    public Integer countAwayLineup(Integer index){
+        return getMatches().get(index).getAwayLineup().size();
+    }
+
     public List<TablePlayer> getPlayers() { return repository.getPlayer(); }
 
     public List<TableMatch> getMatches() { return repository.getMatch(); }
@@ -238,6 +256,8 @@ public class MyViewModel extends AndroidViewModel {
     public void setMatchTab(Integer tab){
         matchTab.setValue(tab);
     }
+
+    public List<LiveData<Player>> getPlayerLiveDataList() { return playerLiveDataList; }
 
     public List<LiveData<TableMatch>> getMatchLiveDataList() {
         return matchLiveDataList;

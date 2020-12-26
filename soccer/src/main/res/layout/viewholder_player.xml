@@ -5,11 +5,11 @@
 
     <data>
         <variable
-            name="item"
-            type="com.jk.soccer.model.local.TablePlayer" />
+            name="viewModel"
+            type="com.jk.soccer.viewModel.MyViewModel"/>
         <variable
             name="index"
-            type="Integer" />
+            type="Integer[]" />
         <variable
             name="handler"
             type="com.jk.soccer.etc.MyHandler" />
@@ -21,9 +21,9 @@
         android:layout_height="100dp"
         android:textSize="@dimen/bigFont"
         android:gravity="center"
-        android:text="@{item.Name}"
+        android:text="@{viewModel.getNameLiveData(index[0])}"
         android:textColor="@{@color/white}"
-        android:background="@{item.bookmark ? @color/lightGreen : @color/skyBlue}"
-        android:onClick="@{(v)->handler.onPlayerListClick(v, index)}"
+        android:background="@{viewModel.getBookmarkLiveData(index[0]) ? @color/lightGreen : @color/skyBlue}"
+        android:onClick="@{(v)->handler.onPlayerListClick(v, index[0])}"
         app:layout_constraintTop_toTopOf="parent" />
 </layout>
