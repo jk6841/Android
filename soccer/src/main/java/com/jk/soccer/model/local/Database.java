@@ -11,8 +11,7 @@ import com.jk.soccer.model.local.converter.EventList;
 import com.jk.soccer.model.local.converter.LineupList;
 
 @androidx.room.Database(
-//        entities = {TablePlayer.class, TableTeam.class, TableMatch.class, Table.class},
-        entities = {Table.class},
+        entities = {Table.class, TableLeague.class, TableTeam.class, TablePlayer.class},
         version = 1,
         exportSchema =  false)
 @TypeConverters({EventList.class, LineupList.class})
