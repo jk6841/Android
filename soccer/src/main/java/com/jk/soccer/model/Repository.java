@@ -46,7 +46,7 @@ public class Repository {
         mDao = database.dbDao();
         myLocal = MyLocal.getInstance(application);
         myRemote = MyRemote.getInstance(application);
-        initialize();
+        //initialize();
     }
 
     public LiveData<Player> getPlayerLiveData(Integer id){

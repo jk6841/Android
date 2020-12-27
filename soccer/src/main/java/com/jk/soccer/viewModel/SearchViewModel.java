@@ -29,10 +29,6 @@ public class SearchViewModel extends AndroidViewModel {
         teamHandler = new TeamHandler(teamIndex);
     }
 
-    public void init(){
-        leagueList = repository.getLeagueList();
-    }
-
     @Override
     protected void onCleared() {
         super.onCleared();
@@ -51,6 +47,8 @@ public class SearchViewModel extends AndroidViewModel {
     final private MutableLiveData<Integer> teamIndex;
     final private LeagueHandler leagueHandler;
     final private TeamHandler teamHandler;
+
+
 
     public Handler getLeagueHandler(){
         return leagueHandler;

@@ -31,15 +31,4 @@ public class MyHandler {
         viewModel.setMatchTab(1);
     }
 
-    public void onRecyclerViewClick(View view, SearchViewModel viewModel){
-        Toast.makeText(view.getContext(), "aaaa", Toast.LENGTH_SHORT).show();
-    }
-
-    public void onLeagueClick(View view, SearchViewModel viewModel, Integer index){
-        viewModel.setLeagueIndex(index);
-    }
-
-    public void onTeamClick(View view, SearchViewModel viewModel, Integer index){
-        viewModel.setTeamIndex(index);
-    }
 }

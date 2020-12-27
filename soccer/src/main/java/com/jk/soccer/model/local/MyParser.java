@@ -334,7 +334,7 @@ public class MyParser {
         for (int i = 0; i < jsonSquad.length(); i++){
             JSONArray jsonSquadItem = myJSONArray(myJSONArray(jsonSquad, i), 1);
             if (jsonSquadItem == null)
-                break;
+                continue;
             for (int j = 0; j < jsonSquadItem.length(); j++){
                 JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
                 Integer playerID = myJSONInt(jsonPlayer, "id");

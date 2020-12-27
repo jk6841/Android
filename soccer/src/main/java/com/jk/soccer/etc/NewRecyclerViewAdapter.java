@@ -60,7 +60,7 @@ public class NewRecyclerViewAdapter <BINDING extends ViewDataBinding>
         }
     }
 
-    protected List<?> list;
-    final protected SearchViewModel.Handler handler;
-    final protected Integer layout;
+    private List<?> list;
+    final private SearchViewModel.Handler handler;
+    final private Integer layout;
 }
