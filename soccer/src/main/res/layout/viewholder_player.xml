@@ -21,9 +21,6 @@
         android:layout_height="100dp"
         android:textSize="@dimen/bigFont"
         android:gravity="center"
-        android:text="@{viewModel.getNameLiveData(index[0])}"
         android:textColor="@{@color/white}"
-        android:background="@{viewModel.getBookmarkLiveData(index[0]) ? @color/lightGreen : @color/skyBlue}"
-        android:onClick="@{(v)->handler.onPlayerListClick(v, index[0])}"
         app:layout_constraintTop_toTopOf="parent" />
 </layout>

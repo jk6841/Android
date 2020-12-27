@@ -11,6 +11,8 @@ import java.util.concurrent.ExecutionException;
 
 public class MyLocal {
 
+    final private Database database;
+
     public static MyLocal getInstance(Application application){
         if (myLocal != null)
             return myLocal;
@@ -19,8 +21,12 @@ public class MyLocal {
     }
 
     public MyLocal(Application application){
-        Database database = Database.getInstance(application);
+        database = Database.getInstance(application);
         dao = database.dbDao();
+    }
+
+    public void close(){
+        database.close();
     }
 
     public List<Pair> getLeagueList(){

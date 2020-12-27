@@ -51,8 +51,7 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getNameLiveData(index)}" />
+                    android:gravity="center"/>
             </TableRow>
 
             <TableRow
@@ -80,8 +79,7 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getTeamLiveData(index)}" />
+                    android:gravity="center" />
             </TableRow>
 
             <TableRow
@@ -109,8 +107,7 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getShirtLiveData(index)}" />
+                    android:gravity="center"/>
             </TableRow>
 
             <TableRow
@@ -138,8 +135,7 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getPositionLiveData(index)}" />
+                    android:gravity="center" />
             </TableRow>
 
             <TableRow
@@ -167,8 +163,7 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getFootLiveData(index)}" />
+                    android:gravity="center" />
             </TableRow>
 
             <TableRow
@@ -196,8 +191,7 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getHeightLiveData(index)}" />
+                    android:gravity="center" />
             </TableRow>
 
             <TableRow
@@ -225,15 +219,13 @@
                     android:textSize="@dimen/midBigFont"
                     android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:text="@{viewModel.getBirthLiveData(index)}" />
+                    android:gravity="center" />
             </TableRow>
 
         </TableLayout>
 
         <ImageView
             android:id="@+id/playerImage"
-            glideUrl="@{@string/baseUrl2 + viewModel.getIdLiveData(index) + @string/png}"
             android:layout_width="242dp"
             android:layout_height="217dp"
             android:contentDescription="@string/player_image"
@@ -250,8 +242,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bookmark"
-            android:checked="@{viewModel.getBookmarkLiveData(index)}"
-            android:onClick="@{()->viewModel.setBookmark(index)}"
             android:buttonTint="@color/lightGreen"
             app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintEnd_toEndOf="parent"
@@ -264,7 +254,6 @@
             android:id="@+id/textView3"
             android:layout_width="77dp"
             android:layout_height="322dp"
-            android:text="@{viewModel.ToastTest()}"
             app:layout_constraintEnd_toStartOf="@+id/playerImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

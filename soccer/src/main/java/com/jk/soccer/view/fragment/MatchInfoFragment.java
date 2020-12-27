@@ -48,9 +48,9 @@ public class MatchInfoFragment extends Fragment {
         binding.setViewModel(viewModel);
         binding.setHandler(new MyHandler());
 
-        MyRecyclerViewAdapter<ViewholderEventBinding> rvEventAdapter
-                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_event, viewModel.countEvents(index), index);
-        binding.subLayoutEvent.matchInfoEvent.setAdapter(rvEventAdapter);
+//        MyRecyclerViewAdapter<ViewholderEventBinding> rvEventAdapter
+//                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_event, viewModel.countEvents(index), index);
+//        binding.subLayoutEvent.matchInfoEvent.setAdapter(rvEventAdapter);
 
         binding.setIndex(index);
 

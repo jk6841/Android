@@ -37,11 +37,11 @@ public class MatchListFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         FragmentMatchlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_matchlist, container, false);
-        viewModel.initMatch();
+        //viewModel.initMatch();
         binding.setLifecycleOwner(this);
-        MyRecyclerViewAdapter<ViewholderMatchBinding> rvAdapter
-                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_match, viewModel.countMatches());
-        binding.recMatch.setAdapter(rvAdapter);
+//        MyRecyclerViewAdapter<ViewholderMatchBinding> rvAdapter
+//                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_match, viewModel.countMatches());
+//        binding.recMatch.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }
