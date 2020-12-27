@@ -16,7 +16,6 @@ import com.jk.soccer.model.local.TablePlayer;
 import com.jk.soccer.model.local.DBDao;
 import com.jk.soccer.model.local.TableTeam;
 import com.jk.soccer.etc.Type;
-import com.jk.soccer.model.remote.ApiService;
 import com.jk.soccer.model.remote.MyRemote;
 import com.jk.soccer.model.remote.RetrofitClient;
 import com.jk.soccer.etc.Player;
@@ -26,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -46,8 +46,8 @@ public class Repository {
         myLocal = MyLocal.getInstance(application);
         myRemote = MyRemote.getInstance(application);
         initialize();
-        downloadTeamList(47);
-        downloadPlayerList(8586);
+        getTeamList(47);
+        getPlayerList(8586);
     }
 
     public LiveData<Player> getPlayerLiveData(Integer id){
@@ -390,32 +390,50 @@ public class Repository {
         return myRemote.download(Type.PLAYER, 212867, "");
     }
 
-    public void downloadTeamList(Integer leagueID){
+    public List<Table> getLeagueList(){
+        return myLocal.getLeagueList();
+    }
+
+    public List<Table> getTeamList(Integer leagueID){
+        List<Table> tryLocal = myLocal.getTeamList(leagueID);
+        if (tryLocal.size() != 0){
+            return tryLocal;
+        }
         String leagueString = myRemote.download(Type.LEAGUE, leagueID, "table");
         Table[] teamList = MyParser.myTeamList(leagueString);
         myLocal.insertList(teamList);
+        if (teamList != null)
+            return new ArrayList<>(Arrays.asList(teamList));
+        return null;
     }
 
-    public void downloadPlayerList(Integer teamID){
+    public List<Table> getPlayerList(Integer teamID){
+        List<Table> tryLocal = myLocal.getPlayerList(teamID);
+        if (tryLocal.size() != 0){
+            return tryLocal;
+        }
         String teamString = myRemote.download(Type.TEAM, teamID, "squad");
         Table[] playerList = MyParser.myPlayerList(teamString);
         myLocal.insertList(playerList);
+        if (playerList != null)
+            return new ArrayList<>(Arrays.asList(playerList));
+        return null;
     }
 
-    public void getMatchInfo(Integer ID){
-
+    public String getMatchInfo(Integer ID){
+        return myRemote.download(Type.MATCH, ID, "");
     }
 
-    public void getLeagueInfo(Integer ID){
-
+    public String getLeagueInfo(Integer ID){
+        return myRemote.download(Type.LEAGUE, ID, "overview");
     }
 
-    public void getTeamInfo(Integer ID){
-
+    public String getTeamInfo(Integer ID){
+        return myRemote.download(Type.TEAM, ID, "overview");
     }
 
-    public void getPlayerInfo(Integer ID){
-
+    public String getPlayerInfo(Integer ID){
+        return myRemote.download(Type.PLAYER, ID, "");
     }
 
 

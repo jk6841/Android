@@ -43,7 +43,7 @@ public class MyLocal {
 
     private List<Table> getChildren(Integer parentID){
         LocalTask localTask = new LocalTask(dao, LocalTask.Query.READ);
-        Table input= new Table(0, 0, "");
+        Table input= new Table(0, parentID, "");
         try{
             return localTask.execute(input).get().get(0);
         } catch (ExecutionException | InterruptedException e){
