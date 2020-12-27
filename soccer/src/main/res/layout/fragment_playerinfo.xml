@@ -233,10 +233,10 @@
 
         <ImageView
             android:id="@+id/playerImage"
+            glideUrl="@{@string/baseUrl2 + viewModel.getIdLiveData(index) + @string/png}"
             android:layout_width="242dp"
             android:layout_height="217dp"
             android:contentDescription="@string/player_image"
-            glideUrl="@{@string/baseUrl2 + viewModel.getIdLiveData(index) + @string/png}"
             app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -259,6 +259,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/playerImage"
             app:layout_constraintVertical_bias="0.62" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="77dp"
+            android:layout_height="322dp"
+            android:text="@{viewModel.ToastTest()}"
+            app:layout_constraintEnd_toStartOf="@+id/playerImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -14,6 +14,7 @@ import com.jk.soccer.model.local.TableMatch;
 import com.jk.soccer.model.local.TablePlayer;
 import com.jk.soccer.model.local.DBDao;
 import com.jk.soccer.model.local.TableTeam;
+import com.jk.soccer.model.remote.ApiService;
 import com.jk.soccer.model.remote.RetrofitClient;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.model.local.MyParser;
@@ -22,8 +23,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.ResponseBody;
@@ -32,6 +35,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Repository {
+
+    public enum TypeEnum{
+        PLAYER, TEAM, MATCH, LEAGUE
+    }
 
     //// Public ////
 
@@ -375,6 +382,64 @@ public class Repository {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private static class NetworkTask extends AsyncTask<Integer, Void, List<String>>{
+
+        final private TypeEnum type;
+        final private ApiService apiService;
+
+
+        public NetworkTask(RetrofitClient retrofitClient, TypeEnum type) {
+            this.type = type;
+            apiService = retrofitClient.apiService[0];
+        }
+
+        @Override
+        protected List<String> doInBackground(Integer... integers) {
+            List<String> result = new ArrayList<>();
+            for (Integer ID : integers) {
+                result.add(accessRemote(ID));
+            }
+            return result;
+        }
+
+        private String accessRemote(Integer ID){
+            Call<ResponseBody> call;
+            switch (type) {
+                case PLAYER:
+                    call = apiService.getPlayer(ID);
+                    break;
+                case TEAM:
+                    call = apiService.getTeam(ID, "overview");
+                    break;
+                case MATCH:
+                    call = apiService.getMatch(ID);
+                    break;
+                case LEAGUE:
+                    call = apiService.getLeague(ID, "overview");
+                    break;
+                default:
+                    return "";
+            }
+            try {
+                ResponseBody body = call.execute().body();
+                if (body != null)
+                    return body.string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+    }
+
+    public String NetworkTest() {
+        try {
+            return new NetworkTask(retrofitClient, TypeEnum.PLAYER).execute(212867).get().get(0);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return "Exception";
     }
 
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,7 +13,6 @@ import com.jk.soccer.etc.Event;
 import com.jk.soccer.etc.Lineup;
 import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.local.TableMatch;
-import com.jk.soccer.model.local.TablePlayer;
 import com.jk.soccer.etc.Player;
 
 import java.util.ArrayList;
@@ -403,4 +401,8 @@ public class MyViewModel extends AndroidViewModel {
     final private ArrayList<LiveData<List<Lineup>>> awayLineupLiveDataList;
     private Integer length = 0;
     final private MutableLiveData<Integer> matchTab;
+
+    public String ToastTest(){
+        return repository.NetworkTest();
+    }
 }
