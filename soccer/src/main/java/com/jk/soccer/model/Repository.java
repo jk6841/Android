@@ -47,8 +47,6 @@ public class Repository {
         myLocal = MyLocal.getInstance(application);
         myRemote = MyRemote.getInstance(application);
         initialize();
-        getTeamList(47);
-        getPlayerList(8586);
     }
 
     public LiveData<Player> getPlayerLiveData(Integer id){

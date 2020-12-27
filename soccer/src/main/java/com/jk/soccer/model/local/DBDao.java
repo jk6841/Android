@@ -186,7 +186,7 @@ public abstract class DBDao {
 
     //// Read ////
 
-    @Query("SELECT ID, Name FROM 'table' WHERE ParentID = :parentID")
+    @Query("SELECT ID AS ID, Name AS name FROM 'table' WHERE ParentID = :parentID")
     public abstract List<Pair> getChildren(Integer parentID);
 
     //// Delete ////

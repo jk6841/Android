@@ -2,12 +2,14 @@ package com.jk.soccer.etc;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.jk.soccer.R;
 import com.jk.soccer.viewModel.MyViewModel;
+import com.jk.soccer.viewModel.SearchViewModel;
 
 public class MyHandler {
 
@@ -29,4 +31,15 @@ public class MyHandler {
         viewModel.setMatchTab(1);
     }
 
+    public void onRecyclerViewClick(View view, SearchViewModel viewModel){
+        Toast.makeText(view.getContext(), "aaaa", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onLeagueClick(View view, SearchViewModel viewModel, Integer index){
+        viewModel.setLeagueIndex(index);
+    }
+
+    public void onTeamClick(View view, SearchViewModel viewModel, Integer index){
+        viewModel.setTeamIndex(index);
+    }
 }

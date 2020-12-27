@@ -5,6 +5,8 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_search"
+            android:title="검색" />
         <item
             android:id="@+id/nav_playerList"
             android:icon="@android:drawable/btn_star_big_on"
