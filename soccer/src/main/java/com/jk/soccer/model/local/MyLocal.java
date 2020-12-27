@@ -3,6 +3,8 @@ package com.jk.soccer.model.local;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import com.jk.soccer.etc.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -21,15 +23,15 @@ public class MyLocal {
         dao = database.dbDao();
     }
 
-    public List<Table> getLeagueList(){
+    public List<Pair> getLeagueList(){
         return getChildren(0);
     }
 
-    public List<Table> getTeamList(Integer leagueID){
+    public List<Pair> getTeamList(Integer leagueID){
         return getChildren(leagueID);
     }
 
-    public List<Table> getPlayerList(Integer teamID){
+    public List<Pair> getPlayerList(Integer teamID){
         return getChildren(teamID);
     }
 
@@ -41,7 +43,7 @@ public class MyLocal {
     private static MyLocal myLocal = null;
     final private DBDao dao;
 
-    private List<Table> getChildren(Integer parentID){
+    private List<Pair> getChildren(Integer parentID){
         LocalTask localTask = new LocalTask(dao, LocalTask.Query.READ);
         Table input= new Table(0, parentID, "");
         try{
@@ -52,7 +54,7 @@ public class MyLocal {
         return null;
     }
 
-    private static class LocalTask extends AsyncTask<Table, Void, List<List<Table>>> {
+    private static class LocalTask extends AsyncTask<Table, Void, List<List<Pair>>> {
 
         public enum Query{
             CREATE, READ, UPDATE, DELETE
@@ -67,15 +69,15 @@ public class MyLocal {
         }
 
         @Override
-        protected List<List<Table>> doInBackground(Table... tables) {
-            List<List<Table>> result = new ArrayList<>();
+        protected List<List<Pair>> doInBackground(Table... tables) {
+            List<List<Pair>> result = new ArrayList<>();
             for (Table table : tables) {
                 result.add(accessLocal(table));
             }
             return result;
         }
 
-        private List<Table> accessLocal(Table table){
+        private List<Pair> accessLocal(Table table){
             switch (query){
                 case CREATE:
                     dao.insert(table);

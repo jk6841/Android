@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import com.jk.soccer.etc.Pair;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.Type;
 
@@ -185,8 +186,8 @@ public abstract class DBDao {
 
     //// Read ////
 
-    @Query("SELECT * FROM 'table' WHERE ParentID = :parentID")
-    public abstract List<Table> getChildren(Integer parentID);
+    @Query("SELECT ID, Name FROM 'table' WHERE ParentID = :parentID")
+    public abstract List<Pair> getChildren(Integer parentID);
 
     //// Delete ////
 
