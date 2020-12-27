@@ -9,12 +9,15 @@ import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.R;
 import com.jk.soccer.model.local.Database;
+import com.jk.soccer.model.local.MyLocal;
+import com.jk.soccer.model.local.Table;
 import com.jk.soccer.model.local.TableMatch;
 import com.jk.soccer.model.local.TablePlayer;
 import com.jk.soccer.model.local.DBDao;
 import com.jk.soccer.model.local.TableTeam;
 import com.jk.soccer.etc.Type;
 import com.jk.soccer.model.remote.ApiService;
+import com.jk.soccer.model.remote.MyRemote;
 import com.jk.soccer.model.remote.RetrofitClient;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.model.local.MyParser;
@@ -39,8 +42,12 @@ public class Repository {
         Context appContext = application.getApplicationContext();
         retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         database = Database.getInstance(application);
-        mDao = database.dbPlayerDao();
+        mDao = database.dbDao();
+        myLocal = MyLocal.getInstance(application);
+        myRemote = MyRemote.getInstance(application);
         initialize();
+        downloadTeamList(47);
+        downloadPlayerList(8586);
     }
 
     public LiveData<Player> getPlayerLiveData(Integer id){
@@ -154,6 +161,8 @@ public class Repository {
     final private RetrofitClient retrofitClient;
     final private Database database;
     final private DBDao mDao;
+    final private MyLocal myLocal;
+    final private MyRemote myRemote;
 
     private void getRemoteMatchList(Integer teamID) {
         TableTeam team = getTeam(teamID);
@@ -377,62 +386,38 @@ public class Repository {
         }
     }
 
-    private static class NetworkTask extends AsyncTask<Integer, Void, List<String>>{
-
-        final private Type type;
-        final private ApiService apiService;
-
-
-        public NetworkTask(RetrofitClient retrofitClient, Type type) {
-            this.type = type;
-            apiService = retrofitClient.apiService[0];
-        }
-
-        @Override
-        protected List<String> doInBackground(Integer... integers) {
-            List<String> result = new ArrayList<>();
-            for (Integer ID : integers) {
-                result.add(accessRemote(ID));
-            }
-            return result;
-        }
-
-        private String accessRemote(Integer ID){
-            Call<ResponseBody> call;
-            switch (type) {
-                case PLAYER:
-                    call = apiService.getPlayer(ID);
-                    break;
-                case TEAM:
-                    call = apiService.getTeam(ID, "overview");
-                    break;
-                case MATCH:
-                    call = apiService.getMatch(ID);
-                    break;
-                case LEAGUE:
-                    call = apiService.getLeague(ID, "overview");
-                    break;
-                default:
-                    return "";
-            }
-            try {
-                ResponseBody body = call.execute().body();
-                if (body != null)
-                    return body.string();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return "";
-        }
-    }
-
     public String NetworkTest() {
-        try {
-            return new NetworkTask(retrofitClient, Type.PLAYER).execute(212867).get().get(0);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return "Exception";
+        return myRemote.download(Type.PLAYER, 212867, "");
     }
+
+    public void downloadTeamList(Integer leagueID){
+        String leagueString = myRemote.download(Type.LEAGUE, leagueID, "table");
+        Table[] teamList = MyParser.myTeamList(leagueString);
+        myLocal.insertList(teamList);
+    }
+
+    public void downloadPlayerList(Integer teamID){
+        String teamString = myRemote.download(Type.TEAM, teamID, "squad");
+        Table[] playerList = MyParser.myPlayerList(teamString);
+        myLocal.insertList(playerList);
+    }
+
+    public void getMatchInfo(Integer ID){
+
+    }
+
+    public void getLeagueInfo(Integer ID){
+
+    }
+
+    public void getTeamInfo(Integer ID){
+
+    }
+
+    public void getPlayerInfo(Integer ID){
+
+    }
+
+
 
 }

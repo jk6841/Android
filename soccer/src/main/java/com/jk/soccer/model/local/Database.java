@@ -18,7 +18,7 @@ import com.jk.soccer.model.local.converter.TypeInt;
 @TypeConverters({EventList.class, LineupList.class, TypeInt.class})
 public abstract class Database extends RoomDatabase {
 
-    public abstract DBDao dbPlayerDao();
+    public abstract DBDao dbDao();
     private static Database database = null;
     public static Database getInstance(Application application){
         if (database == null){

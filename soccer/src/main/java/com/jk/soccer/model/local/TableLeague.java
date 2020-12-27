@@ -11,6 +11,9 @@ public class TableLeague {
     @ColumnInfo(name = "ID")
     private Integer ID;
 
+    @ColumnInfo(name = "ParentID")
+    private Integer parent;
+
     @ColumnInfo(name = "Name", defaultValue = "")
     private String name;
 
@@ -21,6 +24,8 @@ public class TableLeague {
     public void setID(Integer ID) {
         this.ID = ID;
     }
+
+
 
     public String getName() {
         return name;

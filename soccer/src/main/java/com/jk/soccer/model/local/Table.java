@@ -4,34 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-import com.jk.soccer.etc.Type;
-
-@Entity (tableName = "table", primaryKeys = {"Type", "ID"})
+@Entity (tableName = "table", primaryKeys = {"ID", "ParentID"})
 public class Table {
-
-    @NonNull
-    @ColumnInfo(name = "Type")
-    private Type type;
 
     @NonNull
     @ColumnInfo(name = "ID")
     private Integer ID;
 
+    @NonNull
+    @ColumnInfo(name = "ParentID")
+    private Integer parentID;
+
     @ColumnInfo(name = "Name", defaultValue = "")
     private String name;
 
-    public Table(@NonNull Type type, @NonNull Integer ID){
-        this.type = type;
+    public Table(@NonNull Integer ID, @NonNull Integer parentID, String name){
         this.ID = ID;
-    }
-
-    @NonNull
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(@NonNull Type type) {
-        this.type = type;
+        this.parentID = parentID;
+        this.name = name;
     }
 
     @NonNull
@@ -41,6 +31,15 @@ public class Table {
 
     public void setID(@NonNull Integer ID) {
         this.ID = ID;
+    }
+
+    @NonNull
+    public Integer getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(@NonNull Integer parentID) {
+        this.parentID = parentID;
     }
 
     public String getName() {

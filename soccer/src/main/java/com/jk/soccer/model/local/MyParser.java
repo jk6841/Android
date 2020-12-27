@@ -303,4 +303,45 @@ public class MyParser {
         }
         return null;
     }
+
+    public static Table[] myTeamList(String jsonString){
+        JSONObject jsonObject = myJSONObject(jsonString);
+        JSONObject jsonTableData = myJSONObject(jsonObject, "tableData");
+        JSONArray jsonTables = myJSONArray(jsonTableData, "tables");
+        JSONObject jsonTables2 = myJSONObject(jsonTables, 0);
+        Integer leagueID = myJSONInt(jsonTables2, "leagueId");
+        JSONArray jsonTable = myJSONArray(jsonTables2, "table");
+        if (jsonTable == null)
+            return null;
+        List<Table> teamList = new ArrayList<>();
+        for (int i = 0; i < jsonTable.length(); i++){
+            JSONObject jsonTeam= myJSONObject(jsonTable, i);
+            Integer teamID = myJSONInt(jsonTeam, "id");
+            String teamName = myJSONString(jsonTeam, "name");
+            teamList.add(new Table(teamID, leagueID, teamName));
+        }
+        return teamList.toArray(new Table[0]);
+    }
+
+    public static Table[] myPlayerList(String jsonString){
+        JSONObject jsonObject = myJSONObject(jsonString);
+        JSONObject jsonDetails = myJSONObject(jsonObject, "details");
+        Integer teamID = myJSONInt(jsonDetails, "id");
+        JSONArray jsonSquad = myJSONArray(jsonObject, "squad");
+        if (jsonSquad == null)
+            return null;
+        List<Table> playerList = new ArrayList<>();
+        for (int i = 0; i < jsonSquad.length(); i++){
+            JSONArray jsonSquadItem = myJSONArray(myJSONArray(jsonSquad, i), 1);
+            if (jsonSquadItem == null)
+                break;
+            for (int j = 0; j < jsonSquadItem.length(); j++){
+                JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
+                Integer playerID = myJSONInt(jsonPlayer, "id");
+                String playerName = myJSONString(jsonPlayer, "name");
+                playerList.add(new Table(playerID, teamID, playerName));
+            }
+        }
+        return playerList.toArray(new Table[0]);
+    }
 }

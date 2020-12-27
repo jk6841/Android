@@ -48,32 +48,6 @@ public class TablePlayer implements Comparable<TablePlayer>{
         this.id = id;
     }
 
-    @Ignore
-    public TablePlayer(String jsonString){
-        try{
-            JSONObject jsonObject = new JSONObject(jsonString);
-            id = jsonObject.getInt("id");
-            JSONObject jsonOrigin = jsonObject.getJSONObject("origin");
-            teamID = jsonOrigin.getInt("teamId");
-            JSONObject jsonPositionDesc = jsonOrigin.getJSONObject("positionDesc");
-            position = jsonPositionDesc.getString("primaryPosition");
-            JSONArray jsonPlayerProps = jsonObject.getJSONArray("playerProps");
-            for (int i = 0; i < jsonPlayerProps.length(); i++){
-                JSONObject jsonElem = jsonPlayerProps.getJSONObject(i);
-                height = jsonElem.getString("title") .equals("Height") ?
-                        jsonElem.getInt("value") : height;
-                foot = jsonElem.getString("title").equals("Preferred foot") ?
-                        jsonElem.getString("value") : foot;
-//                age = jsonElem.getString("title") .equals("Age") ?
-//                        jsonElem.getInt("value") : age;
-                shirt = jsonElem.getString("title") .equals("Shirt") ?
-                        jsonElem.getInt("value") : shirt;
-            }
-        } catch(JSONException e){
-            e.printStackTrace();
-        }
-    }
-
     public int compareTo(TablePlayer player){
         Boolean l1 = this.bookmark;
         Boolean l2 = player.bookmark;

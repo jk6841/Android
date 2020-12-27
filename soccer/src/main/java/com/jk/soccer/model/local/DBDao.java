@@ -2,12 +2,14 @@ package com.jk.soccer.model.local;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.jk.soccer.etc.Player;
+import com.jk.soccer.etc.Type;
 
 import java.util.List;
 
@@ -173,5 +175,22 @@ public abstract class DBDao {
 
     @Query("SELECT AwayLineupCount FROM tableMatch WHERE Cancelled = 0 ORDER By Year, Month, Date, Time")
     public abstract List<Integer> countAwayLineup();
+
+    /////////////////////////////////  NEW ////////////////////////////////////////////
+
+    //// Create ////
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insert(Table tableEntry);
+
+    //// Read ////
+
+    @Query("SELECT * FROM 'table' WHERE ParentID = :parentID")
+    public abstract List<Table> getChildren(Integer parentID);
+
+    //// Delete ////
+
+    @Query("DELETE FROM `table` WHERE ID = :ID")
+    public abstract void delete(Integer ID);
 
 }
