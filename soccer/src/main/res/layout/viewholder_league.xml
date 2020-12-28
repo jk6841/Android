@@ -24,8 +24,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:background="@drawable/edge"
             android:onClick="@{(v)->handler.setIndex(index)}"
             android:text="@{item.name}"
+            android:fontFamily="@font/paybooc"
             android:textColor="@color/black"
             android:textSize="@dimen/midBigFont"
             android:textStyle="bold"
@@ -36,8 +38,8 @@
 
         <ImageView
             android:id="@+id/img_team"
-            glideUrl="@{@string/baseUrl2 + item.ID + @string/png}"
             android:contentDescription="@string/contentDescription"
+            glideUrl="@{@string/league_image_url + item.ID}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

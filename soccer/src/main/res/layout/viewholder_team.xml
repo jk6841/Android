@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -36,10 +35,10 @@
 
         <ImageView
             android:id="@+id/img_team"
-            glideUrl="@{@string/baseUrl2 + item.ID + @string/png}"
             android:contentDescription="@string/contentDescription"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            glideUrl="@{@string/team_image_url + item.ID}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

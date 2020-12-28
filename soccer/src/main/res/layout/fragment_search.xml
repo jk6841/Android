@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.jk.soccer.viewModel.SearchViewModel" />
+        <variable
+            name="handler"
+            type="com.jk.soccer.etc.MyHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvLeague"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="리그"
+            android:background="@drawable/edge"
+            android:textSize="@dimen/midBigFont"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvLeague"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:list="@{viewModel.leagueList}"
+            app:handler="@{viewModel.leagueHandler}"
+            app:holder="@{@layout/viewholder_league}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLeague" />
+
+        <TextView
+            android:id="@+id/tvTeam"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="팀"
+            android:background="@drawable/edge"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:textSize="@dimen/midBigFont"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvLeague" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTeam"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:list="@{viewModel.teamList}"
+            app:handler="@{viewModel.teamHandler}"
+            app:holder="@{@layout/viewholder_team}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:background="@drawable/edge"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
+
+        <TextView
+            android:id="@+id/tvPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="선수"
+            android:background="@drawable/edge"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:textSize="@dimen/midBigFont"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvTeam" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:list="@{viewModel.playerList}"
+            app:handler="@{viewModel.teamHandler}"
+            app:holder="@{@layout/viewholder_player}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.45"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
