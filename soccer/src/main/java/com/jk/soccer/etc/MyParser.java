@@ -1,37 +1,20 @@
-package com.jk.soccer.model.local;
-
-import com.jk.soccer.etc.Event;
-import com.jk.soccer.etc.Lineup;
-import com.jk.soccer.etc.Role;
+package com.jk.soccer.etc;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class MyParser {
 
-    final private static SimpleDateFormat inputDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
-    final private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-    final private static SimpleDateFormat monthFormat = new SimpleDateFormat("M", Locale.KOREA);
-    final private static SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.KOREA);
-    final private static SimpleDateFormat dayFormat = new SimpleDateFormat("E요일 ", Locale.KOREA);
-    final private static SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
-    final private static SimpleDateFormat timeFormat = new SimpleDateFormat("H시 m분", Locale.KOREA);
-    private static Date oldDate;
-
-    static {
-        try {
-            oldDate = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).parse("1999-01-01");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
+//    final private static SimpleDateFormat inputDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
+//    final private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
+//    final private static SimpleDateFormat monthFormat = new SimpleDateFormat("M", Locale.KOREA);
+//    final private static SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.KOREA);
+//    final private static SimpleDateFormat dayFormat = new SimpleDateFormat("E요일 ", Locale.KOREA);
+//    final private static SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
+//    final private static SimpleDateFormat timeFormat = new SimpleDateFormat("H시 m분", Locale.KOREA);
 
     public static JSONObject myJSONObject(JSONObject jsonObject, String string){
         try{
@@ -315,66 +298,5 @@ public class MyParser {
 //        return null;
 //    }
 
-    public static List<TableTeam> myTeamList(String jsonString){
-        JSONObject jsonObject = myJSONObject(jsonString);
-        JSONObject jsonTableData = myJSONObject(jsonObject, "tableData");
-        JSONArray jsonTables = myJSONArray(jsonTableData, "tables");
-        JSONObject jsonTables2 = myJSONObject(jsonTables, 0);
-        Integer leagueID = myJSONInt(jsonTables2, "leagueId");
-        JSONArray jsonTable = myJSONArray(jsonTables2, "table");
-        if (jsonTable == null)
-            return null;
-        List<TableTeam> teamList = new ArrayList<>();
-        for (int i = 0; i < jsonTable.length(); i++){
-            JSONObject jsonTeam= myJSONObject(jsonTable, i);
-            Integer teamID = myJSONInt(jsonTeam, "id");
-            String teamName = myJSONString(jsonTeam, "name");
-            teamList.add(new TableTeam(teamID, leagueID, i + 1, teamName, null));
-        }
-        return teamList;
-    }
 
-    public static List<TablePlayer> myPlayerList(String jsonString){
-        JSONObject jsonObject = myJSONObject(jsonString);
-        JSONObject jsonDetails = myJSONObject(jsonObject, "details");
-        Integer teamID = myJSONInt(jsonDetails, "id");
-        JSONArray jsonSquad = myJSONArray(jsonObject, "squad");
-        if (jsonSquad == null)
-            return null;
-        List<TablePlayer> playerList = new ArrayList<>();
-        for (int i = 0; i < jsonSquad.length(); i++){
-            JSONArray jsonSquadItem = myJSONArray(myJSONArray(jsonSquad, i), 1);
-            if (jsonSquadItem == null)
-                continue;
-            for (int j = 0; j < jsonSquadItem.length(); j++){
-                JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
-                Integer playerID = myJSONInt(jsonPlayer, "id");
-                String name = myJSONString(jsonPlayer, "name");
-                String playerRole = myJSONString(jsonPlayer, "role");
-                Role role;
-                switch (playerRole){
-                    case "":
-                        role = Role.COACH;
-                        break;
-                    case "goalkeepers":
-                        role = Role.GK;
-                        break;
-                    case "defenders":
-                        role = Role.DF;
-                        break;
-                    case "midfielders":
-                        role = Role.MF;
-                        break;
-                    case "attackers":
-                        role = Role.FW;
-                        break;
-                    default:
-                        role = Role.NONE;
-                        break;
-                }
-                playerList.add(new TablePlayer(playerID, teamID, name, role, false));
-            }
-        }
-        return playerList;
-    }
 }

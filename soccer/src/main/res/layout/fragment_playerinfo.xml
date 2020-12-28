@@ -7,9 +7,9 @@
     <data>
         <variable
             name="viewModel"
-            type="com.jk.soccer.viewModel.MyViewModel" />
+            type="com.jk.soccer.viewModel.PlayerInfoViewModel" />
         <variable
-            name="index"
+            name="ID"
             type="Integer" />
     </data>
 
@@ -22,7 +22,7 @@
             android:id="@+id/table"
             android:layout_width="match_parent"
             android:layout_height="376dp"
-            android:weightSum="7"
+            android:weightSum="8"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteX="27dp">
 
@@ -45,13 +45,14 @@
 
                 <TextView
                     android:id="@+id/tbl_01"
+                    android:text="@{viewModel.name}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midBigFont"
-                    android:textColor="@color/black"
                     android:fontFamily="@font/paybooc"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/midBigFont" />
             </TableRow>
 
             <TableRow
@@ -73,6 +74,7 @@
 
                 <TextView
                     android:id="@+id/tbl_11"
+                    android:text="@{viewModel.team}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
@@ -101,6 +103,7 @@
 
                 <TextView
                     android:id="@+id/tbl_21"
+                    android:text="@{viewModel.shirt.toString()}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
@@ -129,6 +132,7 @@
 
                 <TextView
                     android:id="@+id/tbl_31"
+                    android:text="@{viewModel.position}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
@@ -157,6 +161,7 @@
 
                 <TextView
                     android:id="@+id/tbl_41"
+                    android:text="@{viewModel.foot}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
@@ -186,6 +191,7 @@
                 <TextView
                     android:id="@+id/tbl_51"
                     android:layout_width="wrap_content"
+                    android:text="@{viewModel.height}"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midBigFont"
@@ -214,6 +220,36 @@
                 <TextView
                     android:id="@+id/tbl_61"
                     android:layout_width="wrap_content"
+                    android:text="@{viewModel.age.toString()}"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column1"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="@integer/column">
+
+                <TextView
+                    android:id="@+id/tbl_70"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="@integer/column0"
+                    android:text="@string/country_header"
+                    android:textSize="@dimen/midBigFont"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="end|center_vertical"/>
+
+                <TextView
+                    android:id="@+id/tbl_71"
+                    android:layout_width="wrap_content"
+                    android:text="@{viewModel.country}"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midBigFont"
@@ -228,35 +264,48 @@
             android:id="@+id/playerImage"
             android:layout_width="242dp"
             android:layout_height="217dp"
+            app:glideUrl="@{@string/baseUrl2 + ID + @string/png}"
             android:contentDescription="@string/player_image"
-            app:layout_constraintBottom_toTopOf="@+id/table"
+            app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.289"
             app:srcCompat="@drawable/ic_launcher_background" />
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/bookmark"
-            android:buttonTint="@color/lightGreen"
-            app:layout_constraintBottom_toTopOf="@+id/table"
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="66dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="@string/contentDescription"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.914"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/playerImage"
-            app:layout_constraintVertical_bias="0.62" />
+            app:layout_constraintStart_toEndOf="@+id/playerImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="77dp"
-            android:layout_height="322dp"
-            app:layout_constraintEnd_toStartOf="@+id/playerImage"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:contentDescription="@string/player_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/table"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:srcCompat="@drawable/edge" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:contentDescription="@string/player_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="100dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/edge" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

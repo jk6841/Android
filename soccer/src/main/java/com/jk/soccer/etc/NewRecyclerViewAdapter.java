@@ -10,14 +10,13 @@ import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jk.soccer.BR;
-import com.jk.soccer.viewModel.SearchViewModel;
 
 import java.util.List;
 
 public class NewRecyclerViewAdapter <BINDING extends ViewDataBinding>
         extends RecyclerView.Adapter<NewRecyclerViewAdapter.NewViewHolder<BINDING>>{
 
-    public NewRecyclerViewAdapter(SearchViewModel.Handler handler, Integer layout) {
+    public NewRecyclerViewAdapter(Handler handler, Integer layout) {
         this.handler = handler;
         this.layout = layout;
     }
@@ -55,7 +54,7 @@ public class NewRecyclerViewAdapter <BINDING extends ViewDataBinding>
             this.binding = DataBindingUtil.bind(itemView);
         }
 
-        public void bind(List<?> list, Integer index, SearchViewModel.Handler handler){
+        public void bind(List<?> list, Integer index, Handler handler){
             binding.setVariable(BR.item, list.get(index));
             binding.setVariable(BR.index, index);
             binding.setVariable(BR.handler, handler);
@@ -63,6 +62,6 @@ public class NewRecyclerViewAdapter <BINDING extends ViewDataBinding>
     }
 
     private List<?> list;
-    final private SearchViewModel.Handler handler;
+    final private Handler handler;
     final private Integer layout;
 }

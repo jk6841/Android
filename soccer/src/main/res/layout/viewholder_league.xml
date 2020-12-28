@@ -12,7 +12,7 @@
             type="Integer" />
         <variable
             name="handler"
-            type="com.jk.soccer.viewModel.SearchViewModel.Handler" />
+            type="com.jk.soccer.etc.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -53,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintWidth_percent="0.15"
-            android:onClick="@{(v)->handler.setIndex(index)}"
+            android:onClick="@{(v)->handler.onClick(v, index)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

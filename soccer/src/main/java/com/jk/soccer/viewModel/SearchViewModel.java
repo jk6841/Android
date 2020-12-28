@@ -1,6 +1,7 @@
 package com.jk.soccer.viewModel;
 
 import android.app.Application;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.jk.soccer.etc.Handler;
 import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.local.TableLeague;
 import com.jk.soccer.model.local.TablePlayer;
@@ -20,12 +22,12 @@ public class SearchViewModel extends AndroidViewModel {
     public SearchViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance(application);
+        leagueIndexManager = new LeagueIndexManager();
+        teamIndexManager = new TeamIndexManager();
         leagueIndex = new MutableLiveData<>();
         leagueIndex.setValue(-1);
         teamIndex = new MutableLiveData<>();
         teamIndex.setValue(-1);
-        leagueIndexManager = new LeagueIndexManager(leagueIndex);
-        teamIndexManager = new TeamIndexManager(teamIndex);
         leagueList = repository.getLeagueList();
         teamList = Transformations.switchMap(leagueIndex, repository::getTeamList);
         playerList = Transformations.switchMap(teamIndex, repository::getPlayerList);
@@ -77,34 +79,18 @@ public class SearchViewModel extends AndroidViewModel {
         teamIndex.setValue(val);
     }
 
-    public static abstract class Handler {
-        final protected MutableLiveData<Integer> index;
-        public Handler(MutableLiveData<Integer> index) {
-            this.index = index;
-        }
-        public abstract void setIndex(Integer index);
-    }
-
-    public class LeagueIndexManager extends Handler {
-        public LeagueIndexManager(MutableLiveData<Integer> index) {
-            super(index);
-        }
-
+    public class LeagueIndexManager implements Handler {
         @Override
-        public void setIndex(Integer index) {
-            setLeagueIndex(index);
+        public void onClick(View v, Integer... params) {
+            setLeagueIndex(params[0]);
             setTeamIndex(-1);
         }
     }
 
-    public class TeamIndexManager extends Handler {
-        public TeamIndexManager(MutableLiveData<Integer> index) {
-            super(index);
-        }
-
+    public class TeamIndexManager implements Handler {
         @Override
-        public void setIndex(Integer index) {
-            setTeamIndex(index);
+        public void onClick(View v, Integer... params) {
+            setTeamIndex(params[0]);
         }
     }
 
@@ -114,7 +100,7 @@ public class SearchViewModel extends AndroidViewModel {
     final private LiveData<List<TablePlayer>> playerList;
     final private MutableLiveData<Integer> leagueIndex;
     final private MutableLiveData<Integer> teamIndex;
-    final private LeagueIndexManager leagueIndexManager;
-    final private TeamIndexManager teamIndexManager;
+    final private Handler leagueIndexManager;
+    final private Handler teamIndexManager;
 
 }

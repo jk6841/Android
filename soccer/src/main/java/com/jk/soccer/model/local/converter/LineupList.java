@@ -3,7 +3,7 @@ package com.jk.soccer.model.local.converter;
 import androidx.room.TypeConverter;
 
 import com.jk.soccer.etc.Lineup;
-import com.jk.soccer.model.local.MyParser;
+import com.jk.soccer.etc.MyParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

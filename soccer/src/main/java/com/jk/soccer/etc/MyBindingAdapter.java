@@ -1,7 +1,6 @@
 package com.jk.soccer.etc;
 
 import android.content.res.Resources;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.R;
-import com.jk.soccer.viewModel.SearchViewModel.Handler;
 
 import java.util.List;
 

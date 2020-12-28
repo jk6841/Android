@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.jk.soccer.etc.MyHandler"/>
         <variable
             name="viewModel"
             type="com.jk.soccer.viewModel.SearchViewModel" />
         <variable
             name="handler"
-            type="com.jk.soccer.etc.MyHandler" />
+            type="com.jk.soccer.etc.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -83,6 +84,7 @@
             android:background="@drawable/edge"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:list="@{viewModel.playerList}"
+            app:handler="@{handler}"
             app:holder="@{@layout/viewholder_player}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

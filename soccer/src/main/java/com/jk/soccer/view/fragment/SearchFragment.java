@@ -11,9 +11,12 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentSearchBinding;
+import com.jk.soccer.etc.Handler;
 import com.jk.soccer.viewModel.SearchViewModel;
 
 public class SearchFragment extends Fragment {
@@ -38,6 +41,7 @@ public class SearchFragment extends Fragment {
                 inflater, R.layout.fragment_search, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
+        binding.setHandler(new PlayerInfoHandler());
         return binding.getRoot();
     }
 
@@ -45,5 +49,16 @@ public class SearchFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         viewModel.close();
+    }
+
+    public static class PlayerInfoHandler implements Handler{
+
+        @Override
+        public void onClick(View v, Integer... params) {
+            NavController navController = Navigation.findNavController(v);
+            Bundle args = new Bundle();
+            args.putInt("id", params[0]);
+            navController.navigate(R.id.action_nav_search_to_nav_playerInfo, args);
+        }
     }
 }

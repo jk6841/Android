@@ -10,11 +10,11 @@
             type="Integer" />
         <variable
             name="handler"
-            type="com.jk.soccer.viewModel.SearchViewModel.Handler" />
+            type="com.jk.soccer.etc.Handler" />
     </data>
 
     <TextView
-        android:onClick="@{(v)->handler.setIndex(index)}"
+        android:onClick="@{(v)->handler.onClick(v, index)}"
         android:text="@{item.name}"
         android:gravity="center"
         android:fontFamily="@font/paybooc"

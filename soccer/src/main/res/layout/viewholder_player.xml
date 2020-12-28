@@ -13,7 +13,7 @@
             type="Integer" />
         <variable
             name="handler"
-            type="com.jk.soccer.viewModel.SearchViewModel.Handler" />
+            type="com.jk.soccer.etc.Handler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +38,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:onClick="@{(v)->handler.setIndex(index)}"
             android:text="@{item.name}"
             android:textColor="@color/black"
             android:textSize="@dimen/midBigFont"
@@ -51,6 +50,7 @@
 
         <ImageButton
             android:id="@+id/imageButton3"
+            android:onClick="@{(v)->handler.onClick(v, item.ID)}"
             android:contentDescription="@string/contentDescription"
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.15"
