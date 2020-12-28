@@ -83,7 +83,7 @@
             android:layout_height="0dp"
             android:background="@drawable/edge"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:list="@{viewModel.playerList}"
+            app:list="@{(viewModel.teamIndex > -1)? viewModel.playerList : null}"
             app:handler="@{handler}"
             app:holder="@{@layout/viewholder_player}"
             app:layout_constraintBottom_toBottomOf="parent"

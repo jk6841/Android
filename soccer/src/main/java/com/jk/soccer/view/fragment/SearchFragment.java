@@ -45,12 +45,6 @@ public class SearchFragment extends Fragment {
         return binding.getRoot();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.close();
-    }
-
     public static class PlayerInfoHandler implements Handler{
 
         @Override

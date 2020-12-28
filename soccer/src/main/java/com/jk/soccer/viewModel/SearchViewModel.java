@@ -29,18 +29,9 @@ public class SearchViewModel extends AndroidViewModel {
         teamIndex = new MutableLiveData<>();
         teamIndex.setValue(-1);
         leagueList = repository.getLeagueList();
-        teamList = Transformations.switchMap(leagueIndex, repository::getTeamList);
+        teamList = Transformations.switchMap(leagueIndex,
+                repository::getTeamList);
         playerList = Transformations.switchMap(teamIndex, repository::getPlayerList);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        repository.close();
-    }
-
-    public void close() {
-        onCleared();
     }
 
     public LiveData<List<TableLeague>> getLeagueList() {

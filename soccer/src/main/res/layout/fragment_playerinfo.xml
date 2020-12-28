@@ -287,6 +287,7 @@
         <ImageView
             android:id="@+id/imageView2"
             android:contentDescription="@string/player_image"
+            glideUrl="@{@string/team_image_url + viewModel.teamID}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
@@ -298,6 +299,7 @@
         <ImageView
             android:id="@+id/imageView3"
             android:contentDescription="@string/player_image"
+            glideUrl="@{@string/country_image_url + viewModel.countryID + @string/png}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="100dp"

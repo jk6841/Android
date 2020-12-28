@@ -42,16 +42,6 @@ public class PlayerInfoViewModel extends AndroidViewModel {
         countryID.setValue(emptyString);
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        repository.close();
-    }
-
-    public void close() {
-        onCleared();
-    }
-
     public void getPlayerInfo(Integer ID){
         String playerString = repository.getPlayerInfo(ID);
         JSONObject jsonObject = myJSONObject(playerString);
