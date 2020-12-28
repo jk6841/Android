@@ -201,17 +201,18 @@ public interface DBDao {
             "OFFSET :playerIndex")
     Integer getPlayerID(Integer playerIndex);
 
-    @Query("SELECT ID AS ID, Name AS name FROM tableLeague")
-    LiveData<List<Pair>> getLeagueList();
+    @Query("SELECT * FROM tableLeague")
+    LiveData<List<TableLeague>> getLeagueList();
 
-    @Query("SELECT ID AS ID, Name AS name FROM tableTeam " +
-            "WHERE LeagueID IN tempLeague ORDER BY Rank")
-    LiveData<List<Pair>> getTeamList();
+    @Query("SELECT * FROM tableTeam " +
+            "WHERE LeagueID IN tempLeague " +
+            "ORDER BY Rank")
+    LiveData<List<TableTeam>> getTeamList();
 
-    @Query("SELECT ID AS ID, Name AS name FROM tablePlayer " +
+    @Query("SELECT * FROM tablePlayer " +
             "WHERE teamID IN tempTeam " +
             "ORDER BY Role DESC")
-    LiveData<List<Pair>> getPlayerList();
+    LiveData<List<TablePlayer>> getPlayerList();
 
     @Query("INSERT INTO tempLeague SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
     void selectLeague(Integer leagueIndex);
@@ -238,6 +239,4 @@ public interface DBDao {
 
     @Query("DELETE FROM tempPlayer")
     void clearPlayer();
-
-
 }

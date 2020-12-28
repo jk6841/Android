@@ -13,8 +13,19 @@ public class RoleInt {
 
     @TypeConverter
     public static Role intToRole(Integer integer){
-        Role role = Role.NONE;
-        role.setValue(integer);
-        return role;
+        switch (integer){
+            case 1:
+                return Role.FW;
+            case 2:
+                return Role.MF;
+            case 3:
+                return Role.DF;
+            case 4:
+                return Role.GK;
+            case 5:
+                return Role.COACH;
+            default:
+                return Role.NONE;
+        }
     }
 }

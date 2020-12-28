@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.jk.soccer.etc.Pair" />
+            type="com.jk.soccer.model.local.TableLeague" />
         <variable
             name="index"
             type="Integer" />
@@ -20,7 +20,7 @@
         android:layout_height="100dp">
 
         <TextView
-            android:id="@+id/txt_team"
+            android:id="@+id/txt_player"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -37,7 +37,7 @@
             app:layout_constraintWidth_percent="0.7" />
 
         <ImageView
-            android:id="@+id/img_team"
+            android:id="@+id/img_player"
             android:contentDescription="@string/contentDescription"
             glideUrl="@{@string/league_image_url + item.ID}"
             android:layout_width="0dp"

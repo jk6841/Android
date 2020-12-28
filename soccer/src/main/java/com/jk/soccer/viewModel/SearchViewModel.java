@@ -10,6 +10,9 @@ import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.etc.Pair;
 import com.jk.soccer.model.Repository;
+import com.jk.soccer.model.local.TableLeague;
+import com.jk.soccer.model.local.TablePlayer;
+import com.jk.soccer.model.local.TableTeam;
 
 import java.util.List;
 
@@ -39,15 +42,15 @@ public class SearchViewModel extends AndroidViewModel {
         onCleared();
     }
 
-    public LiveData<List<Pair>> getLeagueList() {
+    public LiveData<List<TableLeague>> getLeagueList() {
         return leagueList;
     }
 
-    public LiveData<List<Pair>> getTeamList(){
+    public LiveData<List<TableTeam>> getTeamList(){
         return teamList;
     }
 
-    public LiveData<List<Pair>> getPlayerList(){
+    public LiveData<List<TablePlayer>> getPlayerList(){
         return playerList;
     }
 
@@ -98,9 +101,9 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     private final Repository repository;
-    final private LiveData<List<Pair>> leagueList;
-    final private LiveData<List<Pair>> teamList;
-    final private LiveData<List<Pair>> playerList;
+    final private LiveData<List<TableLeague>> leagueList;
+    final private LiveData<List<TableTeam>> teamList;
+    final private LiveData<List<TablePlayer>> playerList;
     final private MutableLiveData<Integer> leagueIndex;
     final private MutableLiveData<Integer> teamIndex;
     final private LeagueHandler leagueHandler;

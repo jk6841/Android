@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.jk.soccer.etc.Pair;
 import com.jk.soccer.model.local.MyLocal;
 import com.jk.soccer.etc.Type;
+import com.jk.soccer.model.local.TableLeague;
 import com.jk.soccer.model.local.TablePlayer;
 import com.jk.soccer.model.local.TableTeam;
 import com.jk.soccer.model.remote.MyRemote;
@@ -31,11 +32,11 @@ public class Repository {
         myLocal.close();
     }
 
-    public LiveData<List<Pair>> getLeagueList(){
+    public LiveData<List<TableLeague>> getLeagueList(){
         return myLocal.getLeagueList();
     }
 
-    public LiveData<List<Pair>> getTeamList(Integer leagueIndex){
+    public LiveData<List<TableTeam>> getTeamList(Integer leagueIndex){
         if (leagueIndex == -1)
             return null;
         Integer leagueID = myLocal.getID(Type.LEAGUE, leagueIndex);
@@ -45,7 +46,7 @@ public class Repository {
         return myLocal.getTeamList(leagueIndex);
     }
 
-    public LiveData<List<Pair>> getPlayerList(Integer teamIndex){
+    public LiveData<List<TablePlayer>> getPlayerList(Integer teamIndex){
         if (teamIndex == -1)
             return null;
         Integer teamID = myLocal.getID(Type.TEAM, teamIndex);

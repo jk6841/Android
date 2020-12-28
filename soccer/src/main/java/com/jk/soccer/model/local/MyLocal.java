@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.jk.soccer.etc.Pair;
 import com.jk.soccer.etc.Type;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class MyLocal {
         return 0;
     }
 
-    public LiveData<List<Pair>> getLeagueList(){
+    public LiveData<List<TableLeague>> getLeagueList(){
         try{
             return new ReadTask(dao, Type.LEAGUE).execute().get().leagueList;
         } catch (ExecutionException | InterruptedException e){
@@ -47,7 +46,7 @@ public class MyLocal {
         return null;
     }
 
-    public LiveData<List<Pair>> getTeamList(Integer leagueIndex){
+    public LiveData<List<TableTeam>> getTeamList(Integer leagueIndex){
         try{
             return new ReadTask(dao, Type.TEAM).execute(leagueIndex).get().teamList;
         } catch (ExecutionException | InterruptedException e){
@@ -56,7 +55,7 @@ public class MyLocal {
         return null;
     }
 
-    public LiveData<List<Pair>> getPlayerList(Integer teamIndex){
+    public LiveData<List<TablePlayer>> getPlayerList(Integer teamIndex){
         try{
             return new ReadTask(dao, Type.PLAYER).execute(teamIndex).get().playerList;
         } catch (ExecutionException | InterruptedException e){
@@ -148,9 +147,9 @@ public class MyLocal {
 
     private static class ReadTask extends AsyncTask<Integer, Void, ReadTask.Result>{
         public static class Result{
-            public LiveData<List<Pair>> leagueList;
-            public LiveData<List<Pair>> teamList;
-            public LiveData<List<Pair>> playerList;
+            public LiveData<List<TableLeague>> leagueList;
+            public LiveData<List<TableTeam>> teamList;
+            public LiveData<List<TablePlayer>> playerList;
         }
 
         final private DBDao dao;
