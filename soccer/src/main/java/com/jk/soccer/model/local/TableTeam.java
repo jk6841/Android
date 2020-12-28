@@ -24,14 +24,20 @@ public class TableTeam {
     private Integer leagueID;
 
     @NonNull
+    @ColumnInfo(name = "Rank")
+    private Integer rank;
+
+    @NonNull
     @ColumnInfo(name = "Name", defaultValue = "")
     private String name;
 
     public TableTeam(@NonNull Integer ID,
                      @NonNull Integer leagueID,
+                     @NonNull Integer rank,
                      @NonNull String name) {
         this.ID = ID;
         this.leagueID = leagueID;
+        this.rank = rank;
         this.name = name;
     }
 
@@ -51,6 +57,15 @@ public class TableTeam {
 
     public void setLeagueID(@NonNull Integer leagueID) {
         this.leagueID = leagueID;
+    }
+
+    @NonNull
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(@NonNull Integer rank) {
+        this.rank = rank;
     }
 
     @NonNull

@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 
 import com.jk.soccer.model.local.converter.EventList;
 import com.jk.soccer.model.local.converter.LineupList;
+import com.jk.soccer.model.local.converter.RoleInt;
 
 @androidx.room.Database(
         entities = {TableLeague.class,
@@ -20,7 +21,7 @@ import com.jk.soccer.model.local.converter.LineupList;
                 TempPlayer.class},
         version = 1,
         exportSchema =  false)
-@TypeConverters({EventList.class, LineupList.class})
+@TypeConverters({EventList.class, LineupList.class, RoleInt.class})
 public abstract class Database extends RoomDatabase {
 
     public abstract DBDao dbDao();

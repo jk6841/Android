@@ -190,19 +190,27 @@ public interface DBDao {
     @Query("SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
     Integer getLeagueID(Integer leagueIndex);
 
-    @Query("SELECT ID FROM tableTeam WHERE LeagueID IN tempLeague LIMIT 1 OFFSET :teamIndex")
+    @Query("SELECT ID FROM tableTeam " +
+            "WHERE LeagueID IN tempLeague ORDER BY Rank LIMIT 1 OFFSET :teamIndex")
     Integer getTeamID(Integer teamIndex);
 
-    @Query("SELECT ID FROM tablePlayer WHERE TeamID IN tempTeam LIMIT 1 OFFSET :playerIndex")
+    @Query("SELECT ID FROM tablePlayer " +
+            "WHERE TeamID IN tempTeam " +
+            "ORDER BY Role DESC " +
+            "LIMIT 1 " +
+            "OFFSET :playerIndex")
     Integer getPlayerID(Integer playerIndex);
 
     @Query("SELECT ID AS ID, Name AS name FROM tableLeague")
     LiveData<List<Pair>> getLeagueList();
 
-    @Query("SELECT ID AS ID, Name AS name FROM tableTeam WHERE LeagueID IN tempLeague")
+    @Query("SELECT ID AS ID, Name AS name FROM tableTeam " +
+            "WHERE LeagueID IN tempLeague ORDER BY Rank")
     LiveData<List<Pair>> getTeamList();
 
-    @Query("SELECT ID AS ID, Name AS name FROM tablePlayer WHERE teamID IN tempTeam")
+    @Query("SELECT ID AS ID, Name AS name FROM tablePlayer " +
+            "WHERE teamID IN tempTeam " +
+            "ORDER BY Role DESC")
     LiveData<List<Pair>> getPlayerList();
 
     @Query("INSERT INTO tempLeague SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
@@ -212,14 +220,20 @@ public interface DBDao {
     void clearLeague();
 
     @Query("INSERT INTO tempTeam SELECT ID FROM tableTeam " +
-            "WHERE LeagueID IN tempLeague LIMIT 1 OFFSET :teamIndex")
+            "WHERE LeagueID IN tempLeague " +
+            "ORDER BY Rank " +
+            "LIMIT 1 " +
+            "OFFSET :teamIndex")
     void selectTeam(Integer teamIndex);
 
     @Query("DELETE FROM tempTeam")
     void clearTeam();
 
     @Query("INSERT INTO tempPlayer SELECT ID FROM tablePlayer " +
-            "WHERE teamID IN tempTeam LIMIT 1 OFFSET :playerIndex")
+            "WHERE teamID IN tempTeam " +
+            "ORDER BY Role DESC " +
+            "LIMIT 1 " +
+            "OFFSET :playerIndex")
     void selectPlayer(Integer playerIndex);
 
     @Query("DELETE FROM tempPlayer")

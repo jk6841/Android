@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.jk.soccer.etc.Role;
+
 @Entity (tableName = "tablePlayer")
 
 public class TablePlayer{
@@ -24,12 +26,12 @@ public class TablePlayer{
 
     @NonNull
     @ColumnInfo(name = "Role", defaultValue = "")
-    private String role;
+    private Role role;
 
     public TablePlayer(@NonNull Integer ID,
                        @NonNull Integer teamID,
                        @NonNull String name,
-                       @NonNull String role) {
+                       @NonNull Role role) {
         this.ID = ID;
         this.teamID = teamID;
         this.name = name;
@@ -64,11 +66,11 @@ public class TablePlayer{
     }
 
     @NonNull
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(@NonNull String role) {
+    public void setRole(@NonNull Role role) {
         this.role = role;
     }
 }

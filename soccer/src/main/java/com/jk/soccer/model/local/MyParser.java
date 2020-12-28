@@ -2,6 +2,7 @@ package com.jk.soccer.model.local;
 
 import com.jk.soccer.etc.Event;
 import com.jk.soccer.etc.Lineup;
+import com.jk.soccer.etc.Role;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -318,7 +319,7 @@ public class MyParser {
             JSONObject jsonTeam= myJSONObject(jsonTable, i);
             Integer teamID = myJSONInt(jsonTeam, "id");
             String teamName = myJSONString(jsonTeam, "name");
-            teamList.add(new TableTeam(teamID, leagueID, teamName));
+            teamList.add(new TableTeam(teamID, leagueID, i + 1, teamName));
         }
         return teamList;
     }
@@ -338,9 +339,30 @@ public class MyParser {
             for (int j = 0; j < jsonSquadItem.length(); j++){
                 JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
                 Integer playerID = myJSONInt(jsonPlayer, "id");
-                String playerName = myJSONString(jsonPlayer, "name");
+                String name = myJSONString(jsonPlayer, "name");
                 String playerRole = myJSONString(jsonPlayer, "role");
-                playerList.add(new TablePlayer(playerID, teamID, playerName, playerRole));
+                Role role;
+                switch (playerRole){
+                    case "":
+                        role = Role.COACH;
+                        break;
+                    case "goalkeepers":
+                        role = Role.GK;
+                        break;
+                    case "defenders":
+                        role = Role.DF;
+                        break;
+                    case "midfielders":
+                        role = Role.MF;
+                        break;
+                    case "attackers":
+                        role = Role.FW;
+                        break;
+                    default:
+                        role = Role.NONE;
+                        break;
+                }
+                playerList.add(new TablePlayer(playerID, teamID, name, role));
             }
         }
         return playerList;
