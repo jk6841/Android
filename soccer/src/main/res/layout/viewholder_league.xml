@@ -16,36 +16,48 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:background="@drawable/edge"
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
         <TextView
-            android:id="@+id/txt_player"
+            android:id="@+id/txt_league"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:background="@drawable/edge"
-            android:onClick="@{(v)->handler.setIndex(index)}"
-            android:text="@{item.name}"
             android:fontFamily="@font/paybooc"
+            android:gravity="center"
+            android:text="@{item.name}"
             android:textColor="@color/black"
             android:textSize="@dimen/midBigFont"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_league"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.7" />
+            app:layout_constraintWidth_percent="0.65" />
 
         <ImageView
-            android:id="@+id/img_player"
-            android:contentDescription="@string/contentDescription"
+            android:id="@+id/img_league"
             glideUrl="@{@string/league_image_url + item.ID}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:contentDescription="@string/contentDescription"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.3"
+            app:layout_constraintWidth_percent="0.2"
             app:srcCompat="@drawable/edge" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:layout_constraintWidth_percent="0.15"
+            android:onClick="@{(v)->handler.setIndex(index)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_search_category_default" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

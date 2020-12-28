@@ -8,7 +8,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.jk.soccer.etc.Pair;
 import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.local.TableLeague;
 import com.jk.soccer.model.local.TablePlayer;
@@ -62,8 +61,16 @@ public class SearchViewModel extends AndroidViewModel {
         return teamHandler;
     }
 
+    public MutableLiveData<Integer> getLeagueIndex() {
+        return leagueIndex;
+    }
+
     public void setLeagueIndex(Integer val){
         leagueIndex.setValue(val);
+    }
+
+    public MutableLiveData<Integer> getTeamIndex() {
+        return teamIndex;
     }
 
     public void setTeamIndex(Integer val){

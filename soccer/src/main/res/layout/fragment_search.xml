@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -15,41 +16,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvLeague"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="리그"
-            android:background="@drawable/edge"
-            android:textSize="@dimen/midBigFont"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLeague"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/edge"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:list="@{viewModel.leagueList}"
             app:handler="@{viewModel.leagueHandler}"
             app:holder="@{@layout/viewholder_league}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.15"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLeague" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:list="@{viewModel.leagueList}" />
 
         <TextView
-            android:id="@+id/tvTeam"
+            android:id="@+id/tvLeague"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="팀"
+            android:text="@{(viewModel.leagueIndex > -1)? viewModel.leagueList.get(viewModel.leagueIndex).name : @string/empty}"
             android:background="@drawable/edge"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:textSize="@dimen/midBigFont"
@@ -72,13 +58,13 @@
             android:background="@drawable/edge"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTeam" />
+            app:layout_constraintTop_toBottomOf="@+id/tvLeague" />
 
         <TextView
-            android:id="@+id/tvPlayer"
+            android:id="@+id/tvTeam"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="명단"
+            android:text="@{(viewModel.teamIndex > -1)? viewModel.teamList.get(viewModel.teamIndex).name : @string/empty}"
             android:background="@drawable/edge"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:textSize="@dimen/midBigFont"

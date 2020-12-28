@@ -40,7 +40,7 @@ public class MyLocal {
     public LiveData<List<TableLeague>> getLeagueList(){
         try{
             return new ReadTask(dao, Type.LEAGUE).execute().get().leagueList;
-        } catch (ExecutionException | InterruptedException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -49,7 +49,7 @@ public class MyLocal {
     public LiveData<List<TableTeam>> getTeamList(Integer leagueIndex){
         try{
             return new ReadTask(dao, Type.TEAM).execute(leagueIndex).get().teamList;
-        } catch (ExecutionException | InterruptedException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
@@ -58,7 +58,7 @@ public class MyLocal {
     public LiveData<List<TablePlayer>> getPlayerList(Integer teamIndex){
         try{
             return new ReadTask(dao, Type.PLAYER).execute(teamIndex).get().playerList;
-        } catch (ExecutionException | InterruptedException e){
+        } catch (Exception e){
             e.printStackTrace();
         }
         return null;
