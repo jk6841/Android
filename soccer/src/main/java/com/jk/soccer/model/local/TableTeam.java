@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Entity(tableName = "tableTeam")
 
@@ -31,14 +32,19 @@ public class TableTeam {
     @ColumnInfo(name = "Name", defaultValue = "")
     private String name;
 
+    @ColumnInfo(name = "ChildrenDate", defaultValue = "")
+    private Date childrenDate;
+
     public TableTeam(@NonNull Integer ID,
                      @NonNull Integer leagueID,
                      @NonNull Integer rank,
-                     @NonNull String name) {
+                     @NonNull String name,
+                     Date childrenDate) {
         this.ID = ID;
         this.leagueID = leagueID;
         this.rank = rank;
         this.name = name;
+        this.childrenDate = childrenDate;
     }
 
     @NonNull
@@ -77,4 +83,11 @@ public class TableTeam {
         this.name = name;
     }
 
+    public Date getChildrenDate() {
+        return childrenDate;
+    }
+
+    public void setChildrenDate(Date childrenDate) {
+        this.childrenDate = childrenDate;
+    }
 }

@@ -14,6 +14,7 @@ import com.jk.soccer.etc.Pair;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.Type;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -213,6 +214,21 @@ public interface DBDao {
             "WHERE teamID IN tempTeam " +
             "ORDER BY Role DESC")
     LiveData<List<TablePlayer>> getPlayerList();
+
+    @Query("UPDATE tableLeague SET ChildrenDate = :childrenDate WHERE ID IN tempLeague")
+    void updateLeagueChildrenDate(Date childrenDate);
+
+    @Query("SELECT ChildrenDate FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
+    Date getLeagueChildrenDate(Integer leagueIndex);
+
+    @Query("UPDATE tableTeam SET ChildrenDate = :childrenDate WHERE ID IN tempTeam")
+    void updateTeamChildrenDate(Date childrenDate);
+
+    @Query("SELECT ChildrenDate FROM tableTeam " +
+            "WHERE ID IN " +
+            "(SELECT ID FROM tableTeam WHERE LeagueID IN tempLeague) ORDER BY Rank " +
+            "LIMIT 1 OFFSET :teamIndex")
+    Date getTeamChildrenDate(Integer teamIndex);
 
     @Query("INSERT INTO tempLeague SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
     void selectLeague(Integer leagueIndex);

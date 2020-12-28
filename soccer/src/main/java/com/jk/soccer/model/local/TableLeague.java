@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "tableLeague")
 public class TableLeague {
 
@@ -21,12 +23,17 @@ public class TableLeague {
     @ColumnInfo(name = "Country", defaultValue = "")
     private String country;
 
+    @ColumnInfo(name = "ChildrenDate", defaultValue = "")
+    private Date childrenDate;
+
     public TableLeague(@NonNull Integer ID,
                        @NonNull String name,
-                       @NonNull String country) {
+                       @NonNull String country,
+                       Date childrenDate) {
         this.ID = ID;
         this.name = name;
         this.country = country;
+        this.childrenDate = childrenDate;
     }
 
     @NonNull
@@ -54,5 +61,13 @@ public class TableLeague {
 
     public void setCountry(@NonNull String country) {
         this.country = country;
+    }
+
+    public Date getChildrenDate() {
+        return childrenDate;
+    }
+
+    public void setChildrenDate(Date childrenDate) {
+        this.childrenDate = childrenDate;
     }
 }

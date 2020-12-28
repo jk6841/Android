@@ -1,12 +1,14 @@
 package com.jk.soccer.model.local;
 
 import android.app.Application;
+import android.app.AsyncNotedAppOp;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
 import com.jk.soccer.etc.Type;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -74,9 +76,73 @@ public class MyLocal {
         insertTask.execute(new InsertTask.Input(null, playerList));
     }
 
+    public Date getChildrenDate(Type type, Integer index){
+        DateTask dateTask = new DateTask(dao, type, DateTask.Query.READ, index, null);
+        try {
+            return dateTask.execute().get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setChildrenDate(Type type, Integer index, Date date){
+        DateTask dateTask = new DateTask(dao, type, DateTask.Query.UPDATE, index, date);
+        dateTask.execute();
+    }
+
     private static MyLocal myLocal = null;
     final private Database database;
     final private DBDao dao;
+
+    private static class DateTask extends AsyncTask<Void, Void, Date>{
+        final private DBDao dao;
+        final private Type type;
+        final private Query query;
+        final private Integer index;
+        final private Date date;
+
+        private enum Query{
+            UPDATE,
+            READ
+        }
+
+        public DateTask(DBDao dao, Type type, Query query, Integer index, Date date) {
+            this.dao = dao;
+            this.type = type;
+            this.query = query;
+            this.index = index;
+            this.date = date;
+        }
+
+        @Override
+        protected Date doInBackground(Void... voids) {
+            switch (type){
+                case LEAGUE:
+                    switch (query){
+                        case UPDATE:
+                            dao.updateLeagueChildrenDate(date);
+                            return null;
+                        case READ:
+                            return dao.getLeagueChildrenDate(index);
+                        default:
+                            return null;
+                    }
+                case TEAM:
+                    switch (query){
+                        case UPDATE:
+                            dao.updateTeamChildrenDate(date);
+                            return null;
+                        case READ:
+                            return dao.getTeamChildrenDate(index);
+                        default:
+                            return null;
+                    }
+                default:
+                    return null;
+            }
+        }
+    }
 
     private static class IDTask extends AsyncTask<Integer, Void, Integer> {
 

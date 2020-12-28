@@ -93,6 +93,7 @@ public class SearchViewModel extends AndroidViewModel {
         @Override
         public void setIndex(Integer index) {
             setLeagueIndex(index);
+            setTeamIndex(-1);
         }
     }
 

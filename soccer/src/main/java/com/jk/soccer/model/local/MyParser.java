@@ -7,6 +7,7 @@ import com.jk.soccer.etc.Role;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,15 @@ public class MyParser {
     final private static SimpleDateFormat dayFormat = new SimpleDateFormat("E요일 ", Locale.KOREA);
     final private static SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
     final private static SimpleDateFormat timeFormat = new SimpleDateFormat("H시 m분", Locale.KOREA);
+    private static Date oldDate;
+
+    static {
+        try {
+            oldDate = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).parse("1999-01-01");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static JSONObject myJSONObject(JSONObject jsonObject, String string){
         try{
@@ -319,7 +329,7 @@ public class MyParser {
             JSONObject jsonTeam= myJSONObject(jsonTable, i);
             Integer teamID = myJSONInt(jsonTeam, "id");
             String teamName = myJSONString(jsonTeam, "name");
-            teamList.add(new TableTeam(teamID, leagueID, i + 1, teamName));
+            teamList.add(new TableTeam(teamID, leagueID, i + 1, teamName, null));
         }
         return teamList;
     }
