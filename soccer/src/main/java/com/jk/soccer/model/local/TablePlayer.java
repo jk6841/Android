@@ -28,14 +28,20 @@ public class TablePlayer{
     @ColumnInfo(name = "Role", defaultValue = "")
     private Role role;
 
+    @NonNull
+    @ColumnInfo(name = "Bookmark")
+    private Boolean bookmark;
+
     public TablePlayer(@NonNull Integer ID,
                        @NonNull Integer teamID,
                        @NonNull String name,
-                       @NonNull Role role) {
+                       @NonNull Role role,
+                       @NonNull Boolean bookmark) {
         this.ID = ID;
         this.teamID = teamID;
         this.name = name;
         this.role = role;
+        this.bookmark = bookmark;
     }
 
     @NonNull
@@ -72,5 +78,14 @@ public class TablePlayer{
 
     public void setRole(@NonNull Role role) {
         this.role = role;
+    }
+
+    @NonNull
+    public Boolean getBookmark() {
+        return bookmark;
+    }
+
+    public void setBookmark(@NonNull Boolean bookmark) {
+        this.bookmark = bookmark;
     }
 }

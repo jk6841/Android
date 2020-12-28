@@ -24,8 +24,8 @@ public class SearchViewModel extends AndroidViewModel {
         leagueIndex.setValue(-1);
         teamIndex = new MutableLiveData<>();
         teamIndex.setValue(-1);
-        leagueHandler = new LeagueHandler(leagueIndex);
-        teamHandler = new TeamHandler(teamIndex);
+        leagueIndexManager = new LeagueIndexManager(leagueIndex);
+        teamIndexManager = new TeamIndexManager(teamIndex);
         leagueList = repository.getLeagueList();
         teamList = Transformations.switchMap(leagueIndex, repository::getTeamList);
         playerList = Transformations.switchMap(teamIndex, repository::getPlayerList);
@@ -53,12 +53,12 @@ public class SearchViewModel extends AndroidViewModel {
         return playerList;
     }
 
-    public Handler getLeagueHandler(){
-        return leagueHandler;
+    public Handler getLeagueIndexManager(){
+        return leagueIndexManager;
     }
 
-    public Handler getTeamHandler(){
-        return teamHandler;
+    public Handler getTeamIndexManager(){
+        return teamIndexManager;
     }
 
     public MutableLiveData<Integer> getLeagueIndex() {
@@ -85,8 +85,8 @@ public class SearchViewModel extends AndroidViewModel {
         public abstract void setIndex(Integer index);
     }
 
-    public class LeagueHandler extends Handler {
-        public LeagueHandler(MutableLiveData<Integer> index) {
+    public class LeagueIndexManager extends Handler {
+        public LeagueIndexManager(MutableLiveData<Integer> index) {
             super(index);
         }
 
@@ -96,8 +96,8 @@ public class SearchViewModel extends AndroidViewModel {
         }
     }
 
-    public class TeamHandler extends Handler {
-        public TeamHandler(MutableLiveData<Integer> index) {
+    public class TeamIndexManager extends Handler {
+        public TeamIndexManager(MutableLiveData<Integer> index) {
             super(index);
         }
 
@@ -113,7 +113,7 @@ public class SearchViewModel extends AndroidViewModel {
     final private LiveData<List<TablePlayer>> playerList;
     final private MutableLiveData<Integer> leagueIndex;
     final private MutableLiveData<Integer> teamIndex;
-    final private LeagueHandler leagueHandler;
-    final private TeamHandler teamHandler;
+    final private LeagueIndexManager leagueIndexManager;
+    final private TeamIndexManager teamIndexManager;
 
 }

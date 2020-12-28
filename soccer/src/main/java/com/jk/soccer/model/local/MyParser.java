@@ -362,7 +362,7 @@ public class MyParser {
                         role = Role.NONE;
                         break;
                 }
-                playerList.add(new TablePlayer(playerID, teamID, name, role));
+                playerList.add(new TablePlayer(playerID, teamID, name, role, false));
             }
         }
         return playerList;
