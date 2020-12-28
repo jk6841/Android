@@ -2,6 +2,7 @@ package com.jk.soccer.model.local;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.Cursor;
 
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -11,7 +12,13 @@ import com.jk.soccer.model.local.converter.EventList;
 import com.jk.soccer.model.local.converter.LineupList;
 
 @androidx.room.Database(
-        entities = {Table.class, TableLeague.class, TableTeam.class, TablePlayer.class},
+        entities = {Table.class,
+                TableLeague.class,
+                TableTeam.class,
+                TablePlayer.class,
+                TempLeague.class,
+                TempTeam.class,
+                TempPlayer.class},
         version = 1,
         exportSchema =  false)
 @TypeConverters({EventList.class, LineupList.class})
@@ -28,4 +35,5 @@ public abstract class Database extends RoomDatabase {
         }
         return database;
     }
+
 }

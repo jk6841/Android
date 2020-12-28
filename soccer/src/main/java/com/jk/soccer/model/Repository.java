@@ -2,6 +2,8 @@ package com.jk.soccer.model;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.jk.soccer.etc.Pair;
 import com.jk.soccer.model.local.MyLocal;
 import com.jk.soccer.model.local.Table;
@@ -355,34 +357,28 @@ public class Repository {
 //        }
 //    }
 
-    public String NetworkTest() {
-        return myRemote.download(Type.PLAYER, 212867, "");
-    }
-
-    public List<Pair> getLeagueList(){
+    public LiveData<List<Pair>> getLeagueList(){
         return myLocal.getLeagueList();
     }
 
-    public List<Pair> getTeamList(Integer leagueID){
-        List<Pair> tryLocal = myLocal.getTeamList(leagueID);
-        if (tryLocal.size() != 0){
-            return tryLocal;
-        }
+    public LiveData<List<Pair>> getTeamList(Integer leagueIndex){
+        if (leagueIndex == -1)
+            return null;
+        Integer leagueID = myLocal.getID(Type.LEAGUE, leagueIndex);
         String leagueString = myRemote.download(Type.LEAGUE, leagueID, "table");
         Table[] teamList = MyParser.myTeamList(leagueString);
-        myLocal.insertList(teamList);
-        return myLocal.getTeamList(leagueID);
+        myLocal.insertTeamList(teamList);
+        return myLocal.getTeamList(leagueIndex);
     }
 
-    public List<Pair> getPlayerList(Integer teamID){
-        List<Pair> tryLocal = myLocal.getPlayerList(teamID);
-        if (tryLocal.size() != 0){
-            return tryLocal;
-        }
+    public LiveData<List<Pair>> getPlayerList(Integer teamIndex){
+        if (teamIndex == -1)
+            return null;
+        Integer teamID = myLocal.getID(Type.TEAM, teamIndex);
         String teamString = myRemote.download(Type.TEAM, teamID, "squad");
         Table[] playerList = MyParser.myPlayerList(teamString);
-        myLocal.insertList(playerList);
-        return myLocal.getPlayerList(teamID);
+        myLocal.insertPlayerList(playerList);
+        return myLocal.getPlayerList(teamIndex);
     }
 
     public String getMatchInfo(Integer ID){

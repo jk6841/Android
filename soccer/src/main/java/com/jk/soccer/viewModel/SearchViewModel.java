@@ -3,13 +3,15 @@ package com.jk.soccer.viewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.etc.Pair;
 import com.jk.soccer.model.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchViewModel extends AndroidViewModel {
@@ -17,16 +19,22 @@ public class SearchViewModel extends AndroidViewModel {
     public SearchViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance(application);
-        emptyList = new ArrayList<>();
-        leagueList = repository.getLeagueList();
-        teamList = new ArrayList<>();
-        playerList = new ArrayList<>();
         leagueIndex = new MutableLiveData<>();
         leagueIndex.setValue(-1);
         teamIndex = new MutableLiveData<>();
         teamIndex.setValue(-1);
         leagueHandler = new LeagueHandler(leagueIndex);
         teamHandler = new TeamHandler(teamIndex);
+        leagueList = repository.getLeagueList();
+        teamList = Transformations.switchMap(leagueIndex,
+                repository::getTeamList);
+        playerList = Transformations.switchMap(teamIndex,
+                new Function<Integer, LiveData<List<Pair>>>() {
+                    @Override
+                    public LiveData<List<Pair>> apply(Integer input) {
+                        return repository.getPlayerList(teamIndex.getValue());
+                    }
+                });
     }
 
     @Override
@@ -39,16 +47,25 @@ public class SearchViewModel extends AndroidViewModel {
     }
 
     private final Repository repository;
-    final private List<Pair> emptyList;
-    private List<Pair> leagueList;
-    private List<Pair> teamList;
-    private List<Pair> playerList;
+    final private LiveData<List<Pair>> leagueList;
+    final private LiveData<List<Pair>> teamList;
+    final private LiveData<List<Pair>> playerList;
     final private MutableLiveData<Integer> leagueIndex;
     final private MutableLiveData<Integer> teamIndex;
     final private LeagueHandler leagueHandler;
     final private TeamHandler teamHandler;
 
+    public LiveData<List<Pair>> getLeagueList() {
+        return leagueList;
+    }
 
+    public LiveData<List<Pair>> getTeamList(){
+        return teamList;
+    }
+
+    public LiveData<List<Pair>> getPlayerList(){
+        return playerList;
+    }
 
     public Handler getLeagueHandler(){
         return leagueHandler;
@@ -58,42 +75,8 @@ public class SearchViewModel extends AndroidViewModel {
         return teamHandler;
     }
 
-    public List<Pair> getEmptyList() {
-        return emptyList;
-    }
-
-    public List<Pair> getLeagueList(){
-        return leagueList;
-    }
-
-    public void newTeamList(){
-        Integer leagueID = leagueList.get(leagueIndex.getValue()).getID();
-        teamList = repository.getTeamList(leagueID);
-    }
-
-    public List<Pair> getTeamList(){
-        return teamList;
-    }
-
-    public void newPlayerList(){
-        Integer teamID = teamList.get(teamIndex.getValue()).getID();
-        playerList = repository.getPlayerList(teamID);
-    }
-
-    public List<Pair> getPlayerList(){
-        return playerList;
-    }
-
-    public MutableLiveData<Integer> getLeagueIndex(){
-        return leagueIndex;
-    }
-
     public void setLeagueIndex(Integer val){
         leagueIndex.setValue(val);
-    }
-
-    public MutableLiveData<Integer> getTeamIndex() {
-        return teamIndex;
     }
 
     public void setTeamIndex(Integer val){
@@ -105,7 +88,6 @@ public class SearchViewModel extends AndroidViewModel {
         public Handler(MutableLiveData<Integer> index) {
             this.index = index;
         }
-
         public abstract void setIndex(Integer index);
     }
 
@@ -117,7 +99,6 @@ public class SearchViewModel extends AndroidViewModel {
         @Override
         public void setIndex(Integer index) {
             setLeagueIndex(index);
-            newTeamList();
         }
     }
 
@@ -129,7 +110,6 @@ public class SearchViewModel extends AndroidViewModel {
         @Override
         public void setIndex(Integer index) {
             setTeamIndex(index);
-            newPlayerList();
         }
     }
 

@@ -41,6 +41,8 @@ public class NewRecyclerViewAdapter <BINDING extends ViewDataBinding>
 
     @Override
     public int getItemCount(){
+        if (list == null)
+            return 0;
         return list.size();
     }
 

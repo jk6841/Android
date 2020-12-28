@@ -1,5 +1,7 @@
 package com.jk.soccer.model.local;
 
+import android.database.Cursor;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -15,7 +17,7 @@ import com.jk.soccer.etc.Type;
 import java.util.List;
 
 @Dao
-public abstract class DBDao {
+public interface DBDao {
 
     //////// tablePlayer ////////
 
@@ -179,19 +181,49 @@ public abstract class DBDao {
 
     /////////////////////////////////  NEW ////////////////////////////////////////////
 
-    //// Create ////
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertTeam(TableTeam entry);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insert(Table tableEntry);
+    void insertPlayer(TablePlayer entry);
 
-    //// Read ////
+    @Query("SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
+    Integer getLeagueID(Integer leagueIndex);
 
-    @Query("SELECT ID AS ID, Name AS name FROM 'table' WHERE ParentID = :parentID")
-    public abstract List<Pair> getChildren(Integer parentID);
+    @Query("SELECT ID FROM tableTeam WHERE LeagueID IN tempLeague LIMIT 1 OFFSET :teamIndex")
+    Integer getTeamID(Integer teamIndex);
 
-    //// Delete ////
+    @Query("SELECT ID FROM tablePlayer WHERE TeamID IN tempTeam LIMIT 1 OFFSET :playerIndex")
+    Integer getPlayerID(Integer playerIndex);
 
-    @Query("DELETE FROM `table` WHERE ID = :ID")
-    public abstract void delete(Integer ID);
+    @Query("SELECT ID AS ID, Name AS name FROM tableLeague")
+    LiveData<List<Pair>> getLeagueList();
+
+    @Query("SELECT ID AS ID, Name AS name FROM tableTeam WHERE LeagueID IN tempLeague")
+    LiveData<List<Pair>> getTeamList();
+
+    @Query("SELECT ID AS ID, Name AS name FROM tablePlayer WHERE teamID IN tempTeam")
+    LiveData<List<Pair>> getPlayerList();
+
+    @Query("INSERT INTO tempLeague SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
+    void selectLeague(Integer leagueIndex);
+
+    @Query("DELETE FROM tempLeague")
+    void clearLeague();
+
+    @Query("INSERT INTO tempTeam SELECT ID FROM tableTeam " +
+            "WHERE LeagueID IN tempLeague LIMIT 1 OFFSET :teamIndex")
+    void selectTeam(Integer teamIndex);
+
+    @Query("DELETE FROM tempTeam")
+    void clearTeam();
+
+    @Query("INSERT INTO tempPlayer SELECT ID FROM tablePlayer " +
+            "WHERE teamID IN tempTeam LIMIT 1 OFFSET :playerIndex")
+    void selectPlayer(Integer playerIndex);
+
+    @Query("DELETE FROM tempPlayer")
+    void clearPlayer();
+
 
 }
