@@ -3,7 +3,6 @@ package com.jk.soccer.viewModel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -26,34 +25,19 @@ public class SearchViewModel extends AndroidViewModel {
         leagueHandler = new LeagueHandler(leagueIndex);
         teamHandler = new TeamHandler(teamIndex);
         leagueList = repository.getLeagueList();
-        teamList = Transformations.switchMap(leagueIndex,
-                repository::getTeamList);
-        playerList = Transformations.switchMap(teamIndex,
-                new Function<Integer, LiveData<List<Pair>>>() {
-                    @Override
-                    public LiveData<List<Pair>> apply(Integer input) {
-                        return repository.getPlayerList(teamIndex.getValue());
-                    }
-                });
+        teamList = Transformations.switchMap(leagueIndex, repository::getTeamList);
+        playerList = Transformations.switchMap(teamIndex, repository::getPlayerList);
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
+        repository.close();
     }
 
     public void close() {
         onCleared();
     }
-
-    private final Repository repository;
-    final private LiveData<List<Pair>> leagueList;
-    final private LiveData<List<Pair>> teamList;
-    final private LiveData<List<Pair>> playerList;
-    final private MutableLiveData<Integer> leagueIndex;
-    final private MutableLiveData<Integer> teamIndex;
-    final private LeagueHandler leagueHandler;
-    final private TeamHandler teamHandler;
 
     public LiveData<List<Pair>> getLeagueList() {
         return leagueList;
@@ -112,5 +96,14 @@ public class SearchViewModel extends AndroidViewModel {
             setTeamIndex(index);
         }
     }
+
+    private final Repository repository;
+    final private LiveData<List<Pair>> leagueList;
+    final private LiveData<List<Pair>> teamList;
+    final private LiveData<List<Pair>> playerList;
+    final private MutableLiveData<Integer> leagueIndex;
+    final private MutableLiveData<Integer> teamIndex;
+    final private LeagueHandler leagueHandler;
+    final private TeamHandler teamHandler;
 
 }

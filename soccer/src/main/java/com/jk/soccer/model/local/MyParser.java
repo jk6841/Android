@@ -304,7 +304,7 @@ public class MyParser {
 //        return null;
 //    }
 
-    public static Table[] myTeamList(String jsonString){
+    public static List<TableTeam> myTeamList(String jsonString){
         JSONObject jsonObject = myJSONObject(jsonString);
         JSONObject jsonTableData = myJSONObject(jsonObject, "tableData");
         JSONArray jsonTables = myJSONArray(jsonTableData, "tables");
@@ -313,24 +313,24 @@ public class MyParser {
         JSONArray jsonTable = myJSONArray(jsonTables2, "table");
         if (jsonTable == null)
             return null;
-        List<Table> teamList = new ArrayList<>();
+        List<TableTeam> teamList = new ArrayList<>();
         for (int i = 0; i < jsonTable.length(); i++){
             JSONObject jsonTeam= myJSONObject(jsonTable, i);
             Integer teamID = myJSONInt(jsonTeam, "id");
             String teamName = myJSONString(jsonTeam, "name");
-            teamList.add(new Table(teamID, leagueID, teamName));
+            teamList.add(new TableTeam(teamID, leagueID, teamName));
         }
-        return teamList.toArray(new Table[0]);
+        return teamList;
     }
 
-    public static Table[] myPlayerList(String jsonString){
+    public static List<TablePlayer> myPlayerList(String jsonString){
         JSONObject jsonObject = myJSONObject(jsonString);
         JSONObject jsonDetails = myJSONObject(jsonObject, "details");
         Integer teamID = myJSONInt(jsonDetails, "id");
         JSONArray jsonSquad = myJSONArray(jsonObject, "squad");
         if (jsonSquad == null)
             return null;
-        List<Table> playerList = new ArrayList<>();
+        List<TablePlayer> playerList = new ArrayList<>();
         for (int i = 0; i < jsonSquad.length(); i++){
             JSONArray jsonSquadItem = myJSONArray(myJSONArray(jsonSquad, i), 1);
             if (jsonSquadItem == null)
@@ -339,9 +339,10 @@ public class MyParser {
                 JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
                 Integer playerID = myJSONInt(jsonPlayer, "id");
                 String playerName = myJSONString(jsonPlayer, "name");
-                playerList.add(new Table(playerID, teamID, playerName));
+                String playerRole = myJSONString(jsonPlayer, "role");
+                playerList.add(new TablePlayer(playerID, teamID, playerName, playerRole));
             }
         }
-        return playerList.toArray(new Table[0]);
+        return playerList;
     }
 }

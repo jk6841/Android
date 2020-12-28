@@ -23,22 +23,16 @@ public class TablePlayer{
     private String name;
 
     @NonNull
-    @ColumnInfo(name = "Shirt")
-    private Integer shirt;
-
-    @NonNull
     @ColumnInfo(name = "Role", defaultValue = "")
     private String role;
 
     public TablePlayer(@NonNull Integer ID,
                        @NonNull Integer teamID,
                        @NonNull String name,
-                       @NonNull Integer shirt,
                        @NonNull String role) {
         this.ID = ID;
         this.teamID = teamID;
         this.name = name;
-        this.shirt = shirt;
         this.role = role;
     }
 
@@ -67,15 +61,6 @@ public class TablePlayer{
 
     public void setName(@NonNull String name) {
         this.name = name;
-    }
-
-    @NonNull
-    public Integer getShirt() {
-        return shirt;
-    }
-
-    public void setShirt(@NonNull Integer shirt) {
-        this.shirt = shirt;
     }
 
     @NonNull
