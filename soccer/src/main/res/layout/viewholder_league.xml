@@ -38,7 +38,8 @@
 
         <ImageView
             android:id="@+id/img_league"
-            glideUrl="@{@string/league_image_url + item.ID}"
+            objectID="@{item.ID.toString()}"
+            type="@{item.type}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/contentDescription"

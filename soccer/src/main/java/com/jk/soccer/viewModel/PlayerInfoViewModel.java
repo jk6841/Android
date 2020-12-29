@@ -45,38 +45,49 @@ public class PlayerInfoViewModel extends AndroidViewModel {
     }
 
     public void getPlayerInfo(Integer ID){
-        String playerString = repository.getPlayerInfo(ID);
-        JSONObject jsonObject = myJSONObject(playerString);
-        name.setValue(myJSONString(jsonObject, "name"));
-        JSONObject jsonOrigin = myJSONObject(jsonObject, "origin");
-        teamID.setValue(myJSONInt(jsonOrigin, "teamId"));
-        team.setValue(myJSONString(jsonOrigin, "teamName"));
-        JSONObject jsonPositionDesc = myJSONObject(jsonOrigin, "positionDesc");
-        position.setValue(myJSONString(jsonPositionDesc, "primaryPosition"));
-        JSONArray jsonPlayerProps = myJSONArray(jsonObject, "playerProps");
-        for (int i = 0; i < jsonPlayerProps.length(); i++){
-            JSONObject jsonItem = myJSONObject(jsonPlayerProps, i);
-            switch (myJSONString(jsonItem, "title")){
-                case "Height":
-                    height.setValue(myJSONString(jsonItem, "value"));
-                    break;
-                case "Preferred foot":
-                    foot.setValue(myJSONString(jsonItem, "value"));
-                    break;
-                case "Age":
-                    age.setValue(myJSONInt(jsonItem, "value"));
-                    break;
-                case "Country":
-                    country.setValue(myJSONString(jsonItem, "value"));
-                    JSONObject jsonIcon = myJSONObject(jsonItem, "icon");
-                    countryID.setValue(myJSONString(jsonIcon, "id").toLowerCase());
-                    break;
-                case "Shirt":
-                    shirt.setValue(myJSONInt(jsonItem, "value"));
-                    break;
-                default:
-                    break;
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String playerString = repository.getPlayerInfo(ID);
+                JSONObject jsonObject = myJSONObject(playerString);
+                name.postValue(myJSONString(jsonObject, "name"));
+                JSONObject jsonOrigin = myJSONObject(jsonObject, "origin");
+                teamID.postValue(myJSONInt(jsonOrigin, "teamId"));
+                team.postValue(myJSONString(jsonOrigin, "teamName"));
+                JSONObject jsonPositionDesc = myJSONObject(jsonOrigin, "positionDesc");
+                position.postValue(myJSONString(jsonPositionDesc, "primaryPosition"));
+                JSONArray jsonPlayerProps = myJSONArray(jsonObject, "playerProps");
+                for (int i = 0; i < jsonPlayerProps.length(); i++){
+                    JSONObject jsonItem = myJSONObject(jsonPlayerProps, i);
+                    switch (myJSONString(jsonItem, "title")){
+                        case "Height":
+                            height.postValue(myJSONString(jsonItem, "value"));
+                            break;
+                        case "Preferred foot":
+                            foot.postValue(myJSONString(jsonItem, "value"));
+                            break;
+                        case "Age":
+                            age.postValue(myJSONInt(jsonItem, "value"));
+                            break;
+                        case "Country":
+                            country.postValue(myJSONString(jsonItem, "value"));
+                            JSONObject jsonIcon = myJSONObject(jsonItem, "icon");
+                            countryID.postValue(myJSONString(jsonIcon, "id").toLowerCase());
+                            break;
+                        case "Shirt":
+                            shirt.postValue(myJSONInt(jsonItem, "value"));
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
+        });
+        t.start();
+        try {
+            t.join();
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 

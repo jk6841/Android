@@ -28,7 +28,7 @@ public class PlayerInfoFragment extends Fragment {
         if (args != null)
             ID = args.getInt("id", 0);
         Application application = getActivity().getApplication();
-        viewModel = new ViewModelProvider(this,
+        viewModel = new ViewModelProvider(getActivity(),
                 new ViewModelProvider.AndroidViewModelFactory(application))
                 .get(PlayerInfoViewModel.class);
     }
@@ -43,7 +43,7 @@ public class PlayerInfoFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setID(ID);
-        //viewModel.getPlayerInfo(ID);
+        viewModel.getPlayerInfo(ID);
 
         return binding.getRoot();
     }

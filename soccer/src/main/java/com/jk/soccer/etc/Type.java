@@ -1,7 +1,12 @@
 package com.jk.soccer.etc;
 
 public enum Type {
-    NONE(0), PERSON(1), TEAM(2), LEAGUE(3), MATCH(4);
+    NONE(0),
+    PERSON(1),
+    TEAM(2),
+    LEAGUE(3),
+    MATCH(4),
+    COUNTRY(5);
 
     private Integer value;
 

@@ -16,6 +16,7 @@ import androidx.navigation.Navigation;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentSearchBinding;
+import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.viewModel.SearchViewModel;
 
 public class SearchFragment extends Fragment {
@@ -45,6 +46,7 @@ public class SearchFragment extends Fragment {
             Bundle args = new Bundle();
             args.putInt("id", params[0]);
             navController.navigate(R.id.action_nav_search_to_nav_playerInfo, args);
+            ((MainActivity) getActivity()).hideKeyboard();
         });
         return binding.getRoot();
     }

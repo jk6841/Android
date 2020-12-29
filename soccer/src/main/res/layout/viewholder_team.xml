@@ -40,7 +40,6 @@
             android:contentDescription="@string/contentDescription"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            glideUrl="@{@string/team_image_url + item.ID}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -11,6 +11,9 @@
         <variable
             name="ID"
             type="Integer" />
+        <variable
+            name="type"
+            type="com.jk.soccer.etc.Type" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -264,7 +267,8 @@
             android:id="@+id/playerImage"
             android:layout_width="242dp"
             android:layout_height="217dp"
-            app:glideUrl="@{@string/baseUrl2 + ID + @string/png}"
+            objectID="@{ID.toString()}"
+            type="@{type.PERSON}"
             android:contentDescription="@string/player_image"
             app:layout_constraintBottom_toTopOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -287,7 +291,8 @@
         <ImageView
             android:id="@+id/imageView2"
             android:contentDescription="@string/player_image"
-            glideUrl="@{@string/team_image_url + viewModel.teamID}"
+            objectID="@{viewModel.teamID.toString()}"
+            type="@{type.TEAM}"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="100dp"
@@ -299,8 +304,9 @@
         <ImageView
             android:id="@+id/imageView3"
             android:contentDescription="@string/player_image"
-            glideUrl="@{@string/country_image_url + viewModel.countryID + @string/png}"
             android:layout_width="50dp"
+            objectID="@{viewModel.countryID}"
+            type="@{type.COUNTRY}"
             android:layout_height="50dp"
             android:layout_marginEnd="100dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-import com.google.gson.annotations.SerializedName;
 import com.jk.soccer.etc.Type;
 
 @Entity(tableName = "tableSearch", primaryKeys = {"ID", "ParentID"})
@@ -71,4 +70,5 @@ public class TableSearch {
     public void setName(@NonNull String name) {
         this.name = name;
     }
+
 }

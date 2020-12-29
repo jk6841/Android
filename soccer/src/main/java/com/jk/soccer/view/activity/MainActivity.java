@@ -1,6 +1,7 @@
 package com.jk.soccer.view.activity;
 
 import android.os.Bundle;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
@@ -42,5 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     public MyViewModel getViewModel() {
         return viewModel;
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

@@ -18,12 +18,34 @@ import java.util.List;
 
 public class MyBindingAdapter {
 
-    @BindingAdapter({"glideUrl"})
-    public static void imgLoad(ImageView imageView, String url){
-        Glide.with(imageView.getContext())
-                .load(url)
-                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                .into(imageView);
+    @BindingAdapter(value = {"objectID", "type"})
+    public static void imgLoad(ImageView imageView, String ID, Type type){
+        String url;
+        Resources resources = imageView.getContext().getResources();
+        switch (type){
+            case LEAGUE:
+                url = resources.getString(R.string.league_image_url) + ID;
+                break;
+            case TEAM:
+                url = resources.getString(R.string.team_image_url) + ID;
+                break;
+            case PERSON:
+                url = resources.getString(R.string.player_image_url)
+                        + ID + resources.getString(R.string.png);
+                break;
+            case COUNTRY:
+                url = resources.getString(R.string.country_image_url)
+                        + ID + resources.getString(R.string.png);
+                break;
+            default:
+                url = "";
+                break;
+        }
+        if (!url.isEmpty())
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .into(imageView);
     }
 
     @BindingAdapter(value = {"list", "handler", "holder"},requireAll = false)

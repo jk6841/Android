@@ -23,7 +23,6 @@
 
         <ImageView
             android:id="@+id/img_player"
-            glideUrl="@{@string/baseUrl2 + item.ID + @string/png}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/contentDescription"
