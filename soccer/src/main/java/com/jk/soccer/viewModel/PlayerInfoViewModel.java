@@ -40,6 +40,8 @@ public class PlayerInfoViewModel extends AndroidViewModel {
         country.setValue(emptyString);
         countryID = new MutableLiveData<>();
         countryID.setValue(emptyString);
+        test = new MutableLiveData<>();
+        test.setValue(emptyString);
     }
 
     public void getPlayerInfo(Integer ID){
@@ -118,6 +120,10 @@ public class PlayerInfoViewModel extends AndroidViewModel {
         return countryID;
     }
 
+    public MutableLiveData<String> getTest() {
+        return test;
+    }
+
     final private Repository repository;
     final private String emptyString = "";
 
@@ -131,4 +137,5 @@ public class PlayerInfoViewModel extends AndroidViewModel {
     final private MutableLiveData<Integer> age;
     final private MutableLiveData<String> country;
     final private MutableLiveData<String> countryID;
+    final private MutableLiveData<String> test;
 }

@@ -1,5 +1,11 @@
 package com.jk.soccer.model.remote;
 
+import com.google.gson.Gson;
+
+import java.sql.Time;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,8 +22,13 @@ public class RetrofitClient {
             apiService = new ApiService[num];
             for (int i = 0; i < num; i++){
                 baseUrlList[i] = baseUrl[i];
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .connectTimeout(100, TimeUnit.SECONDS)
+                        .readTimeout(100, TimeUnit.SECONDS)
+                        .build();
                 retrofit[i] = new Retrofit.Builder()
                         .baseUrl(baseUrlList[i])
+                        .client(client)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 apiService[i] = retrofit[i].create(ApiService.class);

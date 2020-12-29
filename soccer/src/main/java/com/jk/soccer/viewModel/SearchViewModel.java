@@ -10,88 +10,84 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import com.jk.soccer.etc.Handler;
+import com.jk.soccer.etc.RepositoryCallback;
 import com.jk.soccer.model.Repository;
-import com.jk.soccer.model.local.TableLeague;
-import com.jk.soccer.model.local.TablePlayer;
-import com.jk.soccer.model.local.TableTeam;
+import com.jk.soccer.model.local.TableSearch;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchViewModel extends AndroidViewModel {
 
     public SearchViewModel(@NonNull Application application) {
         super(application);
         repository = Repository.getInstance(application);
-        leagueIndexManager = new LeagueIndexManager();
-        teamIndexManager = new TeamIndexManager();
-        leagueIndex = new MutableLiveData<>();
-        leagueIndex.setValue(-1);
-        teamIndex = new MutableLiveData<>();
-        teamIndex.setValue(-1);
-        leagueList = repository.getLeagueList();
-        teamList = Transformations.switchMap(leagueIndex,
-                repository::getTeamList);
-        playerList = Transformations.switchMap(teamIndex, repository::getPlayerList);
+        name = new MutableLiveData<>();
+        name.setValue("");
+        list = Transformations.switchMap(name, repository::search);
+        progress = new MutableLiveData<>();
+        progress.setValue("");
+        data = new MutableLiveData<>();
+        today = "최근 업데이트: "
+                + new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
+                .format(new Date());
+        update();
     }
 
-    public LiveData<List<TableLeague>> getLeagueList() {
-        return leagueList;
+    public void update(){
+        data.setValue("데이터를 받는 중");
+        repository.updateDB(new RepositoryCallback<Boolean>() {
+            @Override
+            public void onComplete(Boolean result) {
+                if (result){
+                    progress.postValue("성공");
+                    data.postValue(today);
+                } else {
+                    progress.postValue("실패");
+                    data.postValue("데이터 다운로드 실패");
+                }
+            }
+        });
     }
 
-    public LiveData<List<TableTeam>> getTeamList(){
-        return teamList;
+    public MutableLiveData<String> getName() {
+        return name;
     }
 
-    public LiveData<List<TablePlayer>> getPlayerList(){
-        return playerList;
-    }
-
-    public Handler getLeagueIndexManager(){
-        return leagueIndexManager;
-    }
-
-    public Handler getTeamIndexManager(){
-        return teamIndexManager;
-    }
-
-    public MutableLiveData<Integer> getLeagueIndex() {
-        return leagueIndex;
-    }
-
-    public void setLeagueIndex(Integer val){
-        leagueIndex.setValue(val);
-    }
-
-    public MutableLiveData<Integer> getTeamIndex() {
-        return teamIndex;
-    }
-
-    public void setTeamIndex(Integer val){
-        teamIndex.setValue(val);
+    public LiveData<String> getProgress() {
+        return progress;
     }
 
     public class LeagueIndexManager implements Handler {
         @Override
         public void onClick(View v, Integer... params) {
-            setLeagueIndex(params[0]);
-            setTeamIndex(-1);
+//            setLeagueIndex(params[0]);
+//            setTeamIndex(-1);
         }
     }
 
     public class TeamIndexManager implements Handler {
         @Override
         public void onClick(View v, Integer... params) {
-            setTeamIndex(params[0]);
+//            setTeamIndex(params[0]);
         }
     }
 
-    private final Repository repository;
-    final private LiveData<List<TableLeague>> leagueList;
-    final private LiveData<List<TableTeam>> teamList;
-    final private LiveData<List<TablePlayer>> playerList;
-    final private MutableLiveData<Integer> leagueIndex;
-    final private MutableLiveData<Integer> teamIndex;
-    final private Handler leagueIndexManager;
-    final private Handler teamIndexManager;
+    public MutableLiveData<String> getData() {
+        return data;
+    }
 
+    public LiveData<List<TableSearch>> getList() {
+        return list;
+    }
+
+    private final Repository repository;
+    final private LiveData<List<TableSearch>> list;
+    final private MutableLiveData<String> name;
+    final private MutableLiveData<String> progress;
+    final private MutableLiveData<String> data;
+    final private Date date = new Date();
+    final private String today;
 }

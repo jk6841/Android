@@ -2,7 +2,6 @@ package com.jk.soccer.model.local;
 
 import android.app.Application;
 import android.content.Context;
-import android.database.Cursor;
 
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -12,9 +11,12 @@ import com.jk.soccer.model.local.converter.DateString;
 import com.jk.soccer.model.local.converter.EventList;
 import com.jk.soccer.model.local.converter.LineupList;
 import com.jk.soccer.model.local.converter.RoleInt;
+import com.jk.soccer.model.local.converter.TypeInt;
 
 @androidx.room.Database(
-        entities = {TableLeague.class,
+        entities = {
+                TableSearch.class,
+                TableLeague.class,
                 TableTeam.class,
                 TablePlayer.class,
                 TempLeague.class,
@@ -22,7 +24,7 @@ import com.jk.soccer.model.local.converter.RoleInt;
                 TempPlayer.class},
         version = 1,
         exportSchema =  false)
-@TypeConverters({EventList.class, LineupList.class, RoleInt.class, DateString.class})
+@TypeConverters({EventList.class, LineupList.class, RoleInt.class, DateString.class, TypeInt.class})
 public abstract class Database extends RoomDatabase {
 
     public abstract DBDao dbDao();

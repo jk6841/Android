@@ -183,6 +183,15 @@ public interface DBDao {
     /////////////////////////////////  NEW ////////////////////////////////////////////
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertSearch(TableSearch entry);
+
+    @Query("SELECT * FROM tableSearch WHERE Name LIKE :name")
+    LiveData<List<TableSearch>> getSearch(String name);
+
+    @Query("SELECT * FROM tableSearch WHERE Type = :type")
+    List<TableSearch> getList(Type type);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertTeam(TableTeam entry);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -202,8 +211,8 @@ public interface DBDao {
             "OFFSET :playerIndex")
     Integer getPlayerID(Integer playerIndex);
 
-    @Query("SELECT * FROM tableLeague")
-    LiveData<List<TableLeague>> getLeagueList();
+//    @Query("SELECT * FROM tableLeague")
+//    LiveData<List<TableLeague>> getLeagueList();
 
     @Query("SELECT * FROM tableTeam " +
             "WHERE LeagueID IN tempLeague " +

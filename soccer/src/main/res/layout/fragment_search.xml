@@ -17,79 +17,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLeague"
+        <EditText
+            android:id="@+id/searchBox"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/edge"
-            app:handler="@{viewModel.leagueIndexManager}"
-            app:holder="@{@layout/viewholder_league}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:ems="10"
+            android:fontFamily="@font/paybooc"
+            android:gravity="center"
+            android:hint="검색"
+            android:inputType="textPersonName"
+            android:text="@={viewModel.name}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/midBigFont"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/rv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintHeight_percent="0.15"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:list="@{viewModel.leagueList}" />
-
-        <TextView
-            android:id="@+id/tvLeague"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="@{(viewModel.leagueIndex > -1)? viewModel.leagueList.get(viewModel.leagueIndex).name : @string/empty}"
-            android:background="@drawable/edge"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:textSize="@dimen/midBigFont"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvLeague" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTeam"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:list="@{viewModel.teamList}"
-            app:handler="@{viewModel.teamIndexManager}"
-            app:holder="@{@layout/viewholder_team}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:background="@drawable/edge"
-            app:layout_constraintHeight_percent="0.25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLeague" />
-
-        <TextView
-            android:id="@+id/tvTeam"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:text="@{(viewModel.teamIndex > -1)? viewModel.teamList.get(viewModel.teamIndex).name : @string/empty}"
-            android:background="@drawable/edge"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:textSize="@dimen/midBigFont"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvTeam" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/edge"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:list="@{(viewModel.teamIndex > -1)? viewModel.playerList : null}"
-            app:handler="@{handler}"
-            app:holder="@{@layout/viewholder_player}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.45"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/edge"
+            app:holder="@{@layout/viewholder_league}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:list="@{viewModel.list}" />
+
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="@{viewModel.data}"
+            android:textColor="@color/black"
+            android:gravity="end|center_vertical"
+            android:fontFamily="@font/paybooc"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/searchBox"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.05"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
