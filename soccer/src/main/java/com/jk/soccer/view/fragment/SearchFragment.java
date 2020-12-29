@@ -16,7 +16,6 @@ import androidx.navigation.Navigation;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentSearchBinding;
-import com.jk.soccer.etc.Handler;
 import com.jk.soccer.viewModel.SearchViewModel;
 
 public class SearchFragment extends Fragment {
@@ -27,7 +26,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Application application = getActivity().getApplication();
-        viewModel = new ViewModelProvider(this,
+        viewModel = new ViewModelProvider(getActivity(),
                 new ViewModelProvider.AndroidViewModelFactory(application))
                 .get(SearchViewModel.class);
     }
@@ -41,18 +40,12 @@ public class SearchFragment extends Fragment {
                 inflater, R.layout.fragment_search, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
-        binding.setHandler(new PlayerInfoHandler());
-        return binding.getRoot();
-    }
-
-    public static class PlayerInfoHandler implements Handler{
-
-        @Override
-        public void onClick(View v, Integer... params) {
+        binding.setHandler((v, params) -> {
             NavController navController = Navigation.findNavController(v);
             Bundle args = new Bundle();
             args.putInt("id", params[0]);
             navController.navigate(R.id.action_nav_search_to_nav_playerInfo, args);
-        }
+        });
+        return binding.getRoot();
     }
 }

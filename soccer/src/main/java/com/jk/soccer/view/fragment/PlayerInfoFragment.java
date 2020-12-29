@@ -43,7 +43,7 @@ public class PlayerInfoFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setID(ID);
-        viewModel.getPlayerInfo(ID);
+        //viewModel.getPlayerInfo(ID);
 
         return binding.getRoot();
     }
