@@ -1,5 +1,7 @@
 package com.jk.soccer.etc;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -19,97 +21,97 @@ public class MyParser {
         try{
             return jsonObject.getJSONObject(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public static JSONObject myJSONObject(String string){
         try{
             return new JSONObject(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public static JSONObject myJSONObject(JSONArray jsonArray, Integer index){
         try{
             return jsonArray.getJSONObject(index);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public static JSONArray myJSONArray(String string){
         try {
             return new JSONArray(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public static JSONArray myJSONArray(JSONObject jsonObject, String string){
         try {
             return jsonObject.getJSONArray(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public static JSONArray myJSONArray(JSONArray jsonArray, Integer index){
         try{
             return jsonArray.getJSONArray(index);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public static String myJSONString(JSONObject jsonObject, String string){
         try {
             return jsonObject.getString(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return null;
         }
-        return "";
     }
 
     public static String myJSONString(JSONArray jsonArray, Integer index){
         try{
             return jsonArray.getString(index);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return "";
         }
-        return "";
     }
 
     public static Integer myJSONInt(JSONObject jsonObject, String string){
         try{
             return jsonObject.getInt(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return 0;
         }
-        return 0;
     }
 
     public static Boolean myJSONBoolean(JSONObject jsonObject, String string){
         try{
             return jsonObject.getBoolean(string);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
+            return false;
         }
-        return false;
     }
 
     public static void myJSONPut(JSONObject jsonObject, String name, Object value){
         try{
             jsonObject.put(name, value);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
         }
     }
 
@@ -117,7 +119,7 @@ public class MyParser {
         try{
             jsonArray.put(index, value);
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e("Exception: ", e.getMessage());
         }
     }
 
