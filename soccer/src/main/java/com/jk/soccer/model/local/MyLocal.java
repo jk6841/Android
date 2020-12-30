@@ -32,8 +32,8 @@ public class MyLocal {
     }
 
     //// Main thread cannot call this.
-    public void insertSearch(TableSearch entry){
-        dao.insertSearch(entry);
+    public void insertSearch(List<TableSearch> entries){
+        dao.insertSearch(entries);
     }
 
     public LiveData<List<TableSearch>> getSearch(String searchWord){

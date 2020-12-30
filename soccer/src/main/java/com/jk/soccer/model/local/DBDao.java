@@ -1,17 +1,10 @@
 package com.jk.soccer.model.local;
 
-import android.database.Cursor;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
-
-import com.jk.soccer.etc.Pair;
-import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.Type;
 
 import java.util.Date;
@@ -183,7 +176,7 @@ public interface DBDao {
     /////////////////////////////////  NEW ////////////////////////////////////////////
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSearch(TableSearch entry);
+    void insertSearch(List<TableSearch> entries);
 
     @Query("SELECT * FROM tableSearch WHERE Name LIKE :name")
     LiveData<List<TableSearch>> getSearch(String name);

@@ -1,10 +1,9 @@
 package com.jk.soccer.etc;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class MyParser {
 

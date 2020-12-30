@@ -40,6 +40,7 @@ dependencies {
     def glide_version = "4.11.0"
     def nav_ui_version = "2.3.2"
     def nav_fragment_version = "2.3.1"
+    def gson_version = "2.8.6"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
@@ -49,6 +50,7 @@ dependencies {
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
     implementation "androidx.navigation:navigation-fragment:$nav_fragment_version"
     implementation "androidx.navigation:navigation-ui:$nav_ui_version"
+    implementation "com.google.code.gson:gson:$gson_version"
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'

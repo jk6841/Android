@@ -70,13 +70,11 @@ public class Repository {
                         int w = j;
                         Thread threadTeam = new Thread(() -> {
                             TableSearch team = teamList.get(w);
-                            myLocal.insertSearch(team);
                             Integer teamID = team.getID();
                             String teamString = myRemote.download(Type.TEAM, teamID, "squad");
                             List<TableSearch> personList = myPersonList(teamString);
-                            for (TableSearch person : personList) {
-                                myLocal.insertSearch(person);
-                            }
+                            personList.add(team);
+                            myLocal.insertSearch(personList);
                         });
                         threadTeam.start();
                         threadTeamList.add(threadTeam);
