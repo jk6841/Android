@@ -56,8 +56,17 @@ public class Repository {
 //        return myRemote.download(Type.TEAM, ID, "overview");
 //    }
 
+    public void getTeamInfoAsync(Integer ID, RepositoryCallback<String> callback){
+        getInfoAsync(Type.TEAM, ID, strings[9], callback);
+    }
+
+
     public void getPlayerInfoAsync(Integer ID, RepositoryCallback<String> callback){
-        myRemote.downloadAsync(Type.PERSON, ID, strings[0], new Callback<ResponseBody>() {
+        getInfoAsync(Type.PERSON, ID, strings[0], callback);
+    }
+
+    public void getInfoAsync(Type type, Integer ID, String tab, RepositoryCallback<String> callback){
+        myRemote.downloadAsync(type, ID, tab, new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    @NonNull Response<ResponseBody> response) {
@@ -151,7 +160,8 @@ public class Repository {
     final private MyRemote myRemote;
     final private MutableLiveData<List<TableSearch>> emptySearch;
     final private String[] strings
-            = {"", "table", "squad", "id", "name", "leagueID", "tables", "tableData", "details"};
+            = {"", "table", "squad", "id", "name", "leagueID", "tables", "tableData", "details",
+    "overview"};
 
 
     private List<TableSearch> myTeamList(String jsonLeagueString){

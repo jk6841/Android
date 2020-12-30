@@ -40,6 +40,14 @@
         <action
             android:id="@+id/action_nav_search_to_nav_playerInfo"
             app:destination="@id/nav_playerInfo" />
+        <action
+            android:id="@+id/action_nav_search_to_nav_teamInfo"
+            app:destination="@id/nav_teamInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_teamInfo"
+        android:name="com.jk.soccer.view.fragment.TeamInfoFragment"
+        android:label="TeamInfoFragment"
+        tools:layout="@layout/fragment_teaminfo"/>
 
 </navigation>

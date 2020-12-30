@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.jk.soccer.R;
-import com.jk.soccer.databinding.FragmentPlayerinfoBinding;
-import com.jk.soccer.viewModel.PlayerInfoViewModel;
+import com.jk.soccer.databinding.FragmentTeaminfoBinding;
+import com.jk.soccer.viewModel.TeamInfoViewModel;
 
-public class PlayerInfoFragment extends Fragment {
+public class TeamInfoFragment extends Fragment {
 
     private Integer ID;
-    private PlayerInfoViewModel viewModel;
+    private TeamInfoViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class PlayerInfoFragment extends Fragment {
         Application application = getActivity().getApplication();
         viewModel = new ViewModelProvider(getActivity(),
                 new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(PlayerInfoViewModel.class);
+                .get(TeamInfoViewModel.class);
     }
 
     @Nullable
@@ -38,12 +38,13 @@ public class PlayerInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        FragmentPlayerinfoBinding binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_playerinfo, container, false);
+        FragmentTeaminfoBinding binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_teaminfo, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setID(ID);
-        viewModel.getPlayerInfoAsync(ID);
+        viewModel.getTeamInfoAsync(ID);
         return binding.getRoot();
     }
+
 }

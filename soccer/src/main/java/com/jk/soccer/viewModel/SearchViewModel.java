@@ -38,16 +38,13 @@ public class SearchViewModel extends AndroidViewModel {
 
     public void update(){
         data.setValue("데이터를 받는 중");
-        repository.updateDB(new RepositoryCallback<Boolean>() {
-            @Override
-            public void onComplete(Boolean result) {
-                if (result){
-                    progress.postValue("성공");
-                    data.postValue(today);
-                } else {
-                    progress.postValue("실패");
-                    data.postValue("데이터 다운로드 실패");
-                }
+        repository.updateDB(result -> {
+            if (result){
+                progress.postValue("성공");
+                data.postValue(today);
+            } else {
+                progress.postValue("실패");
+                data.postValue("데이터 다운로드 실패");
             }
         });
     }
@@ -62,7 +59,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     public class LeagueIndexManager implements Handler {
         @Override
-        public void onClick(View v, Integer... params) {
+        public void onClick(View v, Object... params) {
 //            setLeagueIndex(params[0]);
 //            setTeamIndex(-1);
         }
@@ -70,7 +67,7 @@ public class SearchViewModel extends AndroidViewModel {
 
     public class TeamIndexManager implements Handler {
         @Override
-        public void onClick(View v, Integer... params) {
+        public void onClick(View v, Object... params) {
 //            setTeamIndex(params[0]);
         }
     }
