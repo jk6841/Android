@@ -5,7 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import com.jk.soccer.etc.Type;
+import com.jk.soccer.etc.enumeration.Type;
 
 import java.util.Date;
 import java.util.List;

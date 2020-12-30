@@ -2,7 +2,7 @@ package com.jk.soccer.model.local.converter;
 
 import androidx.room.TypeConverter;
 
-import com.jk.soccer.etc.Type;
+import com.jk.soccer.etc.enumeration.Type;
 
 public class TypeInt {
     @TypeConverter

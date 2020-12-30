@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.jk.soccer.etc.Type;
+import com.jk.soccer.etc.enumeration.Type;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@
             type="Integer" />
         <variable
             name="type"
-            type="com.jk.soccer.etc.Type" />
+            type="com.jk.soccer.etc.enumeration.Type" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

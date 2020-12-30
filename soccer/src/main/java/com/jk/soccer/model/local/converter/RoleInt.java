@@ -2,7 +2,7 @@ package com.jk.soccer.model.local.converter;
 
 import androidx.room.TypeConverter;
 
-import com.jk.soccer.etc.Role;
+import com.jk.soccer.etc.enumeration.Role;
 
 public class RoleInt {
 

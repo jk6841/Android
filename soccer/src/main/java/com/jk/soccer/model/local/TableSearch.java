@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
-import com.jk.soccer.etc.Type;
+import com.jk.soccer.etc.enumeration.Type;
 
 @Entity(tableName = "tableSearch", primaryKeys = {"ID", "ParentID"})
 public class TableSearch {

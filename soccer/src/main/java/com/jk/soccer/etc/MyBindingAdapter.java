@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jk.soccer.R;
+import com.jk.soccer.etc.enumeration.Role;
+import com.jk.soccer.etc.enumeration.Type;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyBindingAdapter {
@@ -21,21 +21,30 @@ public class MyBindingAdapter {
     @BindingAdapter(value = {"objectID", "type"})
     public static void imgLoad(ImageView imageView, String ID, Type type){
         String url;
+        StringBuilder sb = new StringBuilder();
         Resources resources = imageView.getContext().getResources();
         switch (type){
             case LEAGUE:
-                url = resources.getString(R.string.league_image_url) + ID;
+                sb.append(resources.getString(R.string.league_image_url));
+                sb.append(ID);
+                url = sb.toString();
                 break;
             case TEAM:
-                url = resources.getString(R.string.team_image_url) + ID;
+                sb.append(resources.getString(R.string.team_image_url));
+                sb.append(ID);
+                url = sb.toString();
                 break;
             case PERSON:
-                url = resources.getString(R.string.player_image_url)
-                        + ID + resources.getString(R.string.png);
+                sb.append(resources.getString(R.string.player_image_url));
+                sb.append(ID);
+                sb.append(resources.getString(R.string.png));
+                url = sb.toString();
                 break;
             case COUNTRY:
-                url = resources.getString(R.string.country_image_url)
-                        + ID + resources.getString(R.string.png);
+                sb.append(resources.getString(R.string.country_image_url));
+                sb.append(ID);
+                sb.append(resources.getString(R.string.png));
+                url = sb.toString();
                 break;
             default:
                 url = "";

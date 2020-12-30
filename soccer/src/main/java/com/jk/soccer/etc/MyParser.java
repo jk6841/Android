@@ -76,7 +76,7 @@ public class MyParser {
             return jsonObject.getString(string);
         } catch (Exception e){
             Log.e("Exception: ", e.getMessage());
-            return null;
+            return "";
         }
     }
 

@@ -2,12 +2,13 @@ package com.jk.soccer.model;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.jk.soccer.etc.RepositoryCallback;
 import com.jk.soccer.model.local.MyLocal;
-import com.jk.soccer.etc.Type;
+import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.local.TableSearch;
 import com.jk.soccer.model.remote.MyRemote;
 
@@ -58,11 +59,13 @@ public class Repository {
     public void getPlayerInfoAsync(Integer ID, RepositoryCallback<String> callback){
         myRemote.downloadAsync(Type.PERSON, ID, "", new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()){
                     String result;
                     try {
-                        result = response.body().string();
+                        ResponseBody responseBody = response.body();
+                        result = (responseBody != null)? responseBody.string() : "";
                     } catch (Exception e){
                         result = "";
                     }
@@ -71,7 +74,8 @@ public class Repository {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call,
+                                  @NonNull Throwable t) {
                 callback.onComplete("");
             }
         });
@@ -90,28 +94,32 @@ public class Repository {
                 int k = i;
                 Thread threadLeague = new Thread(() -> {
                     Integer leagueID = leagueList.get(k).getID();
-                    String leagueString = myRemote.downloadSync(Type.LEAGUE, leagueID, "table");
+                    String leagueString = myRemote.downloadSync(
+                            Type.LEAGUE, leagueID, "table");
                     List<TableSearch> teamList = myTeamList(leagueString);
-                    List<Thread> threadTeamList = new ArrayList<>();
-                    for (int j = 0; j < teamList.size(); j++){
-                        int w = j;
-                        Thread threadTeam = new Thread(() -> {
-                            TableSearch team = teamList.get(w);
-                            Integer teamID = team.getID();
-                            String teamString = myRemote.downloadSync(Type.TEAM, teamID, "squad");
-                            List<TableSearch> personList = myPersonList(teamString);
-                            myLocal.insertSearch(personList);
-                        });
-                        threadTeam.setName(teamList.get(w).getName());
-                        threadTeam.start();
-                        threadTeamList.add(threadTeam);
-                    }
-                    myLocal.insertSearch(teamList);
-                    for (int j = 0; j < threadTeamList.size(); j++){
-                        try{
-                            threadTeamList.get(j).join();
-                        } catch (Exception e){
-                            result.onComplete(false);
+                    if (teamList != null){
+                        List<Thread> threadTeamList = new ArrayList<>();
+                        for (int j = 0; j < teamList.size(); j++){
+                            int w = j;
+                            Thread threadTeam = new Thread(() -> {
+                                TableSearch team = teamList.get(w);
+                                Integer teamID = team.getID();
+                                String teamString = myRemote.downloadSync(
+                                        Type.TEAM, teamID, "squad");
+                                List<TableSearch> personList = myPersonList(teamString);
+                                myLocal.insertSearch(personList);
+                            });
+                            threadTeam.setName(teamList.get(w).getName());
+                            threadTeam.start();
+                            threadTeamList.add(threadTeam);
+                        }
+                        myLocal.insertSearch(teamList);
+                        for (int j = 0; j < threadTeamList.size(); j++){
+                            try{
+                                threadTeamList.get(j).join();
+                            } catch (Exception e){
+                                result.onComplete(false);
+                            }
                         }
                     }
                 });

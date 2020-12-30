@@ -4,12 +4,11 @@ import android.app.Application;
 import android.content.Context;
 
 import com.jk.soccer.R;
-import com.jk.soccer.etc.Type;
+import com.jk.soccer.etc.enumeration.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MyRemote {
 

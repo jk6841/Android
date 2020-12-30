@@ -1,4 +1,4 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.etc.enumeration;
 
 public enum Role{
     NONE,

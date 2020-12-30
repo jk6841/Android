@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.jk.soccer.etc.Role;
+import com.jk.soccer.etc.enumeration.Role;
 
 @Entity (tableName = "tablePlayer")
 
