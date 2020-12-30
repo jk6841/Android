@@ -8,7 +8,20 @@ public class RoleInt {
 
     @TypeConverter
     public static Integer roleToInt(Role role){
-        return role.getValue();
+        switch (role){
+            case COACH:
+                return 5;
+            case GK:
+                return 4;
+            case DF:
+                return 3;
+            case MF:
+                return 2;
+            case FW:
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     @TypeConverter
