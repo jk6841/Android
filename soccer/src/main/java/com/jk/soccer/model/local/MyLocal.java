@@ -40,6 +40,10 @@ public class MyLocal {
         return dao.getSearch(searchWord);
     }
 
+    public void clearSearch(){
+        dao.clearSearch();
+    }
+
     private static MyLocal myLocal;
     final private Database database;
     final private DBDao dao;

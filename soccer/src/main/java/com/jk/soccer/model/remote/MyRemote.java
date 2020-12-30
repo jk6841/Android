@@ -8,6 +8,8 @@ import com.jk.soccer.etc.Type;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyRemote {
 
@@ -24,9 +26,9 @@ public class MyRemote {
     }
 
     //// Main thread cannot call this.
-    public String download(Type type, Integer ID, String tab){
+    public String downloadSync(Type type, Integer ID, String tab){
         Call<ResponseBody> call;
-        ApiService apiService = retrofitClient.apiService[0];
+        ApiService apiService = retrofitClient.getApiService(0);
         switch (type) {
             case PERSON:
                 call = apiService.getPlayer(ID);
@@ -48,6 +50,25 @@ public class MyRemote {
             return (body != null)? body.string() : "";
         } catch (Exception e) {
             return "";
+        }
+    }
+    public void downloadAsync(Type type, Integer ID, String tab, Callback<ResponseBody> callback){
+        ApiService apiService = retrofitClient.getApiService(0);
+        switch (type) {
+            case PERSON:
+                apiService.getPlayer(ID).enqueue(callback);
+                break;
+            case TEAM:
+                apiService.getTeam(ID, tab).enqueue(callback);
+                break;
+            case LEAGUE:
+                apiService.getLeague(ID, tab).enqueue(callback);
+                break;
+            case MATCH:
+                apiService.getMatch(ID).enqueue(callback);
+                break;
+            default:
+                break;
         }
     }
 

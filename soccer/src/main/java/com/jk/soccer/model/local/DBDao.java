@@ -257,4 +257,7 @@ public interface DBDao {
 
     @Query("DELETE FROM tempPlayer")
     void clearPlayer();
+
+    @Query("DELETE FROM tableSearch WHERE ParentID != 0")
+    void clearSearch();
 }
