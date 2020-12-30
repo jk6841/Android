@@ -44,6 +44,10 @@ public class Repository {
         return repository;
     }
 
+    public static Repository getInstance(){
+        return repository;
+    }
+
     public void close(){
         myLocal.close();
     }

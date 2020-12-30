@@ -1,22 +1,17 @@
 package com.jk.soccer.viewModel;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.jk.soccer.etc.RepositoryCallback;
 import com.jk.soccer.model.Repository;
 
 import org.json.JSONObject;
 import static com.jk.soccer.etc.MyJson.myJSONObject;
 import static com.jk.soccer.etc.MyJson.myJSONString;
 
-public class TeamInfoViewModel extends AndroidViewModel {
-    public TeamInfoViewModel(@NonNull Application application) {
-        super(application);
-        repository = Repository.getInstance(application);
+public class TeamInfoViewModel extends ViewModel {
+    public TeamInfoViewModel() {
+        repository = Repository.getInstance();
         name = new MutableLiveData<>();
         name.setValue("");
     }

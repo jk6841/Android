@@ -5,7 +5,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
-import com.jk.soccer.viewModel.MyViewModel;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -15,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyViewModel viewModel;
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,22 +26,18 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         viewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication()))
-                .get(MyViewModel.class);
+                .get(MainViewModel.class);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewModel.close();
+        viewModel.onCleared();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         return super.onSupportNavigateUp();
-    }
-
-    public MyViewModel getViewModel() {
-        return viewModel;
     }
 
     public void hideKeyboard() {

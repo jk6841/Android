@@ -11,19 +11,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.jk.soccer.R;
-import com.jk.soccer.databinding.ViewholderEventBinding;
 import com.jk.soccer.databinding.FragmentMatchinfoBinding;
 
 import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.etc.MyHandler;
-import com.jk.soccer.etc.MyRecyclerViewAdapter;
-import com.jk.soccer.viewModel.MyViewModel;
 
 
 public class MatchInfoFragment extends Fragment {
 
     private Integer index;
-    MyViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,8 +28,6 @@ public class MatchInfoFragment extends Fragment {
         if (args != null)
             index = args.getInt("index", 0);
         MainActivity mainActivity = (MainActivity) getActivity();
-        if (mainActivity != null)
-            viewModel = mainActivity.getViewModel();
     }
 
     @Nullable
@@ -45,7 +39,6 @@ public class MatchInfoFragment extends Fragment {
                 inflater, R.layout.fragment_matchinfo, container, false);
 
         binding.setLifecycleOwner(this);
-        binding.setViewModel(viewModel);
         binding.setHandler(new MyHandler());
 
 //        MyRecyclerViewAdapter<ViewholderEventBinding> rvEventAdapter

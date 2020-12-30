@@ -1,16 +1,13 @@
 package com.jk.soccer.viewModel;
 
-import android.app.Application;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 
 import com.jk.soccer.etc.Handler;
-import com.jk.soccer.etc.RepositoryCallback;
 import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.local.TableSearch;
 
@@ -19,11 +16,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class SearchViewModel extends AndroidViewModel {
+public class SearchViewModel extends ViewModel {
 
-    public SearchViewModel(@NonNull Application application) {
-        super(application);
-        repository = Repository.getInstance(application);
+    public SearchViewModel() {
+        repository = Repository.getInstance();
         name = new MutableLiveData<>();
         name.setValue("");
         list = Transformations.switchMap(name, repository::search);
