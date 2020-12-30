@@ -28,15 +28,19 @@ import com.jk.soccer.model.local.converter.TypeInt;
 public abstract class Database extends RoomDatabase {
 
     public abstract DBDao dbDao();
-    private static Database database = null;
+
     public static Database getInstance(Application application){
         if (database == null){
             Context context = application.getApplicationContext();
             database = Room
-                    .databaseBuilder(context, Database.class, "app.db")
-                    .createFromAsset("database/init.db").build();
+                    .databaseBuilder(context, Database.class, storeDB)
+                    .createFromAsset(assetDB).build();
         }
         return database;
     }
+
+    private static Database database = null;
+    final private static String storeDB = "app.db";
+    final private static String assetDB = "database/init.db";
 
 }

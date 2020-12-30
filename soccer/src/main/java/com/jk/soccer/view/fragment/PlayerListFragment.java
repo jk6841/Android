@@ -37,10 +37,6 @@ public class PlayerListFragment extends Fragment {
         FragmentPlayerlistBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_playerlist, container, false);
         binding.setLifecycleOwner(this);
-        //viewModel.initPlayer();
-//        MyRecyclerViewAdapter<ViewholderPlayerBinding> rvAdapter
-//                = new MyRecyclerViewAdapter<>(viewModel, R.layout.viewholder_player, viewModel.countPlayers());
-//        binding.homeRec.setAdapter(rvAdapter);
         binding.setViewModel(viewModel);
         return binding.getRoot();
     }

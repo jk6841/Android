@@ -2,26 +2,18 @@ package com.jk.soccer.etc;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class MyParser {
+public class MyJson {
 
-//    final private static SimpleDateFormat inputDateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.ENGLISH);
-//    final private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-//    final private static SimpleDateFormat monthFormat = new SimpleDateFormat("M", Locale.KOREA);
-//    final private static SimpleDateFormat dateFormat = new SimpleDateFormat("d", Locale.KOREA);
-//    final private static SimpleDateFormat dayFormat = new SimpleDateFormat("E요일 ", Locale.KOREA);
-//    final private static SimpleDateFormat inputTimeFormat = new SimpleDateFormat("HH:mm", Locale.US);
-//    final private static SimpleDateFormat timeFormat = new SimpleDateFormat("H시 m분", Locale.KOREA);
+    final static private String exceptionTag = "Exception: ";
 
     public static JSONObject myJSONObject(JSONObject jsonObject, String string){
         try{
             return jsonObject.getJSONObject(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return null;
         }
     }
@@ -30,7 +22,7 @@ public class MyParser {
         try{
             return new JSONObject(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return null;
         }
     }
@@ -39,7 +31,7 @@ public class MyParser {
         try{
             return jsonArray.getJSONObject(index);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return null;
         }
     }
@@ -48,7 +40,7 @@ public class MyParser {
         try {
             return new JSONArray(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return null;
         }
     }
@@ -57,7 +49,7 @@ public class MyParser {
         try {
             return jsonObject.getJSONArray(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return null;
         }
     }
@@ -66,7 +58,7 @@ public class MyParser {
         try{
             return jsonArray.getJSONArray(index);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return null;
         }
     }
@@ -75,7 +67,7 @@ public class MyParser {
         try {
             return jsonObject.getString(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return "";
         }
     }
@@ -84,7 +76,7 @@ public class MyParser {
         try{
             return jsonArray.getString(index);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return "";
         }
     }
@@ -93,7 +85,7 @@ public class MyParser {
         try{
             return jsonObject.getInt(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return 0;
         }
     }
@@ -102,7 +94,7 @@ public class MyParser {
         try{
             return jsonObject.getBoolean(string);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
             return false;
         }
     }
@@ -111,7 +103,7 @@ public class MyParser {
         try{
             jsonObject.put(name, value);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
         }
     }
 
@@ -119,7 +111,7 @@ public class MyParser {
         try{
             jsonArray.put(index, value);
         } catch (Exception e){
-            Log.e("Exception: ", e.getMessage());
+            Log.e(exceptionTag, e.getMessage());
         }
     }
 

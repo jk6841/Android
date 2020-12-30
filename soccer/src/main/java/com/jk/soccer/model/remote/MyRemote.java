@@ -42,13 +42,13 @@ public class MyRemote {
                 call = apiService.getMatch(ID);
                 break;
             default:
-                return "";
+                return null;
         }
         try {
             ResponseBody body = call.execute().body();
-            return (body != null)? body.string() : "";
+            return (body != null)? body.string() : null;
         } catch (Exception e) {
-            return "";
+            return null;
         }
     }
     public void downloadAsync(Type type, Integer ID, String tab, Callback<ResponseBody> callback){

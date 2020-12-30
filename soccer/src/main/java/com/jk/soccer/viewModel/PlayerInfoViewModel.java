@@ -11,10 +11,10 @@ import com.jk.soccer.model.Repository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import static com.jk.soccer.etc.MyParser.myJSONArray;
-import static com.jk.soccer.etc.MyParser.myJSONInt;
-import static com.jk.soccer.etc.MyParser.myJSONObject;
-import static com.jk.soccer.etc.MyParser.myJSONString;
+import static com.jk.soccer.etc.MyJson.myJSONArray;
+import static com.jk.soccer.etc.MyJson.myJSONInt;
+import static com.jk.soccer.etc.MyJson.myJSONObject;
+import static com.jk.soccer.etc.MyJson.myJSONString;
 
 public class PlayerInfoViewModel extends AndroidViewModel {
     public PlayerInfoViewModel(@NonNull Application application) {

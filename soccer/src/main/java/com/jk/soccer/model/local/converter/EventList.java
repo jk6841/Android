@@ -3,7 +3,7 @@ package com.jk.soccer.model.local.converter;
 import androidx.room.TypeConverter;
 
 import com.jk.soccer.etc.Event;
-import com.jk.soccer.etc.MyParser;
+import com.jk.soccer.etc.MyJson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,17 +15,17 @@ public class EventList {
 
     @TypeConverter
     public static String eventToString(List<Event> eventList){
-        JSONArray jsonArray = MyParser.myJSONArray("[]");
+        JSONArray jsonArray = MyJson.myJSONArray("[]");
         if (jsonArray == null)
             return "";
         for (int i = 0; i < eventList.size(); i++){
-            JSONObject jsonObject = MyParser.myJSONObject("{}");
+            JSONObject jsonObject = MyJson.myJSONObject("{}");
             Event event = eventList.get(i);
-            MyParser.myJSONPut(jsonObject, "time", event.getTime());
-            MyParser.myJSONPut(jsonObject, "type", event.getType());
-            MyParser.myJSONPut(jsonObject, "detail", event.getDetail());
-            MyParser.myJSONPut(jsonObject, "home", event.getHome());
-            MyParser.myJSONPut(jsonArray, i, jsonObject);
+            MyJson.myJSONPut(jsonObject, "time", event.getTime());
+            MyJson.myJSONPut(jsonObject, "type", event.getType());
+            MyJson.myJSONPut(jsonObject, "detail", event.getDetail());
+            MyJson.myJSONPut(jsonObject, "home", event.getHome());
+            MyJson.myJSONPut(jsonArray, i, jsonObject);
         }
         return jsonArray.toString();
     }
@@ -33,14 +33,14 @@ public class EventList {
     @TypeConverter
     public static List<Event> stringToEvent(String string){
         List<Event> eventList = new ArrayList<>();
-        JSONArray jsonArray = MyParser.myJSONArray(string);
+        JSONArray jsonArray = MyJson.myJSONArray(string);
         for (int i = 0; i < jsonArray.length(); i++){
-            JSONObject jsonEvent = MyParser.myJSONObject(jsonArray, i);
+            JSONObject jsonEvent = MyJson.myJSONObject(jsonArray, i);
             Event event = new Event();
-            event.setTime(MyParser.myJSONInt(jsonEvent, "time"));
-            event.setType(MyParser.myJSONString(jsonEvent, "type"));
-            event.setDetail(MyParser.myJSONString(jsonEvent, "detail"));
-            event.setHome(MyParser.myJSONBoolean(jsonEvent, "home"));
+            event.setTime(MyJson.myJSONInt(jsonEvent, "time"));
+            event.setType(MyJson.myJSONString(jsonEvent, "type"));
+            event.setDetail(MyJson.myJSONString(jsonEvent, "detail"));
+            event.setHome(MyJson.myJSONBoolean(jsonEvent, "home"));
             eventList.add(event);
         }
         return eventList;

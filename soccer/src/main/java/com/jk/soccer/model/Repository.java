@@ -23,10 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.jk.soccer.etc.MyParser.myJSONArray;
-import static com.jk.soccer.etc.MyParser.myJSONInt;
-import static com.jk.soccer.etc.MyParser.myJSONObject;
-import static com.jk.soccer.etc.MyParser.myJSONString;
+import static com.jk.soccer.etc.MyJson.myJSONArray;
+import static com.jk.soccer.etc.MyJson.myJSONInt;
+import static com.jk.soccer.etc.MyJson.myJSONObject;
+import static com.jk.soccer.etc.MyJson.myJSONString;
 
 public class Repository {
 
@@ -57,7 +57,7 @@ public class Repository {
 //    }
 
     public void getPlayerInfoAsync(Integer ID, RepositoryCallback<String> callback){
-        myRemote.downloadAsync(Type.PERSON, ID, "", new Callback<ResponseBody>() {
+        myRemote.downloadAsync(Type.PERSON, ID, strings[0], new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call,
                                    @NonNull Response<ResponseBody> response) {
@@ -65,9 +65,9 @@ public class Repository {
                     String result;
                     try {
                         ResponseBody responseBody = response.body();
-                        result = (responseBody != null)? responseBody.string() : "";
+                        result = (responseBody != null)? responseBody.string() : strings[0];
                     } catch (Exception e){
-                        result = "";
+                        result = strings[0];
                     }
                     callback.onComplete(result);
                 }
@@ -76,13 +76,13 @@ public class Repository {
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call,
                                   @NonNull Throwable t) {
-                callback.onComplete("");
+                callback.onComplete(strings[0]);
             }
         });
     }
 
     public String getPlayerInfo(Integer ID){
-        return myRemote.downloadSync(Type.PERSON, ID, "");
+        return myRemote.downloadSync(Type.PERSON, ID, strings[0]);
     }
 
     public void updateDB(RepositoryCallback<Boolean> result){
@@ -95,7 +95,7 @@ public class Repository {
                 Thread threadLeague = new Thread(() -> {
                     Integer leagueID = leagueList.get(k).getID();
                     String leagueString = myRemote.downloadSync(
-                            Type.LEAGUE, leagueID, "table");
+                            Type.LEAGUE, leagueID, strings[1]);
                     List<TableSearch> teamList = myTeamList(leagueString);
                     if (teamList != null){
                         List<Thread> threadTeamList = new ArrayList<>();
@@ -105,7 +105,7 @@ public class Repository {
                                 TableSearch team = teamList.get(w);
                                 Integer teamID = team.getID();
                                 String teamString = myRemote.downloadSync(
-                                        Type.TEAM, teamID, "squad");
+                                        Type.TEAM, teamID, strings[2]);
                                 List<TableSearch> personList = myPersonList(teamString);
                                 myLocal.insertSearch(personList);
                             });
@@ -150,22 +150,24 @@ public class Repository {
     final private MyLocal myLocal;
     final private MyRemote myRemote;
     final private MutableLiveData<List<TableSearch>> emptySearch;
+    final private String[] strings
+            = {"", "table", "squad", "id", "name", "leagueID", "tables", "tableData", "details"};
 
 
     private List<TableSearch> myTeamList(String jsonLeagueString){
         JSONObject jsonObject = myJSONObject(jsonLeagueString);
-        JSONObject jsonTableData = myJSONObject(jsonObject, "tableData");
-        JSONArray jsonTables = myJSONArray(jsonTableData, "tables");
+        JSONObject jsonTableData = myJSONObject(jsonObject, strings[7]);
+        JSONArray jsonTables = myJSONArray(jsonTableData, strings[6]);
         JSONObject jsonTables2 = myJSONObject(jsonTables, 0);
-        Integer leagueID = myJSONInt(jsonTables2, "leagueId");
-        JSONArray jsonTable = myJSONArray(jsonTables2, "table");
+        Integer leagueID = myJSONInt(jsonTables2, strings[5]);
+        JSONArray jsonTable = myJSONArray(jsonTables2, strings[1]);
         if (jsonTable == null)
             return null;
         List<TableSearch> teamList = new ArrayList<>();
         for (int i = 0; i < jsonTable.length(); i++){
             JSONObject jsonTeam = myJSONObject(jsonTable, i);
-            Integer teamID = myJSONInt(jsonTeam, "id");
-            String teamName = myJSONString(jsonTeam, "name");
+            Integer teamID = myJSONInt(jsonTeam, strings[3]);
+            String teamName = myJSONString(jsonTeam, strings[4]);
             teamList.add(new TableSearch(teamID, leagueID, Type.TEAM, teamName));
         }
         return teamList;
@@ -173,9 +175,9 @@ public class Repository {
 
     private List<TableSearch> myPersonList(String jsonTeamString){
         JSONObject jsonObject = myJSONObject(jsonTeamString);
-        JSONObject jsonDetails = myJSONObject(jsonObject, "details");
-        Integer teamID = myJSONInt(jsonDetails, "id");
-        JSONArray jsonSquad = myJSONArray(jsonObject, "squad");
+        JSONObject jsonDetails = myJSONObject(jsonObject, strings[8]);
+        Integer teamID = myJSONInt(jsonDetails, strings[3]);
+        JSONArray jsonSquad = myJSONArray(jsonObject, strings[2]);
         if (jsonSquad == null)
             return null;
         List<TableSearch> playerList = new ArrayList<>();
@@ -185,8 +187,8 @@ public class Repository {
                 continue;
             for (int j = 0; j < jsonSquadItem.length(); j++){
                 JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
-                Integer playerID = myJSONInt(jsonPlayer, "id");
-                String name = myJSONString(jsonPlayer, "name");
+                Integer playerID = myJSONInt(jsonPlayer, strings[3]);
+                String name = myJSONString(jsonPlayer, strings[4]);
                 playerList.add(new TableSearch(playerID, teamID, Type.PERSON, name));
             }
         }
