@@ -19,14 +19,19 @@ import com.jk.soccer.viewModel.PlayerInfoViewModel;
 public class PlayerInfoFragment extends Fragment {
 
     private Integer ID;
+    private Integer parentID;
+    private String name;
     private PlayerInfoViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null)
+        if (args != null) {
             ID = args.getInt("id", 0);
+            parentID = args.getInt("parent", 0);
+            name = args.getString("name", "");
+        }
         Application application = getActivity().getApplication();
         viewModel = new ViewModelProvider(getActivity(),
                 new ViewModelProvider.AndroidViewModelFactory(application))
@@ -44,6 +49,8 @@ public class PlayerInfoFragment extends Fragment {
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setID(ID);
+        binding.setName(name);
+        binding.setParentID(parentID);
         return binding.getRoot();
     }
 

@@ -11,6 +11,12 @@
         <variable
             name="ID"
             type="Integer" />
+        <variable
+            name="parentID"
+            type="Integer" />
+        <variable
+            name="name"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +35,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5"
-            app:name="@{viewModel.name}"
+            app:name="@{name}"
             app:type="@{Type.TEAM}" />
 
         <TextView

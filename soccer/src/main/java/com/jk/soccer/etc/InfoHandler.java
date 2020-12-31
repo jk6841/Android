@@ -25,9 +25,13 @@ public class InfoHandler implements Handler {
         NavController navController = Navigation.findNavController(v);
         Bundle args = new Bundle();
         Integer ID = (Integer)params[0];
-        Type type = (Type)params[1];
+        Integer parentID = (Integer)params[1];
+        String name = (String)params[2];
+        Type type = (Type)params[3];
         Integer nav = null;
         args.putInt("id", ID);
+        args.putInt("parent", parentID);
+        args.putString("name", name);
         switch (type){
             case PERSON:
                 nav = R.id.action_nav_search_to_nav_playerInfo;

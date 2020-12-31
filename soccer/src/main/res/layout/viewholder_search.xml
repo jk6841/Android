@@ -70,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:contentDescription="@string/contentDescription"
-            android:onClick="@{(v)->handler.onClick(v, item.ID, item.type)}"
+            android:onClick="@{(v)->handler.onClick(v, item.ID, item.parentID, item.name, item.type)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
