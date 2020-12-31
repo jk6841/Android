@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.Repository;
+import com.jk.soccer.model.UpdateCallback;
 import com.jk.soccer.model.local.TableSearch;
 
 import java.text.SimpleDateFormat;
@@ -33,9 +34,10 @@ public class SearchViewModel extends ViewModel {
 
     public void update(){
         data.setValue("데이터를 받는 중");
-        repository.updateDB(result -> {
-            data.postValue(result? today : "데이터 다운로드 실패");
-        });
+//        repository.updateDB(result -> {
+//            data.postValue(result? today : "데이터 다운로드 실패");
+//        });
+        repository.updateDB(new UpdateCallback(data));
     }
 
     public MutableLiveData<String> getName() {

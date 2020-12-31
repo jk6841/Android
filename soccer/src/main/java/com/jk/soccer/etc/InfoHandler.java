@@ -10,7 +10,6 @@ import androidx.navigation.Navigation;
 import com.jk.soccer.R;
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.view.activity.MainActivity;
-import com.jk.soccer.viewModel.SearchViewModel;
 
 public class InfoHandler implements Handler {
 

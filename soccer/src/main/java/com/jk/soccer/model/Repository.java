@@ -85,7 +85,7 @@ public class Repository {
         });
     }
 
-    public void updateDB(MyCallback<Boolean> result){
+    public void updateDB(UpdateCallback callback){
         Counter counter = new Counter(0);
         myLocal.clearSearch();
         myLocal.getLeagueList(leagueList -> {
@@ -97,7 +97,9 @@ public class Repository {
                         synchronized (this){
                             counter.incValue(teamList.size());
                         }
-                        Log.d("counter: ", counter.getValue().toString());
+                        String counterVal = counter.getValue().toString();
+                        callback.onProgress(counterVal);
+                        Log.d("counter: ", counterVal);
                         for (int j = 0; j < teamList.size(); j++){
                             TableSearch team = teamList.get(j);
                             Integer teamID = team.getID();
@@ -106,9 +108,11 @@ public class Repository {
                                 synchronized (this){
                                     counter.incValue(-1);
                                 }
-                                Log.d("counter: ", counter.getValue().toString());
+                                String counterVal2 = counter.getValue().toString();
+                                callback.onProgress(counterVal);
+                                Log.d("counter: ", counterVal2);
                                 if (counter.getValue() == 0){
-                                    result.onComplete(true);
+                                    callback.onComplete(true);
                                 }
                             });
                         }
