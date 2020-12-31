@@ -117,10 +117,10 @@ public class Repository {
     }
 
 
-    public LiveData<List<TableSearch>> search(String searchWord){
+    public LiveData<List<TableSearch>> search(String searchWord, Type type){
         if (searchWord.length() <= 1)
             return emptySearch;
-        return myLocal.getSearch("%" +searchWord + "%");
+        return myLocal.getSearch("%" +searchWord + "%", type);
     }
 
     private static Repository repository = null;

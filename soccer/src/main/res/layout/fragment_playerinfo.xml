@@ -5,15 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.jk.soccer.etc.enumeration.Type"/>
         <variable
             name="viewModel"
             type="com.jk.soccer.viewModel.PlayerInfoViewModel" />
         <variable
             name="ID"
             type="Integer" />
-        <variable
-            name="type"
-            type="com.jk.soccer.etc.enumeration.Type" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,68 +22,10 @@
         <TableLayout
             android:id="@+id/table"
             android:layout_width="match_parent"
-            android:layout_height="376dp"
-            android:weightSum="8"
+            android:layout_height="300dp"
+            android:weightSum="5"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:layout_editor_absoluteX="27dp">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:weightSum="@integer/column">
-
-                <TextView
-                    android:id="@+id/tbl_00"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/column0"
-                    android:fontFamily="@font/paybooc"
-                    android:gravity="end|center_vertical"
-                    android:text="@string/name_header"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/midBigFont" />
-
-                <TextView
-                    android:id="@+id/tbl_01"
-                    android:text="@{viewModel.name}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/column1"
-                    android:fontFamily="@font/paybooc"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/midBigFont" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:weightSum="@integer/column">
-
-                <TextView
-                    android:id="@+id/tbl_10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/column0"
-                    android:textSize="@dimen/midBigFont"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/paybooc"
-                    android:gravity="end|center_vertical"
-                    android:text="@string/team_header" />
-
-                <TextView
-                    android:id="@+id/tbl_11"
-                    android:text="@{viewModel.team}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midBigFont"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/paybooc"
-                    android:gravity="center" />
-            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -236,84 +176,65 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:weightSum="@integer/column">
-
-                <TextView
-                    android:id="@+id/tbl_70"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/column0"
-                    android:text="@string/country_header"
-                    android:textSize="@dimen/midBigFont"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/paybooc"
-                    android:gravity="end|center_vertical"/>
-
-                <TextView
-                    android:id="@+id/tbl_71"
-                    android:layout_width="wrap_content"
-                    android:text="@{viewModel.country}"
-                    android:layout_height="match_parent"
-                    android:layout_weight="@integer/column1"
-                    android:textSize="@dimen/midBigFont"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/paybooc"
-                    android:gravity="center" />
-            </TableRow>
+                android:weightSum="@integer/column"/>
 
         </TableLayout>
 
-        <ImageView
-            android:id="@+id/playerImage"
-            android:layout_width="242dp"
-            android:layout_height="217dp"
-            objectID="@{ID.toString()}"
-            type="@{type.PERSON}"
-            android:contentDescription="@string/player_image"
-            app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/contentDescription"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <include
+            android:id="@+id/include2"
+            layout="@layout/txt_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="36dp"
+            app:ID="@{ID.toString()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:layout_constraintWidth_percent="0.5"
+            app:name="@{viewModel.name}"
+            app:type="@{Type.PERSON}" />
 
-        <ImageButton
-            android:id="@+id/imageButton4"
-            android:layout_width="66dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="20dp"
-            android:contentDescription="@string/contentDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/playerImage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:contentDescription="@string/player_image"
-            objectID="@{viewModel.teamID}"
-            type="@{type.TEAM}"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginBottom="16dp"
+        <include
+            android:id="@+id/include"
+            layout="@layout/txt_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:ID="@{viewModel.teamID}"
             app:layout_constraintBottom_toTopOf="@+id/table"
+            app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/edge" />
+            app:layout_constraintTop_toBottomOf="@+id/include2"
+            app:layout_constraintWidth_percent="0.5"
+            app:name="@{viewModel.team}"
+            app:type="@{Type.TEAM}" />
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:contentDescription="@string/player_image"
-            android:layout_width="50dp"
-            objectID="@{viewModel.countryID}"
-            type="@{type.COUNTRY}"
-            android:layout_height="50dp"
-            android:layout_marginEnd="100dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        <include
+            layout="@layout/txt_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:ID="@{viewModel.countryID}"
+            app:layout_constraintBottom_toBottomOf="@+id/include"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintTop_toTopOf="@+id/include"
             app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/edge" />
+            app:layout_constraintWidth_percent="0.5"
+            app:name="@{viewModel.country}"
+            app:type="@{Type.COUNTRY}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

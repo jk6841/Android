@@ -1,13 +1,12 @@
 package com.jk.soccer.viewModel;
 
-import android.view.View;
-
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.jk.soccer.etc.Handler;
+import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.local.TableSearch;
 
@@ -22,9 +21,9 @@ public class SearchViewModel extends ViewModel {
         repository = Repository.getInstance();
         name = new MutableLiveData<>();
         name.setValue("");
-        list = Transformations.switchMap(name, repository::search);
-        progress = new MutableLiveData<>();
-        progress.setValue("");
+        leagueList = Transformations.switchMap(name, input -> repository.search(input, Type.LEAGUE));
+        teamList = Transformations.switchMap(name, input -> repository.search(input, Type.TEAM));
+        playerList = Transformations.switchMap(name, input -> repository.search(input, Type.PERSON));
         data = new MutableLiveData<>();
         today = "최근 업데이트: "
                 + new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
@@ -35,13 +34,7 @@ public class SearchViewModel extends ViewModel {
     public void update(){
         data.setValue("데이터를 받는 중");
         repository.updateDB(result -> {
-            if (result){
-                progress.postValue("성공");
-                data.postValue(today);
-            } else {
-                progress.postValue("실패");
-                data.postValue("데이터 다운로드 실패");
-            }
+            data.postValue(result? today : "데이터 다운로드 실패");
         });
     }
 
@@ -49,38 +42,32 @@ public class SearchViewModel extends ViewModel {
         return name;
     }
 
-    public LiveData<String> getProgress() {
-        return progress;
-    }
-
-    public class LeagueIndexManager implements Handler {
-        @Override
-        public void onClick(View v, Object... params) {
-//            setLeagueIndex(params[0]);
-//            setTeamIndex(-1);
-        }
-    }
-
-    public class TeamIndexManager implements Handler {
-        @Override
-        public void onClick(View v, Object... params) {
-//            setTeamIndex(params[0]);
-        }
-    }
-
     public MutableLiveData<String> getData() {
         return data;
     }
 
     public LiveData<List<TableSearch>> getList() {
-        return list;
+        return playerList;
+    }
+
+    public LiveData<List<TableSearch>> getLeagueList(){
+        return leagueList;
+    }
+
+    public LiveData<List<TableSearch>> getTeamList() {
+        return teamList;
+    }
+
+    public LiveData<List<TableSearch>> getPlayerList() {
+        return playerList;
     }
 
     private final Repository repository;
-    final private LiveData<List<TableSearch>> list;
+    final private LiveData<List<TableSearch>> leagueList;
+    final private LiveData<List<TableSearch>> teamList;
+    final private LiveData<List<TableSearch>> playerList;
     final private MutableLiveData<String> name;
-    final private MutableLiveData<String> progress;
     final private MutableLiveData<String> data;
-    final private Date date = new Date();
     final private String today;
+
 }

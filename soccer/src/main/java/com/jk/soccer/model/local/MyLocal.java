@@ -54,8 +54,8 @@ public class MyLocal {
         }
     }
 
-    public LiveData<List<TableSearch>> getSearch(String searchWord){
-        return dao.getSearch(searchWord);
+    public LiveData<List<TableSearch>> getSearch(String searchWord, Type type){
+        return dao.getSearch(searchWord, type);
     }
 
     public void clearSearch(){

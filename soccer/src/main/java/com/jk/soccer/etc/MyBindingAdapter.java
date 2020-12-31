@@ -1,6 +1,7 @@
 package com.jk.soccer.etc;
 
 import android.content.res.Resources;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
