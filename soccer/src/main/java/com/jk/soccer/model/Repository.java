@@ -52,7 +52,6 @@ public class Repository {
     }
 
     public void getTeamInfoAsync(Integer ID, MyCallback<Team> callback){
-        //getInfoAsync(Type.TEAM, ID, strings[9], callback);
         myRemote.downloadTeam(ID, callback);
     }
 
@@ -94,10 +93,11 @@ public class Repository {
                 myRemote.downloadTeamList(leagueID, teamList -> {
                     if (teamList != null){
                         myLocal.insertSearch(teamList);
-                        synchronized (this){
+                        String counterVal;
+                        synchronized (counter){
                             counter.incValue(teamList.size());
+                            counterVal = counter.getValue().toString();
                         }
-                        String counterVal = counter.getValue().toString();
                         callback.onProgress(counterVal);
                         Log.d("counter: ", counterVal);
                         for (int j = 0; j < teamList.size(); j++){
@@ -105,10 +105,11 @@ public class Repository {
                             Integer teamID = team.getID();
                             myRemote.downloadPlayerList(teamID, playerList -> {
                                 myLocal.insertSearch(playerList);
-                                synchronized (this){
+                                String counterVal2;
+                                synchronized (counter){
                                     counter.incValue(-1);
+                                    counterVal2 = counter.getValue().toString();
                                 }
-                                String counterVal2 = counter.getValue().toString();
                                 callback.onProgress(counterVal);
                                 Log.d("counter: ", counterVal2);
                                 if (counter.getValue() == 0){

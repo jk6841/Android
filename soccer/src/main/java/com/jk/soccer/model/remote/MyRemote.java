@@ -41,7 +41,7 @@ public class MyRemote {
 
     public MyRemote(Application application){
         Context appContext = application.getApplicationContext();
-        retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
+        RetrofitClient retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
         apiService = retrofitClient.getApiService(0);
     }
 
@@ -287,13 +287,13 @@ public class MyRemote {
         List<TableSearch> playerList = new ArrayList<>();
         for (int i = 0; i < jsonSquad.length(); i++){
             JSONArray jsonSquadItem = myJSONArray(myJSONArray(jsonSquad, i), 1);
-            if (jsonSquadItem == null)
-                continue;
-            for (int j = 0; j < jsonSquadItem.length(); j++){
-                JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
-                Integer playerID = myJSONInt(jsonPlayer, "id");
-                String name = myJSONString(jsonPlayer, "name");
-                playerList.add(new TableSearch(playerID, teamID, Type.PERSON, name));
+            if (jsonSquadItem != null){
+                for (int j = 0; j < jsonSquadItem.length(); j++){
+                    JSONObject jsonPlayer = myJSONObject(jsonSquadItem, j);
+                    Integer playerID = myJSONInt(jsonPlayer, "id");
+                    String name = myJSONString(jsonPlayer, "name");
+                    playerList.add(new TableSearch(playerID, teamID, Type.PERSON, name));
+                }
             }
         }
         return playerList;
@@ -339,7 +339,6 @@ public class MyRemote {
     }
 
     private static MyRemote myRemote = null;
-    private static RetrofitClient retrofitClient;
     private static ApiService apiService;
 
 }
