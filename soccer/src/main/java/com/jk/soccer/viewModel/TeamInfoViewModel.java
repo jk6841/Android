@@ -3,24 +3,36 @@ package com.jk.soccer.viewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.jk.soccer.etc.Team;
 import com.jk.soccer.model.Repository;
 
-import org.json.JSONObject;
-import static com.jk.soccer.etc.MyJson.myJSONObject;
-import static com.jk.soccer.etc.MyJson.myJSONString;
+import java.util.List;
 
 public class TeamInfoViewModel extends ViewModel {
     public TeamInfoViewModel() {
         repository = Repository.getInstance();
         name = new MutableLiveData<>();
+        stadium = new MutableLiveData<>();
+        fixtures = new MutableLiveData<>();
+        topGoal = new MutableLiveData<>();
+        topAssist = new MutableLiveData<>();
+    }
+
+    public void init(){
         name.setValue("");
     }
 
-    public void getTeamInfoAsync(Integer ID){
-        repository.getTeamInfoAsync(ID, result -> {
-            JSONObject jsonObject = myJSONObject(result);
-            JSONObject jsonDetails = myJSONObject(jsonObject, "details");
-            name.postValue(myJSONString(jsonDetails, "name"));
+    public void getTeamInfo(Integer ID){
+        repository.getTeamInfoAsync(ID, team -> {
+            name.postValue(team.getName());
+            StringBuilder sb = new StringBuilder(team.getStadium());
+            sb.append("(");
+            sb.append(team.getCity());
+            sb.append(")");
+            stadium.postValue(sb.toString());
+            fixtures.postValue(team.getFixtures());
+            topGoal.postValue(team.getTopGoal());
+            topAssist.postValue(team.getTopAssist());
         });
     }
 
@@ -28,6 +40,27 @@ public class TeamInfoViewModel extends ViewModel {
         return name;
     }
 
+    public MutableLiveData<String> getStadium() {
+        return stadium;
+    }
+
+    public MutableLiveData<List<Team.Fixture>> getFixtures() {
+        return fixtures;
+    }
+
+    public MutableLiveData<List<Team.TopPlayer>> getTopGoal() {
+        return topGoal;
+    }
+
+    public MutableLiveData<List<Team.TopPlayer>> getTopAssist() {
+        return topAssist;
+    }
+
     final private Repository repository;
     final private MutableLiveData<String> name;
+    final private MutableLiveData<String> stadium;
+    final private MutableLiveData<List<Team.Fixture>> fixtures;
+    final private MutableLiveData<List<Team.TopPlayer>> topGoal;
+    final private MutableLiveData<List<Team.TopPlayer>> topAssist;
+
 }

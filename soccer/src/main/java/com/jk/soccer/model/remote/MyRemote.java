@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.jk.soccer.R;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.MyCallback;
+import com.jk.soccer.etc.Team;
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.local.TableSearch;
 
@@ -24,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.jk.soccer.etc.MyJson.myJSONArray;
+import static com.jk.soccer.etc.MyJson.myJSONBoolean;
 import static com.jk.soccer.etc.MyJson.myJSONInt;
 import static com.jk.soccer.etc.MyJson.myJSONObject;
 import static com.jk.soccer.etc.MyJson.myJSONString;
@@ -139,6 +141,32 @@ public class MyRemote {
         });
     }
 
+    public void downloadTeam(Integer ID, MyCallback<Team> callback){
+        apiService.getTeam(ID, "overview").enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call,
+                                   @NonNull Response<ResponseBody> response) {
+                if (response.isSuccessful()){
+                    ResponseBody responseBody = response.body();
+                    try {
+                        String responseString
+                                = (responseBody != null)? responseBody.string() : "";
+                        Team team = parseTeam(responseString);
+                        callback.onComplete(team);
+                    } catch (Exception e){
+                        Log.e("Error: ", e.getMessage());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call,
+                                  @NonNull Throwable t) {
+
+            }
+        });
+    }
+
     public void downloadPlayer(Integer ID, MyCallback<Player> callback){
         apiService.getPlayer(ID).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -147,7 +175,8 @@ public class MyRemote {
                 if (response.isSuccessful()){
                     ResponseBody responseBody = response.body();
                     try {
-                        String responseString = (responseBody != null)? responseBody.string() : "";
+                        String responseString
+                                = (responseBody != null)? responseBody.string() : "";
                         Player player = parsePlayer(responseString);
                         callback.onComplete(player);
                     } catch (Exception e){
@@ -157,12 +186,13 @@ public class MyRemote {
             }
 
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call,
+                                  @NonNull Throwable t) {
             }
         });
     }
 
-    private List<TableSearch> parseTeamList(String jsonString){
+    private static List<TableSearch> parseTeamList(String jsonString){
         JSONObject jsonObject = myJSONObject(jsonString);
         JSONObject jsonTableData = myJSONObject(jsonObject, "tableData");
         JSONArray jsonTables = myJSONArray(jsonTableData, "tables");
@@ -181,7 +211,73 @@ public class MyRemote {
         return teamList;
     }
 
-    private List<TableSearch> parsePlayerList(String jsonString){
+    private static Team parseTeam(String jsonString){
+        Team team = new Team();
+        JSONObject jsonObject = myJSONObject(jsonString);
+        JSONObject jsonDetails = myJSONObject(jsonObject, "details");
+        team.setID(myJSONString(jsonDetails, "id"));
+        team.setName(myJSONString(jsonDetails, "name"));
+        JSONArray jsonArray = myJSONArray(jsonObject, "fixtures");
+        List<Team.Fixture> fixtures = new ArrayList<>();
+        for (int i = 0 ; i < jsonArray.length(); i++){
+            JSONObject jsonFixture = myJSONObject(jsonArray, i);
+            Team.Fixture fixture = new Team.Fixture();
+            fixture.setID(myJSONInt(jsonFixture, "id"));
+            JSONObject jsonHome = myJSONObject(jsonFixture, "home");
+            JSONObject jsonAway = myJSONObject(jsonFixture, "away");
+            fixture.setHomeID(myJSONInt(jsonHome, "id"));
+            fixture.setHomeName(myJSONString(jsonHome, "name"));
+            fixture.setAwayID(myJSONInt(jsonAway, "id"));
+            fixture.setAwayName(myJSONString(jsonAway, "name"));
+            fixture.setColor(myJSONString(jsonFixture, "color"));
+            JSONObject jsonStatus = myJSONObject(jsonFixture, "status");
+            fixture.setStarted(myJSONBoolean(jsonStatus, "started"));
+            fixture.setCancelled(myJSONBoolean(jsonStatus, "cancelled"));
+            fixture.setFinished(myJSONBoolean(jsonStatus, "finished"));
+            fixture.setScore(myJSONString(jsonStatus, "scoreStr"));
+            fixture.setDate(myJSONString(jsonStatus, "startDateStr"));
+            fixtures.add(fixture);
+        }
+        team.setFixtures(fixtures);
+
+        JSONObject jsonTopPlayers = myJSONObject(jsonObject, "topPlayers");
+        JSONArray jsonTopGoals = myJSONArray(jsonTopPlayers, "byGoals");
+        List<Team.TopPlayer> topGoal = new ArrayList<>();
+        for (int i = 0; i < jsonTopGoals.length(); i++){
+            Team.TopPlayer p = new Team.TopPlayer();
+            JSONObject jsonItem = myJSONObject(jsonTopGoals, i);
+            p.setID(myJSONInt(jsonItem, "id"));
+            p.setName(myJSONString(jsonItem, "name"));
+            p.setGoal((myJSONInt(jsonItem, "goals")));
+            p.setAssist(myJSONInt(jsonItem, "assists"));
+            p.setCountry(myJSONString(jsonItem, "ccode").toLowerCase());
+            topGoal.add(p);
+        }
+        team.setTopGoal(topGoal);
+
+        List<Team.TopPlayer> topAssist = new ArrayList<>();
+        JSONArray jsonTopAssists = myJSONArray(jsonTopPlayers, "byAssists");
+        for (int i = 0; i < jsonTopAssists.length(); i++){
+            Team.TopPlayer p = new Team.TopPlayer();
+            JSONObject jsonItem = myJSONObject(jsonTopAssists, i);
+            p.setID(myJSONInt(jsonItem, "id"));
+            p.setName(myJSONString(jsonItem, "name"));
+            p.setGoal((myJSONInt(jsonItem, "goals")));
+            p.setAssist(myJSONInt(jsonItem, "assists"));
+            p.setCountry(myJSONString(jsonItem, "ccode").toLowerCase());
+            topGoal.add(p);
+        }
+        team.setTopAssist(topAssist);
+
+        JSONObject jsonVenue = myJSONObject(jsonObject, "venue");
+        JSONObject jsonWidget = myJSONObject(jsonVenue, "widget");
+        team.setStadium(myJSONString(jsonWidget, "name"));
+        team.setCity(myJSONString(jsonWidget, "city"));
+
+        return team;
+    }
+
+    private static List<TableSearch> parsePlayerList(String jsonString){
         JSONObject jsonObject = myJSONObject(jsonString);
         JSONObject jsonDetails = myJSONObject(jsonObject, "details");
         Integer teamID = myJSONInt(jsonDetails, "id");
@@ -203,7 +299,7 @@ public class MyRemote {
         return playerList;
     }
 
-    private Player parsePlayer(String jsonString){
+    private static Player parsePlayer(String jsonString){
         Player player = new Player();
         JSONObject jsonObject = myJSONObject(jsonString);
         player.setName(myJSONString(jsonObject, "name"));

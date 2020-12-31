@@ -1,7 +1,6 @@
 package com.jk.soccer.view.fragment;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,18 +38,18 @@ public class PlayerInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        viewModel.getPlayerInfo(ID);
         FragmentPlayerinfoBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_playerinfo, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setID(ID);
-        viewModel.init();
-        viewModel.getPlayerInfoAsync(ID);
         return binding.getRoot();
     }
 
     @Override
     public void onDestroyView() {
+        viewModel.init();
         super.onDestroyView();
     }
 }

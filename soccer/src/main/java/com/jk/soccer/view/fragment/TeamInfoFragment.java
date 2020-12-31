@@ -38,13 +38,16 @@ public class TeamInfoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        viewModel.getTeamInfo(ID);
         FragmentTeaminfoBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_teaminfo, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
         binding.setID(ID);
-        viewModel.getTeamInfoAsync(ID);
+        viewModel.init();
         return binding.getRoot();
     }
+
+
 
 }

@@ -5,10 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.jk.soccer.model.Repository;
 
-import static com.jk.soccer.etc.MyJson.myJSONArray;
-import static com.jk.soccer.etc.MyJson.myJSONObject;
-import static com.jk.soccer.etc.MyJson.myJSONString;
-
 public class PlayerInfoViewModel extends ViewModel {
     public PlayerInfoViewModel() {
         repository = Repository.getInstance();
@@ -25,6 +21,7 @@ public class PlayerInfoViewModel extends ViewModel {
     }
 
     public void init(){
+        String emptyString = "";
         name.setValue(emptyString);
         teamID.setValue(emptyString);
         team.setValue(emptyString);
@@ -37,7 +34,7 @@ public class PlayerInfoViewModel extends ViewModel {
         countryID.setValue(emptyString);
     }
 
-    public void getPlayerInfoAsync(Integer ID){
+    public void getPlayerInfo(Integer ID){
         repository.getPlayerInfoAsync(ID, result -> {
             name.postValue(result.getName());
             teamID.postValue(result.getTeamID());
@@ -51,91 +48,6 @@ public class PlayerInfoViewModel extends ViewModel {
             shirt.postValue(result.getShirt());
         });
     }
-
-//    public void getPlayerInfoAsync(Integer ID){
-//        repository.getPlayerInfoAsync(ID, result -> {
-//            JSONObject jsonObject = myJSONObject(result);
-//            name.postValue(myJSONString(jsonObject, "name"));
-//            JSONObject jsonOrigin = myJSONObject(jsonObject, "origin");
-//            teamID.postValue(myJSONString(jsonOrigin, "teamId"));
-//            team.postValue(myJSONString(jsonOrigin, "teamName"));
-//            JSONObject jsonPositionDesc = myJSONObject(jsonOrigin, "positionDesc");
-//            position.postValue(myJSONString(jsonPositionDesc, "primaryPosition"));
-//            JSONArray jsonPlayerProps = myJSONArray(jsonObject, "playerProps");
-//            for (int i = 0; i < jsonPlayerProps.length(); i++){
-//                JSONObject jsonItem = myJSONObject(jsonPlayerProps, i);
-//                switch (myJSONString(jsonItem, "title")){
-//                    case "Height":
-//                        height.postValue(myJSONString(jsonItem, "value"));
-//                        break;
-//                    case "Preferred foot":
-//                        foot.postValue(myJSONString(jsonItem, "value"));
-//                        break;
-//                    case "Age":
-//                        age.postValue(myJSONString(jsonItem, "value"));
-//                        break;
-//                    case "Country":
-//                        country.postValue(myJSONString(jsonItem, "value"));
-//                        JSONObject jsonIcon = myJSONObject(jsonItem, "icon");
-//                        countryID.postValue(myJSONString(jsonIcon, "id").toLowerCase());
-//                        break;
-//                    case "Shirt":
-//                        shirt.postValue(myJSONString(jsonItem, "value"));
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//        });
-//    }
-
-
-
-//    public void getPlayerInfo(Integer ID){
-//        Thread t = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                String playerString = repository.getPlayerInfo(ID);
-//                JSONObject jsonObject = myJSONObject(playerString);
-//                name.postValue(myJSONString(jsonObject, "name"));
-//                JSONObject jsonOrigin = myJSONObject(jsonObject, "origin");
-//                teamID.postValue(myJSONInt(jsonOrigin, "teamId"));
-//                team.postValue(myJSONString(jsonOrigin, "teamName"));
-//                JSONObject jsonPositionDesc = myJSONObject(jsonOrigin, "positionDesc");
-//                position.postValue(myJSONString(jsonPositionDesc, "primaryPosition"));
-//                JSONArray jsonPlayerProps = myJSONArray(jsonObject, "playerProps");
-//                for (int i = 0; i < jsonPlayerProps.length(); i++){
-//                    JSONObject jsonItem = myJSONObject(jsonPlayerProps, i);
-//                    switch (myJSONString(jsonItem, "title")){
-//                        case "Height":
-//                            height.postValue(myJSONString(jsonItem, "value"));
-//                            break;
-//                        case "Preferred foot":
-//                            foot.postValue(myJSONString(jsonItem, "value"));
-//                            break;
-//                        case "Age":
-//                            age.postValue(myJSONInt(jsonItem, "value"));
-//                            break;
-//                        case "Country":
-//                            country.postValue(myJSONString(jsonItem, "value"));
-//                            JSONObject jsonIcon = myJSONObject(jsonItem, "icon");
-//                            countryID.postValue(myJSONString(jsonIcon, "id").toLowerCase());
-//                            break;
-//                        case "Shirt":
-//                            shirt.postValue(myJSONInt(jsonItem, "value"));
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                }
-//            }
-//        });
-//        t.start();
-//        try {
-//            t.join();
-//        } catch (Exception e){
-//        }
-//    }
 
     public MutableLiveData<String> getName() {
         return name;
@@ -178,7 +90,6 @@ public class PlayerInfoViewModel extends ViewModel {
     }
 
     final private Repository repository;
-    final private String emptyString = "";
 
     final private MutableLiveData<String> name;
     final private MutableLiveData<String> teamID;

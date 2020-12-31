@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.MyCallback;
+import com.jk.soccer.etc.Team;
 import com.jk.soccer.model.local.MyLocal;
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.local.TableSearch;
@@ -50,8 +51,9 @@ public class Repository {
         getInfoAsync(Type.LEAGUE, ID, strings[9], callback);
     }
 
-    public void getTeamInfoAsync(Integer ID, MyCallback<String> callback){
-        getInfoAsync(Type.TEAM, ID, strings[9], callback);
+    public void getTeamInfoAsync(Integer ID, MyCallback<Team> callback){
+        //getInfoAsync(Type.TEAM, ID, strings[9], callback);
+        myRemote.downloadTeam(ID, callback);
     }
 
     public void getPlayerInfoAsync(Integer ID, MyCallback<Player> callback){
