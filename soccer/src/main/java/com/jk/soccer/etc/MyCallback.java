@@ -1,5 +1,5 @@
 package com.jk.soccer.etc;
 
-public interface RepositoryCallback<T> {
+public interface MyCallback<T> {
     void onComplete(T result);
 }

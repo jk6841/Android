@@ -106,7 +106,7 @@
 
                 <TextView
                     android:id="@+id/tbl_21"
-                    android:text="@{viewModel.shirt.toString()}"
+                    android:text="@{viewModel.shirt}"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
@@ -223,7 +223,7 @@
                 <TextView
                     android:id="@+id/tbl_61"
                     android:layout_width="wrap_content"
-                    android:text="@{viewModel.age.toString()}"
+                    android:text="@{viewModel.age}"
                     android:layout_height="match_parent"
                     android:layout_weight="@integer/column1"
                     android:textSize="@dimen/midBigFont"
@@ -291,7 +291,7 @@
         <ImageView
             android:id="@+id/imageView2"
             android:contentDescription="@string/player_image"
-            objectID="@{viewModel.teamID.toString()}"
+            objectID="@{viewModel.teamID}"
             type="@{type.TEAM}"
             android:layout_width="50dp"
             android:layout_height="50dp"

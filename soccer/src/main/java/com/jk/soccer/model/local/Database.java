@@ -14,14 +14,7 @@ import com.jk.soccer.model.local.converter.RoleInt;
 import com.jk.soccer.model.local.converter.TypeInt;
 
 @androidx.room.Database(
-        entities = {
-                TableSearch.class,
-                TableLeague.class,
-                TableTeam.class,
-                TablePlayer.class,
-                TempLeague.class,
-                TempTeam.class,
-                TempPlayer.class},
+        entities = {TableSearch.class},
         version = 1,
         exportSchema =  false)
 @TypeConverters({EventList.class, LineupList.class, RoleInt.class, DateString.class, TypeInt.class})

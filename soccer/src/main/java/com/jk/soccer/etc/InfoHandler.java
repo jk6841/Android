@@ -10,10 +10,11 @@ import androidx.navigation.Navigation;
 import com.jk.soccer.R;
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.view.activity.MainActivity;
+import com.jk.soccer.viewModel.SearchViewModel;
 
 public class InfoHandler implements Handler {
 
-    final private Activity activity;
+    final private Activity activity;;
 
     public InfoHandler(Activity activity) {
         this.activity = activity;
@@ -33,6 +34,9 @@ public class InfoHandler implements Handler {
                 break;
             case TEAM:
                 nav = R.id.action_nav_search_to_nav_teamInfo;
+                break;
+            case LEAGUE:
+                nav = R.id.action_nav_search_to_nav_leagueInfo;
             default:
                 break;
         }

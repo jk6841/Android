@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 
 public class RetrofitClient {
 
-    private ApiService[] apiService;
+    final private ApiService[] apiService;
 
     public ApiService getApiService(Integer index) {
         return apiService[index];

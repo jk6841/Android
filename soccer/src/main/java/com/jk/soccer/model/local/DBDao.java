@@ -181,82 +181,82 @@ public interface DBDao {
     @Query("SELECT * FROM tableSearch WHERE Name LIKE :name")
     LiveData<List<TableSearch>> getSearch(String name);
 
-    @Query("SELECT * FROM tableSearch WHERE Type = :type")
-    List<TableSearch> getList(Type type);
+    @Query("SELECT * FROM tableSearch WHERE Type = :type AND ParentID = :parentID")
+    List<TableSearch> getList(Type type, Integer parentID);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertTeam(TableTeam entry);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertPlayer(TablePlayer entry);
-
-    @Query("SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
-    Integer getLeagueID(Integer leagueIndex);
-
-    @Query("SELECT ID FROM tableTeam " +
-            "WHERE LeagueID IN tempLeague ORDER BY Rank LIMIT 1 OFFSET :teamIndex")
-    Integer getTeamID(Integer teamIndex);
-
-    @Query("SELECT ID FROM tablePlayer " +
-            "WHERE TeamID IN tempTeam " +
-            "ORDER BY Role DESC " +
-            "LIMIT 1 " +
-            "OFFSET :playerIndex")
-    Integer getPlayerID(Integer playerIndex);
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    void insertTeam(TableTeam entry);
+//
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    void insertPlayer(TablePlayer entry);
+//
+//    @Query("SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
+//    Integer getLeagueID(Integer leagueIndex);
+//
+//    @Query("SELECT ID FROM tableTeam " +
+//            "WHERE LeagueID IN tempLeague ORDER BY Rank LIMIT 1 OFFSET :teamIndex")
+//    Integer getTeamID(Integer teamIndex);
+//
+//    @Query("SELECT ID FROM tablePlayer " +
+//            "WHERE TeamID IN tempTeam " +
+//            "ORDER BY Role DESC " +
+//            "LIMIT 1 " +
+//            "OFFSET :playerIndex")
+//    Integer getPlayerID(Integer playerIndex);
 
 //    @Query("SELECT * FROM tableLeague")
 //    LiveData<List<TableLeague>> getLeagueList();
 
-    @Query("SELECT * FROM tableTeam " +
-            "WHERE LeagueID IN tempLeague " +
-            "ORDER BY Rank")
-    LiveData<List<TableTeam>> getTeamList();
+//    @Query("SELECT * FROM tableTeam " +
+//            "WHERE LeagueID IN tempLeague " +
+//            "ORDER BY Rank")
+//    LiveData<List<TableTeam>> getTeamList();
+//
+//    @Query("SELECT * FROM tablePlayer " +
+//            "WHERE teamID IN tempTeam " +
+//            "ORDER BY Role DESC")
+//    LiveData<List<TablePlayer>> getPlayerList();
 
-    @Query("SELECT * FROM tablePlayer " +
-            "WHERE teamID IN tempTeam " +
-            "ORDER BY Role DESC")
-    LiveData<List<TablePlayer>> getPlayerList();
-
-    @Query("UPDATE tableLeague SET ChildrenDate = :childrenDate WHERE ID IN tempLeague")
-    void updateLeagueChildrenDate(Date childrenDate);
-
-    @Query("SELECT ChildrenDate FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
-    Date getLeagueChildrenDate(Integer leagueIndex);
-
-    @Query("UPDATE tableTeam SET ChildrenDate = :childrenDate WHERE ID IN tempTeam")
-    void updateTeamChildrenDate(Date childrenDate);
-
-    @Query("SELECT ChildrenDate FROM tableTeam " +
-            "WHERE ID IN " +
-            "(SELECT ID FROM tableTeam WHERE LeagueID IN tempLeague) ORDER BY Rank " +
-            "LIMIT 1 OFFSET :teamIndex")
-    Date getTeamChildrenDate(Integer teamIndex);
-
-    @Query("INSERT INTO tempLeague SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
-    void selectLeague(Integer leagueIndex);
-
-    @Query("DELETE FROM tempLeague")
-    void clearLeague();
-
-    @Query("INSERT INTO tempTeam SELECT ID FROM tableTeam " +
-            "WHERE LeagueID IN tempLeague " +
-            "ORDER BY Rank " +
-            "LIMIT 1 " +
-            "OFFSET :teamIndex")
-    void selectTeam(Integer teamIndex);
-
-    @Query("DELETE FROM tempTeam")
-    void clearTeam();
-
-    @Query("INSERT INTO tempPlayer SELECT ID FROM tablePlayer " +
-            "WHERE teamID IN tempTeam " +
-            "ORDER BY Role DESC " +
-            "LIMIT 1 " +
-            "OFFSET :playerIndex")
-    void selectPlayer(Integer playerIndex);
-
-    @Query("DELETE FROM tempPlayer")
-    void clearPlayer();
+//    @Query("UPDATE tableLeague SET ChildrenDate = :childrenDate WHERE ID IN tempLeague")
+//    void updateLeagueChildrenDate(Date childrenDate);
+//
+//    @Query("SELECT ChildrenDate FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
+//    Date getLeagueChildrenDate(Integer leagueIndex);
+//
+//    @Query("UPDATE tableTeam SET ChildrenDate = :childrenDate WHERE ID IN tempTeam")
+//    void updateTeamChildrenDate(Date childrenDate);
+//
+//    @Query("SELECT ChildrenDate FROM tableTeam " +
+//            "WHERE ID IN " +
+//            "(SELECT ID FROM tableTeam WHERE LeagueID IN tempLeague) ORDER BY Rank " +
+//            "LIMIT 1 OFFSET :teamIndex")
+//    Date getTeamChildrenDate(Integer teamIndex);
+//
+//    @Query("INSERT INTO tempLeague SELECT ID FROM tableLeague LIMIT 1 OFFSET :leagueIndex")
+//    void selectLeague(Integer leagueIndex);
+//
+//    @Query("DELETE FROM tempLeague")
+//    void clearLeague();
+//
+//    @Query("INSERT INTO tempTeam SELECT ID FROM tableTeam " +
+//            "WHERE LeagueID IN tempLeague " +
+//            "ORDER BY Rank " +
+//            "LIMIT 1 " +
+//            "OFFSET :teamIndex")
+//    void selectTeam(Integer teamIndex);
+//
+//    @Query("DELETE FROM tempTeam")
+//    void clearTeam();
+//
+//    @Query("INSERT INTO tempPlayer SELECT ID FROM tablePlayer " +
+//            "WHERE teamID IN tempTeam " +
+//            "ORDER BY Role DESC " +
+//            "LIMIT 1 " +
+//            "OFFSET :playerIndex")
+//    void selectPlayer(Integer playerIndex);
+//
+//    @Query("DELETE FROM tempPlayer")
+//    void clearPlayer();
 
     @Query("DELETE FROM tableSearch WHERE ParentID != 0")
     void clearSearch();
