@@ -1,12 +1,12 @@
 package com.jk.soccer.model.remote;
 
-import com.jk.soccer.etc.Fixture;
-import com.jk.soccer.etc.League;
-import com.jk.soccer.etc.TopPlayer;
+import com.jk.soccer.model.Fixture;
+import com.jk.soccer.model.League;
+import com.jk.soccer.model.TopPlayer;
 import com.jk.soccer.etc.json.MyJSONArray;
 import com.jk.soccer.etc.json.MyJSONObject;
-import com.jk.soccer.etc.Player;
-import com.jk.soccer.etc.Team;
+import com.jk.soccer.model.Player;
+import com.jk.soccer.model.Team;
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.local.TableSearch;
 

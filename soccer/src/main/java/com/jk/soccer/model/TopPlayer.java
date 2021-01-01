@@ -1,4 +1,4 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.model;
 
 public class TopPlayer{
 

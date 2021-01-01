@@ -6,10 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.jk.soccer.etc.League;
-import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.MyCallback;
-import com.jk.soccer.etc.Team;
 import com.jk.soccer.model.local.MyLocal;
 import com.jk.soccer.etc.enumeration.Type;
 import com.jk.soccer.model.local.TableSearch;

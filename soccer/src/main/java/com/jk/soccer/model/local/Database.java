@@ -8,8 +8,6 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.jk.soccer.model.local.converter.DateString;
-import com.jk.soccer.model.local.converter.EventList;
-import com.jk.soccer.model.local.converter.LineupList;
 import com.jk.soccer.model.local.converter.RoleInt;
 import com.jk.soccer.model.local.converter.TypeInt;
 
@@ -17,7 +15,7 @@ import com.jk.soccer.model.local.converter.TypeInt;
         entities = {TableSearch.class},
         version = 1,
         exportSchema =  false)
-@TypeConverters({EventList.class, LineupList.class, RoleInt.class, DateString.class, TypeInt.class})
+@TypeConverters({RoleInt.class, DateString.class, TypeInt.class})
 public abstract class Database extends RoomDatabase {
 
     public abstract DBDao dbDao();

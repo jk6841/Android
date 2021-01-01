@@ -5,11 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.jk.soccer.model.Repository;
 
-import org.json.JSONObject;
-
-import static com.jk.soccer.etc.MyJson.myJSONObject;
-import static com.jk.soccer.etc.MyJson.myJSONString;
-
 public class LeagueInfoViewModel extends ViewModel {
 
     public LeagueInfoViewModel() {

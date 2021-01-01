@@ -3,8 +3,8 @@ package com.jk.soccer.viewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.jk.soccer.etc.Fixture;
-import com.jk.soccer.etc.TopPlayer;
+import com.jk.soccer.model.Fixture;
+import com.jk.soccer.model.TopPlayer;
 import com.jk.soccer.model.Repository;
 
 import java.util.List;

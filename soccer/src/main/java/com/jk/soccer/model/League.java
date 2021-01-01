@@ -1,4 +1,6 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.model;
+
+import com.jk.soccer.etc.LeagueTableEntry;
 
 import java.util.List;
 

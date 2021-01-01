@@ -6,10 +6,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.jk.soccer.R;
-import com.jk.soccer.etc.League;
-import com.jk.soccer.etc.Player;
+import com.jk.soccer.model.League;
+import com.jk.soccer.model.Player;
 import com.jk.soccer.etc.MyCallback;
-import com.jk.soccer.etc.Team;
+import com.jk.soccer.model.Team;
 import com.jk.soccer.etc.throwable.MyThrowable;
 import com.jk.soccer.model.local.TableSearch;
 
