@@ -5,6 +5,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
+import com.jk.soccer.viewModel.PlayerInfoViewModel;
+import com.jk.soccer.viewModel.SearchViewModel;
+import com.jk.soccer.viewModel.TeamInfoViewModel;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -14,7 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewModel viewModel;
+    private MainViewModel mainVM;
+    private SearchViewModel searchViewModel;
+    private PlayerInfoViewModel playerInfoViewModel;
+    private TeamInfoViewModel teamInfoViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +30,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(
                 this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
-        viewModel = new ViewModelProvider(this,
+        mainVM = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication()))
                 .get(MainViewModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        playerInfoViewModel = new ViewModelProvider(this).get(PlayerInfoViewModel.class);
+        teamInfoViewModel = new ViewModelProvider(this).get(TeamInfoViewModel.class);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        viewModel.onCleared();
+        mainVM.onCleared();
     }
 
     @Override
@@ -40,9 +49,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    public SearchViewModel getSearchViewModel() {
+        return searchViewModel;
+    }
+
+    public PlayerInfoViewModel getPlayerInfoViewModel() {
+        return playerInfoViewModel;
+    }
+
+    public TeamInfoViewModel getTeamInfoViewModel() {
+        return teamInfoViewModel;
+    }
+
     public void hideKeyboard() {
         InputMethodManager manager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+        if (getCurrentFocus() != null)
+            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

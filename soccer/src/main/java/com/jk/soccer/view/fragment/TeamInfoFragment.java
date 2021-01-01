@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.jk.soccer.R;
 import com.jk.soccer.databinding.FragmentTeaminfoBinding;
+import com.jk.soccer.view.activity.MainActivity;
 import com.jk.soccer.viewModel.TeamInfoViewModel;
 
 public class TeamInfoFragment extends Fragment {
@@ -32,10 +33,7 @@ public class TeamInfoFragment extends Fragment {
             parentID = args.getInt("parent", 0);
             name = args.getString("name", "");
         }
-        Application application = getActivity().getApplication();
-        viewModel = new ViewModelProvider(getActivity(),
-                new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(TeamInfoViewModel.class);
+        viewModel = ((MainActivity) getActivity()).getTeamInfoViewModel();
     }
 
     @Nullable

@@ -31,10 +31,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Application application = activity.getApplication();
-        viewModel = new ViewModelProvider(getActivity(),
-                new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(SearchViewModel.class);
+        viewModel = ((MainActivity) activity).getSearchViewModel();
     }
 
     @Nullable
