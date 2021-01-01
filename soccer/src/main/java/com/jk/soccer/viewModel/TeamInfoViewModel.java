@@ -3,7 +3,8 @@ package com.jk.soccer.viewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.jk.soccer.etc.Team;
+import com.jk.soccer.etc.Fixture;
+import com.jk.soccer.etc.TopPlayer;
 import com.jk.soccer.model.Repository;
 
 import java.util.List;
@@ -45,23 +46,23 @@ public class TeamInfoViewModel extends ViewModel {
         return stadium;
     }
 
-    public MutableLiveData<List<Team.Fixture>> getFixtures() {
+    public MutableLiveData<List<Fixture>> getFixtures() {
         return fixtures;
     }
 
-    public MutableLiveData<List<Team.TopPlayer>> getTopGoal() {
+    public MutableLiveData<List<TopPlayer>> getTopGoal() {
         return topGoal;
     }
 
-    public MutableLiveData<List<Team.TopPlayer>> getTopAssist() {
+    public MutableLiveData<List<TopPlayer>> getTopAssist() {
         return topAssist;
     }
 
     final private Repository repository;
     final private MutableLiveData<String> name;
     final private MutableLiveData<String> stadium;
-    final private MutableLiveData<List<Team.Fixture>> fixtures;
-    final private MutableLiveData<List<Team.TopPlayer>> topGoal;
-    final private MutableLiveData<List<Team.TopPlayer>> topAssist;
+    final private MutableLiveData<List<Fixture>> fixtures;
+    final private MutableLiveData<List<TopPlayer>> topGoal;
+    final private MutableLiveData<List<TopPlayer>> topAssist;
 
 }

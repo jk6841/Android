@@ -1,5 +1,8 @@
 package com.jk.soccer.model.remote;
 
+import com.jk.soccer.etc.Fixture;
+import com.jk.soccer.etc.League;
+import com.jk.soccer.etc.TopPlayer;
 import com.jk.soccer.etc.json.MyJSONArray;
 import com.jk.soccer.etc.json.MyJSONObject;
 import com.jk.soccer.etc.Player;
@@ -11,6 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
+
+    public static League parseLeague(String jsonString){
+        League league = new League();
+        MyJSONObject jsonObject = new MyJSONObject(jsonString);
+        MyJSONObject jsonDetails = jsonObject.getJSONObject("details");
+        league.setID(jsonDetails.getInt("id"));
+        league.setName(jsonDetails.getString("name"));
+        MyJSONArray jsonFixtures = jsonObject.getJSONArray("fixtures");
+        league.setFixtures(parseFixtures(jsonFixtures));
+        MyJSONObject jsonTopPlayers = jsonObject.getJSONObject("topPlayers");
+        MyJSONArray jsonTopGoal = jsonTopPlayers.getJSONArray("byGoals");
+        league.setTopGoal(parseTopPlayer(jsonTopGoal));
+        MyJSONArray jsonTopAssist = jsonTopPlayers.getJSONArray("byAssists");
+        league.setTopAssist(parseTopPlayer(jsonTopAssist));
+        return league;
+    }
 
     public static List<TableSearch> parseTeamList(String jsonString){
         MyJSONObject jsonObject = new MyJSONObject(jsonString);
@@ -39,57 +58,13 @@ public class Parser {
         team.setID(jsonDetails.getString("id"));
         team.setName(jsonDetails.getString("name"));
         MyJSONArray jsonArray = jsonObject.getJSONArray("fixtures");
-        List<Team.Fixture> fixtures = new ArrayList<>();
-        for (int i = 0 ; i < jsonArray.length(); i++){
-            MyJSONObject jsonFixture = jsonArray.getJSONObject(i);
-            Team.Fixture fixture = new Team.Fixture();
-            fixture.setID(jsonFixture.getInt("id"));
-            MyJSONObject jsonHome = jsonFixture.getJSONObject("home");
-            MyJSONObject jsonAway = jsonFixture.getJSONObject("away");
-            fixture.setHomeID(jsonHome.getInt("id"));
-            fixture.setHomeName(jsonHome.getString("name"));
-            fixture.setAwayID(jsonAway.getInt("id"));
-            fixture.setAwayName(jsonAway.getString("name"));
-            fixture.setColor(jsonFixture.getString("color"));
-            MyJSONObject jsonStatus = jsonFixture.getJSONObject("status");
-            fixture.setStarted(jsonStatus.getBoolean("started"));
-            fixture.setCancelled(jsonStatus.getBoolean("cancelled"));
-            fixture.setFinished(jsonStatus.getBoolean("finished"));
-            fixture.setScore(jsonStatus.getString("scoreStr"));
-            fixture.setDate(jsonStatus.getString("startDateStr"));
-            fixtures.add(fixture);
-        }
-        team.setFixtures(fixtures);
+        team.setFixtures(parseFixtures(jsonArray));
 
         MyJSONObject jsonTopPlayers = jsonObject.getJSONObject("topPlayers");
-
         MyJSONArray jsonTopGoals = jsonTopPlayers.getJSONArray("byGoals");
-        List<Team.TopPlayer> topGoal = new ArrayList<>();
-        for (int i = 0; i < jsonTopGoals.length(); i++){
-            Team.TopPlayer p = new Team.TopPlayer();
-            MyJSONObject jsonItem = jsonTopGoals.getJSONObject(i);
-            p.setID(jsonItem.getInt("id"));
-            p.setName(jsonItem.getString("name"));
-            p.setGoal(jsonItem.getInt("goals"));
-            p.setAssist(jsonItem.getInt("assists"));
-            p.setCountry(jsonItem.getString("ccode").toLowerCase());
-            topGoal.add(p);
-        }
-        team.setTopGoal(topGoal);
-
-        List<Team.TopPlayer> topAssist = new ArrayList<>();
+        team.setTopGoal(parseTopPlayer(jsonTopGoals));
         MyJSONArray jsonTopAssists = jsonTopPlayers.getJSONArray("byAssists");
-        for (int i = 0; i < jsonTopAssists.length(); i++){
-            Team.TopPlayer p = new Team.TopPlayer();
-            MyJSONObject jsonItem = jsonTopAssists.getJSONObject(i);
-            p.setID(jsonItem.getInt("id"));
-            p.setName(jsonItem.getString("name"));
-            p.setGoal(jsonItem.getInt("goals"));
-            p.setAssist(jsonItem.getInt("assists"));
-            p.setCountry(jsonItem.getString("ccode").toLowerCase());
-            topAssist.add(p);
-        }
-        team.setTopAssist(topAssist);
+        team.setTopAssist(parseTopPlayer(jsonTopAssists));
 
         MyJSONObject jsonVenue = jsonObject.getJSONObject("venue");
         MyJSONObject jsonWidget = jsonVenue.getJSONObject("widget");
@@ -158,6 +133,49 @@ public class Parser {
             }
         }
         return player;
+    }
+
+    private static List<Fixture> parseFixtures(MyJSONArray jsonFixtures){
+        List<Fixture> fixtures = new ArrayList<>();
+        for (int i = 0 ; i < jsonFixtures.length(); i++){
+            MyJSONObject jsonFixture = jsonFixtures.getJSONObject(i);
+            Fixture fixture = new Fixture();
+            fixture.setID(jsonFixture.getInt("id"));
+            MyJSONObject jsonHome = jsonFixture.getJSONObject("home");
+            MyJSONObject jsonAway = jsonFixture.getJSONObject("away");
+            fixture.setHomeID(jsonHome.getInt("id"));
+            fixture.setHomeName(jsonHome.getString("name"));
+            fixture.setAwayID(jsonAway.getInt("id"));
+            fixture.setAwayName(jsonAway.getString("name"));
+            fixture.setColor(jsonFixture.getString("color"));
+            MyJSONObject jsonStatus = jsonFixture.getJSONObject("status");
+            fixture.setStarted(jsonStatus.getBoolean("started"));
+            fixture.setCancelled(jsonStatus.getBoolean("cancelled"));
+            fixture.setFinished(jsonStatus.getBoolean("finished"));
+            fixture.setScore(jsonStatus.getString("scoreStr"));
+            fixture.setDate(jsonStatus.getString("startDateStr"));
+            fixtures.add(fixture);
+        }
+        return fixtures;
+    }
+
+    private static List<TopPlayer> parseTopPlayer(MyJSONArray jsonTopPlayer){
+        List<TopPlayer> topPlayers = new ArrayList<>();
+        for (int i = 0; i < jsonTopPlayer.length(); i++){
+            TopPlayer p = new TopPlayer();
+            MyJSONObject jsonItem = jsonTopPlayer.getJSONObject(i);
+            p.setID(jsonItem.getInt("id"));
+            p.setName(jsonItem.getString("name"));
+            p.setGoal(jsonItem.getInt("goals"));
+            p.setAssist(jsonItem.getInt("assists"));
+            p.setTeamID(jsonItem.getInt("teamId"));
+            p.setTeamName(jsonItem.getString("teamName"));
+            String ccode = jsonItem.getString("ccode");
+            if (ccode != null)
+                p.setCountry(ccode.toLowerCase());
+            topPlayers.add(p);
+        }
+        return topPlayers;
     }
 
 }

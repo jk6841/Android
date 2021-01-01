@@ -34,7 +34,7 @@ public class MyRemote {
         apiService.getLeague(leagueID, "overview").enqueue(new RetrofitCallback() {
             @Override
             public void onSuccess(@NonNull String responseString) {
-
+                callback.onComplete(Parser.parseLeague(responseString));
             }
         });
     }

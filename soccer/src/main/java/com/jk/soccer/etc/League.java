@@ -2,13 +2,13 @@ package com.jk.soccer.etc;
 
 import java.util.List;
 
-public class Team {
+public class League {
 
-    public String getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
@@ -20,20 +20,12 @@ public class Team {
         this.name = name;
     }
 
-    public String getStadium() {
-        return stadium;
+    public List<LeagueTableEntry> getTable() {
+        return table;
     }
 
-    public void setStadium(String stadium) {
-        this.stadium = stadium;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setTable(List<LeagueTableEntry> table) {
+        this.table = table;
     }
 
     public List<Fixture> getFixtures() {
@@ -60,13 +52,11 @@ public class Team {
         this.topAssist = topAssist;
     }
 
-    private String ID;
+    private Integer ID;
 
     private String name;
 
-    private String stadium;
-
-    private String city;
+    private List<LeagueTableEntry> table;
 
     private List<Fixture> fixtures;
 
