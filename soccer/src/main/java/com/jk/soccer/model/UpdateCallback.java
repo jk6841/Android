@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class UpdateCallback implements MyCallback<Boolean> {
-    final private String today;
-    final private MutableLiveData<String> progress;
 
     public UpdateCallback(MutableLiveData<String> progress) {
         this.progress = progress;
@@ -26,4 +24,7 @@ public class UpdateCallback implements MyCallback<Boolean> {
     public void onProgress(String count){
         progress.postValue(count + "개 작업 남음");
     }
+
+    final private String today;
+    final private MutableLiveData<String> progress;
 }

@@ -20,10 +20,6 @@ public class RetrofitClient {
         return retrofitClient;
     }
 
-    private RetrofitClient(){
-        apiService = new ArrayList<>();
-    }
-
     public void register(String url){
         Retrofit retrofit;
         OkHttpClient client = new OkHttpClient.Builder()
@@ -41,4 +37,8 @@ public class RetrofitClient {
 
     private static RetrofitClient retrofitClient = null;
     private static List<ApiService> apiService = null;
+
+    private RetrofitClient(){
+        apiService = new ArrayList<>();
+    }
 }

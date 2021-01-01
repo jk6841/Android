@@ -9,6 +9,7 @@ import com.jk.soccer.model.Repository;
 import java.util.List;
 
 public class TeamInfoViewModel extends ViewModel {
+
     public TeamInfoViewModel() {
         repository = Repository.getInstance();
         name = new MutableLiveData<>();

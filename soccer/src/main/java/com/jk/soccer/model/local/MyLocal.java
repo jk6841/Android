@@ -19,11 +19,6 @@ public class MyLocal {
         return myLocal;
     }
 
-    private MyLocal(Application application){
-        database = Database.getInstance(application);
-        dao = database.dbDao();
-    }
-
     public void close(){
         database.close();
     }
@@ -71,5 +66,10 @@ public class MyLocal {
     private static MyLocal myLocal;
     final private Database database;
     final private DBDao dao;
+
+    private MyLocal(Application application){
+        database = Database.getInstance(application);
+        dao = database.dbDao();
+    }
 
 }

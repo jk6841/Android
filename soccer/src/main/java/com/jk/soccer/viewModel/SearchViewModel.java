@@ -1,6 +1,5 @@
 package com.jk.soccer.viewModel;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
@@ -11,10 +10,7 @@ import com.jk.soccer.model.Repository;
 import com.jk.soccer.model.UpdateCallback;
 import com.jk.soccer.model.local.TableSearch;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class SearchViewModel extends ViewModel {
 
@@ -26,9 +22,6 @@ public class SearchViewModel extends ViewModel {
         teamList = Transformations.switchMap(name, input -> repository.search(input, Type.TEAM));
         playerList = Transformations.switchMap(name, input -> repository.search(input, Type.PERSON));
         data = new MutableLiveData<>();
-        today = "최근 업데이트: "
-                + new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREA)
-                .format(new Date());
         update();
     }
 
@@ -64,12 +57,11 @@ public class SearchViewModel extends ViewModel {
         return playerList;
     }
 
-    private final Repository repository;
+    final private  Repository repository;
     final private LiveData<List<TableSearch>> leagueList;
     final private LiveData<List<TableSearch>> teamList;
     final private LiveData<List<TableSearch>> playerList;
     final private MutableLiveData<String> name;
     final private MutableLiveData<String> data;
-    final private String today;
 
 }

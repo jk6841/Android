@@ -2,7 +2,6 @@ package com.jk.soccer.model.remote;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -29,14 +28,6 @@ public class MyRemote {
             return myRemote;
         myRemote = new MyRemote(application);
         return myRemote;
-    }
-
-    private MyRemote(Application application){
-        Context appContext = application.getApplicationContext();
-        RetrofitClient retrofitClient = RetrofitClient.getInstance();
-        retrofitClient.register(appContext.getString(R.string.baseUrl1));
-        apiService = retrofitClient.getApiService(0);
-        className = this.getClass().getName();
     }
 
     public void downloadLeague(Integer leagueID, MyCallback<League> callback){
@@ -116,6 +107,14 @@ public class MyRemote {
 
     private static void printLog(Throwable t){
         MyThrowable.printLog(className, t);
+    }
+
+    private MyRemote(Application application){
+        Context appContext = application.getApplicationContext();
+        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+        retrofitClient.register(appContext.getString(R.string.baseUrl1));
+        apiService = retrofitClient.getApiService(0);
+        className = this.getClass().getName();
     }
 
 }
