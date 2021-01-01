@@ -7,10 +7,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.jk.soccer.R;
+import com.jk.soccer.etc.League;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.MyCallback;
 import com.jk.soccer.etc.Team;
-import com.jk.soccer.etc.enumeration.Type;
+import com.jk.soccer.etc.throwable.MyThrowable;
 import com.jk.soccer.model.local.TableSearch;
 
 import java.util.List;
@@ -35,130 +36,86 @@ public class MyRemote {
         RetrofitClient retrofitClient = RetrofitClient.getInstance();
         retrofitClient.register(appContext.getString(R.string.baseUrl1));
         apiService = retrofitClient.getApiService(0);
+        className = this.getClass().getName();
     }
 
-    public void downloadAsync(Type type, Integer ID, String tab, Callback<ResponseBody> callback){
-        switch (type) {
-            case PERSON:
-                apiService.getPlayer(ID).enqueue(callback);
-                break;
-            case TEAM:
-                apiService.getTeam(ID, tab).enqueue(callback);
-                break;
-            case LEAGUE:
-                apiService.getLeague(ID, tab).enqueue(callback);
-                break;
-            case MATCH:
-                apiService.getMatch(ID).enqueue(callback);
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void downloadTeamList(Integer leagueID, MyCallback<List<TableSearch>> callback){
-        apiService.getLeague(leagueID, "table").enqueue(new Callback<ResponseBody>() {
+    public void downloadLeague(Integer leagueID, MyCallback<League> callback){
+        apiService.getLeague(leagueID, "overview").enqueue(new RetrofitCallback() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   @NonNull Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    ResponseBody responseBody = response.body();
-                    try {
-                        String responseString = (responseBody != null)? responseBody.string() : "";
-                        List<TableSearch> teamList = Parser.parseTeamList(responseString);
-                        callback.onComplete(teamList);
-                    } catch (Exception e){
-                        Log.e("Error: ", e.getMessage());
-                    }
-                }
-            }
+            public void onSuccess(@NonNull String responseString) {
 
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call,
-                                  @NonNull Throwable t) {
-                Log.e("Error: ", t.getMessage());
             }
         });
     }
 
-    public void downloadPlayerList(Integer teamID, MyCallback<List<TableSearch>> callback){
-        apiService.getTeam(teamID, "squad").enqueue(new Callback<ResponseBody>() {
+    public void downloadTeamList(Integer leagueID, MyCallback<List<TableSearch>> callback){
+        apiService.getLeague(leagueID, "table").enqueue(new RetrofitCallback() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   @NonNull Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    ResponseBody responseBody = response.body();
-                    try {
-                        String responseString = (responseBody != null)? responseBody.string() : "";
-                        List<TableSearch> playerList = Parser.parsePlayerList(responseString);
-                        callback.onComplete(playerList);
-                    } catch (Exception e){
-                        Log.e("Error: ", e.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call,
-                                  @NonNull Throwable t) {
-                Log.e("Error: ", t.getMessage());
+            public void onSuccess(@NonNull String responseString) {
+                callback.onComplete(Parser.parseTeamList(responseString));
             }
         });
     }
 
     public void downloadTeam(Integer ID, MyCallback<Team> callback){
-        apiService.getTeam(ID, "overview").enqueue(new Callback<ResponseBody>() {
+        apiService.getTeam(ID, "overview").enqueue(new RetrofitCallback() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   @NonNull Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    ResponseBody responseBody = response.body();
-                    try {
-                        String responseString
-                                = (responseBody != null)? responseBody.string() : "";
-                        Team team = Parser.parseTeam(responseString);
-                        callback.onComplete(team);
-                    } catch (Exception e){
-                        Log.e("Error: ", e.getMessage());
-                    }
-                }
+            public void onSuccess(@NonNull String responseString) {
+                callback.onComplete(Parser.parseTeam(responseString));
             }
+        });
+    }
 
+    public void downloadPlayerList(Integer teamID, MyCallback<List<TableSearch>> callback){
+        apiService.getTeam(teamID, "squad").enqueue(new RetrofitCallback() {
             @Override
-            public void onFailure(@NonNull Call<ResponseBody> call,
-                                  @NonNull Throwable t) {
-
+            public void onSuccess(@NonNull String responseString) {
+                callback.onComplete(Parser.parsePlayerList(responseString));
             }
         });
     }
 
     public void downloadPlayer(Integer ID, MyCallback<Player> callback){
-        apiService.getPlayer(ID).enqueue(new Callback<ResponseBody>() {
+        apiService.getPlayer(ID).enqueue(new RetrofitCallback() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   @NonNull Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    ResponseBody responseBody = response.body();
-                    try {
-                        String responseString
-                                = (responseBody != null)? responseBody.string() : "";
-                        //Player player = parsePlayer(responseString);
-                        Player player = Parser.parsePlayer(responseString);
-                        callback.onComplete(player);
-                    } catch (Exception e){
-                        Log.e("Error: ", e.getMessage());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call,
-                                  @NonNull Throwable t) {
+            public void onSuccess(@NonNull String responseString) {
+                callback.onComplete(Parser.parsePlayer(responseString));
             }
         });
     }
 
     private static MyRemote myRemote = null;
     private static ApiService apiService;
+    private static String className;
+
+    private static abstract class RetrofitCallback implements Callback<ResponseBody>{
+
+        public abstract void onSuccess(@NonNull String responseString);
+
+        @Override
+        public void onResponse(@NonNull Call<ResponseBody> call,
+                               @NonNull Response<ResponseBody> response){
+            if (response.isSuccessful()) {
+                ResponseBody responseBody = response.body();
+                if (responseBody != null) {
+                    try {
+                        onSuccess(responseBody.string());
+                    } catch (Exception e) {
+                        printLog(e);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void onFailure(@NonNull Call<ResponseBody> call,
+                              @NonNull Throwable t) {
+            printLog(t);
+        }
+    }
+
+    private static void printLog(Throwable t){
+        MyThrowable.printLog(className, t);
+    }
 
 }

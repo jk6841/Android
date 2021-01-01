@@ -3,10 +3,10 @@ package com.jk.soccer.model;
 import android.app.Application;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.jk.soccer.etc.League;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.MyCallback;
 import com.jk.soccer.etc.Team;
@@ -18,19 +18,7 @@ import com.jk.soccer.model.remote.MyRemote;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class Repository {
-
-    public Repository(Application application){
-        myLocal = MyLocal.getInstance(application);
-        myRemote = MyRemote.getInstance(application);
-        emptySearch = new MutableLiveData<>();
-        emptySearch.setValue(new ArrayList<>());
-    }
 
     public static Repository getInstance(Application application){
         if (repository == null){
@@ -47,8 +35,8 @@ public class Repository {
         myLocal.close();
     }
 
-    public void getLeagueInfoAsync(Integer ID, MyCallback<String> callback){
-        getInfoAsync(Type.LEAGUE, ID, strings[9], callback);
+    public void getLeagueInfoAsync(Integer ID, MyCallback<League> callback){
+        myRemote.downloadLeague(ID, callback);
     }
 
     public void getTeamInfoAsync(Integer ID, MyCallback<Team> callback){
@@ -57,31 +45,6 @@ public class Repository {
 
     public void getPlayerInfoAsync(Integer ID, MyCallback<Player> callback){
         myRemote.downloadPlayer(ID, callback);
-    }
-
-    public void getInfoAsync(Type type, Integer ID, String tab, MyCallback<String> callback){
-        myRemote.downloadAsync(type, ID, tab, new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call,
-                                   @NonNull Response<ResponseBody> response) {
-                if (response.isSuccessful()){
-                    String result;
-                    try {
-                        ResponseBody responseBody = response.body();
-                        result = (responseBody != null)? responseBody.string() : strings[0];
-                    } catch (Exception e){
-                        result = strings[0];
-                    }
-                    callback.onComplete(result);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call,
-                                  @NonNull Throwable t) {
-                callback.onComplete(strings[0]);
-            }
-        });
     }
 
     public void updateDB(UpdateCallback callback){
@@ -127,7 +90,6 @@ public class Repository {
         });
     }
 
-
     public LiveData<List<TableSearch>> search(String searchWord, Type type){
         if (searchWord.length() <= 1)
             return emptySearch;
@@ -138,11 +100,16 @@ public class Repository {
     final private MyLocal myLocal;
     final private MyRemote myRemote;
     final private MutableLiveData<List<TableSearch>> emptySearch;
-    final private String[] strings
-            = {"", "table", "squad", "id", "name", "leagueID", "tables", "tableData", "details",
-    "overview"};
+
+    private Repository(Application application){
+        myLocal = MyLocal.getInstance(application);
+        myRemote = MyRemote.getInstance(application);
+        emptySearch = new MutableLiveData<>();
+        emptySearch.setValue(new ArrayList<>());
+    }
 
     private static class Counter{
+
         private Integer value;
 
         public Counter(Integer value) {
@@ -157,6 +124,5 @@ public class Repository {
             value += inc;
         }
     }
-
 
 }

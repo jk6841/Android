@@ -19,7 +19,7 @@ public class MyLocal {
         return myLocal;
     }
 
-    public MyLocal(Application application){
+    private MyLocal(Application application){
         database = Database.getInstance(application);
         dao = database.dbDao();
     }

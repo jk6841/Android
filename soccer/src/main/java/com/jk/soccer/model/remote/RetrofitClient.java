@@ -20,7 +20,7 @@ public class RetrofitClient {
         return retrofitClient;
     }
 
-    public RetrofitClient(){
+    private RetrofitClient(){
         apiService = new ArrayList<>();
     }
 

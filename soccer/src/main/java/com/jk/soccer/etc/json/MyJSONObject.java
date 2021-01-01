@@ -1,6 +1,6 @@
 package com.jk.soccer.etc.json;
 
-import com.jk.soccer.etc.exception.MyException;
+import com.jk.soccer.etc.throwable.MyThrowable;
 
 import org.json.JSONObject;
 
@@ -83,7 +83,7 @@ public class MyJSONObject {
     }
 
     private static void printLog(Exception e){
-        MyException.printLog(e, logTag);
+        MyThrowable.printLog(logTag, e);
     }
 
 
