@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MainViewModel mainVM;
+    private MainViewModel mainViewModel;
     private SearchViewModel searchViewModel;
     private PlayerInfoViewModel playerInfoViewModel;
     private TeamInfoViewModel teamInfoViewModel;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(
                 this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
-        mainVM = new ViewModelProvider(this,
+        mainViewModel = new ViewModelProvider(this,
                 new ViewModelProvider.AndroidViewModelFactory(getApplication()))
                 .get(MainViewModel.class);
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        mainViewModel.onCleared();
         super.onDestroy();
-        mainVM.onCleared();
     }
 
     @Override
