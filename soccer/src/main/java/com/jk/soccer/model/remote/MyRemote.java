@@ -30,9 +30,10 @@ public class MyRemote {
         return myRemote;
     }
 
-    public MyRemote(Application application){
+    private MyRemote(Application application){
         Context appContext = application.getApplicationContext();
-        RetrofitClient retrofitClient = new RetrofitClient(appContext.getString(R.string.baseUrl1));
+        RetrofitClient retrofitClient = RetrofitClient.getInstance();
+        retrofitClient.register(appContext.getString(R.string.baseUrl1));
         apiService = retrofitClient.getApiService(0);
     }
 

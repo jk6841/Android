@@ -1,7 +1,6 @@
 package com.jk.soccer.etc;
 
 import android.content.res.Resources;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,9 +59,9 @@ public class MyBindingAdapter {
 
     @BindingAdapter(value = {"list", "handler", "holder"},requireAll = false)
     public static void recyclerView(RecyclerView view, List<?> list, Handler handler, Integer holder){
-        NewRecyclerViewAdapter<?> adapter = (NewRecyclerViewAdapter<?>)(view.getAdapter());
+        RecyclerViewAdapter<?> adapter = (RecyclerViewAdapter<?>)(view.getAdapter());
         if (adapter == null){
-            adapter = new NewRecyclerViewAdapter<>(handler, holder);
+            adapter = new RecyclerViewAdapter<>(handler, holder);
             view.setAdapter(adapter);
         }
         adapter.setList(list);

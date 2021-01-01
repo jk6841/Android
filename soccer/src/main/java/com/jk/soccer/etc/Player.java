@@ -1,9 +1,5 @@
 package com.jk.soccer.etc;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 public class Player {
 
     public String getID() {

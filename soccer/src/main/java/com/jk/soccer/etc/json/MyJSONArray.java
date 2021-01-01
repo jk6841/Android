@@ -1,4 +1,6 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.etc.json;
+
+import com.jk.soccer.etc.exception.MyException;
 
 import org.json.JSONArray;
 

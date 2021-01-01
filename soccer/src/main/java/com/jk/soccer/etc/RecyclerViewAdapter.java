@@ -13,10 +13,10 @@ import com.jk.soccer.BR;
 
 import java.util.List;
 
-public class NewRecyclerViewAdapter <BINDING extends ViewDataBinding>
-        extends RecyclerView.Adapter<NewRecyclerViewAdapter.NewViewHolder<BINDING>>{
+public class RecyclerViewAdapter<BINDING extends ViewDataBinding>
+        extends RecyclerView.Adapter<RecyclerViewAdapter.NewViewHolder<BINDING>>{
 
-    public NewRecyclerViewAdapter(Handler handler, Integer layout) {
+    public RecyclerViewAdapter(Handler handler, Integer layout) {
         this.handler = handler;
         this.layout = layout;
     }

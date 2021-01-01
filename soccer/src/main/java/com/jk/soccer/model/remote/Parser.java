@@ -1,7 +1,7 @@
 package com.jk.soccer.model.remote;
 
-import com.jk.soccer.etc.MyJSONArray;
-import com.jk.soccer.etc.MyJSONObject;
+import com.jk.soccer.etc.json.MyJSONArray;
+import com.jk.soccer.etc.json.MyJSONObject;
 import com.jk.soccer.etc.Player;
 import com.jk.soccer.etc.Team;
 import com.jk.soccer.etc.enumeration.Type;
