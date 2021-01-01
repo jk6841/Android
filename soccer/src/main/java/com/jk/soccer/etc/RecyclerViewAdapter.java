@@ -56,6 +56,7 @@ public class RecyclerViewAdapter<BINDING extends ViewDataBinding>
             binding.setVariable(BR.item, list.get(index));
             binding.setVariable(BR.index, index);
             binding.setVariable(BR.handler, handler);
+            binding.executePendingBindings();
         }
     }
 
