@@ -56,6 +56,8 @@ public class MyJson {
 
     public static JSONArray myJSONArray(JSONArray jsonArray, Integer index){
         try{
+//            if (jsonArray.getString(index).equals("null"))
+//                return null;
             return jsonArray.getJSONArray(index);
         } catch (Exception e){
             Log.e(exceptionTag, e.getMessage());

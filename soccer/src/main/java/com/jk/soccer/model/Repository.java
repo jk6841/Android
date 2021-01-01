@@ -98,7 +98,9 @@ public class Repository {
                             counter.incValue(teamList.size());
                             counterVal = counter.getValue().toString();
                         }
-                        callback.onProgress(counterVal);
+                        synchronized (callback){
+                            callback.onProgress(counterVal);
+                        }
                         Log.d("counter: ", counterVal);
                         for (int j = 0; j < teamList.size(); j++){
                             TableSearch team = teamList.get(j);
@@ -110,7 +112,9 @@ public class Repository {
                                     counter.incValue(-1);
                                     counterVal2 = counter.getValue().toString();
                                 }
-                                callback.onProgress(counterVal);
+                                synchronized (callback){
+                                    callback.onProgress(counterVal);
+                                }
                                 Log.d("counter: ", counterVal2);
                                 if (counter.getValue() == 0){
                                     callback.onComplete(true);
