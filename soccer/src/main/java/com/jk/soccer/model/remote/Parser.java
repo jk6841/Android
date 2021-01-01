@@ -1,5 +1,6 @@
 package com.jk.soccer.model.remote;
 
+import com.jk.soccer.model.LeagueTableEntry;
 import com.jk.soccer.model.Fixture;
 import com.jk.soccer.model.League;
 import com.jk.soccer.model.TopPlayer;
@@ -28,6 +29,10 @@ public class Parser {
         league.setTopGoal(parseTopPlayer(jsonTopGoal));
         MyJSONArray jsonTopAssist = jsonTopPlayers.getJSONArray("byAssists");
         league.setTopAssist(parseTopPlayer(jsonTopAssist));
+        MyJSONObject jsonTableData = jsonObject.getJSONObject("tableData");
+        MyJSONArray jsonTable = jsonTableData.getJSONArray("tables")
+                .getJSONObject(0).getJSONArray("table");
+        league.setTable(parseLeagueTable(jsonTable));
         return league;
     }
 
@@ -176,6 +181,26 @@ public class Parser {
             topPlayers.add(p);
         }
         return topPlayers;
+    }
+
+    private static List<LeagueTableEntry> parseLeagueTable(MyJSONArray jsonTable){
+        List<LeagueTableEntry> leagueTable = new ArrayList<>();
+        for (int i = 0; i < jsonTable.length(); i++){
+            LeagueTableEntry entry = new LeagueTableEntry();
+            MyJSONObject jsonItem = jsonTable.getJSONObject(i);
+            entry.setRank(jsonItem.getInt("idx"));
+            entry.setTeamID(jsonItem.getInt("id"));
+            entry.setTeamName(jsonItem.getString("name"));
+            entry.setRound(jsonItem.getInt("played"));
+            entry.setWin(jsonItem.getInt("wins"));
+            entry.setDraw(jsonItem.getInt("draws"));
+            entry.setLose(jsonItem.getInt("losses"));
+            entry.setScoreString(jsonItem.getString("scoresStr"));
+            entry.setGoalDiff(jsonItem.getInt("goalConDiff"));
+            entry.setPoint(jsonItem.getInt("pts"));
+            leagueTable.add(entry);
+        }
+        return leagueTable;
     }
 
 }

@@ -1,7 +1,5 @@
 package com.jk.soccer.model;
 
-import com.jk.soccer.etc.LeagueTableEntry;
-
 import java.util.List;
 
 public class League {

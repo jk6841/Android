@@ -1,4 +1,4 @@
-package com.jk.soccer.etc;
+package com.jk.soccer.model;
 
 public class LeagueTableEntry {
 
@@ -10,12 +10,20 @@ public class LeagueTableEntry {
         this.rank = rank;
     }
 
-    public String getTeam() {
-        return team;
+    public Integer getTeamID() {
+        return teamID;
     }
 
-    public void setTeam(String team) {
-        this.team = team;
+    public void setTeamID(Integer teamID) {
+        this.teamID = teamID;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     public Integer getRound() {
@@ -75,7 +83,8 @@ public class LeagueTableEntry {
     }
 
     private Integer rank;
-    private String team;
+    private Integer teamID;
+    private String teamName;
     private Integer round;
     private Integer win;
     private Integer draw;
