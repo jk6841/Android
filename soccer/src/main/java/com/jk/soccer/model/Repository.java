@@ -53,29 +53,17 @@ public class Repository {
                 myRemote.downloadTeamList(leagueID, teamList -> {
                     if (teamList != null){
                         myLocal.insertSearch(teamList);
-                        String counterVal;
                         synchronized (counter){
                             counter.incValue(teamList.size());
-                            counterVal = counter.getValue().toString();
                         }
-                        synchronized (callback){
-                            callback.onProgress(counterVal);
-                        }
-                        Log.d("counter: ", counterVal);
                         for (int j = 0; j < teamList.size(); j++){
                             TableSearch team = teamList.get(j);
                             Integer teamID = team.getID();
                             myRemote.downloadPlayerList(teamID, playerList -> {
                                 myLocal.insertSearch(playerList);
-                                String counterVal2;
                                 synchronized (counter){
                                     counter.incValue(-1);
-                                    counterVal2 = counter.getValue().toString();
                                 }
-                                synchronized (callback){
-                                    callback.onProgress(counterVal);
-                                }
-                                Log.d("counter: ", counterVal2);
                                 if (counter.getValue() == 0){
                                     callback.onComplete(true);
                                 }

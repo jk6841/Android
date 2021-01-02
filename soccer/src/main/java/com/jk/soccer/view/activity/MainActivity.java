@@ -39,12 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        mainViewModel.onCleared();
-        super.onDestroy();
-    }
-
-    @Override
     public boolean onSupportNavigateUp() {
         return super.onSupportNavigateUp();
     }
