@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <import type="com.jk.soccer.etc.enumeration.Type"/>
+        <variable
+            name="item"
+            type="com.jk.soccer.model.Fixture" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/edge">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/txt_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            app:ID="@{item.homeID.toString()}"
+            app:layout_constraintHeight_percent="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView34"
+            app:layout_constraintWidth_percent="0.4"
+            app:name="@{item.homeName}"
+            app:type="@{Type.TEAM}" />
+
+        <include
+            android:id="@+id/include2"
+            layout="@layout/txt_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:ID="@{item.awayID.toString()}"
+            app:layout_constraintBottom_toBottomOf="@+id/include"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.8"
+            app:layout_constraintTop_toTopOf="@+id/include"
+            app:layout_constraintWidth_percent="0.4"
+            app:name="@{item.awayName}"
+            app:type="@{Type.TEAM}" />
+
+        <TextView
+            android:id="@+id/textView34"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/paybooc"
+            android:gravity="bottom|start"
+            android:text="@{item.date}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/textView37"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/paybooc"
+            android:gravity="bottom|end"
+            android:text="@{item.status}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <TextView
+            android:id="@+id/textView35"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.2"
+            android:fontFamily="@font/paybooc"
+            android:gravity="center"
+            android:textSize="@dimen/midFont"
+            android:text="@{item.score}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/include"
+            app:layout_constraintEnd_toStartOf="@+id/include2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/include"
+            app:layout_constraintTop_toTopOf="@+id/include"
+            app:layout_constraintWidth_percent="0.2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

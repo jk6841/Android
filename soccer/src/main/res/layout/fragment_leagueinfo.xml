@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <data>
+        <import type="com.jk.soccer.etc.enumeration.Type"/>
         <variable
             name="viewModel"
             type="com.jk.soccer.viewModel.LeagueInfoViewModel" />
@@ -10,14 +11,259 @@
             name="ID"
             type="Integer" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.8"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView26"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="패"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView29"
+                    app:layout_constraintEnd_toStartOf="@+id/textView29"
+                    app:layout_constraintTop_toTopOf="@+id/textView29"
+                    app:layout_constraintWidth_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="무"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView26"
+                    app:layout_constraintEnd_toStartOf="@+id/textView26"
+                    app:layout_constraintTop_toTopOf="@+id/textView26"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintWidth_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="승"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView25"
+                    app:layout_constraintEnd_toStartOf="@+id/textView25"
+                    app:layout_constraintTop_toTopOf="@+id/textView25"
+                    app:layout_constraintWidth_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="순위"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView27"
+                    app:layout_constraintEnd_toStartOf="@+id/textView27"
+                    app:layout_constraintTop_toTopOf="@+id/textView27"
+                    app:layout_constraintWidth_percent="0.2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView5"
+                    holder="@{@layout/viewholder_topplayer}"
+                    list="@{viewModel.topAssist}"
+                    android:layout_width="match_parent"
+                    android:layout_height="198dp"
+                    android:layout_marginTop="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView4"
+                    holder="@{@layout/viewholder_topplayer}"
+                    list="@{viewModel.topGoal}"
+                    android:layout_width="match_parent"
+                    android:layout_height="198dp"
+                    android:layout_marginTop="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView22">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="800dp"
+                    app:holder="@{@layout/viewholder_leaguetable}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView28"
+                    app:list="@{viewModel.table}" />
+
+                <TextView
+                    android:id="@+id/textView28"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="승점"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10"
+                    app:layout_constraintWidth_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="+/-"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView23"
+                    app:layout_constraintEnd_toStartOf="@+id/textView23"
+                    app:layout_constraintTop_toTopOf="@+id/textView23"
+                    app:layout_constraintWidth_percent="0.2" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="골득실"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView28"
+                    app:layout_constraintEnd_toStartOf="@+id/textView28"
+                    app:layout_constraintTop_toTopOf="@+id/textView28"
+                    app:layout_constraintWidth_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="@font/paybooc"
+                    android:gravity="center"
+                    android:text="경기수"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/smallFont"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView24"
+                    app:layout_constraintEnd_toStartOf="@+id/textView24"
+                    app:layout_constraintTop_toTopOf="@+id/textView24"
+                    app:layout_constraintWidth_percent="0.1" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:text="팀 순위"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/midFont"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="득점 순위"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/midFont"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="도움 순위"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/midFont"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView4"
+                    app:layout_constraintWidth_percent="0.5"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="경기 일정"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/midFont"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView5"
+                    app:layout_constraintWidth_percent="0.5" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="1000dp"
+                    android:layout_marginTop="8dp"
+                    app:list="@{viewModel.fixture}"
+                    app:holder="@{@layout/viewholder_fixture}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView31" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/paybooc"
             android:gravity="center"
             android:text="@{viewModel.name}"
@@ -25,132 +271,9 @@
             android:textSize="@dimen/midFont"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:text="경기수"
-            android:textSize="@dimen/smallFont"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toStartOf="@+id/textView24"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/textView24"
-            app:layout_constraintWidth_percent="0.1" />
-
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:textSize="@dimen/smallFont"
-            android:text="승"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toStartOf="@+id/textView25"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/textView25"
-            app:layout_constraintWidth_percent="0.1" />
-
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:textSize="@dimen/smallFont"
-            android:text="무"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toStartOf="@+id/textView26"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/textView26"
-            app:layout_constraintWidth_percent="0.1" />
-
-        <TextView
-            android:id="@+id/textView26"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:textSize="@dimen/smallFont"
-            android:text="패"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toStartOf="@+id/textView29"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/textView29"
-            app:layout_constraintWidth_percent="0.1" />
-
-        <TextView
-            android:id="@+id/textView29"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:textSize="@dimen/smallFont"
-            android:text="+/-"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toStartOf="@+id/textView23"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/textView23"
-            app:layout_constraintWidth_percent="0.2" />
-
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:textSize="@dimen/smallFont"
-            android:text="골득실"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toStartOf="@+id/textView28"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintTop_toTopOf="@+id/textView28"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintWidth_percent="0.1" />
-
-        <TextView
-            android:id="@+id/textView28"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fontFamily="@font/paybooc"
-            android:gravity="center"
-            android:textSize="@dimen/smallFont"
-            android:text="승점"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.05"
-            app:layout_constraintWidth_percent="0.1" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:holder="@{@layout/viewholder_leaguetable}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:list="@{viewModel.table}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

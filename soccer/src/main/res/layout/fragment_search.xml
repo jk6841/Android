@@ -51,15 +51,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.7" />
 
-        <Button
-            android:id="@+id/button"
+        <ImageButton
             android:layout_width="102dp"
             android:layout_height="26dp"
+            android:background="#FFFFFF"
             android:onClick="@{(v)->viewModel.update()}"
-            android:text="Button"
+            android:src="@android:drawable/ic_popup_sync"
+            app:layout_constraintBottom_toTopOf="@+id/searchBox"
             app:layout_constraintEnd_toStartOf="@+id/data"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ScrollView
             android:layout_width="match_parent"

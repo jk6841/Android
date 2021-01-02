@@ -26,9 +26,9 @@ public class Parser {
         league.setFixtures(parseFixtures(jsonFixtures));
         MyJSONObject jsonTopPlayers = jsonObject.getJSONObject("topPlayers");
         MyJSONArray jsonTopGoal = jsonTopPlayers.getJSONArray("byGoals");
-        league.setTopGoal(parseTopPlayer(jsonTopGoal));
+        league.setTopGoal(parseTopPlayer(jsonTopGoal, true));
         MyJSONArray jsonTopAssist = jsonTopPlayers.getJSONArray("byAssists");
-        league.setTopAssist(parseTopPlayer(jsonTopAssist));
+        league.setTopAssist(parseTopPlayer(jsonTopAssist, false));
         MyJSONObject jsonTableData = jsonObject.getJSONObject("tableData");
         MyJSONArray jsonTable = jsonTableData.getJSONArray("tables")
                 .getJSONObject(0).getJSONArray("table");
@@ -67,9 +67,9 @@ public class Parser {
 
         MyJSONObject jsonTopPlayers = jsonObject.getJSONObject("topPlayers");
         MyJSONArray jsonTopGoals = jsonTopPlayers.getJSONArray("byGoals");
-        team.setTopGoal(parseTopPlayer(jsonTopGoals));
+        team.setTopGoal(parseTopPlayer(jsonTopGoals, true));
         MyJSONArray jsonTopAssists = jsonTopPlayers.getJSONArray("byAssists");
-        team.setTopAssist(parseTopPlayer(jsonTopAssists));
+        team.setTopAssist(parseTopPlayer(jsonTopAssists, false));
 
         MyJSONObject jsonVenue = jsonObject.getJSONObject("venue");
         MyJSONObject jsonWidget = jsonVenue.getJSONObject("widget");
@@ -154,9 +154,18 @@ public class Parser {
             fixture.setAwayName(jsonAway.getString("name"));
             fixture.setColor(jsonFixture.getString("color"));
             MyJSONObject jsonStatus = jsonFixture.getJSONObject("status");
-            fixture.setStarted(jsonStatus.getBoolean("started"));
-            fixture.setCancelled(jsonStatus.getBoolean("cancelled"));
-            fixture.setFinished(jsonStatus.getBoolean("finished"));
+            Boolean started = jsonStatus.getBoolean("started");
+            Boolean cancelled = jsonStatus.getBoolean("cancelled");
+            Boolean finished = jsonStatus.getBoolean("finished");
+            if (cancelled){
+                fixture.setStatus(match_cancelled);
+            } else if (finished) {
+                fixture.setStatus(match_finished);
+            } else if (started) {
+                fixture.setStatus(match_ing);
+            } else {
+                fixture.setStatus(match_yet);
+            }
             fixture.setScore(jsonStatus.getString("scoreStr"));
             fixture.setDate(jsonStatus.getString("startDateStr"));
             fixtures.add(fixture);
@@ -164,20 +173,27 @@ public class Parser {
         return fixtures;
     }
 
-    private static List<TopPlayer> parseTopPlayer(MyJSONArray jsonTopPlayer){
+    private static List<TopPlayer> parseTopPlayer(MyJSONArray jsonTopPlayer, Boolean isGoal){
         List<TopPlayer> topPlayers = new ArrayList<>();
         for (int i = 0; i < jsonTopPlayer.length(); i++){
             TopPlayer p = new TopPlayer();
             MyJSONObject jsonItem = jsonTopPlayer.getJSONObject(i);
             p.setID(jsonItem.getInt("id"));
             p.setName(jsonItem.getString("name"));
-            p.setGoal(jsonItem.getInt("goals"));
-            p.setAssist(jsonItem.getInt("assists"));
-            p.setTeamID(jsonItem.getInt("teamId"));
-            p.setTeamName(jsonItem.getString("teamName"));
-            String ccode = jsonItem.getString("ccode");
-            if (ccode != null)
-                p.setCountry(ccode.toLowerCase());
+            p.setVal(isGoal? jsonItem.getInt("goals") : jsonItem.getInt("assists"));
+            String teamID = jsonItem.getString("teamId");
+            if (teamID == null){
+                String ccode = jsonItem.getString("ccode");
+                if (ccode != null) {
+                    p.setParentID(ccode.toLowerCase());
+                    p.setParentName(jsonItem.getString("cname"));
+                    p.setParentType(Type.COUNTRY);
+                }
+            } else {
+                p.setParentID(teamID);
+                p.setParentName(jsonItem.getString("teamName"));
+                p.setParentType(Type.TEAM);
+            }
             topPlayers.add(p);
         }
         return topPlayers;
@@ -202,5 +218,10 @@ public class Parser {
         }
         return leagueTable;
     }
+
+    final static String match_cancelled = "경기 취소";
+    final static String match_finished = "경기 종료";
+    final static String match_ing = "경기 중";
+    final static String match_yet = "경기 시작 전";
 
 }

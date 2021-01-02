@@ -65,28 +65,12 @@ public class Fixture{
         this.color = color;
     }
 
-    public Boolean getStarted() {
-        return started;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStarted(Boolean started) {
-        this.started = started;
-    }
-
-    public Boolean getCancelled() {
-        return cancelled;
-    }
-
-    public void setCancelled(Boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-
-    public Boolean getFinished() {
-        return finished;
-    }
-
-    public void setFinished(Boolean finished) {
-        this.finished = finished;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     private Integer ID;
@@ -97,7 +81,5 @@ public class Fixture{
     private String date;
     private String score;
     private String color;
-    private Boolean started;
-    private Boolean cancelled;
-    private Boolean finished;
+    private String status;
 }

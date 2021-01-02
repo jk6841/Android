@@ -1,5 +1,7 @@
 package com.jk.soccer.model;
 
+import com.jk.soccer.etc.enumeration.Type;
+
 public class TopPlayer{
 
     public Integer getID() {
@@ -18,51 +20,42 @@ public class TopPlayer{
         this.name = name;
     }
 
-    public Integer getTeamID() {
-        return teamID;
+    public Integer getVal() {
+        return val;
     }
 
-    public void setTeamID(Integer teamID) {
-        this.teamID = teamID;
+    public void setVal(Integer val) {
+        this.val = val;
     }
 
-    public String getTeamName() {
-        return teamName;
+    public String getParentID() {
+        return parentID;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setParentID(String parentID) {
+        this.parentID = parentID;
     }
 
-    public Integer getGoal() {
-        return goal;
+    public String getParentName() {
+        return parentName;
     }
 
-    public void setGoal(Integer goal) {
-        this.goal = goal;
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
-    public Integer getAssist() {
-        return assist;
+    public Type getParentType() {
+        return parentType;
     }
 
-    public void setAssist(Integer assist) {
-        this.assist = assist;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public void setParentType(Type parentType) {
+        this.parentType = parentType;
     }
 
     private Integer ID;
     private String name;
-    private Integer teamID;
-    private String teamName;
-    private Integer goal;
-    private Integer assist;
-    private String country;
+    private Integer val;
+    private String parentID;
+    private String parentName;
+    private Type parentType;
 }
