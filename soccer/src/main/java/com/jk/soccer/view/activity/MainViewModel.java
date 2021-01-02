@@ -14,11 +14,5 @@ public class MainViewModel extends AndroidViewModel {
         repository = Repository.getInstance(application);
     }
 
-    @Override
-    protected void onCleared() {
-        repository.close();
-        super.onCleared();
-    }
-
     final private Repository repository;
 }

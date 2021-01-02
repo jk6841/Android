@@ -19,10 +19,6 @@ public class MyLocal {
         return myLocal;
     }
 
-    public void close(){
-        database.close();
-    }
-
     public void getLeagueList(MyCallback<List<TableSearch>> callback){
         getList(Type.LEAGUE, 0, callback);
     }

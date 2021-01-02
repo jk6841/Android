@@ -28,10 +28,6 @@ public class Repository {
         return repository;
     }
 
-    public void close(){
-        myLocal.close();
-    }
-
     public void getLeagueInfoAsync(Integer ID, MyCallback<League> callback){
         myRemote.downloadLeague(ID, callback);
     }
