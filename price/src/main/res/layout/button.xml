@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="onButtonPress"
+            type="com.jk.price.fragment.main.MainFragment.OnButtonPress" />
+        <variable
+            name="viewModel"
+            type="com.jk.price.MainViewModel" />
+        <variable
+            name="buttonType"
+            type="com.jk.price.ButtonType" />
+        <variable
+            name="buttonString"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/buttonImage"
+            android:onClick="@{()->onButtonPress.onPress(buttonType, buttonString)}"
+            android:contentDescription="@string/content_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FFFFFF"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/button"
+            tools:layout_editor_absoluteX="-28dp"
+            tools:layout_editor_absoluteY="94dp" />
+
+        <TextView
+            android:id="@+id/buttonText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:autoSizeTextType="uniform"
+            app:layout_constraintWidth_percent="0.72"
+            app:layout_constraintHeight_percent="0.72"
+            android:text="@{buttonString}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/buttonImage"
+            app:layout_constraintStart_toStartOf="@+id/buttonImage"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

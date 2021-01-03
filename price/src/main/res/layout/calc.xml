@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="com.jk.price.ButtonType"/>
+        <variable
+            name="onButtonPress"
+            type="com.jk.price.fragment.main.MainFragment.OnButtonPress" />
+        <variable
+            name="operand1"
+            type="String" />
+        <variable
+            name="operand2"
+            type="String" />
+        <variable
+            name="result"
+            type="String" />
+        <variable
+            name="operator"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/calc_exec"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.8"
+            app:operand1="@{operand1}"
+            app:operand2="@{operand2}"
+            app:operator="@{operator}"
+            app:result="@{result}" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.7"
+            android:weightSum="6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="2">
+
+                <include
+                    android:id="@+id/buttonAllClear"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:buttonString="@{@string/buttonAllClear}"
+                    app:buttonType="@{ButtonType.AllClear}"
+                    app:onButtonPress="@{onButtonPress}" />
+
+                <include
+                    android:id="@+id/buttonClear"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:buttonString="@{@string/buttonClear}"
+                    app:buttonType="@{ButtonType.Clear}"
+                    app:onButtonPress="@{onButtonPress}" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="4">
+
+                <include
+                    android:id="@+id/buttonBack"
+                    app:buttonType="@{ButtonType.Back}"
+                    app:buttonString="@{@string/buttonBack}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonNegative"
+                    app:buttonType="@{ButtonType.Negative}"
+                    app:buttonString="@{@string/buttonNegative}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonPoint"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:buttonString="@{@string/buttonPoint}"
+                    app:buttonType="@{ButtonType.Point}"
+                    app:onButtonPress="@{onButtonPress}" />
+
+                <include
+                    android:id="@+id/buttonPercent"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:buttonString="@{@string/buttonPercent}"
+                    app:buttonType="@{ButtonType.Percent}"
+                    app:onButtonPress="@{onButtonPress}" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="4">
+
+                <include
+                    android:id="@+id/button7"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button7}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button8"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button8}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button9"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button9}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonDiv"
+                    app:buttonType="@{ButtonType.Operator}"
+                    app:buttonString="@{@string/buttonDiv}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="4">
+
+                <include
+                    android:id="@+id/button4"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button4}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button5"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button5}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button6"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button6}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonMul"
+                    app:buttonType="@{ButtonType.Operator}"
+                    app:buttonString="@{@string/buttonMul}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="4">
+
+                <include
+                    android:id="@+id/button1"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button1}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button2"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button2}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button3"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button3}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonSub"
+                    app:buttonType="@{ButtonType.Operator}"
+                    app:buttonString="@{@string/buttonSub}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:weightSum="4">
+
+                <include
+                    android:id="@+id/button00"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button00}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/button0"
+                    app:buttonType="@{ButtonType.Number}"
+                    app:buttonString="@{@string/button0}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonResult"
+                    app:buttonType="@{ButtonType.Result}"
+                    app:buttonString="@{@string/buttonResult}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/buttonAdd"
+                    app:buttonType="@{ButtonType.Operator}"
+                    app:buttonString="@{@string/buttonAdd}"
+                    app:onButtonPress="@{onButtonPress}"
+                    layout="@layout/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </TableRow>
+
+        </TableLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
