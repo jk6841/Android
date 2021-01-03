@@ -3,6 +3,7 @@ package com.jk.soccer.view.activity;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.jk.soccer.R;
 import com.jk.soccer.viewModel.PlayerInfoViewModel;
@@ -36,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         playerInfoViewModel = new ViewModelProvider(this).get(PlayerInfoViewModel.class);
         teamInfoViewModel = new ViewModelProvider(this).get(TeamInfoViewModel.class);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Glide.get(this).clearMemory();
     }
 
     @Override

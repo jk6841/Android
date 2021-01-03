@@ -1,8 +1,6 @@
 package com.jk.soccer.view.fragment;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -26,12 +23,11 @@ import com.jk.soccer.viewModel.SearchViewModel;
 public class SearchFragment extends Fragment {
 
     private SearchViewModel viewModel;
-    private Activity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ((MainActivity) activity).getSearchViewModel();
+        viewModel = ((MainActivity) getActivity()).getSearchViewModel();
     }
 
     @Nullable
@@ -43,29 +39,15 @@ public class SearchFragment extends Fragment {
                 inflater, R.layout.fragment_search, container, false);
         binding.setLifecycleOwner(this);
         binding.setViewModel(viewModel);
-        binding.setHandler(new InfoHandler(activity));
+        binding.setHandler(new InfoHandler((MainActivity)getActivity()));
         return binding.getRoot();
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        if (context instanceof Activity){
-            activity = (Activity) context;
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        activity = null;
-        super.onDestroy();
     }
 
     private static class InfoHandler implements Handler {
 
-        final private Activity activity;;
+        final private MainActivity activity;;
 
-        public InfoHandler(Activity activity) {
+        public InfoHandler(MainActivity activity) {
             this.activity = activity;
         }
 
@@ -94,7 +76,7 @@ public class SearchFragment extends Fragment {
                     break;
             }
             if (nav != null) {
-                ((MainActivity) activity).hideKeyboard();
+                (activity).hideKeyboard();
                 navController.navigate(nav, args);
             }
         }
