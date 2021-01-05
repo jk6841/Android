@@ -58,6 +58,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val unitCost: LiveData<String>
     val unit = MutableLiveData(emptyString)
     val count = MutableLiveData(emptyString)
+
+    var registerResult = emptyString
     var searchResult: LiveData<List<Purchase>>? = null
 
     private val day28 = generateList(1, 28)
@@ -83,13 +85,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             repository!!.search(input)
         }
 
-        dateString = Transformations.switchMap(year, Function {
-            yearString -> Transformations.switchMap(month, Function {
-                monthString -> Transformations.map(day, Function {
-                    dayString -> dateFormat(yearString + monthString + dayString)
-                })
-            })
-        })
+        dateString = Transformations.switchMap(year) { yearString ->
+            Transformations.switchMap(month) { monthString ->
+                Transformations.map(day) { dayString ->
+                    dateFormat(yearString + monthString + dayString)
+                }
+            }
+        }
 
         dayList = Transformations.switchMap(year){
             yearString -> Transformations.map(month){
@@ -153,12 +155,46 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun register(){
         val purchase = Purchase()
+        if (dateString.value.isNullOrEmpty()) {
+            setRegisterResult(false)
+            return
+        }
         purchase.date = dateString.value!!
+
+        if (market.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
         purchase.market = market.value!!
+
+        if (name.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
         purchase.name = name.value!!
+
+        if (cost.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
         purchase.cost = cost.value!!.toInt()
+
+        if (count.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
         purchase.count = count.value!!.toInt()
+
         repository!!.insert(purchase)
+        setRegisterResult(true)
+
+    }
+
+    private fun setRegisterResult(result: Boolean){
+        if (result)
+            registerResult = getResourceString(R.string.registerSuccess)
+        else
+            registerResult = getResourceString(R.string.registerFail)
     }
 
     fun search(name: String): LiveData<List<Purchase>> = searchResult!!

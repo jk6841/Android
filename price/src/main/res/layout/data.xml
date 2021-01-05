@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="com.jk.price.MainViewModel" />
+        <variable
+            name="registerOnClickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -364,7 +367,7 @@
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:onClick="@{()->viewModel.register()}"
+            android:onClick="@{registerOnClickListener}"
             android:text="등록"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

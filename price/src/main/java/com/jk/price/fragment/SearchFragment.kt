@@ -17,23 +17,17 @@ import com.jk.price.databinding.MainFragmentBinding
 class SearchFragment : Fragment() {
 
     lateinit var binding: MainFragmentBinding
-    var spinner: Spinner? = null
-
-    companion object {
-        fun newInstance() = SearchFragment()
-    }
 
     private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
+        viewModel = (activity as MainActivity).viewModel
         val resources: Resources = activity?.applicationContext!!.resources
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.main_fragment, container, false)
-        val root: View = binding.root
-        viewModel = (activity as MainActivity).viewModel
-        binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         binding.data.dateSpinner.year.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.yearTag))
         binding.data.dateSpinner.month.onItemSelectedListener =
@@ -42,12 +36,24 @@ class SearchFragment : Fragment() {
                 OnItemSelectedListener(resources.getString(R.string.dayTag))
         binding.data.unitSpinner.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.unitTag))
-        return root
+        binding.data.registerOnClickListener =
+                OnClickRegister()
+        return binding.root
     }
 
     inner class OnButtonPress {
         fun onPress(buttonType: ButtonType, buttonString: String) {
             viewModel.press(buttonType, buttonString)
+        }
+    }
+
+    inner class OnClickRegister: View.OnClickListener{
+        override fun onClick(v: View?) {
+            viewModel.register()
+            Toast.makeText(activity?.applicationContext,
+                    viewModel.registerResult,
+                    Toast.LENGTH_SHORT)
+                    .show()
         }
     }
 
