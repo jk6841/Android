@@ -9,16 +9,22 @@ import java.util.*
 class Purchase {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="ID") var ID: Int = 0
+    @ColumnInfo(name="ID") var ID = 0
 
-    @ColumnInfo(name="Date") var date: String = ""
+    @ColumnInfo(name="Date") var date = ""
 
-    @ColumnInfo(name="Name") var name: String = ""
+    @ColumnInfo(name="Market") var market = ""
 
-    @ColumnInfo(name="Market") var market: String = ""
+    @ColumnInfo(name="Type") var type = ""
 
-    @ColumnInfo(name="Count") var count: Int = 0
+    @ColumnInfo(name="Name") var name = ""
 
-    @ColumnInfo(name="Cost") var cost: Int = 0
+    @ColumnInfo(name="Count") var count = 0
+
+    @ColumnInfo(name="Cost") var cost = 0
+
+    @ColumnInfo(name="UnitCost") var unitCost = 0.toDouble()
+
+    @ColumnInfo(name="Unit") var unit = ""
 
 }

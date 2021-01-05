@@ -2,7 +2,6 @@ package com.jk.price
 
 import android.app.Application
 import android.content.res.Resources
-import androidx.arch.core.util.Function
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,9 +15,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val resources: Resources = application.resources
 
     private val inputDateFormat: SimpleDateFormat =
-            SimpleDateFormat("yyyyMd", Locale.KOREA)
+            SimpleDateFormat("yyyyMd", Locale.KOREAN)
+    private val shortDateFormat: SimpleDateFormat =
+            SimpleDateFormat("yy/M/d/E", Locale.KOREAN)
     private val outputDateFormat: SimpleDateFormat =
-            SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.KOREA)
+            SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.KOREAN)
+
     private val emptyString: String = resources.getString(R.string.emptyString)
     private val button0: String = getResourceString(R.string.button0)
     private val buttonPercent: String = getResourceString(R.string.buttonPercent)
@@ -56,6 +58,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val name = MutableLiveData(emptyString)
     val cost = MutableLiveData(emptyString)
     val unitCost: LiveData<String>
+    val type = MutableLiveData(emptyString)
     val unit = MutableLiveData(emptyString)
     val count = MutableLiveData(emptyString)
 
@@ -79,8 +82,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         month.value = todayMonth
         todayDay = cal.get(Calendar.DATE).toString()
         day.value = todayDay
+
         initialize()
+
         repository = Repository.getInstance(application)
+
         searchResult = Transformations.switchMap(name) { input ->
             repository!!.search(input)
         }
@@ -88,7 +94,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         dateString = Transformations.switchMap(year) { yearString ->
             Transformations.switchMap(month) { monthString ->
                 Transformations.map(day) { dayString ->
-                    dateFormat(yearString + monthString + dayString)
+                    convertDateFormat(yearString + monthString + dayString,
+                            inputDateFormat, outputDateFormat)
                 }
             }
         }
@@ -118,11 +125,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (costString.isEmpty())
             return emptyString
         val ret = costString.toDouble() / countString.toDouble()
-        return String.format("%.2f", ret) + unit.value
+        return String.format("%.2f", ret)
     }
 
-    private fun dateFormat(input: String): String =
-            outputDateFormat.format(inputDateFormat.parse(input)!!)
+    private fun convertDateFormat(input: String,
+                                  inputFormat: SimpleDateFormat,
+                                  outputFormat: SimpleDateFormat): String =
+            outputFormat.format(inputFormat.parse(input)!!)
 
     private fun getDayList(year: String, month: String): ArrayList<String>{
         val y = year.toInt()
@@ -171,6 +180,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             setRegisterResult(false)
             return
         }
+        purchase.type = type.value!!
+
+        if (name.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
         purchase.name = name.value!!
 
         if (cost.value.isNullOrEmpty()){
@@ -185,16 +200,28 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
         purchase.count = count.value!!.toInt()
 
+        if (unitCost.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
+        purchase.unitCost = unitCost.value!!.toDouble()
+
+        if (unit.value.isNullOrEmpty()){
+            setRegisterResult(false)
+            return
+        }
+        purchase.unit = unit.value!!
+
         repository!!.insert(purchase)
         setRegisterResult(true)
 
     }
 
     private fun setRegisterResult(result: Boolean){
-        if (result)
-            registerResult = getResourceString(R.string.registerSuccess)
+        registerResult = if (result)
+            getResourceString(R.string.registerSuccess)
         else
-            registerResult = getResourceString(R.string.registerFail)
+            getResourceString(R.string.registerFail)
     }
 
     fun search(name: String): LiveData<List<Purchase>> = searchResult!!
