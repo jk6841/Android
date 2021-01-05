@@ -2,6 +2,9 @@ package com.jk.price
 
 import android.app.Application
 import android.content.res.Resources
+import android.graphics.Color
+import androidx.arch.core.util.Function
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -53,7 +56,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val year = MutableLiveData(emptyString)
     val month = MutableLiveData(emptyString)
     val day = MutableLiveData(emptyString)
-    var dateString: LiveData<String>
+    var date: LiveData<String>
     val market = MutableLiveData(emptyString)
     val name = MutableLiveData(emptyString)
     val cost = MutableLiveData(emptyString)
@@ -62,6 +65,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val unit = MutableLiveData(emptyString)
     val count = MutableLiveData(emptyString)
 
+    val registerButtonClickable: LiveData<Boolean>
     var registerResult = emptyString
     var searchResult: LiveData<List<Purchase>>? = null
 
@@ -91,7 +95,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             repository!!.search(input)
         }
 
-        dateString = Transformations.switchMap(year) { yearString ->
+        date = Transformations.switchMap(year) { yearString ->
             Transformations.switchMap(month) { monthString ->
                 Transformations.map(day) { dayString ->
                     convertDateFormat(yearString + monthString + dayString,
@@ -110,6 +114,31 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             costString -> Transformations.switchMap(count) {
                 countString -> Transformations.map(unit) {
                     unitCost(costString, countString)
+                }
+            }
+        }
+
+        registerButtonClickable = Transformations.switchMap(date) { dateString ->
+            Transformations.switchMap(market) { marketString ->
+                Transformations.switchMap(type) { typeString ->
+                    Transformations.switchMap(name) { nameString ->
+                        Transformations.switchMap(cost) { costString ->
+                            Transformations.switchMap(count) { countString ->
+                                Transformations.switchMap(unitCost) { unitCostString ->
+                                    Transformations.map(unit) { unitString ->
+                                        isNonEmpty(dateString,
+                                                marketString,
+                                                typeString,
+                                                nameString,
+                                                costString,
+                                                countString,
+                                                unitCostString,
+                                                unitString)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -162,13 +191,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         this.day.value = day
     }
 
+    fun isNonEmpty(vararg strings: String): Boolean{
+        for (string in strings){
+            if (string.isEmpty())
+                return false
+        }
+        return true
+    }
+
+//    fun registerButtonClickable(): Boolean{
+//        if (dateString.value.isNullOrEmpty())
+//            return false
+//        if (market.value.isNullOrEmpty())
+//            return false
+//        if (type.value.isNullOrEmpty())
+//            return false
+//        if (name.value.isNullOrEmpty())
+//            return false
+//        if (cost.value.isNullOrEmpty())
+//            return false
+//        if (count.value.isNullOrEmpty())
+//            return false
+//        if (unitCost.value.isNullOrEmpty())
+//            return false
+//        if (unit.value.isNullOrEmpty())
+//            return false
+//        return true
+//    }
+
     fun register(){
         val purchase = Purchase()
-        if (dateString.value.isNullOrEmpty()) {
+        if (date.value.isNullOrEmpty()) {
             setRegisterResult(false)
             return
         }
-        purchase.date = dateString.value!!
+        purchase.date = date.value!!
 
         if (market.value.isNullOrEmpty()){
             setRegisterResult(false)
@@ -176,7 +233,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
         purchase.market = market.value!!
 
-        if (name.value.isNullOrEmpty()){
+        if (type.value.isNullOrEmpty()){
             setRegisterResult(false)
             return
         }
