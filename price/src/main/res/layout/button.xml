@@ -6,7 +6,7 @@
     <data>
         <variable
             name="onButtonPress"
-            type="com.jk.price.fragment.main.MainFragment.OnButtonPress" />
+            type="com.jk.price.fragment.SearchFragment" />
         <variable
             name="viewModel"
             type="com.jk.price.MainViewModel" />
@@ -24,7 +24,6 @@
 
         <ImageButton
             android:id="@+id/buttonImage"
-            android:onClick="@{()->onButtonPress.onPress(buttonType, buttonString)}"
             android:contentDescription="@string/content_description"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

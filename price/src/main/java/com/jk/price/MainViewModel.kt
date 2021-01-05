@@ -2,36 +2,169 @@ package com.jk.price
 
 import android.app.Application
 import android.content.res.Resources
+import androidx.arch.core.util.Function
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val resources: Resources = application.resources
 
+    private val inputDateFormat: SimpleDateFormat =
+            SimpleDateFormat("yyyyMd", Locale.KOREA)
+    private val outputDateFormat: SimpleDateFormat =
+            SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.KOREA)
     private val emptyString: String = resources.getString(R.string.emptyString)
-    private val button0: String = resources.getString(R.string.button0)
-    private val buttonPercent: String = resources.getString(R.string.buttonPercent)
-    private val buttonPoint: String = resources.getString(R.string.buttonPoint)
-    private val buttonAdd: String = resources.getString(R.string.buttonAdd)
-    private val buttonSub: String = resources.getString(R.string.buttonSub)
-    private val buttonMul: String = resources.getString(R.string.buttonMul)
-    private val buttonDiv: String = resources.getString(R.string.buttonDiv)
-    val operatorString: MutableLiveData<String> = MutableLiveData<String>()
-    val operand0: Number = Number(0.toDouble(), MutableLiveData(), buttonPercent)
-    val operand1: Number = Number(0.toDouble(), MutableLiveData(), buttonPercent)
-    val result: Number = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+    private val button0: String = getResourceString(R.string.button0)
+    private val buttonPercent: String = getResourceString(R.string.buttonPercent)
+    private val buttonPoint: String = getResourceString(R.string.buttonPoint)
+    private val buttonAdd: String = getResourceString(R.string.buttonAdd)
+    private val buttonSub: String = getResourceString(R.string.buttonSub)
+    private val buttonMul: String = getResourceString(R.string.buttonMul)
+    private val buttonDiv: String = getResourceString(R.string.buttonDiv)
+
+    private var repository: Repository? = null
+
+    val yearList = MutableLiveData(generateList(2000, 2050))
+    val monthList = MutableLiveData(generateList(1, 12))
+    var dayList: LiveData<ArrayList<String>>
+
+    var unitList: ArrayList<String> =
+            arrayListOf(getResourceString(R.string.unitGeneral),
+                    getResourceString(R.string.unitG),
+                    getResourceString(R.string.unitML))
+
+    private val operatorString = MutableLiveData<String>()
+    private val operand0 = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+    private val operand1 = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+    private val result = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+
+    val todayYear: String
+    val todayMonth: String
+    val todayDay: String
+
+    val year = MutableLiveData(emptyString)
+    val month = MutableLiveData(emptyString)
+    val day = MutableLiveData(emptyString)
+    var dateString: LiveData<String>
+    val market = MutableLiveData(emptyString)
+    val name = MutableLiveData(emptyString)
+    val cost = MutableLiveData(emptyString)
+    val unitCost: LiveData<String>
+    val unit = MutableLiveData(emptyString)
+    val count = MutableLiveData(emptyString)
+    var searchResult: LiveData<List<Purchase>>? = null
+
+    private val day28 = generateList(1, 28)
+    private val day29 = generateList(1, 29)
+    private val day30 = generateList(1, 30)
+    private val day31 = generateList(1, 31)
 
     private val history: ArrayList<Calculation> = ArrayList()
 
     private var target: Target = Target.Operand0 // Either Target.Operand0 or Target.Operand1
 
     init{
+        val cal: Calendar = Calendar.getInstance()
+        todayYear = cal.get(Calendar.YEAR).toString()
+        year.value = todayYear
+        todayMonth = (cal.get(Calendar.MONTH) + 1).toString()
+        month.value = todayMonth
+        todayDay = cal.get(Calendar.DATE).toString()
+        day.value = todayDay
         initialize()
+        repository = Repository.getInstance(application)
+        searchResult = Transformations.switchMap(name) { input ->
+            repository!!.search(input)
+        }
+
+        dateString = Transformations.switchMap(year, Function {
+            yearString -> Transformations.switchMap(month, Function {
+                monthString -> Transformations.map(day, Function {
+                    dayString -> dateFormat(yearString + monthString + dayString)
+                })
+            })
+        })
+
+        dayList = Transformations.switchMap(year){
+            yearString -> Transformations.map(month){
+                monthString -> getDayList(yearString, monthString)
+            }
+        }
+
+        unitCost = Transformations.switchMap(cost) {
+            costString -> Transformations.switchMap(count) {
+                countString -> Transformations.map(unit) {
+                    unitCost(costString, countString)
+                }
+            }
+        }
     }
 
-    fun press(buttonType: ButtonType, buttonString: String){
-        when (buttonType){
+    fun changeUnit(unit: String){
+        this.unit.value = unit
+    }
+
+    private fun unitCost(costString: String, countString: String): String{
+        if (countString.isEmpty())
+            return emptyString
+        if (costString.isEmpty())
+            return emptyString
+        val ret = costString.toDouble() / countString.toDouble()
+        return String.format("%.2f", ret) + unit.value
+    }
+
+    private fun dateFormat(input: String): String =
+            outputDateFormat.format(inputDateFormat.parse(input)!!)
+
+    private fun getDayList(year: String, month: String): ArrayList<String>{
+        val y = year.toInt()
+        when (month.toInt()){
+            1, 3, 5, 7, 8, 10, 12 -> return day31
+            4, 6, 9, 11 -> return day30
+            else -> {
+                if (y.rem(400) == 0)
+                    return day29
+                if (y.rem(100) == 0)
+                    return day28
+                if (y.rem(4) == 0)
+                    return day29
+                return day28
+            }
+        }
+    }
+
+    fun changeYear(year: String){
+        this.year.value = year
+    }
+
+    fun changeMonth(month: String){
+        this.month.value = month
+    }
+
+    fun changeDay(day: String){
+        this.day.value = day
+    }
+
+    fun register(){
+        val purchase = Purchase()
+        purchase.date = dateString.value!!
+        purchase.market = market.value!!
+        purchase.name = name.value!!
+        purchase.cost = cost.value!!.toInt()
+        purchase.count = count.value!!.toInt()
+        repository!!.insert(purchase)
+    }
+
+    fun search(name: String): LiveData<List<Purchase>> = searchResult!!
+
+    fun press(buttonType: ButtonType, buttonString: String) {
+        when (buttonType) {
             ButtonType.Number -> pressNumber(buttonString)
             ButtonType.Point -> pressPoint()
             ButtonType.Percent -> pressPercent()
@@ -203,6 +336,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 operatorString.value!!
         )
         history.add(historyItem)
+    }
+
+    private fun getResourceString(ID: Int) = resources.getString(ID)
+
+    private fun generateList(a: Int, b: Int): ArrayList<String>{
+        val arrayList = ArrayList<String>()
+        for (i in a..b){
+            arrayList.add(i.toString())
+        }
+        return arrayList
     }
 
     private enum class Target{

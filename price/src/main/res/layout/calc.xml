@@ -6,7 +6,7 @@
         <import type="com.jk.price.ButtonType"/>
         <variable
             name="onButtonPress"
-            type="com.jk.price.fragment.main.MainFragment.OnButtonPress" />
+            type="com.jk.price.fragment.SearchFragment" />
         <variable
             name="operand1"
             type="String" />
