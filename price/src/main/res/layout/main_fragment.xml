@@ -13,7 +13,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.SearchFragment">
+        tools:context=".fragment.SaveFragment">
 
         <ScrollView
             android:id="@+id/scrollView2"
@@ -26,7 +26,7 @@
 
             <include
                 android:id="@+id/data"
-                layout="@layout/data"
+                layout="@layout/save"
                 android:layout_width="match_parent"
                 android:layout_height="1000dp"
                 app:layout_constraintHeight_percent="0.5"

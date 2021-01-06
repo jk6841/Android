@@ -12,7 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.jk.price.*
 import com.jk.price.databinding.MainFragmentBinding
 
-class SearchFragment : Fragment() {
+class SaveFragment : Fragment() {
 
     var binding: MainFragmentBinding?= null
 
@@ -42,12 +42,6 @@ class SearchFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    inner class OnButtonPress {
-        fun onPress(buttonType: ButtonType, buttonString: String) {
-            viewModel.press(buttonType, buttonString)
-        }
     }
 
     inner class OnClickSave: View.OnClickListener{

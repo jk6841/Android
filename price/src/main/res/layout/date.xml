@@ -12,7 +12,7 @@
             type="android.content.Context" />
         <variable
             name="listener"
-            type="com.jk.price.fragment.SearchFragment.OnItemSelectedListener" />
+            type="com.jk.price.fragment.SaveFragment.OnItemSelectedListener" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

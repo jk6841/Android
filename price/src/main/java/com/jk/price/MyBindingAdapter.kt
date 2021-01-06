@@ -1,12 +1,7 @@
 package com.jk.price
 
-import android.content.Context
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import androidx.appcompat.widget.AppCompatSpinner
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.jk.price.fragment.SearchFragment
 
 object MyBindingAdapter {
     @BindingAdapter(value = ["list", "holder"])
