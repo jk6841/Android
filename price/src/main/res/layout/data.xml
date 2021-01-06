@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.jk.price.MainViewModel" />
@@ -14,13 +15,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dateContainer"
-            android:background="@drawable/edge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -28,8 +32,12 @@
             <TextView
                 android:id="@+id/dateHeader"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
                 android:autoSizeTextType="uniform"
+                android:background="@drawable/edge"
                 android:gravity="center"
                 android:text="@string/date"
                 android:textColor="@color/black"
@@ -38,27 +46,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/dateText"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:text="@{viewModel.date}"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateHeader" />
-
             <include
                 android:id="@+id/dateSpinner"
                 layout="@layout/date"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/edge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dateText"
-                app:layout_constraintWidth_percent="0.9"
+                app:layout_constraintTop_toBottomOf="@+id/dateHeader"
+                app:layout_constraintWidth_percent="0.7"
                 app:viewModel="@{viewModel}" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -66,18 +66,24 @@
             android:id="@+id/marketContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/edge"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateContainer">
+            app:layout_constraintTop_toBottomOf="@+id/dateContainer"
+            app:layout_constraintWidth_percent="0.33">
 
             <TextView
                 android:id="@+id/marketHeader"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
                 android:autoSizeTextType="uniform"
+                android:background="@drawable/edge"
                 android:gravity="center"
                 android:text="@string/market"
                 android:textColor="@color/black"
@@ -89,15 +95,18 @@
             <EditText
                 android:id="@+id/market"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
                 android:autoSizeTextType="uniform"
                 android:autofillHints=""
-                android:background="@null"
+                android:background="@drawable/edge"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/emptyString"
                 android:inputType="text"
-                android:nextFocusDown="@id/klass"
+                android:nextFocusDown="@id/type"
                 android:text="@={viewModel.market}"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,35 +118,43 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/classContainer"
+            android:id="@+id/productContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/marketContainer">
+            app:layout_constraintTop_toBottomOf="@+id/marketContainer"
+            app:layout_constraintWidth_percent="0.66">
 
             <TextView
-                android:id="@+id/classHeader"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:id="@+id/typeHeader"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
                 android:autoSizeTextType="uniform"
+                android:background="@drawable/edge"
                 android:gravity="center"
                 android:text="@string/type"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
             <EditText
-                android:id="@+id/klass"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:id="@+id/type"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
                 android:autoSizeTextType="uniform"
                 android:autofillHints=""
-                android:background="@null"
+                android:background="@drawable/edge"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/emptyString"
@@ -145,43 +162,36 @@
                 android:nextFocusDown="@id/name"
                 android:text="@={viewModel.type}"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/classHeader"
-                app:layout_constraintWidth_percent="0.7" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/nameContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/edge"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/classContainer">
+                app:layout_constraintTop_toBottomOf="@+id/typeHeader"
+                app:layout_constraintWidth_percent="0.5" />
 
             <TextView
                 android:id="@+id/nameHeader"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
                 android:autoSizeTextType="uniform"
+                android:background="@drawable/edge"
                 android:gravity="center"
                 android:text="@string/name"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.5" />
 
             <EditText
                 android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
                 android:autoSizeTextType="uniform"
                 android:autofillHints=""
-                android:background="@null"
+                android:background="@drawable/edge"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/emptyString"
@@ -191,139 +201,150 @@
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_percent="0.2"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/nameHeader"
-                app:layout_constraintWidth_percent="0.1" />
+                app:layout_constraintWidth_percent="0.5" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/costContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameContainer">
-
-            <TextView
-                android:id="@+id/costHeader"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:autoSizeTextType="uniform"
-                android:gravity="center"
-                android:text="@string/cost"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/productContainer">
 
             <TextView
                 android:id="@+id/totalCostHeader"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:text="@{@string/cost}"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/edge"
                 android:gravity="center"
+                android:text="@{@string/cost}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/costHeader"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
 
             <EditText
                 android:id="@+id/cost"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
                 android:autoSizeTextType="uniform"
                 android:autofillHints=""
-                android:background="@null"
+                android:background="@drawable/edge"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/emptyString"
                 android:inputType="number"
                 android:nextFocusDown="@id/count"
-                android:text="@={viewModel.cost}"
+                android:text="@={viewModel.cost }"
                 android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="@+id/totalCostHeader"
                 app:layout_constraintHeight_percent="0.2"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/totalCostHeader"
                 app:layout_constraintTop_toBottomOf="@+id/totalCostHeader"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/countHeader"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/edge"
                 android:gravity="center"
+                android:text="@{@string/count}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@{@string/count}"
-                app:layout_constraintEnd_toStartOf="@+id/unitCostHeader"
-                app:layout_constraintTop_toBottomOf="@+id/costHeader"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintStart_toEndOf="@+id/totalCostHeader"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
 
             <EditText
                 android:id="@+id/count"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
                 android:autoSizeTextType="uniform"
                 android:autofillHints=""
-                android:background="@null"
+                android:background="@drawable/edge"
                 android:ems="10"
                 android:gravity="center"
                 android:hint="@string/emptyString"
                 android:inputType="number"
                 android:text="@={viewModel.count}"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/unitCost"
+                app:layout_constraintEnd_toEndOf="@+id/countHeader"
                 app:layout_constraintHeight_percent="0.2"
+                app:layout_constraintStart_toStartOf="@+id/countHeader"
                 app:layout_constraintTop_toBottomOf="@+id/countHeader"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/unitCostHeader"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@drawable/edge"
                 android:gravity="center"
+                android:text="@{@string/unitCost}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:text="@{@string/unitCost}"
                 app:layout_constraintEnd_toStartOf="@+id/unitHeader"
-                app:layout_constraintTop_toBottomOf="@+id/costHeader"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/unitCost"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/edge"
                 android:gravity="center"
-                android:text="@{viewModel.unitCost + viewModel.unit}"
+                android:text="@{viewModel.unitCost}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/unitSpinner"
+                app:layout_constraintEnd_toEndOf="@+id/unitCostHeader"
+                app:layout_constraintStart_toStartOf="@+id/unitCostHeader"
                 app:layout_constraintTop_toBottomOf="@+id/unitCostHeader"
-                app:layout_constraintWidth_percent="0.3" />
+                app:layout_constraintWidth_percent="0.25" />
 
             <TextView
                 android:id="@+id/unitHeader"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:text="@{@string/unit}"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/edge"
                 android:gravity="center"
+                android:text="@{@string/unit}"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/costHeader"
-                app:layout_constraintWidth_percent="0.1" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.25" />
 
             <Spinner
                 android:id="@+id/unitSpinner"
+                style="@style/Widget.AppCompat.TextView.SpinnerItem"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/edge"
                 android:entries="@{viewModel.unitList}"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="@+id/unitHeader"
+                app:layout_constraintStart_toStartOf="@+id/unitHeader"
                 app:layout_constraintTop_toBottomOf="@+id/unitHeader"
-                app:layout_constraintWidth_percent="0.1" />
+                app:layout_constraintWidth_percent="0.25" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -331,7 +352,9 @@
             android:id="@+id/memoContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
             android:background="@drawable/edge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -340,8 +363,12 @@
             <TextView
                 android:id="@+id/memoHeader"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
                 android:autoSizeTextType="uniform"
+                android:background="@drawable/edge"
                 android:gravity="center"
                 android:text="@string/memo"
                 android:textColor="@color/black"
@@ -353,11 +380,18 @@
             <EditText
                 android:id="@+id/memo"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:autofillHints=""
-                android:background="@null"
+                android:layout_height="150dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="2dp"
+                android:autofillHints="@string/emptyString"
+                android:background="@drawable/edge"
                 android:hint="@string/emptyString"
-                android:inputType="text"
+                android:inputType="textMultiLine"
+                android:lines="10"
+                android:maxLines="10"
+                android:minLines="10"
+                android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/memoHeader" />
@@ -367,11 +401,14 @@
             android:id="@+id/button"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:textColor="@{viewModel.registerButtonClickable? @color/white : @color/black}"
-            android:background="@{viewModel.registerButtonClickable? @color/skyBlue : @color/white}"
-            android:clickable="@{viewModel.registerButtonClickable}"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:visibility="@{viewModel.saveEnable? View.VISIBLE : View.GONE}"
+            android:background="@color/skyBlue"
+            android:clickable="@{viewModel.saveEnable}"
             android:onClick="@{registerOnClickListener}"
-            android:text="등록"
+            android:text="@string/save"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.12"

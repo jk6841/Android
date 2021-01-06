@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.jk.price.*
@@ -37,7 +35,7 @@ class SearchFragment : Fragment() {
         binding!!.data.unitSpinner.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.unitTag))
         binding!!.data.registerOnClickListener =
-                OnClickRegister()
+                OnClickSave()
         return binding!!.root
     }
 
@@ -52,11 +50,11 @@ class SearchFragment : Fragment() {
         }
     }
 
-    inner class OnClickRegister: View.OnClickListener{
+    inner class OnClickSave: View.OnClickListener{
         override fun onClick(v: View?) {
-            viewModel.register()
+            viewModel.savePurchase()
             Toast.makeText(activity?.applicationContext,
-                    viewModel.registerResult,
+                    getApplicationString(R.string.saveSuccess),
                     Toast.LENGTH_SHORT)
                     .show()
         }

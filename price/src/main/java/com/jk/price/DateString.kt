@@ -16,7 +16,7 @@ class DateString {
     @TypeConverter
     fun stringToDate(string: String?): Date? {
         try {
-            return dateFormat.parse(string)
+            return dateFormat.parse(string!!)
         } catch (e: Exception) {
             e.printStackTrace()
         }

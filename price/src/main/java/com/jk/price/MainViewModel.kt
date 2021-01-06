@@ -2,9 +2,6 @@ package com.jk.price
 
 import android.app.Application
 import android.content.res.Resources
-import android.graphics.Color
-import androidx.arch.core.util.Function
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -35,9 +32,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val yearList = MutableLiveData(generateList(2000, 2050))
     val monthList = MutableLiveData(generateList(1, 12))
-    var dayList: LiveData<ArrayList<String>>
+    val dayList: LiveData<ArrayList<String>>
 
-    var unitList: ArrayList<String> =
+    val unitList: ArrayList<String> =
             arrayListOf(getResourceString(R.string.unitGeneral),
                     getResourceString(R.string.unitG),
                     getResourceString(R.string.unitML))
@@ -54,7 +51,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val year = MutableLiveData(emptyString)
     val month = MutableLiveData(emptyString)
     val day = MutableLiveData(emptyString)
-    var date: LiveData<String>
+    val date: LiveData<String>
     val market = MutableLiveData(emptyString)
     val name = MutableLiveData(emptyString)
     val cost = MutableLiveData(emptyString)
@@ -63,8 +60,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val unit = MutableLiveData(emptyString)
     val count = MutableLiveData(emptyString)
 
-    val registerButtonClickable: LiveData<Boolean>
-    var registerResult = emptyString
+    val saveEnable: LiveData<Boolean>
+
     var searchResult: LiveData<List<Purchase>>? = null
 
     private val day28 = generateList(1, 28)
@@ -116,7 +113,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        registerButtonClickable = Transformations.switchMap(date) { dateString ->
+        saveEnable = Transformations.switchMap(date) { dateString ->
             Transformations.switchMap(market) { marketString ->
                 Transformations.switchMap(type) { typeString ->
                     Transformations.switchMap(name) { nameString ->
@@ -152,7 +149,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (costString.isEmpty())
             return emptyString
         val ret = costString.toDouble() / countString.toDouble()
-        return String.format("%.2f", ret)
+        return String.format("%.1f", ret)
     }
 
     private fun convertDateFormat(input: String,
@@ -197,86 +194,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return true
     }
 
-//    fun registerButtonClickable(): Boolean{
-//        if (dateString.value.isNullOrEmpty())
-//            return false
-//        if (market.value.isNullOrEmpty())
-//            return false
-//        if (type.value.isNullOrEmpty())
-//            return false
-//        if (name.value.isNullOrEmpty())
-//            return false
-//        if (cost.value.isNullOrEmpty())
-//            return false
-//        if (count.value.isNullOrEmpty())
-//            return false
-//        if (unitCost.value.isNullOrEmpty())
-//            return false
-//        if (unit.value.isNullOrEmpty())
-//            return false
-//        return true
-//    }
-
-    fun register(){
+    fun savePurchase(){
         val purchase = Purchase()
-        if (date.value.isNullOrEmpty()) {
-            setRegisterResult(false)
-            return
-        }
+
         purchase.date = date.value!!
-
-        if (market.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.market = market.value!!
-
-        if (type.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.type = type.value!!
-
-        if (name.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.name = name.value!!
-
-        if (cost.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.cost = cost.value!!.toInt()
-
-        if (count.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.count = count.value!!.toInt()
-
-        if (unitCost.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.unitCost = unitCost.value!!.toDouble()
-
-        if (unit.value.isNullOrEmpty()){
-            setRegisterResult(false)
-            return
-        }
         purchase.unit = unit.value!!
 
         repository!!.insert(purchase)
-        setRegisterResult(true)
 
-    }
-
-    private fun setRegisterResult(result: Boolean){
-        registerResult = if (result)
-            getResourceString(R.string.registerSuccess)
-        else
-            getResourceString(R.string.registerFail)
+        type.value = emptyString
+        name.value = emptyString
+        cost.value = emptyString
+        count.value = emptyString
     }
 
     fun search(name: String): LiveData<List<Purchase>> = searchResult!!

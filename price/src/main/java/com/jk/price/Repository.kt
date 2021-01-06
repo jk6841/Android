@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.runBlocking
 
-class Repository(val application: Application) {
+class Repository {
 
     companion object{
         @Volatile
@@ -15,7 +15,7 @@ class Repository(val application: Application) {
         @Synchronized
         fun getInstance(application: Application): Repository {
             if (instance == null){
-                instance = Repository(application)
+                instance = Repository()
                 database = Database.getInstance(application)
                 dbDao = database!!.dbDao()
                 return instance!!
@@ -31,7 +31,5 @@ class Repository(val application: Application) {
     }
 
     fun search(name: String): LiveData<List<Purchase>> = dbDao!!.search("%$name%")
-
-
 
 }

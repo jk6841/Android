@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @androidx.room.Database(
-        entities = arrayOf(Purchase::class),
+        entities = [Purchase::class],
         version = 1,
         exportSchema = false
 )
