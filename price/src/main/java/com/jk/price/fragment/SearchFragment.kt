@@ -16,7 +16,7 @@ import com.jk.price.databinding.MainFragmentBinding
 
 class SearchFragment : Fragment() {
 
-    lateinit var binding: MainFragmentBinding
+    var binding: MainFragmentBinding?= null
 
     private lateinit var viewModel: MainViewModel
 
@@ -26,19 +26,24 @@ class SearchFragment : Fragment() {
         val resources: Resources = activity?.applicationContext!!.resources
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.main_fragment, container, false)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.data.dateSpinner.year.onItemSelectedListener =
+        binding!!.lifecycleOwner = this
+        binding!!.viewModel = viewModel
+        binding!!.data.dateSpinner.year.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.yearTag))
-        binding.data.dateSpinner.month.onItemSelectedListener =
+        binding!!.data.dateSpinner.month.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.monthTag))
-        binding.data.dateSpinner.day.onItemSelectedListener =
+        binding!!.data.dateSpinner.day.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.dayTag))
-        binding.data.unitSpinner.onItemSelectedListener =
+        binding!!.data.unitSpinner.onItemSelectedListener =
                 OnItemSelectedListener(resources.getString(R.string.unitTag))
-        binding.data.registerOnClickListener =
+        binding!!.data.registerOnClickListener =
                 OnClickRegister()
-        return binding.root
+        return binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     inner class OnButtonPress {

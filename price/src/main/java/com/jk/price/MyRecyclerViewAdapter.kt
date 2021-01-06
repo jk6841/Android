@@ -37,6 +37,7 @@ class MyRecyclerViewAdapter(var layout: Int):
 
         fun bind(purchase: Purchase){
             binding!!.purchase = purchase
+            binding!!.executePendingBindings()
         }
     }
 }

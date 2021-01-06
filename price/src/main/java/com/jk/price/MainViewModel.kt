@@ -19,8 +19,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val inputDateFormat: SimpleDateFormat =
             SimpleDateFormat("yyyyMd", Locale.KOREAN)
-    private val shortDateFormat: SimpleDateFormat =
-            SimpleDateFormat("yy/M/d/E", Locale.KOREAN)
     private val outputDateFormat: SimpleDateFormat =
             SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.KOREAN)
 
