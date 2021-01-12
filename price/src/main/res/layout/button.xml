@@ -6,10 +6,10 @@
     <data>
         <variable
             name="onButtonPress"
-            type="com.jk.price.fragment.SaveFragment" />
+            type="com.jk.price.fragment.CalcFragment.OnButtonPress" />
         <variable
             name="viewModel"
-            type="com.jk.price.MainViewModel" />
+            type="com.jk.price.SaveViewModel" />
         <variable
             name="buttonType"
             type="com.jk.price.ButtonType" />
@@ -23,8 +23,9 @@
         android:layout_height="match_parent">
 
         <ImageButton
+            android:onClick="@{()->onButtonPress.onPress(buttonType, buttonString)}"
             android:id="@+id/buttonImage"
-            android:contentDescription="@string/content_description"
+            android:contentDescription="@{buttonString}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#FFFFFF"

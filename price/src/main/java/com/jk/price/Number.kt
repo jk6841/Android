@@ -6,7 +6,7 @@ import java.lang.NumberFormatException
 
 class Number(var number: Double = 0.toDouble(),
              val string: MutableLiveData<String> = MutableLiveData(),
-             val percentString: String){
+             private val percentString: String){
 
     fun update(number: Double){
         this.number = number

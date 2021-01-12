@@ -7,6 +7,12 @@
         <variable
             name="purchase"
             type="com.jk.price.Purchase" />
+        <variable
+            name="myResource"
+            type="com.jk.price.MyResource" />
+        <variable
+            name="delete"
+            type="com.jk.price.fragment.SearchFragment.OnDeleteClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center_vertical|end"
-            android:text="@string/date"
+            android:text="@{myResource.date}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintHeight_percent="0.25"
@@ -32,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center_vertical|end"
-            android:text="@string/market"
+            android:text="@{myResource.market}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintHeight_percent="0.25"
@@ -45,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center_vertical|end"
-            android:text="@string/type"
+            android:text="@{myResource.type}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintHeight_percent="0.25"
@@ -58,7 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center_vertical|end"
-            android:text="@string/name"
+            android:text="@{myResource.name}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView17"
@@ -71,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center_vertical|end"
-            android:text="@string/cost"
+            android:text="@{myResource.cost}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,10 +93,10 @@
             android:text="@{purchase.date}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.85" />
+            app:layout_constraintWidth_percent="0.75" />
 
         <TextView
             android:id="@+id/textView16"
@@ -136,7 +142,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="@{purchase.cost+@string/emptyString}"
+            android:text="@{Integer.toString(purchase.cost)}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -149,7 +155,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="@{purchase.count+@string/emptyString}"
+            android:text="@{Integer.toString(purchase.count)}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +181,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="@string/count"
+            android:text="@{myResource.count}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -188,13 +194,24 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="@string/unitCost"
+            android:text="@{myResource.unitCost}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.25"
             app:layout_constraintStart_toEndOf="@+id/textView22"
             app:layout_constraintWidth_percent="0.15" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{(v)->delete.onClick(purchase.ID)}"
+            app:layout_constraintWidth_percent="0.1"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_delete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

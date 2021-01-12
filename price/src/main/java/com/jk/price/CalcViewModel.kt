@@ -1,26 +1,23 @@
 package com.jk.price
 
-import android.app.Application
-import android.content.res.Resources
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
-class CalcViewModel(application: Application): AndroidViewModel(application) {
+class CalcViewModel: ViewModel() {
 
-    private val resources: Resources = application.resources
-    private val emptyString: String = getResourceString(R.string.emptyString)
-    private val button0: String = getResourceString(R.string.button0)
-    private val buttonPercent: String = getResourceString(R.string.buttonPercent)
-    private val buttonPoint: String = getResourceString(R.string.buttonPoint)
-    private val buttonAdd: String = getResourceString(R.string.buttonAdd)
-    private val buttonSub: String = getResourceString(R.string.buttonSub)
-    private val buttonMul: String = getResourceString(R.string.buttonMul)
-    private val buttonDiv: String = getResourceString(R.string.buttonDiv)
+    private val emptyString = MyResource.emptyString
+    private val button0 = MyResource.buttonNum[0]
+    private val buttonPercent = MyResource.buttonPercent
+    private val buttonPoint = MyResource.buttonPoint
+    private val buttonAdd: String = MyResource.buttonAdd
+    private val buttonSub: String = MyResource.buttonSub
+    private val buttonMul: String = MyResource.buttonMul
+    private val buttonDiv: String = MyResource.buttonDiv
 
-    private val operatorString = MutableLiveData<String>()
-    private val operand0 = Number(0.toDouble(), MutableLiveData(), buttonPercent)
-    private val operand1 = Number(0.toDouble(), MutableLiveData(), buttonPercent)
-    private val result = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+    val operatorString = MutableLiveData<String>()
+    val operand0 = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+    val operand1 = Number(0.toDouble(), MutableLiveData(), buttonPercent)
+    val result = Number(0.toDouble(), MutableLiveData(), buttonPercent)
 
     private val history: ArrayList<Calculation> = ArrayList()
 
@@ -204,8 +201,6 @@ class CalcViewModel(application: Application): AndroidViewModel(application) {
         )
         history.add(historyItem)
     }
-
-    private fun getResourceString(ID: Int) = resources.getString(ID)
 
     private enum class Target{
         Operand0, Operand1

@@ -1,60 +1,54 @@
 package com.jk.price.fragment
 
-import android.content.res.Resources
-import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import com.jk.price.*
-import com.jk.price.databinding.MainFragmentBinding
+import com.jk.price.databinding.FragmentSaveBinding
 
-class SaveFragment : Fragment() {
+class SaveFragment : MyFragment<FragmentSaveBinding, SaveViewModel>(R.layout.fragment_save) {
 
-    var binding: MainFragmentBinding?= null
-
-    private lateinit var viewModel: MainViewModel
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        viewModel = (activity as MainActivity).viewModel
-        val resources: Resources = activity?.applicationContext!!.resources
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.main_fragment, container, false)
-        binding!!.lifecycleOwner = this
-        binding!!.viewModel = viewModel
-        binding!!.data.dateSpinner.year.onItemSelectedListener =
-                OnItemSelectedListener(resources.getString(R.string.yearTag))
-        binding!!.data.dateSpinner.month.onItemSelectedListener =
-                OnItemSelectedListener(resources.getString(R.string.monthTag))
-        binding!!.data.dateSpinner.day.onItemSelectedListener =
-                OnItemSelectedListener(resources.getString(R.string.dayTag))
-        binding!!.data.unitSpinner.onItemSelectedListener =
-                OnItemSelectedListener(resources.getString(R.string.unitTag))
-        binding!!.data.registerOnClickListener =
-                OnClickSave()
-        return binding!!.root
+    override fun setViewModel() {
+        viewModel = (activity as MainActivity).saveViewModel
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
+    override fun setupDataBinding(inflater: LayoutInflater,
+                                  layoutID: Int,
+                                  container: ViewGroup?) {
+        super.setupDataBinding(inflater, layoutID, container)
+        setupDateSpinnerBinding()
+        binding!!.unitSpinner.onItemSelectedListener = OnItemSelectedListener(Tag.UnitTag)
+        binding!!.saveOnClickListener = OnClickSave()
+    }
+
+    private fun setupDateSpinnerBinding(){
+        val spinner = binding!!.dateSpinner
+        spinner.myResource = MyResource
+        spinner.year.onItemSelectedListener = OnItemSelectedListener(Tag.YearTag)
+        spinner.month.onItemSelectedListener = OnItemSelectedListener(Tag.MonthTag)
+        spinner.day.onItemSelectedListener = OnItemSelectedListener(Tag.DayTag)
+    }
+
+    enum class Tag{
+        YearTag,
+        MonthTag,
+        DayTag,
+        UnitTag
     }
 
     inner class OnClickSave: View.OnClickListener{
         override fun onClick(v: View?) {
-            viewModel.savePurchase()
+            viewModel!!.savePurchase()
             Toast.makeText(activity?.applicationContext,
-                    getApplicationString(R.string.saveSuccess),
+                    MyResource.saveSuccess,
                     Toast.LENGTH_SHORT)
                     .show()
         }
     }
 
-    inner class OnItemSelectedListener(val tag: String): AdapterView.OnItemSelectedListener{
+    inner class OnItemSelectedListener(private val tag: Tag): AdapterView.OnItemSelectedListener{
 
         var isFirst: Boolean = true
 
@@ -64,35 +58,32 @@ class SaveFragment : Fragment() {
                                     id: Long) {
             if (isFirst){
                 when (tag){
-                    getApplicationString(R.string.yearTag) ->
+                    Tag.YearTag ->
                         parent?.setSelection(
-                                viewModel.todayYear.toInt() - viewModel.yearList.value!![0].toInt())
-                    getApplicationString(R.string.monthTag) ->
+                                MyDate.getTodayYear().toInt() - MyResource.yearList[0].toInt())
+                    Tag.MonthTag ->
                         parent?.setSelection(
-                                viewModel.todayMonth.toInt() - viewModel.monthList.value!![0].toInt())
-                    getApplicationString(R.string.dayTag) ->
+                                MyDate.getTodayMonth().toInt() -1)
+                    Tag.DayTag ->
                         parent?.setSelection(
-                                viewModel.todayDay.toInt() - viewModel.dayList.value!![0].toInt())
+                                MyDate.getTodayDay().toInt() - 1)
                 }
                 isFirst = false
             }
             val item: String = parent?.getItemAtPosition(position) as String
             when (tag){
-                getApplicationString(R.string.yearTag) ->
-                    viewModel.changeYear(item)
-                getApplicationString(R.string.monthTag) ->
-                    viewModel.changeMonth(item)
-                getApplicationString(R.string.dayTag) ->
-                    viewModel.changeDay(item)
-                getApplicationString(R.string.unitTag) ->
-                    viewModel.changeUnit(item)
+                Tag.YearTag ->
+                    viewModel!!.changeYear(item)
+                Tag.MonthTag ->
+                    viewModel!!.changeMonth(item)
+                Tag.DayTag ->
+                    viewModel!!.changeDay(item)
+                Tag.UnitTag ->
+                    viewModel!!.changeUnit(item)
             }
         }
 
         override fun onNothingSelected(parent: AdapterView<*>?) {}
     }
-
-    private fun getApplicationString(ID: Int): String =
-            activity?.applicationContext!!.getString(ID)
 
 }

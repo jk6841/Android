@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     
     <data>
         <variable
             name="viewModel"
-            type="com.jk.price.MainViewModel" />
+            type="com.jk.price.SaveViewModel" />
         <variable
-            name="context"
-            type="android.content.Context" />
+            name="myResource"
+            type="com.jk.price.MyResource" />
         <variable
             name="listener"
             type="com.jk.price.fragment.SaveFragment.OnItemSelectedListener" />
@@ -28,7 +27,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:entries="@{viewModel.yearList}"
+            android:entries="@{myResource.yearList}"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.8"
@@ -44,7 +43,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:dropDownWidth="wrap_content"
-            android:entries="@{viewModel.monthList}"
+            android:entries="@{myResource.monthList}"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.8"
@@ -75,7 +74,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:gravity="start|center_vertical"
-            android:text="@string/year"
+            android:text="@{myResource.year}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +90,7 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:gravity="start|center_vertical"
-            android:text="@string/month"
+            android:text="@{myResource.month}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -108,7 +107,7 @@
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="2dp"
             android:gravity="start|center_vertical"
-            android:text="@string/day"
+            android:text="@{myResource.day}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

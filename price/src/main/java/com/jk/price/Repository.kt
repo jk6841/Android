@@ -4,24 +4,13 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.runBlocking
 
-class Repository {
+object Repository{
+    private var database: Database? = null
+    private var dbDao: DBDao? = null
 
-    companion object{
-        @Volatile
-        private var instance: Repository? = null
-        private var database: Database? = null
-        private var dbDao: DBDao? = null
-
-        @Synchronized
-        fun getInstance(application: Application): Repository {
-            if (instance == null){
-                instance = Repository()
-                database = Database.getInstance(application)
-                dbDao = database!!.dbDao()
-                return instance!!
-            }
-            return instance!!
-        }
+    fun setupRepository(application: Application){
+        database = Database.getInstance(application)
+        dbDao = database!!.dbDao()
     }
 
     fun insert(purchase: Purchase){
@@ -30,6 +19,14 @@ class Repository {
         }
     }
 
-    fun search(name: String): LiveData<List<Purchase>> = dbDao!!.search("%$name%")
+    fun search(market: String, type: String, name: String): LiveData<List<Purchase>>{
+        return dbDao!!.search("%$market%", "%$type%","%$name%")
+    }
+
+    fun delete(ID: Int){
+        runBlocking {
+            dbDao!!.delete(ID)
+        }
+    }
 
 }

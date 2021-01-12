@@ -12,7 +12,7 @@ import androidx.room.TypeConverters
         exportSchema = false
 )
 
-@TypeConverters(DateString::class)
+@TypeConverters(MyDate::class)
 abstract class Database: RoomDatabase() {
 
     abstract fun dbDao(): DBDao

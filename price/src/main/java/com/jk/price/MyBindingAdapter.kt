@@ -2,11 +2,15 @@ package com.jk.price
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jk.price.fragment.SearchFragment
 
 object MyBindingAdapter {
-    @BindingAdapter(value = ["list", "holder"])
+    @BindingAdapter(value = ["list", "holder", "onDeleteClick"])
     @JvmStatic
-    fun recyclerViewAdapter(view: RecyclerView, list: List<Purchase>?, holder: Int){
+    fun recyclerViewAdapter(view: RecyclerView,
+                            list: List<Purchase>?,
+                            holder: Int,
+                            onDeleteClick: SearchFragment.OnDeleteClick){
         var adapter: MyRecyclerViewAdapter? = view.adapter as MyRecyclerViewAdapter?
         if (view.adapter == null){
             adapter = MyRecyclerViewAdapter(holder)
@@ -14,18 +18,6 @@ object MyBindingAdapter {
         }
         adapter!!.list = list
         adapter.notifyDataSetChanged()
+        adapter.onDeleteClick = onDeleteClick
     }
-
-//    @BindingAdapter(value = ["spinnerList", "context", "spinnerTag"])
-//    @JvmStatic
-//    fun spinnerAdapter(spinner: Spinner,
-//                       list: ArrayList<String>,
-//                       context: Context,
-//                       onItemSelectedListener: SearchFragment.OnItemSelectedListener
-//                       tag: String){
-//        spinner.adapter = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, list)
-//        spinner.onItemSelectedListener = onItemSelectedListener
-//
-//    }
-
 }
