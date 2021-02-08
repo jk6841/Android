@@ -16,4 +16,5 @@ class Purchase {
     @ColumnInfo(name="Cost") var cost = 0
     @ColumnInfo(name="UnitCost") var unitCost = 0.toDouble()
     @ColumnInfo(name="Unit") var unit = ""
+    @ColumnInfo(name="Memo") var memo = ""
 }

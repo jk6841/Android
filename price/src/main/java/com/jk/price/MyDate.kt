@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object MyDate {
-    val dateFormat0 = SimpleDateFormat("yyyy년-M월-d일 E요일", Locale.KOREA)
+    val dateFormat0 = SimpleDateFormat("yyyy년 M월 d일 E요일", Locale.KOREA)
     val dateFormat1 = SimpleDateFormat("yyyyMd", Locale.KOREA)
 
     private val cal: Calendar? = Calendar.getInstance()

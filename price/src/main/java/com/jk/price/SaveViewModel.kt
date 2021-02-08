@@ -18,6 +18,7 @@ class SaveViewModel: ViewModel() {
     val type = MutableLiveData(emptyString)
     val unit = MutableLiveData(emptyString)
     val count = MutableLiveData(emptyString)
+    val memo = MutableLiveData(emptyString)
     val saveEnable: LiveData<Boolean>
     private val year = MutableLiveData(MyDate.getTodayYear())
     private val month = MutableLiveData(MyDate.getTodayMonth())
@@ -100,6 +101,7 @@ class SaveViewModel: ViewModel() {
         purchase.count = count.value!!.toInt()
         purchase.unitCost = unitCost.value!!.toDouble()
         purchase.unit = unit.value!!
+        purchase.memo = memo.value!!
 
         Repository.insert(purchase)
 
@@ -107,6 +109,7 @@ class SaveViewModel: ViewModel() {
         name.value = emptyString
         cost.value = emptyString
         count.value = emptyString
+        memo.value = emptyString
     }
 
     private fun unitCost(costString: String, countString: String): String{

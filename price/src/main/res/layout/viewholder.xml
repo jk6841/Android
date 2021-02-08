@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="purchase"
             type="com.jk.price.Purchase" />
@@ -17,18 +18,18 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/edge">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center_vertical|end"
             android:text="@{myResource.date}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.15" />
@@ -41,7 +42,7 @@
             android:text="@{myResource.market}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintWidth_percent="0.15" />
@@ -49,12 +50,12 @@
         <TextView
             android:id="@+id/textView13"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center_vertical|end"
             android:text="@{myResource.type}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12"
             app:layout_constraintWidth_percent="0.15" />
@@ -62,38 +63,38 @@
         <TextView
             android:id="@+id/textView27"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center_vertical|end"
             android:text="@{myResource.name}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView17"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintTop_toBottomOf="@+id/textView16"
             app:layout_constraintWidth_percent="0.15" />
 
         <TextView
             android:id="@+id/textView14"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center_vertical|end"
             android:text="@{myResource.cost}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:layout_constraintWidth_percent="0.15" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{purchase.date}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.75" />
@@ -101,38 +102,38 @@
         <TextView
             android:id="@+id/textView16"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{purchase.market}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:layout_constraintWidth_percent="0.85" />
 
         <TextView
             android:id="@+id/textView17"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{purchase.name}"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintTop_toBottomOf="@+id/textView16"
             app:layout_constraintWidth_percent="0.35" />
 
         <TextView
             android:id="@+id/textView28"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{purchase.type}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/textView16"
             app:layout_constraintWidth_percent="0.35" />
@@ -140,78 +141,111 @@
         <TextView
             android:id="@+id/textView19"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{Integer.toString(purchase.cost)}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="@+id/textView14"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView14"
+            app:layout_constraintTop_toTopOf="@+id/textView14"
             app:layout_constraintWidth_percent="0.15" />
 
         <TextView
             android:id="@+id/textView22"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{Integer.toString(purchase.count)}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="@+id/textView25"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView25"
+            app:layout_constraintTop_toTopOf="@+id/textView25"
             app:layout_constraintWidth_percent="0.15" />
 
         <TextView
             android:id="@+id/textView23"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{purchase.unitCost+purchase.unit}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="@+id/textView26"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView26"
+            app:layout_constraintTop_toTopOf="@+id/textView26"
             app:layout_constraintWidth_percent="0.25" />
 
         <TextView
             android:id="@+id/textView25"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{myResource.count}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="@+id/textView19"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView19"
+            app:layout_constraintTop_toTopOf="@+id/textView19"
             app:layout_constraintWidth_percent="0.15" />
 
         <TextView
             android:id="@+id/textView26"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@{myResource.unitCost}"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintBottom_toBottomOf="@+id/textView22"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintStart_toEndOf="@+id/textView22"
+            app:layout_constraintTop_toTopOf="@+id/textView22"
             app:layout_constraintWidth_percent="0.15" />
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="40dp"
             android:onClick="@{(v)->delete.onClick(purchase.ID)}"
-            app:layout_constraintWidth_percent="0.1"
-            app:layout_constraintHeight_percent="0.25"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.2"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.1"
             app:srcCompat="@android:drawable/ic_delete" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|end"
+            android:text="@{myResource.memo}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView14"
+            app:layout_constraintWidth_percent="0.15" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{purchase.memo}"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.2"
+            app:layout_constraintTop_toTopOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintWidth_percent="0.85" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
